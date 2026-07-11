@@ -1,8 +1,8 @@
-# EnGenAI Skills Marketplace
+# Kaidera Skills Marketplace
 
 **Open-source skills for AI agents — build, share, and collaborate.**
 
-EnGenAI Skills Marketplace is a community-driven repository of vetted, reusable skills that extend AI agent capabilities on the [EnGenAI Platform](https://engenai.app). Skills are modular instruction sets that teach agents new abilities — from code review to infrastructure deployment.
+Kaidera Skills Marketplace is a community-driven repository of vetted, reusable skills that extend AI agent capabilities on the [Kaidera Platform](https://kaidera.ai). Skills are modular instruction sets that teach agents new abilities - from code review to infrastructure deployment.
 
 ---
 
@@ -51,7 +51,7 @@ Skills come in three types:
 
 ### For Platform Users
 
-1. Open the **Skills Management** page in the EnGenAI admin panel
+1. Open the **Skills Management** page in the Kaidera admin panel
 2. Click **Add Skills** and enter this repo URL (or any public GitHub repo with skills)
 3. Skills are synced to the **Pending** tab for review
 4. Review vetting reports, edit if needed, then **Approve** or **Reject**
@@ -76,7 +76,7 @@ Every skill follows the [SKILL_FORMAT.md](spec/SKILL_FORMAT.md) specification. H
 name: code-review
 version: 1.0.0
 description: Reviews code for bugs, security issues, and best practices
-author: EnGenAI Team
+author: Kaidera Team
 skill_type: steering
 category: development
 trust_tier: official
@@ -113,7 +113,7 @@ This project uses the **Creative Commons Attribution 4.0 International** license
 2. **Link back** to the source repository in `attribution_url`
 3. **Preserve** any additional license notes in `attribution_notes`
 
-If you see your work here without proper credit, please [open an issue](https://github.com/EnGen-AI/skills/issues) and we'll fix it immediately.
+If you see your work here without proper credit, please [open an issue](https://github.com/Kaidera-AI/skills/issues) and we'll fix it immediately.
 
 ## Security
 
@@ -139,6 +139,6 @@ Under the following terms:
 
 ---
 
-**EnGenAI — The Machine That Builds Machines**
+**Kaidera - The Machine That Builds Machines**
 
-[engenai.app](https://engenai.app) | [Platform Repo](https://github.com/engenai-platform/engenai)
+[kaidera.ai](https://kaidera.ai) | [Platform Repo](https://github.com/Kaidera-AI/platform)

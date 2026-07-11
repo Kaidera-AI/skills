@@ -1,4 +1,4 @@
-# EnGenAI SKILL.md Format Specification
+# Kaidera SKILL.md Format Specification
 
 Version: 1.0.0
 Status: Stable
@@ -7,7 +7,7 @@ Status: Stable
 
 ## Overview
 
-A **SKILL.md** file is the canonical unit of the EnGenAI Skills Marketplace. Every skill is a single Markdown file with a YAML frontmatter security manifest followed by the skill body (instructions, examples, constraints).
+A **SKILL.md** file is the canonical unit of the Kaidera Skills Marketplace. Every skill is a single Markdown file with a YAML frontmatter security manifest followed by the skill body (instructions, examples, constraints).
 
 Skills are injected into agent system prompts at runtime. Because they execute in a security-critical context (agents have access to private org data + MCP tools), the format includes mandatory security declarations.
 
@@ -112,7 +112,7 @@ the agent's base system prompt.
 
 | Tier | Badge | Criteria |
 |------|-------|----------|
-| `official` | Blue shield | Authored and maintained by EnGenAI |
+| `official` | Blue shield | Authored and maintained by Kaidera |
 | `verified_partner` | Green checkmark | Partner company, signed CLA, security audit passed |
 | `community_vetted` | Grey-green | Community submitted, passed full 4-gate vetting pipeline |
 | `unvetted` | Grey | GitHub-only, not injected into platform agents |
@@ -130,7 +130,7 @@ Every skill passes four gates before reaching `community_vetted` or higher:
 | 1 | Schema Lint | YAML schema validation, required fields, forbidden pattern regex |
 | 2 | Security Scan | `skill_sanitiser.py` injection check + LLM Guard scan |
 | 3 | Sandbox Test | gVisor container execution (capability-gated) |
-| 4 | Human Review | EnGenAI reviewer approves + Cosign signing + SLSA provenance |
+| 4 | Human Review | Kaidera reviewer approves + Cosign signing + SLSA provenance |
 
 ---
 
@@ -170,7 +170,7 @@ The CI pipeline (`skill-publish.yml`) fills these fields on merge to `main`:
 name: git-commit
 version: 1.0.0
 description: |
-  Guides writing conventional commit messages following the EnGenAI format.
+  Guides writing conventional commit messages following the Kaidera format.
 
 engenai:
   category: development
