@@ -1,4 +1,4 @@
-# Contributing to EnGenAI Skills Marketplace
+# Contributing to Kaidera Skills Marketplace
 
 Thank you for your interest in contributing! This guide explains how to submit skills, what format to use, and how the review process works.
 
@@ -11,9 +11,9 @@ Thank you for your interest in contributing! This guide explains how to submit s
 3. Add your skill file (`your-skill-name.SKILL.md` or `skill.yaml`)
 4. Open a pull request against `main`
 
-### 2. Submit via the EnGenAI Platform
+### 2. Submit via the Kaidera Platform
 
-If you're an EnGenAI Platform user:
+If you're a Kaidera Platform user:
 
 1. Go to **Skills Management** in the admin panel
 2. Click **Add Skills**
@@ -29,7 +29,7 @@ If you're an EnGenAI Platform user:
 
 ### 4. Report Issues
 
-Found a skill that doesn't work? [Open an issue](https://github.com/EnGen-AI/skills/issues) with:
+Found a skill that doesn't work? [Open an issue](https://github.com/Kaidera-AI/skills/issues) with:
 - Which skill has the problem
 - What you expected vs what happened
 - Your agent/platform version
@@ -123,9 +123,9 @@ This means:
 
 ## Questions?
 
-- [Open an issue](https://github.com/EnGen-AI/skills/issues) for questions about the format or process
-- Visit [engenai.app](https://engenai.app) to learn more about the platform
+- [Open an issue](https://github.com/Kaidera-AI/skills/issues) for questions about the format or process
+- Visit [kaidera.ai](https://kaidera.ai) to learn more about the platform
 
 ---
 
-**Thank you for helping build the EnGenAI Skills Marketplace!**
+**Thank you for helping build the Kaidera Skills Marketplace!**
