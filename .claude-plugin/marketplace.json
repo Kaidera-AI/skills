@@ -3,7 +3,7 @@
   "description": "Vetted, open-source skills for AI agents built on EnGenAI",
   "version": "1.0.0",
   "source": "https://github.com/engenai-platform/engenai-skills",
-  "generated_at": "2026-03-18T12:20:51.001Z",
+  "generated_at": "2026-07-23T21:38:40.161Z",
   "skills": [
     {
       "name": "agent-platform-context",
@@ -262,6 +262,30 @@
       "content_hash": "f454e63d3b94fc9de73714746d9c1cb917ec097e191833eafc4b2ebae8da466f",
       "signed_by": "",
       "file": "skills/development/tdd-workflow.SKILL.md"
+    },
+    {
+      "name": "ultrareview",
+      "version": "1.0.0",
+      "description": "Comprehensive, evidence-cited, read-only codebase review. Fans the codebase across independent review dimensions (correctness, security, change-risk, maintainability, blast-radius, tests, performance, spec/contract compliance), then adversarially verifies every HIGH/CRITICAL finding before reporting. Combines the structured ultra-review workflow used in Claude Code with review dimensions derived from the repowise codebase-intelligence model (JIT change-risk, code-health biomarkers, dead-code, blast-radius, git hotspots/prior-defects). Read-only by default; an explicit Fix Mode is opt-in only. Designed for the Kaidera platform workbench and KOS app.",
+      "category": "development",
+      "trust_tier": "official",
+      "risk_level": "low",
+      "capabilities_required": [],
+      "author": "Kaidera",
+      "license": "Apache-2.0",
+      "updated": "2026-07-24",
+      "tags": [
+        "code-review",
+        "quality",
+        "security",
+        "change-risk",
+        "blast-radius",
+        "adversarial-verify",
+        "read-only"
+      ],
+      "content_hash": "8fbb8af37d520873a6b43935c0083c2ded0fddd6ccf516acc8d405e273b7f37d",
+      "signed_by": "",
+      "file": "skills/development/ultrareview.SKILL.md"
     },
     {
       "name": "container-build",
