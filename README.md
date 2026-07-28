@@ -27,9 +27,9 @@ Skills come in three types:
 
 | Category | Description | Count |
 |----------|-------------|-------|
-| `context/` | Project and workspace awareness | 6 |
-| `development/` | Code writing, review, testing | 7 |
-| `devops/` | Deployment, infrastructure, CI/CD | 5 |
+| `context/` | Project and workspace awareness | 8 |
+| `development/` | Code writing, review, testing | 9 |
+| `devops/` | Deployment, infrastructure, CI/CD | 8 |
 | `security/` | Auditing, scanning, incident response | 5 |
 
 ## How It Works
