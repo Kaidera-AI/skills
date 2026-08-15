@@ -3,7 +3,7 @@
   "description": "Vetted, open-source skills for AI agents built on EnGenAI",
   "version": "1.0.0",
   "source": "https://github.com/engenai-platform/engenai-skills",
-  "generated_at": "2026-07-23T21:38:40.161Z",
+  "generated_at": "2026-08-15T01:23:29.996Z",
   "skills": [
     {
       "name": "agent-platform-context",
@@ -377,6 +377,28 @@
       "content_hash": "a9b414cd1af019cf5e158f887665e29f5d4f576c554a9eefc9a1a916b0d3fb88",
       "signed_by": "",
       "file": "skills/devops/terraform-module.SKILL.md"
+    },
+    {
+      "name": "human-voice",
+      "version": "1.0.0",
+      "description": "Rewrite, audit, or draft public-facing prose so it uses checkable specifics and preserves a named person's actual voice instead of generic machine-like patterns. Use for posts, articles, emails, decks, newsletters, web copy, strategy documents, and voice-matched editing. Do not use for specifications, logs, structured data, translation, or already approved attributed copy.",
+      "category": "documentation",
+      "trust_tier": "official",
+      "risk_level": "low",
+      "capabilities_required": [],
+      "author": "Kaidera",
+      "license": "Apache-2.0",
+      "updated": "2026-08-15",
+      "tags": [
+        "writing",
+        "editing",
+        "voice",
+        "copywriting",
+        "documentation"
+      ],
+      "content_hash": "0b755eb2472a06152c3bdc0ce2945206b6e2444d59bce0bac455bfef5f332fc5",
+      "signed_by": "",
+      "file": "skills/documentation/human-voice.SKILL.md"
     },
     {
       "name": "code-review-security",

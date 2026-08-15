@@ -30,6 +30,7 @@ Skills come in three types:
 | `context/` | Project and workspace awareness | 6 |
 | `development/` | Code writing, review, testing | 7 |
 | `devops/` | Deployment, infrastructure, CI/CD | 5 |
+| `documentation/` | Writing, editing, specifications, and technical communication | 1 |
 | `security/` | Auditing, scanning, incident response | 5 |
 
 ## How It Works
