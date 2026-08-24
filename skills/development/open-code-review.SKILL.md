@@ -170,12 +170,15 @@ Profiles fix both field and record order:
   supplied_patch_sha256,review_diff_sha256,path_ledger_sha256,
   policy_receipt_sha256`; encode exactly one record and exclude `paths` plus
   `receipt_sha256` itself;
-- path ledger fields are `record_kind,status,layer,stage,old_path_encoding,
-  old_path_value,new_path_encoding,new_path_value,old_mode,new_mode,
+- path ledger fields are `target_mode,target_head_state,target_paths_layer,
+  record_kind,status,layer,stage,old_path_encoding,old_path_value,
+  new_path_encoding,new_path_value,old_mode,new_mode,
   old_object_id,new_object_id,old_content_sha256,new_content_sha256,
   hunks_total,hunks_reviewed,
-  bytes_total,bytes_reviewed,disposition,reason`; sort by raw new-path bytes,
-  layer (`head,index,worktree`), stage, raw old-path bytes, then the complete
+  bytes_total,bytes_reviewed,classification_as,classification_method,
+  classification_source,classification_evidence_sha256,
+  classification_policy_receipt_sha256,disposition,reason`; sort by raw
+  new-path bytes, layer (`head,index,worktree,patch`), stage, raw old-path bytes, then the complete
   serialized record as tie-breaker;
 - policy fields are `authority_rank,applicability,source_encoding,source_value,
   revision,object_identity,content_sha256,classification`; sort by numeric
@@ -193,7 +196,7 @@ Unicode scalar sequence; reject lone surrogates instead of replacement-encoding
 them. JSON input must be fatal UTF-8 and must reject duplicate object keys.
 
 The bundled producer/verifier is `scripts/open-code-review-contract.js`, SHA-256
-`558437882b2208d7ab45b8bec9c1464d9f657a214ce0f6ad3df1e6bde8bfde5b`. Its non-empty review-scope vector for `standard,null,null` has
+`9a6ae0d8c25a586bfdf6344e1f71e38e7819d6273b7036f2cf3d579cfd9925b3`. Its non-empty review-scope vector for `standard,null,null` has
 SHA-256 `af4f6f29771251b5c8bb722e3f6df9bae7b3ce1c8814152ff4fd9229470d19d9`.
 Use null fields rather than changing a profile. Markdown may report raw receipt
 components and a null derived digest when canonical support is unavailable, but
@@ -518,8 +521,9 @@ Verdicts:
 - `PASS`: target stable, coverage complete, and no confirmed findings or
   unresolved verdict effects;
 - `PASS_WITH_ADVISORIES`: target stable and coverage complete, with one or more
-  confirmed non-blocking findings called out explicitly and no blocking or
-  unresolved evidence;
+  confirmed low/medium non-security, non-data-loss findings called out
+  explicitly and no blocking or unresolved evidence; portable output cannot
+  use this verdict for critical/high, security, or data-loss findings;
 - `CHANGES_REQUESTED`: one or more confirmed findings should block acceptance;
 - `BLOCKED`: the target or mandatory evidence cannot be accessed safely;
 - `INCOMPLETE`: review budget/capability ended before the coverage ledger closed,
@@ -614,16 +618,20 @@ report is consumed or reused.
 The portable v2 verifier is deliberately conservative because a report cannot
 authenticate its own governing policy. Bare `PASS` therefore requires zero
 confirmed findings. `PASS_WITH_ADVISORIES` is a distinct, non-clean verdict that
-can represent confirmed advisory findings without silently treating them as a
-clean pass. A claimed suppression always prevents either pass verdict; only a
-separately trusted Gate 4 policy adapter may authorise suppression. Do not weaken
-this by accepting a policy digest supplied only inside the report.
+can represent only low/medium, non-security, non-data-loss advisory findings
+without silently treating them as a clean pass. The portable contract fails
+closed on every critical/high, security, or data-loss finding because a report
+cannot authenticate a policy exception for itself. A separately trusted Gate 4
+policy adapter may apply a stronger externally authenticated decision after
+portable validation; it must not rewrite the portable receipt. A claimed
+suppression always prevents either pass verdict. Do not weaken this by accepting
+a policy digest supplied only inside the report.
 `CHANGES_REQUESTED` requires at least one confirmed blocking finding; failed
 validation, missing evidence, or an unverified candidate instead produces
 `BLOCKED` or `INCOMPLETE` as appropriate.
 The bundled machine contract is
 `spec/open-code-review-report.schema.json`, SHA-256
-`d917a52bd0c71df30b4b87467eb696195bb713cd1ce2ed2a14e550c3e53b32cf`;
+`e8d31ffecd4307580bcb94846e26b8efe60aeab1371fc73b70b68a49960b1d93`;
 when that exact file is unavailable, the schemas in this skill remain
 authoritative and the missing external schema is a reported limitation.
 
@@ -663,7 +671,11 @@ inapplicable fields as `null`, not by changing their meaning:
 ```
 
 Machine output always records `head_state` as `present`, `unborn`, or
-`not-applicable`; object IDs must agree with that state. It also always binds
+`not-applicable`; object IDs must agree with that state. Repository root, Git
+object format, and Git version are required for every repository-backed target.
+A genuinely context-free patch instead sets all three to null, uses
+`head_state=not-applicable`, and leaves every Git object ID null; partial
+repository identity is invalid. The receipt also always binds
 `review_diff_sha256`, `path_ledger_sha256`, `policy_receipt_sha256`, and
 `receipt_sha256`. Workspace/staged/commit/range/paths bind `head_commit` and
 `head_tree` when `head_state=present`; patch mode instead requires
@@ -673,6 +685,24 @@ and paths mode records `paths_layer`. Fields belonging to another mode are null.
 An empty diff may have an empty path ledger, but it may not omit these target
 identities or their digest of the exact empty diff.
 
+Apply a complete mode matrix, not a permissive bag of optional fields:
+
+- workspace and staged receipts bind index entries, staged and unstaged diff
+  bytes, porcelain-v2 status, and untracked inventory; all comparison/path/patch
+  fields are null;
+- commit receipts bind the chosen parent and base tree, use `base_commit=null`
+  only with literal `comparison_parent=root`, reject a parent equal to the
+  reviewed commit, and null every range/path/workspace/patch-only field;
+- range receipts bind base commit/tree and the named range style; merge-base
+  ranges require `merge_base`, two-dot ranges require it to be null, and every
+  commit/path/workspace/patch-only field is null;
+- paths receipts bind only `paths_layer` beyond the common identities and null
+  all comparison/workspace/patch fields; an unborn repository cannot select
+  `head`; and
+- patch receipts bind only `supplied_patch_sha256` beyond the common receipt
+  digests and optional all-or-none repository context. All comparison, paths,
+  and workspace fields are null.
+
 `review_scope` is exactly `{depth,intent_sha256,focus_sha256}` with depth
 `quick`, `standard`, or `deep`; the optional intent/focus values hash their
 exact UTF-8 bytes. For `open-code-review-target/v2`, encode one record with the
@@ -681,7 +711,23 @@ scalar fields in the profile order above. Bind the path array through
 value uses UTF-8 only when it round-trips exactly; otherwise use base64 over the
 raw path bytes and record that encoding.
 
-Each path record carries layer (`head`, `index`, or `worktree`), status, old/new
+Each path record repeats and hashes `target_mode`, `target_head_state`, and
+`target_paths_layer`; they must exactly match the enclosing receipt. Layers are
+mode-bound: workspace permits `index` and `worktree`, staged permits `index`,
+commit/range permit `head`, paths requires the selected `paths_layer`, and a
+supplied patch uses `patch`. An unborn target cannot carry a `head` record and
+`head_state=not-applicable` permits only patch-layer records.
+
+Status is one canonical value: `A`, `D`, `M`, `R`, `T`, or `U`. `A` has only a
+new side; `D` only an old side; `M` has identical old/new paths; `R` has
+distinct old/new paths; and `T` has identical paths plus distinct non-null
+modes. Non-conflict records have `stage=null`. Each unresolved index `U` record
+has only a new side and one stage from 1/2/3; a conflict path has at least two
+distinct stage records. An optional worktree-conflict `U` record has only a new
+side and `stage=null`. Never collapse unresolved stages into a single digest or
+claim complete coverage while `U` remains.
+
+Each path record also carries status, old/new
 lossless path object (`encoding` + `value`), old/new mode and object ID, index
 stage when relevant, separate old/new SHA-256 content digests, hunk/byte coverage,
 disposition, reason, and a `path_record_id` digest over that exact record. A
@@ -689,8 +735,14 @@ side digest must be present for every present side of a `reviewed` or
 `metadata-reviewed` record. Only an `unreadable` or `skipped-with-reason` record
 may leave a present side unread, and it must state why. Metadata review also
 requires a concrete reason, an exact byte inventory, zero claimed text hunks,
-and a record kind of `binary`, `symlink`, `submodule`, `generated`, or `vendored`;
-an ordinary text `file` cannot be relabelled to avoid content review. A verified finding position requires the exact
+and a record kind of `binary`, `symlink`, `submodule`, `generated`, or `vendored`.
+It must also carry classification evidence: the classified kind, one method
+(`git-attributes`, `blob-inspection`, or `trusted-policy`), a concrete source,
+an evidence digest, and a policy-receipt digest only for trusted-policy
+classification. Git attributes may establish binary/generated/vendored state;
+blob inspection may establish binary/symlink/submodule state; policy evidence
+must bind the accepted policy receipt. An ordinary text `file` or a
+self-declared `record_kind` cannot be relabelled to avoid content review. A verified finding position requires the exact
 selected-side digest. Every
 finding and bundle references this ID so staged and unstaged bytes at the same
 path cannot be confused. `metadata-reviewed` is adequate for `PASS` only when
@@ -758,6 +810,10 @@ required_evidence}`. Put only current confirmed unsuppressed findings in
 fingerprint appears only in `findings`, not again as a candidate. Until a trusted Gate 4 adapter exists, a `suppressed` candidate
 must retain `verdict_effect: prevents_pass`; matching an opaque policy hash is
 binding evidence, not suppression authority.
+Limit IDs are unique and each affected-path list is deduplicated.
+`final_readback.changed_fields` is also unique and uses only the exact scalar
+names from the target receipt digest profile; report path changes as
+`path_ledger_sha256`, not an ad hoc `paths` label or a derived receipt hash.
 
 ## Incremental reruns and finding lifecycle
 

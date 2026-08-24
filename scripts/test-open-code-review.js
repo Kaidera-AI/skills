@@ -55,6 +55,11 @@ assert(skill.includes(reportContractHash), 'skill must bind the exact semantic v
 const ajv = new Ajv2020({ allErrors: true, strict: true })
 addFormats(ajv)
 const validateReport = ajv.compile(reportSchema)
+assert.deepEqual(
+  reportSchema.$defs.finalReadback.properties.changed_fields.items.enum,
+  PROFILES.target.map(([field]) => field),
+  'changed_fields enum must exactly match the canonical target receipt profile',
+)
 const zeroSha = '0'.repeat(64)
 const zeroObject = '0'.repeat(40)
 const reviewScope = { depth: 'standard', intent_sha256: null, focus_sha256: null }
@@ -132,6 +137,9 @@ function reportWithOnePath() {
   const report = structuredClone(validEmptyReport)
   const pathRecord = {
     path_record_id: zeroSha,
+    target_mode: 'workspace',
+    target_head_state: 'present',
+    target_paths_layer: null,
     record_kind: 'file',
     status: 'M',
     layer: 'worktree',
@@ -148,6 +156,7 @@ function reportWithOnePath() {
     hunks_reviewed: 1,
     bytes_total: 20,
     bytes_reviewed: 20,
+    classification_evidence: null,
     disposition: 'reviewed',
     reason: null,
   }
@@ -190,6 +199,13 @@ function resealSinglePathReport(report) {
   report.final_readback.initial_receipt_sha256 = report.target_receipt.receipt_sha256
   report.final_readback.final_receipt_sha256 = report.target_receipt.receipt_sha256
   return record
+}
+
+function resealTarget(report) {
+  report.target_receipt.receipt_sha256 = hashTargetReceipt(report.target_receipt)
+  report.final_readback.initial_receipt_sha256 = report.target_receipt.receipt_sha256
+  report.final_readback.final_receipt_sha256 = report.target_receipt.receipt_sha256
+  return report
 }
 
 function blockingFinding(pathRecord) {
@@ -250,10 +266,38 @@ assert.throws(() => hashPathRecord(loneSurrogate), /does not round-trip canonica
 const advisoryPass = structuredClone(changeReport)
 advisoryPass.verdict = 'PASS_WITH_ADVISORIES'
 advisoryPass.findings[0].disposition = 'advisory'
+advisoryPass.findings[0].severity = 'medium'
+advisoryPass.findings[0].impact_class = 'bounded-unavailability'
+advisoryPass.findings[0].fingerprint = hashFindingFingerprint(advisoryPass.findings[0], advisoryPass.target_receipt.paths[0])
 assert(validateReport(advisoryPass), ajv.errorsText(validateReport.errors))
 assert.deepEqual(validateReportSemantics(advisoryPass), [])
 advisoryPass.verdict = 'PASS'
 assert(!validateReport(advisoryPass), 'schema must reserve bare PASS for a finding-free report')
+
+const highAdvisoryPass = structuredClone(advisoryPass)
+highAdvisoryPass.verdict = 'PASS_WITH_ADVISORIES'
+highAdvisoryPass.findings[0].severity = 'high'
+assert(!validateReport(highAdvisoryPass), 'portable schema must reject high-severity PASS_WITH_ADVISORIES')
+const securityAdvisoryPass = structuredClone(advisoryPass)
+securityAdvisoryPass.verdict = 'PASS_WITH_ADVISORIES'
+securityAdvisoryPass.findings[0].category = 'security'
+assert(validateReport(securityAdvisoryPass), ajv.errorsText(validateReport.errors))
+assert(validateReportSemantics(securityAdvisoryPass).some(error => error.includes('non-security')))
+const disguisedSecurityAdvisoryPass = structuredClone(advisoryPass)
+disguisedSecurityAdvisoryPass.verdict = 'PASS_WITH_ADVISORIES'
+disguisedSecurityAdvisoryPass.findings[0].root_cause_class = 'sql-injection'
+disguisedSecurityAdvisoryPass.findings[0].fingerprint = hashFindingFingerprint(
+  disguisedSecurityAdvisoryPass.findings[0],
+  disguisedSecurityAdvisoryPass.target_receipt.paths[0],
+)
+assert(validateReport(disguisedSecurityAdvisoryPass), ajv.errorsText(validateReport.errors))
+assert(validateReportSemantics(disguisedSecurityAdvisoryPass).some(error => error.includes('non-security')))
+const dataLossAdvisoryPass = structuredClone(advisoryPass)
+dataLossAdvisoryPass.verdict = 'PASS_WITH_ADVISORIES'
+dataLossAdvisoryPass.findings[0].impact_class = 'data_loss'
+dataLossAdvisoryPass.findings[0].fingerprint = hashFindingFingerprint(dataLossAdvisoryPass.findings[0], dataLossAdvisoryPass.target_receipt.paths[0])
+assert(validateReport(dataLossAdvisoryPass), ajv.errorsText(validateReport.errors))
+assert(validateReportSemantics(dataLossAdvisoryPass).some(error => error.includes('non-data-loss')))
 
 assert.throws(
   () => encodeRecords(PROFILES.finding, [{
@@ -281,6 +325,21 @@ emptyCommit.final_readback.final_receipt_sha256 = emptyCommit.target_receipt.rec
 assert(validateReport(emptyCommit), ajv.errorsText(validateReport.errors))
 assert(validateReportSemantics(emptyCommit).some(error => error.includes('head_commit is required for commit mode')))
 
+const selfParentCommit = structuredClone(validEmptyReport)
+selfParentCommit.target_receipt.mode = 'commit'
+selfParentCommit.target_receipt.base_commit = zeroObject
+selfParentCommit.target_receipt.base_tree = zeroObject
+selfParentCommit.target_receipt.comparison_parent = zeroObject
+for (const field of [
+  'index_entries_sha256', 'staged_diff_sha256', 'unstaged_diff_sha256',
+  'status_porcelain_v2_sha256', 'untracked_inventory_sha256',
+]) selfParentCommit.target_receipt[field] = null
+selfParentCommit.target_receipt.receipt_sha256 = hashTargetReceipt(selfParentCommit.target_receipt)
+selfParentCommit.final_readback.initial_receipt_sha256 = selfParentCommit.target_receipt.receipt_sha256
+selfParentCommit.final_readback.final_receipt_sha256 = selfParentCommit.target_receipt.receipt_sha256
+assert(validateReport(selfParentCommit), ajv.errorsText(validateReport.errors))
+assert(validateReportSemantics(selfParentCommit).some(error => error.includes('must not equal head_commit')))
+
 for (const [mode, expected] of [
   ['workspace', 'head_commit is required for workspace mode'],
   ['range', 'head_commit is required for range mode'],
@@ -298,6 +357,9 @@ for (const [mode, expected] of [
 const missingPatch = structuredClone(validEmptyReport)
 missingPatch.target_receipt.mode = 'patch'
 missingPatch.target_receipt.head_state = 'not-applicable'
+missingPatch.target_receipt.repository_root = null
+missingPatch.target_receipt.git_object_format = null
+missingPatch.target_receipt.git_version = null
 missingPatch.target_receipt.head_commit = null
 missingPatch.target_receipt.head_tree = null
 missingPatch.target_receipt.receipt_sha256 = hashTargetReceipt(missingPatch.target_receipt)
@@ -314,6 +376,51 @@ missingPathsLayer.final_readback.final_receipt_sha256 = missingPathsLayer.target
 assert(validateReport(missingPathsLayer), ajv.errorsText(validateReport.errors))
 assert(validateReportSemantics(missingPathsLayer).some(error => error.includes('paths_layer is required for paths mode')))
 
+const validStagedReport = structuredClone(validEmptyReport)
+validStagedReport.target_receipt.mode = 'staged'
+resealTarget(validStagedReport)
+assert(validateReport(validStagedReport), ajv.errorsText(validateReport.errors))
+assert.deepEqual(validateReportSemantics(validStagedReport), [])
+
+const validRootCommitReport = structuredClone(validEmptyReport)
+validRootCommitReport.target_receipt.mode = 'commit'
+validRootCommitReport.target_receipt.base_tree = zeroObject
+validRootCommitReport.target_receipt.comparison_parent = 'root'
+for (const field of [
+  'index_entries_sha256', 'staged_diff_sha256', 'unstaged_diff_sha256',
+  'status_porcelain_v2_sha256', 'untracked_inventory_sha256',
+]) validRootCommitReport.target_receipt[field] = null
+resealTarget(validRootCommitReport)
+assert(validateReport(validRootCommitReport), ajv.errorsText(validateReport.errors))
+assert.deepEqual(validateReportSemantics(validRootCommitReport), [])
+
+const validRangeReport = structuredClone(validRootCommitReport)
+validRangeReport.target_receipt.mode = 'range'
+validRangeReport.target_receipt.base_commit = '1'.repeat(40)
+validRangeReport.target_receipt.comparison_parent = null
+validRangeReport.target_receipt.range_style = 'two-dot'
+resealTarget(validRangeReport)
+assert(validateReport(validRangeReport), ajv.errorsText(validateReport.errors))
+assert.deepEqual(validateReportSemantics(validRangeReport), [])
+
+const validPathsReport = structuredClone(validRootCommitReport)
+validPathsReport.target_receipt.mode = 'paths'
+validPathsReport.target_receipt.base_tree = null
+validPathsReport.target_receipt.comparison_parent = null
+validPathsReport.target_receipt.paths_layer = 'worktree'
+resealTarget(validPathsReport)
+assert(validateReport(validPathsReport), ajv.errorsText(validateReport.errors))
+assert.deepEqual(validateReportSemantics(validPathsReport), [])
+
+const validRepositoryPatch = structuredClone(validRootCommitReport)
+validRepositoryPatch.target_receipt.mode = 'patch'
+validRepositoryPatch.target_receipt.base_tree = null
+validRepositoryPatch.target_receipt.comparison_parent = null
+validRepositoryPatch.target_receipt.supplied_patch_sha256 = zeroSha
+resealTarget(validRepositoryPatch)
+assert(validateReport(validRepositoryPatch), ajv.errorsText(validateReport.errors))
+assert.deepEqual(validateReportSemantics(validRepositoryPatch), [])
+
 const unbornWorkspace = structuredClone(validEmptyReport)
 unbornWorkspace.target_receipt.head_state = 'unborn'
 unbornWorkspace.target_receipt.head_commit = null
@@ -327,6 +434,9 @@ assert.deepEqual(validateReportSemantics(unbornWorkspace), [])
 const contextFreePatch = structuredClone(validEmptyReport)
 contextFreePatch.target_receipt.mode = 'patch'
 contextFreePatch.target_receipt.head_state = 'not-applicable'
+contextFreePatch.target_receipt.repository_root = null
+contextFreePatch.target_receipt.git_object_format = null
+contextFreePatch.target_receipt.git_version = null
 contextFreePatch.target_receipt.head_commit = null
 contextFreePatch.target_receipt.head_tree = null
 contextFreePatch.target_receipt.index_entries_sha256 = null
@@ -340,6 +450,112 @@ contextFreePatch.final_readback.initial_receipt_sha256 = contextFreePatch.target
 contextFreePatch.final_readback.final_receipt_sha256 = contextFreePatch.target_receipt.receipt_sha256
 assert(validateReport(contextFreePatch), ajv.errorsText(validateReport.errors))
 assert.deepEqual(validateReportSemantics(contextFreePatch), [])
+
+const partialContextPatch = structuredClone(contextFreePatch)
+partialContextPatch.target_receipt.repository_root = '/unbound/repo'
+partialContextPatch.target_receipt.receipt_sha256 = hashTargetReceipt(partialContextPatch.target_receipt)
+partialContextPatch.final_readback.initial_receipt_sha256 = partialContextPatch.target_receipt.receipt_sha256
+partialContextPatch.final_readback.final_receipt_sha256 = partialContextPatch.target_receipt.receipt_sha256
+assert(validateReport(partialContextPatch), ajv.errorsText(validateReport.errors))
+assert(validateReportSemantics(partialContextPatch).some(error => error.includes('must be null for context-free patch mode')))
+
+const unrelatedPatchIdentity = structuredClone(contextFreePatch)
+unrelatedPatchIdentity.target_receipt.base_tree = zeroObject
+unrelatedPatchIdentity.target_receipt.receipt_sha256 = hashTargetReceipt(unrelatedPatchIdentity.target_receipt)
+unrelatedPatchIdentity.final_readback.initial_receipt_sha256 = unrelatedPatchIdentity.target_receipt.receipt_sha256
+unrelatedPatchIdentity.final_readback.final_receipt_sha256 = unrelatedPatchIdentity.target_receipt.receipt_sha256
+assert(validateReport(unrelatedPatchIdentity), ajv.errorsText(validateReport.errors))
+assert(validateReportSemantics(unrelatedPatchIdentity).some(error => error.includes('base_tree must be null for patch mode')))
+
+const { report: wrongTargetModeBinding } = reportWithOnePath()
+wrongTargetModeBinding.target_receipt.paths[0].target_mode = 'range'
+resealSinglePathReport(wrongTargetModeBinding)
+assert(validateReport(wrongTargetModeBinding), ajv.errorsText(validateReport.errors))
+assert(validateReportSemantics(wrongTargetModeBinding).some(error => error.includes('target_mode does not match')))
+
+const { report: wrongHeadStateBinding } = reportWithOnePath()
+wrongHeadStateBinding.target_receipt.paths[0].target_head_state = 'unborn'
+resealSinglePathReport(wrongHeadStateBinding)
+assert(validateReport(wrongHeadStateBinding), ajv.errorsText(validateReport.errors))
+assert(validateReportSemantics(wrongHeadStateBinding).some(error => error.includes('target_head_state does not match')))
+
+const { report: wrongPathsLayerBinding } = reportWithOnePath()
+wrongPathsLayerBinding.target_receipt.paths[0].target_paths_layer = 'worktree'
+resealSinglePathReport(wrongPathsLayerBinding)
+assert(validateReport(wrongPathsLayerBinding), ajv.errorsText(validateReport.errors))
+assert(validateReportSemantics(wrongPathsLayerBinding).some(error => error.includes('target_paths_layer does not match')))
+
+const { report: invalidModeLayer } = reportWithOnePath()
+invalidModeLayer.target_receipt.paths[0].layer = 'head'
+resealSinglePathReport(invalidModeLayer)
+assert(validateReport(invalidModeLayer), ajv.errorsText(validateReport.errors))
+assert(validateReportSemantics(invalidModeLayer).some(error => error.includes('is not valid for workspace mode')))
+
+function assertInvalidStatusShape(mutator, expected) {
+  const { report } = reportWithOnePath()
+  mutator(report.target_receipt.paths[0])
+  resealSinglePathReport(report)
+  assert(validateReport(report), ajv.errorsText(validateReport.errors))
+  assert(validateReportSemantics(report).some(error => error.includes(expected)), `missing status error: ${expected}`)
+}
+
+const { report: nonCanonicalStatus } = reportWithOnePath()
+nonCanonicalStatus.target_receipt.paths[0].status = 'MM'
+resealSinglePathReport(nonCanonicalStatus)
+assert(!validateReport(nonCanonicalStatus), 'schema must reject non-canonical path status grammar')
+
+assertInvalidStatusShape(record => { record.status = 'A' }, 'status A requires only a new side')
+assertInvalidStatusShape(record => { record.status = 'D' }, 'status D requires only an old side')
+assertInvalidStatusShape(record => {
+  record.status = 'M'
+  record.new_path = { encoding: 'utf8', value: 'src/renamed.ts' }
+}, 'status M requires matching old and new paths')
+assertInvalidStatusShape(record => { record.status = 'R' }, 'status R requires distinct old and new paths')
+assertInvalidStatusShape(record => { record.status = 'T' }, 'status T requires matching paths and distinct old/new modes')
+assertInvalidStatusShape(record => {
+  record.status = 'U'
+  record.layer = 'index'
+  record.stage = 2
+  record.old_path = null
+  record.old_mode = null
+  record.old_object_id = null
+  record.old_content_sha256 = null
+}, 'requires at least two distinct index stages')
+
+const { report: validUnresolvedIndex, pathRecord: conflictStage2 } = reportWithOnePath()
+for (const field of ['old_path', 'old_mode', 'old_object_id', 'old_content_sha256']) conflictStage2[field] = null
+conflictStage2.status = 'U'
+conflictStage2.layer = 'index'
+conflictStage2.stage = 2
+conflictStage2.hunks_total = 0
+conflictStage2.hunks_reviewed = 0
+conflictStage2.path_record_id = hashPathRecord(conflictStage2)
+const conflictStage3 = structuredClone(conflictStage2)
+conflictStage3.stage = 3
+conflictStage3.new_object_id = '1'.repeat(40)
+conflictStage3.new_content_sha256 = '1'.repeat(64)
+conflictStage3.path_record_id = hashPathRecord(conflictStage3)
+validUnresolvedIndex.verdict = 'INCOMPLETE'
+validUnresolvedIndex.target_receipt.paths = [conflictStage2, conflictStage3]
+validUnresolvedIndex.target_receipt.path_ledger_sha256 = hashPathLedger(validUnresolvedIndex.target_receipt.paths)
+validUnresolvedIndex.coverage = {
+  complete: false,
+  path_records_total: 2,
+  reviewed: 2,
+  metadata_reviewed: 0,
+  unreadable: 0,
+  skipped_with_reason: 0,
+  hunks_total: 0,
+  hunks_reviewed: 0,
+  bundles: [conflictStage2, conflictStage3].map((record, index) => ({
+    id: `conflict-stage-${index + 2}`,
+    primary_path_record_ids: [record.path_record_id],
+    supporting_path_record_ids: [],
+  })),
+}
+resealTarget(validUnresolvedIndex)
+assert(validateReport(validUnresolvedIndex), ajv.errorsText(validateReport.errors))
+assert.deepEqual(validateReportSemantics(validUnresolvedIndex), [])
 
 const { report: missingContentPass } = reportWithOnePath()
 missingContentPass.target_receipt.paths[0].old_content_sha256 = null
@@ -374,6 +590,54 @@ unjustifiedMetadataPass.coverage.metadata_reviewed = 1
 resealSinglePathReport(unjustifiedMetadataPass)
 assert(validateReport(unjustifiedMetadataPass), ajv.errorsText(validateReport.errors))
 assert(validateReportSemantics(unjustifiedMetadataPass).some(error => error.includes('requires a reason')))
+
+function makeMetadataReviewed(report) {
+  const record = report.target_receipt.paths[0]
+  record.record_kind = 'binary'
+  record.disposition = 'metadata-reviewed'
+  record.reason = 'Blob inspection found a NUL byte and the exact bytes were inventoried.'
+  record.hunks_total = 0
+  record.hunks_reviewed = 0
+  record.bytes_total = 20
+  record.bytes_reviewed = 0
+  record.classification_evidence = {
+    classified_as: 'binary',
+    method: 'blob-inspection',
+    source: 'old/new blob byte classification',
+    evidence_sha256: zeroSha,
+    policy_receipt_sha256: null,
+  }
+  report.coverage.reviewed = 0
+  report.coverage.metadata_reviewed = 1
+  report.coverage.hunks_total = 0
+  report.coverage.hunks_reviewed = 0
+  resealSinglePathReport(report)
+  return record
+}
+
+const { report: evidencedMetadataPass } = reportWithOnePath()
+makeMetadataReviewed(evidencedMetadataPass)
+assert(validateReport(evidencedMetadataPass), ajv.errorsText(validateReport.errors))
+assert.deepEqual(validateReportSemantics(evidencedMetadataPass), [])
+
+const selfDeclaredMetadataPass = structuredClone(evidencedMetadataPass)
+selfDeclaredMetadataPass.target_receipt.paths[0].classification_evidence = null
+resealSinglePathReport(selfDeclaredMetadataPass)
+assert(validateReport(selfDeclaredMetadataPass), ajv.errorsText(validateReport.errors))
+assert(validateReportSemantics(selfDeclaredMetadataPass).some(error => error.includes('requires classification evidence')))
+
+const mismatchedMetadataEvidence = structuredClone(evidencedMetadataPass)
+mismatchedMetadataEvidence.target_receipt.paths[0].classification_evidence.classified_as = 'symlink'
+resealSinglePathReport(mismatchedMetadataEvidence)
+assert(validateReport(mismatchedMetadataEvidence), ajv.errorsText(validateReport.errors))
+assert(validateReportSemantics(mismatchedMetadataEvidence).some(error => error.includes('classification does not match')))
+
+const unboundPolicyClassification = structuredClone(evidencedMetadataPass)
+unboundPolicyClassification.target_receipt.paths[0].classification_evidence.method = 'trusted-policy'
+unboundPolicyClassification.target_receipt.paths[0].classification_evidence.policy_receipt_sha256 = '1'.repeat(64)
+resealSinglePathReport(unboundPolicyClassification)
+assert(validateReport(unboundPolicyClassification), ajv.errorsText(validateReport.errors))
+assert(validateReportSemantics(unboundPolicyClassification).some(error => error.includes('does not bind the accepted policy receipt')))
 
 const { report: emptyMetadataEvidencePass } = reportWithOnePath()
 const emptyMetadataRecord = emptyMetadataEvidencePass.target_receipt.paths[0]
@@ -471,6 +735,14 @@ blockingLimitPass.limits = [{
   affected_path_record_ids: [], verdict_effect: 'blocking', required_evidence: 'Qualified runtime replay',
 }]
 assert(!validateReport(blockingLimitPass), 'schema must reject PASS with a blocking limit')
+const duplicateLimitIds = structuredClone(validEmptyReport)
+duplicateLimitIds.verdict = 'BLOCKED'
+duplicateLimitIds.limits = [
+  structuredClone(blockingLimitPass.limits[0]),
+  { ...structuredClone(blockingLimitPass.limits[0]), description: 'A second blocked capability.' },
+]
+assert(validateReport(duplicateLimitIds), ajv.errorsText(validateReport.errors))
+assert(validateReportSemantics(duplicateLimitIds).some(error => error.includes('duplicate limit id runtime')))
 const blockedChanges = structuredClone(changeReport)
 blockedChanges.limits = structuredClone(blockingLimitPass.limits)
 assert(validateReport(blockedChanges), ajv.errorsText(validateReport.errors))
@@ -587,6 +859,15 @@ nullDriftReceipt.final_readback.matches_initial = false
 nullDriftReceipt.final_readback.changed_fields = ['head_commit']
 nullDriftReceipt.final_readback.final_receipt_sha256 = null
 assert(!validateReport(nullDriftReceipt), 'schema must reject target drift without a final receipt digest')
+
+const duplicateChangedFields = structuredClone(nullDriftReceipt)
+duplicateChangedFields.final_readback.final_receipt_sha256 = '1'.repeat(64)
+duplicateChangedFields.final_readback.changed_fields = ['head_commit', 'head_commit']
+assert(!validateReport(duplicateChangedFields), 'schema must reject duplicate changed_fields')
+const nonCanonicalChangedField = structuredClone(nullDriftReceipt)
+nonCanonicalChangedField.final_readback.final_receipt_sha256 = '1'.repeat(64)
+nonCanonicalChangedField.final_readback.changed_fields = ['paths']
+assert(!validateReport(nonCanonicalChangedField), 'schema must reject non-canonical changed_fields')
 
 const reportFixtureRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'open-code-review-report-'))
 try {
