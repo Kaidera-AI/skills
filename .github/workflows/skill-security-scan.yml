@@ -1,9 +1,13 @@
-name: Skill Security Scan (Gate 2)
+name: Skill Security Scan (Gate 2 subset)
 
 on:
   pull_request:
     paths:
       - 'skills/**/*.SKILL.md'
+      - 'scripts/security-scan.py'
+      - 'scripts/validate-skill.js'
+      - 'spec/SKILL_FORMAT.md'
+      - '.github/workflows/skill-security-scan.yml'
 
 jobs:
   security-scan:
@@ -22,7 +26,7 @@ jobs:
       - name: Run injection pattern scan on changed skills
         run: |
           git diff --name-only origin/${{ github.base_ref }}...HEAD \
-            | grep '^skills/.*\.SKILL\.md$' \
+            | sed -n '/^skills\/.*\.SKILL\.md$/p' \
             | xargs -r python scripts/security-scan.py
 
   forbidden-pattern-check:

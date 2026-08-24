@@ -3,7 +3,7 @@
   "description": "Vetted, open-source skills for AI agents built on EnGenAI",
   "version": "1.0.0",
   "source": "https://github.com/engenai-platform/engenai-skills",
-  "generated_at": "2026-08-24T14:52:30.656Z",
+  "generated_at": "2026-08-24T15:33:02.535Z",
   "skills": [
     {
       "name": "agent-platform-context",
@@ -227,26 +227,31 @@
     },
     {
       "name": "open-code-review",
-      "version": "1.0.0",
-      "description": "Hybrid deterministic + agent code review following Alibaba's OpenCodeReview architecture. Combines rule-based static analysis with LLM agent reasoning for line-level precision. Uses smart file bundling, external positioning, and reflection modules for high-precision reviews at minimal token cost.",
+      "version": "2.0.0",
+      "description": "Diff-first, evidence-gated code review for worktree changes, staged changes, commits, branch ranges, path sets, and supplied PR patches. Builds an exact change receipt, combines deterministic diagnostics with semantic review, traces cross-file impact, independently challenges material findings, and reports honest coverage without modifying the repository. Use this for a bounded change review; use a whole-codebase audit skill for repository-wide health or architecture assessment.",
       "category": "development",
       "trust_tier": "official",
-      "risk_level": "low",
+      "risk_level": "medium",
       "capabilities_required": [
-        "- tool:file_read",
-        "tool:file_write"
+        "tool:file_read",
+        "tool:code_interpreter"
       ],
       "author": "Kaidera-AI",
       "license": "Apache-2.0",
       "updated": "2026-08-24",
       "tags": [
         "code-review",
-        "quality",
+        "diff-review",
+        "pull-request",
         "static-analysis",
-        "multi-language",
-        "precision"
+        "blast-radius",
+        "adversarial-verification",
+        "read-only"
       ],
-      "content_hash": "867f67746464f945d7d892cef1c1cb33c6bc13d65b1fee6d82ea1e028bf5a6c2",
+      "attribution_author": "Alibaba OpenCodeReview contributors",
+      "attribution_url": "https://github.com/alibaba/open-code-review/tree/0c44f1049e054b062b8900b93a4828f7b0baf77b",
+      "attribution_notes": "Architecture research at upstream commit 0c44f1049e054b062b8900b93a4828f7b0baf77b informed change partitioning, delegated rule retrieval, and line relocation. This Kaidera workflow is independently written and deliberately adds cross-file, trust-boundary, coverage, and adversarial-verification gates.",
+      "content_hash": "6725477ff69950dbf9da3ef389c3d2b0027830d02e3b44caa511d54d09ef7e44",
       "signed_by": "",
       "file": "skills/development/open-code-review.SKILL.md"
     },

@@ -121,9 +121,10 @@ Only `official`, `verified_partner`, and `community_vetted` skills are injected 
 
 ---
 
-## Vetting Pipeline (Gate 1–4)
+## Vetting Pipeline Target (Gate 1–4)
 
-Every skill passes four gates before reaching `community_vetted` or higher:
+The marketplace policy requires four gates before a skill reaches
+`community_vetted` or higher:
 
 | Gate | Name | What happens |
 |------|------|-------------|
@@ -131,6 +132,24 @@ Every skill passes four gates before reaching `community_vetted` or higher:
 | 2 | Security Scan | `skill_sanitiser.py` injection check + LLM Guard scan |
 | 3 | Sandbox Test | gVisor container execution (capability-gated) |
 | 4 | Human Review | Kaidera reviewer approves + Cosign signing + SLSA provenance |
+
+### Current implementation status (2026-08-24)
+
+The repository does **not** yet implement all four policy gates:
+
+- Gate 1 has a local contract validator and forbidden-pattern checks, but not a
+  complete YAML/JSON-Schema implementation.
+- Gate 2 has a bounded regex scanner, not the specified LLM Guard control.
+- Gate 3 is a **HOLD**. `skill-sandbox-test.yml` performs contract checks and a
+  marketplace dry run; it does not execute a skill in gVisor or another
+  capability sandbox.
+- Gate 4 is a **HOLD**. `skill-publish.yml` refreshes body hashes and the
+  marketplace, but Cosign/SLSA and required human-review enforcement are not
+  active.
+
+Passing the current workflows therefore proves only their named local checks.
+It must not be described as Gate 3/4 acceptance, signature, provenance, or
+publication approval.
 
 ---
 
@@ -150,16 +169,23 @@ The following patterns cause **automatic rejection at Gate 2**:
 
 ---
 
-## CI Auto-filled Fields
+## CI-managed and approval fields
 
-The CI pipeline (`skill-publish.yml`) fills these fields on merge to `main`:
+The current catalogue-refresh workflow fills:
 
-- `content_hash`: SHA-256 of the skill body (everything below `---`)
-- `signed_by`: Cosign signature URI referencing GCP KMS key
-- `last_reviewed`: Date of Gate 4 approval
-- `reviewer`: GitHub username of Gate 4 approver
+- `content_hash`: SHA-256 of the trimmed skill body (everything below the
+  frontmatter) for catalogue consistency.
 
-**Do not set these manually.** They will be overwritten by CI.
+This body hash is not a signature and does not bind frontmatter capability or
+trust metadata. Until the Gate 4 hold is lifted, these approval fields remain
+empty:
+
+- `signed_by`
+- `last_reviewed`
+- `reviewer`
+
+**Do not set approval fields manually.** A separately ratified Gate 4 workflow
+must populate and verify them.
 
 ---
 

@@ -1,9 +1,14 @@
-name: Skill Sandbox Test (Gate 3)
+name: Skill Contract Test (Gate 3 prerequisite — no runtime sandbox)
 
 on:
   pull_request:
     paths:
       - 'skills/**/*.SKILL.md'
+      - 'scripts/generate-marketplace.js'
+      - 'scripts/test-open-code-review.js'
+      - 'scripts/validate-skill.js'
+      - 'spec/SKILL_FORMAT.md'
+      - '.github/workflows/skill-sandbox-test.yml'
 
 jobs:
   schema-validation:
@@ -19,17 +24,20 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Run marketplace and review-skill contract tests
+        run: npm test
+
       - name: Validate all skills in PR
         run: |
           git diff --name-only origin/${{ github.base_ref }}...HEAD \
-            | grep '^skills/.*\.SKILL\.md$' \
+            | sed -n '/^skills\/.*\.SKILL\.md$/p' \
             | xargs -r node scripts/validate-skill.js --strict
 
       - name: Check capabilities_required is declared
         run: |
           git diff --name-only origin/${{ github.base_ref }}...HEAD \
-            | grep '^skills/.*\.SKILL\.md$' \
-            | while read f; do
+            | sed -n '/^skills\/.*\.SKILL\.md$/p' \
+            | while IFS= read -r f; do
                 if ! grep -q 'capabilities_required:' "$f"; then
                   echo "ERROR: $f missing capabilities_required"
                   exit 1
@@ -39,13 +47,18 @@ jobs:
       - name: Check safety_constraints is declared
         run: |
           git diff --name-only origin/${{ github.base_ref }}...HEAD \
-            | grep '^skills/.*\.SKILL\.md$' \
-            | while read f; do
+            | sed -n '/^skills\/.*\.SKILL\.md$/p' \
+            | while IFS= read -r f; do
                 if ! grep -q 'safety_constraints:' "$f"; then
                   echo "ERROR: $f missing safety_constraints"
                   exit 1
                 fi
               done
+
+      - name: Declare runtime sandbox hold
+        run: |
+          echo 'Gate 3 HOLD: this workflow validates contracts only.'
+          echo 'It does not execute skills in gVisor or another capability sandbox.'
 
   marketplace-json-dry-run:
     name: Marketplace JSON Dry Run

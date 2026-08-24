@@ -1,9 +1,12 @@
-name: Skill Lint (Gate 1)
+name: Skill Contract Lint (Gate 1 subset)
 
 on:
   pull_request:
     paths:
       - 'skills/**/*.SKILL.md'
+      - 'scripts/validate-skill.js'
+      - 'spec/SKILL_FORMAT.md'
+      - '.github/workflows/skill-lint.yml'
 
 jobs:
   lint:
@@ -22,5 +25,5 @@ jobs:
       - name: Validate changed skill files
         run: |
           git diff --name-only origin/${{ github.base_ref }}...HEAD \
-            | grep '^skills/.*\.SKILL\.md$' \
+            | sed -n '/^skills\/.*\.SKILL\.md$/p' \
             | xargs -r node scripts/validate-skill.js

@@ -29,6 +29,13 @@ const REQUIRED_ENGENAI = ['category', 'trust_tier', 'risk_level', 'capabilities_
 const VALID_CATEGORIES = ['development', 'devops', 'security', 'documentation', 'research', 'integrations', 'context']
 const VALID_TRUST_TIERS = ['official', 'verified_partner', 'community_vetted', 'unvetted']
 const VALID_RISK_LEVELS = ['low', 'medium', 'high']
+const VALID_CAPABILITIES = [
+  'tool:code_interpreter',
+  'tool:web_search',
+  'tool:mcp_external',
+  'tool:file_read',
+  'tool:file_write',
+]
 
 // ── Forbidden patterns (Gate 2) ───────────────────────────────────────────────
 
@@ -92,7 +99,57 @@ function parseFrontmatter(content) {
     }
   }
 
-  return { frontmatter: result, body: parts.slice(2).join('---') }
+  return { frontmatter: result, body: parts.slice(2).join('---'), yaml }
+}
+
+function extractNestedList(yaml, section, key) {
+  const lines = yaml.split('\n')
+  const sectionStart = lines.findIndex(line => line.trim() === `${section}:` && !line.startsWith(' '))
+  if (sectionStart === -1) return null
+
+  for (let index = sectionStart + 1; index < lines.length; index += 1) {
+    const line = lines[index]
+    if (line && !line.startsWith(' ')) break
+
+    const match = line.match(new RegExp(`^  ${key}:\\s*(.*)$`))
+    if (!match) continue
+
+    const inline = match[1].trim()
+    if (inline === '[]') return []
+    if (inline.startsWith('[') && inline.endsWith(']')) {
+      return inline.slice(1, -1).split(',').map(item => item.trim()).filter(Boolean)
+    }
+    if (inline !== '') return null
+
+    const values = []
+    for (let listIndex = index + 1; listIndex < lines.length; listIndex += 1) {
+      const listLine = lines[listIndex]
+      const item = listLine.match(/^    -\s+(.+)$/)
+      if (item) {
+        values.push(item[1].trim().replace(/^["']|["']$/g, ''))
+        continue
+      }
+      if (listLine.trim() === '') continue
+      break
+    }
+    return values
+  }
+
+  return null
+}
+
+function referencedDomains(content) {
+  const domains = new Set()
+  const urlPattern = /https?:\/\/[^\s<>)\]"']+/g
+  for (const match of content.matchAll(urlPattern)) {
+    const candidate = match[0].replace(/[.,;:!?]+$/, '')
+    try {
+      domains.add(new URL(candidate).hostname.toLowerCase())
+    } catch {
+      // Malformed URLs are handled as ordinary content by the schema today.
+    }
+  }
+  return [...domains].sort()
 }
 
 // ── Validation ────────────────────────────────────────────────────────────────
@@ -114,7 +171,7 @@ function validateSkill(filePath) {
     return { errors, warnings }
   }
 
-  const { frontmatter: fm, body } = parsed
+  const { frontmatter: fm, body, yaml } = parsed
 
   // Required top-level fields
   for (const field of REQUIRED_TOP) {
@@ -138,6 +195,41 @@ function validateSkill(filePath) {
     }
     if (fm.engenai.risk_level && !VALID_RISK_LEVELS.includes(fm.engenai.risk_level)) {
       errors.push(`Invalid risk_level: ${fm.engenai.risk_level}`)
+    }
+
+    const capabilities = extractNestedList(yaml, 'engenai', 'capabilities_required')
+    if (capabilities === null) {
+      errors.push('engenai.capabilities_required must be a YAML list')
+    } else {
+      for (const capability of capabilities) {
+        if (!VALID_CAPABILITIES.includes(capability)) {
+          errors.push(`Invalid capability: ${capability}. Must be one of: ${VALID_CAPABILITIES.join(', ')}`)
+        }
+      }
+      if (new Set(capabilities).size !== capabilities.length) {
+        errors.push('engenai.capabilities_required contains duplicate entries')
+      }
+    }
+
+    const allowedDomains = extractNestedList(yaml, 'engenai', 'allowed_domains')
+    if (allowedDomains === null) {
+      errors.push('engenai.allowed_domains must be a YAML list')
+    } else {
+      for (const domain of allowedDomains) {
+        if (!/^(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z]{2,}$/i.test(domain)) {
+          errors.push(`Invalid allowed domain: ${domain}`)
+        }
+      }
+      if (new Set(allowedDomains).size !== allowedDomains.length) {
+        errors.push('engenai.allowed_domains contains duplicate entries')
+      }
+
+      for (const domain of referencedDomains(content)) {
+        const allowed = allowedDomains.some(entry => domain === entry || domain.endsWith(`.${entry}`))
+        if (!allowed) {
+          errors.push(`Referenced domain is not allowlisted: ${domain}`)
+        }
+      }
     }
   }
 

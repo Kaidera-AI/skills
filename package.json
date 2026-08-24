@@ -6,7 +6,8 @@
   "scripts": {
     "validate": "node scripts/validate-skill.js",
     "generate": "node scripts/generate-marketplace.js",
-    "scan": "python3 scripts/security-scan.py"
+    "scan": "python3 scripts/security-scan.py",
+    "test": "node scripts/test-open-code-review.js"
   },
   "engines": {
     "node": ">=20"

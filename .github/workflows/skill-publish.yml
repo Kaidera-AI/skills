@@ -1,4 +1,4 @@
-name: Skill Publish (Gate 4 — merge to main)
+name: Marketplace Refresh (Gate 4 prerequisite — unsigned)
 
 on:
   push:
@@ -6,14 +6,17 @@ on:
       - main
     paths:
       - 'skills/**/*.SKILL.md'
+      - 'scripts/generate-marketplace.js'
+      - 'scripts/update-hash.js'
+      - '.github/workflows/skill-publish.yml'
 
 permissions:
   contents: write
-  id-token: write  # for Workload Identity / Cosign
+  id-token: write  # reserved for the future ratified Cosign gate
 
 jobs:
   publish:
-    name: Generate content_hash + Update marketplace.json
+    name: Generate content_hash + Update marketplace.json (not Gate 4 approval)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
@@ -30,16 +33,9 @@ jobs:
       - name: Compute content hashes for changed skills
         run: |
           git diff --name-only HEAD~1 HEAD \
-            | grep '^skills/.*\.SKILL\.md$' \
-            | while read f; do
-                hash=$(python3 -c "
-          import hashlib, sys
-          content = open('$f').read()
-          # Hash the body only (after second ---)
-          parts = content.split('---', 2)
-          body = parts[2] if len(parts) >= 3 else content
-          print(hashlib.sha256(body.encode()).hexdigest())
-          ")
+            | sed -n '/^skills\/.*\.SKILL\.md$/p' \
+            | while IFS= read -r f; do
+                hash=$(node scripts/generate-marketplace.js --hash "$f")
                 echo "Hash for $f: $hash"
                 # Update content_hash field in the SKILL.md frontmatter
                 node scripts/update-hash.js "$f" "$hash"
@@ -49,11 +45,10 @@ jobs:
         run: node scripts/generate-marketplace.js
 
       - name: Validate generated marketplace.json
-        run: node -e "
-          const m = require('./.claude-plugin/marketplace.json');
-          if (!m.skills || !Array.isArray(m.skills)) throw new Error('Invalid marketplace.json');
-          console.log('marketplace.json valid —', m.skills.length, 'skills');
-        "
+        run: >-
+          node -e 'const m = require("./.claude-plugin/marketplace.json");
+          if (!m.skills || !Array.isArray(m.skills)) throw new Error("Invalid marketplace.json");
+          console.log("marketplace.json valid —", m.skills.length, "skills");'
 
       - name: Commit updated files
         run: |
@@ -63,8 +58,12 @@ jobs:
           git diff --staged --quiet || git commit -m "chore(ci): update content hashes + marketplace.json [skip ci]"
           git push origin main
 
-      # Cosign signing is configured once GCP KMS is wired to this repo.
-      # Uncomment when ready:
+      # HOLD: this refresh is not human review, Cosign signing, or SLSA
+      # provenance. Gate 4 remains incomplete until a separately ratified trust
+      # root and required-review policy are wired. Do not treat the generated
+      # hash or marketplace entry as Gate 4 acceptance.
+      #
+      # Future signing skeleton (do not enable without ratification):
       # - name: Sign skills with Cosign (GCP KMS)
       #   uses: sigstore/cosign-installer@59acb6260d9c0ba8f4a2f9d9b48431a222b68e20  # v3.5.0
       #   with:

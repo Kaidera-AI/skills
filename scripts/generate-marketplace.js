@@ -19,6 +19,7 @@ const path = require('path')
 const crypto = require('crypto')
 
 const DRY_RUN = process.argv.includes('--dry-run')
+const HASH_ARG_INDEX = process.argv.indexOf('--hash')
 
 // ── Frontmatter parser (minimal) ──────────────────────────────────────────────
 
@@ -38,6 +39,9 @@ function parseSimpleFrontmatter(content) {
   const licenseMatch = yaml.match(/^license:\s*(.+)$/m)
   const updatedMatch = yaml.match(/^updated:\s*(.+)$/m)
   const tagsMatch = yaml.match(/^tags:\s*\[([^\]]*)\]/m)
+  const attributionAuthorMatch = yaml.match(/^attribution_author:\s*(.+)$/m)
+  const attributionUrlMatch = yaml.match(/^attribution_url:\s*(.+)$/m)
+  const attributionNotesMatch = yaml.match(/^attribution_notes:\s*(.+)$/m)
 
   // Extract engenai section
   const engenaiMatch = yaml.match(/^engenai:\n([\s\S]*?)(?=\n\w|\n$)/m)
@@ -52,7 +56,7 @@ function parseSimpleFrontmatter(content) {
   // Parse capabilities_required list
   const capsMatch = engenaiBlock.match(/capabilities_required:\s*\n((?:\s+-\s+.+\n?)*)/m)
   const capabilities = capsMatch
-    ? capsMatch[1].trim().split('\n').map(l => l.replace(/^\s+-\s+/, '').trim()).filter(Boolean)
+    ? capsMatch[1].trim().split('\n').map(l => l.replace(/^\s*-\s+/, '').trim()).filter(Boolean)
     : []
 
   fm.name = nameMatch ? nameMatch[1].trim() : null
@@ -62,6 +66,9 @@ function parseSimpleFrontmatter(content) {
   fm.license = licenseMatch ? licenseMatch[1].trim() : null
   fm.updated = updatedMatch ? updatedMatch[1].trim() : null
   fm.tags = tagsMatch ? tagsMatch[1].split(',').map(t => t.trim()).filter(Boolean) : []
+  fm.attribution_author = attributionAuthorMatch ? attributionAuthorMatch[1].trim() : ''
+  fm.attribution_url = attributionUrlMatch ? attributionUrlMatch[1].trim() : ''
+  fm.attribution_notes = attributionNotesMatch ? attributionNotesMatch[1].trim() : ''
   fm.category = categoryMatch ? categoryMatch[1].trim() : null
   fm.trust_tier = trustTierMatch ? trustTierMatch[1].trim() : null
   fm.risk_level = riskLevelMatch ? riskLevelMatch[1].trim() : null
@@ -76,6 +83,24 @@ function parseSimpleFrontmatter(content) {
 
 function computeHash(body) {
   return crypto.createHash('sha256').update(body, 'utf8').digest('hex')
+}
+
+// Keep CI and marketplace generation on one canonical body parser/hash path.
+// Integrity metadata is intentionally not populated here; the repository's
+// ratified signing workflow owns that operation.
+if (HASH_ARG_INDEX !== -1) {
+  const hashFile = process.argv[HASH_ARG_INDEX + 1]
+  if (!hashFile) {
+    console.error('Usage: generate-marketplace.js --hash <skill-file.SKILL.md>')
+    process.exit(1)
+  }
+  const parsed = parseSimpleFrontmatter(fs.readFileSync(hashFile, 'utf8'))
+  if (!parsed) {
+    console.error(`ERROR: Could not parse ${hashFile}`)
+    process.exit(1)
+  }
+  console.log(computeHash(parsed.body))
+  process.exit(0)
 }
 
 // ── Scan skills directory ─────────────────────────────────────────────────────
@@ -136,6 +161,15 @@ for (const filePath of skillFiles) {
     license: fm.license,
     updated: fm.updated,
     tags: fm.tags,
+    ...(
+      fm.attribution_author || fm.attribution_url || fm.attribution_notes
+        ? {
+            attribution_author: fm.attribution_author,
+            attribution_url: fm.attribution_url,
+            attribution_notes: fm.attribution_notes,
+          }
+        : {}
+    ),
     content_hash: computedHash,
     signed_by: fm.signed_by || '',
     file: relativePath,
