@@ -11,6 +11,11 @@ const YAML = require('yaml')
 
 const MAX_REPORT_BYTES = 16 * 1024 * 1024
 const TYPE = { null: 0, raw: 1, utf8: 2, u64: 3, boolean: 4 }
+const EMPTY_SHA256 = 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
+const EMPTY_TREE = {
+  sha1: '4b825dc642cb6eb9a060e54bf8d69288fbee4904',
+  sha256: '6ef19b41225c5369f1c104d45d8d85efa9b057b53b14b4b9b939dd74decc5321',
+}
 
 const PROFILES = {
   reviewScope: [
@@ -71,7 +76,6 @@ const PROFILES = {
     ['classification_method', 'utf8'],
     ['classification_source', 'utf8'],
     ['classification_evidence_sha256', 'utf8'],
-    ['classification_policy_receipt_sha256', 'utf8'],
     ['disposition', 'utf8'],
     ['reason', 'utf8'],
   ],
@@ -174,20 +178,55 @@ function sha256(bytes) {
   return crypto.createHash('sha256').update(bytes).digest('hex')
 }
 
-function canonicalBase64(value) {
-  if (typeof value !== 'string' || value.length % 4 !== 0) throw new TypeError('base64 path value is not canonical')
+function canonicalBase64(value, label = 'base64 value') {
+  if (typeof value !== 'string' || value.length % 4 !== 0) throw new TypeError(`${label} is not canonical`)
   const decoded = Buffer.from(value, 'base64')
-  if (decoded.toString('base64') !== value) throw new TypeError('base64 path value is not canonical')
+  if (decoded.toString('base64') !== value) throw new TypeError(`${label} is not canonical`)
   return decoded
+}
+
+function bytesAreCanonicalUtf8(bytes) {
+  try {
+    const decoded = new TextDecoder('utf-8', { fatal: true }).decode(bytes)
+    return Buffer.compare(Buffer.from(decoded, 'utf8'), bytes) === 0
+  } catch {
+    return false
+  }
+}
+
+function losslessValueBytes(value, label) {
+  if (value === null) return null
+  if (value.encoding === 'utf8') return canonicalUtf8Bytes(value.value, `UTF-8 ${label}`)
+  if (value.encoding === 'base64') {
+    const decoded = canonicalBase64(value.value, `base64 ${label}`)
+    if (bytesAreCanonicalUtf8(decoded)) throw new TypeError(`${label} must use utf8 encoding for valid UTF-8 bytes`)
+    return decoded
+  }
+  throw new TypeError(`unknown ${label} encoding`)
+}
+
+function validateRepositoryPathBytes(bytes) {
+  if (bytes.length === 0) throw new TypeError('repository path must not be empty')
+  if (bytes.includes(0)) throw new TypeError('repository path must not contain NUL')
+  const pathText = bytes.toString('latin1')
+  if (pathText.startsWith('/') || pathText.startsWith('\\')) throw new TypeError('repository path must be relative')
+  if (/^[A-Za-z]:[\\/]/.test(pathText)) throw new TypeError('repository path must not be drive-absolute')
+  const components = pathText.split(/[\\/]/)
+  if (components.some(component => component === '' || component === '.' || component === '..')) {
+    throw new TypeError('repository path must not contain empty, dot, or parent components')
+  }
+  return bytes
 }
 
 function losslessPathBytes(pathValue) {
   if (pathValue === null) return null
-  if (pathValue.encoding === 'utf8') {
-    return canonicalUtf8Bytes(pathValue.value, 'UTF-8 path value')
-  }
-  if (pathValue.encoding === 'base64') return canonicalBase64(pathValue.value)
-  throw new TypeError('unknown lossless path encoding')
+  return validateRepositoryPathBytes(losslessValueBytes(pathValue, 'path value'))
+}
+
+function losslessSourceBytes(sourceValue) {
+  const bytes = losslessValueBytes(sourceValue, 'policy source value')
+  if (bytes.length === 0 || bytes.includes(0)) throw new TypeError('policy source value must be non-empty and NUL-free')
+  return bytes
 }
 
 function flattenPathRecord(record) {
@@ -218,7 +257,6 @@ function flattenPathRecord(record) {
     classification_method: classification?.method ?? null,
     classification_source: classification?.source ?? null,
     classification_evidence_sha256: classification?.evidence_sha256 ?? null,
-    classification_policy_receipt_sha256: classification?.policy_receipt_sha256 ?? null,
     disposition: record.disposition,
     reason: record.reason,
   }
@@ -248,6 +286,31 @@ function sortedPathBodies(records) {
 
 function hashPathLedger(records) {
   return sha256(encodeRecords(PROFILES.path, sortedPathBodies(records)))
+}
+
+function flattenPolicyRecord(record) {
+  return {
+    authority_rank: record.authority_rank,
+    applicability: record.applicability,
+    source_encoding: record.source.encoding,
+    source_value: losslessSourceBytes(record.source),
+    revision: record.revision,
+    object_identity: record.object_identity,
+    content_sha256: record.content_sha256,
+    classification: record.classification,
+  }
+}
+
+function sortedPolicyBodies(records) {
+  return records.map(flattenPolicyRecord).sort((left, right) => {
+    return left.authority_rank - right.authority_rank ||
+      Buffer.compare(left.source_value, right.source_value) ||
+      Buffer.compare(encodeRecords(PROFILES.policy, [left]), encodeRecords(PROFILES.policy, [right]))
+  })
+}
+
+function hashPolicyReceipt(records) {
+  return sha256(encodeRecords(PROFILES.policy, sortedPolicyBodies(records)))
 }
 
 function hashReviewScope(scope) {
@@ -333,6 +396,36 @@ function validateCanonicalUtf8Tree(value, pointer, errors) {
   }
 }
 
+function validatePolicyReceipt(records, target, errors) {
+  let inputBodies
+  let sortedBodies
+  try {
+    inputBodies = records.map(flattenPolicyRecord)
+    sortedBodies = sortedPolicyBodies(records)
+  } catch (error) {
+    errors.push(`policy_receipt is not canonically encoded: ${error.message}`)
+    return
+  }
+
+  const logicalIds = new Set()
+  for (const body of inputBodies) {
+    const logicalId = `${body.applicability}:${body.source_value.toString('base64')}`
+    if (logicalIds.has(logicalId)) errors.push(`duplicate policy_receipt source/applicability ${logicalId}`)
+    logicalIds.add(logicalId)
+  }
+  for (let index = 0; index < inputBodies.length; index += 1) {
+    const input = encodeRecords(PROFILES.policy, [inputBodies[index]])
+    const sorted = encodeRecords(PROFILES.policy, [sortedBodies[index]])
+    if (Buffer.compare(input, sorted) !== 0) {
+      errors.push('policy_receipt records are not in canonical authority/source order')
+      break
+    }
+  }
+  if (target.policy_receipt_sha256 !== hashPolicyReceipt(records)) {
+    errors.push('target_receipt.policy_receipt_sha256 does not match policy_receipt')
+  }
+}
+
 function requireTargetFields(target, fields, mode, errors) {
   for (const field of fields) {
     if (target[field] === null) errors.push(`target_receipt.${field} is required for ${mode} mode`)
@@ -390,6 +483,9 @@ function validateTargetMode(target, errors) {
     forbidTargetFields(target, ['merge_base', 'range_style', 'paths_layer', ...workspaceFields, 'supplied_patch_sha256'], 'commit', errors)
     if (target.comparison_parent === 'root') {
       if (target.base_commit !== null) errors.push('root commit comparison must have a null base_commit')
+      if (target.git_object_format !== null && target.base_tree !== EMPTY_TREE[target.git_object_format]) {
+        errors.push(`root commit base_tree must equal the canonical ${target.git_object_format} empty tree`)
+      }
     } else if (target.base_commit !== target.comparison_parent) {
       errors.push('commit base_commit must equal the resolved comparison_parent')
     } else if (target.head_commit === target.comparison_parent) {
@@ -413,6 +509,9 @@ function validateTargetMode(target, errors) {
   } else if (target.mode === 'patch') {
     requireTargetFields(target, ['supplied_patch_sha256'], 'patch', errors)
     forbidTargetFields(target, [...comparisonFields, ...workspaceFields], 'patch', errors)
+    if (target.review_diff_sha256 !== target.supplied_patch_sha256) {
+      errors.push('patch review_diff_sha256 must equal supplied_patch_sha256')
+    }
   }
 }
 
@@ -425,6 +524,14 @@ function conflictPathKey(record) {
   const selected = record.new_path || record.old_path
   if (!selected) return null
   return losslessPathBytes(selected).toString('base64')
+}
+
+function gitModeType(mode) {
+  if (mode === null) return null
+  if (mode === '100644' || mode === '100755') return 'regular'
+  if (mode === '120000') return 'symlink'
+  if (mode === '160000') return 'submodule'
+  return 'invalid'
 }
 
 function validatePathTargetBinding(target, record, errors) {
@@ -469,9 +576,14 @@ function validateStatusShape(record, errors) {
   if (record.status === 'R' && (!oldPresent || !newPresent || samePath)) {
     errors.push(`${label} status R requires distinct old and new paths`)
   }
+  const oldType = gitModeType(record.old_mode)
+  const newType = gitModeType(record.new_mode)
   if (record.status === 'T' && (!oldPresent || !newPresent || !samePath ||
-      record.old_mode === null || record.new_mode === null || record.old_mode === record.new_mode)) {
-    errors.push(`${label} status T requires matching paths and distinct old/new modes`)
+      oldType === null || newType === null || oldType === newType)) {
+    errors.push(`${label} status T requires matching paths and a real Git object-type change`)
+  }
+  if (record.status !== 'T' && oldPresent && newPresent && oldType !== null && newType !== null && oldType !== newType) {
+    errors.push(`${label} changes Git object type but does not use status T`)
   }
   if (record.status === 'U') {
     if (record.layer === 'index') {
@@ -488,6 +600,40 @@ function validateStatusShape(record, errors) {
   }
 }
 
+function validateGitIdentity(record, errors) {
+  const label = `path ${record.path_record_id}`
+  const oldPresent = record.old_path !== null
+  const newPresent = record.new_path !== null
+  const selectedMode = newPresent ? record.new_mode : record.old_mode
+  const selectedType = gitModeType(selectedMode)
+  const expectedKinds = {
+    regular: ['file', 'binary', 'generated', 'vendored'],
+    symlink: ['symlink'],
+    submodule: ['submodule'],
+  }
+
+  if (selectedType !== null && selectedType !== 'invalid' && !expectedKinds[selectedType].includes(record.record_kind)) {
+    errors.push(`${label} record_kind ${record.record_kind} does not match selected-side mode ${selectedMode}`)
+  }
+  if (['head', 'index'].includes(record.layer)) {
+    for (const side of ['old', 'new']) {
+      if (record[`${side}_path`] !== null &&
+          (record[`${side}_mode`] === null || record[`${side}_object_id`] === null)) {
+        errors.push(`${label} ${record.layer} ${side} side requires mode and object identity`)
+      }
+    }
+  }
+  if (record.layer === 'worktree') {
+    for (const side of ['old', 'new']) {
+      if (record[`${side}_path`] !== null && record[`${side}_mode`] === null) {
+        errors.push(`${label} worktree ${side} side requires an exact mode`)
+      }
+    }
+    if (oldPresent && record.old_object_id === null) errors.push(`${label} worktree old side requires its index object identity`)
+    if (newPresent && record.new_object_id !== null) errors.push(`${label} worktree new side must not claim an unverified Git object identity`)
+  }
+}
+
 function validateClassificationEvidence(target, record, errors) {
   const evidence = record.classification_evidence
   const label = `metadata-reviewed path ${record.path_record_id}`
@@ -501,19 +647,25 @@ function validateClassificationEvidence(target, record, errors) {
   }
   if (evidence.classified_as !== record.record_kind) errors.push(`${label} classification does not match record_kind`)
   const eligibleByMethod = {
-    'git-attributes': ['binary', 'generated', 'vendored'],
-    'blob-inspection': ['binary', 'symlink', 'submodule'],
-    'trusted-policy': ['binary', 'symlink', 'submodule', 'generated', 'vendored'],
+    'blob-inspection': ['binary'],
+    'mode-inspection': ['symlink', 'submodule'],
   }
   if (!eligibleByMethod[evidence.method].includes(evidence.classified_as)) {
     errors.push(`${label} has an ineligible ${evidence.method} classification`)
   }
-  if (evidence.method === 'trusted-policy') {
-    if (evidence.policy_receipt_sha256 !== target.policy_receipt_sha256) {
-      errors.push(`${label} does not bind the accepted policy receipt`)
-    }
-  } else if (evidence.policy_receipt_sha256 !== null) {
-    errors.push(`${label} may bind a policy receipt only for trusted-policy classification`)
+  const presentModes = ['old', 'new']
+    .filter(side => record[`${side}_path`] !== null)
+    .map(side => record[`${side}_mode`])
+  if (presentModes.some(mode => mode === null)) errors.push(`${label} requires an exact mode for every present side`)
+  const modes = presentModes.filter(mode => mode !== null)
+  if (evidence.classified_as === 'binary' && modes.some(mode => gitModeType(mode) !== 'regular')) {
+    errors.push(`${label} binary classification requires regular-file modes`)
+  }
+  if (evidence.classified_as === 'symlink' && modes.some(mode => mode !== '120000')) {
+    errors.push(`${label} symlink classification requires mode 120000 on every present side`)
+  }
+  if (evidence.classified_as === 'submodule' && modes.some(mode => mode !== '160000')) {
+    errors.push(`${label} submodule classification requires mode 160000 on every present side`)
   }
 }
 
@@ -523,6 +675,7 @@ function validateReportSemantics(report) {
   const paths = target.paths
   const pathById = new Map()
   const unresolvedByPath = new Map()
+  const logicalPaths = new Map()
 
   validateCanonicalUtf8Tree(report, '$', errors)
   if (errors.length > 0) return errors
@@ -530,15 +683,32 @@ function validateReportSemantics(report) {
   if (target.review_scope_sha256 !== hashReviewScope(report.review_scope)) {
     errors.push('target_receipt.review_scope_sha256 does not match review_scope')
   }
+  validatePolicyReceipt(report.policy_receipt, target, errors)
   validateTargetMode(target, errors)
 
   for (const record of paths) {
-    const computed = hashPathRecord(record)
+    let computed
+    try {
+      computed = hashPathRecord(record)
+    } catch (error) {
+      errors.push(`path ${record.path_record_id} is not canonical: ${error.message}`)
+      continue
+    }
     if (record.path_record_id !== computed) errors.push(`path_record_id does not match canonical record: ${record.path_record_id}`)
     if (pathById.has(record.path_record_id)) errors.push(`duplicate path_record_id ${record.path_record_id}`)
     validatePathTargetBinding(target, record, errors)
     validateStatusShape(record, errors)
+    validateGitIdentity(record, errors)
     validateClassificationEvidence(target, record, errors)
+    for (const side of ['old', 'new']) {
+      if (record[`${side}_path`] === null) continue
+      const key = `${record.layer}:${record.stage ?? '-'}:${losslessPathBytes(record[`${side}_path`]).toString('base64')}`
+      if (logicalPaths.has(key) && logicalPaths.get(key) !== record.path_record_id) {
+        errors.push(`logical path ${key} appears in multiple path records`)
+      } else {
+        logicalPaths.set(key, record.path_record_id)
+      }
+    }
     if (record.hunks_total !== null && record.hunks_reviewed !== null && record.hunks_reviewed > record.hunks_total) {
       errors.push(`path ${record.path_record_id} reviews more hunks than exist`)
     }
@@ -569,7 +739,7 @@ function validateReportSemantics(report) {
       errors.push(`metadata-reviewed path ${record.path_record_id} requires a reason`)
     }
     if (record.disposition === 'metadata-reviewed') {
-      if (!['binary', 'symlink', 'submodule', 'generated', 'vendored'].includes(record.record_kind)) {
+      if (!['binary', 'symlink', 'submodule'].includes(record.record_kind)) {
         errors.push(`metadata-reviewed path ${record.path_record_id} has an ineligible record_kind`)
       }
       if (record.hunks_total !== 0 || record.hunks_reviewed !== 0 ||
@@ -596,7 +766,17 @@ function validateReportSemantics(report) {
     if (group.worktreeCount > 1) errors.push(`unresolved path ${key} has more than one worktree conflict record`)
   }
   const pathIds = new Set(pathById.keys())
-  if (target.path_ledger_sha256 !== hashPathLedger(paths)) errors.push('target_receipt.path_ledger_sha256 does not match paths')
+  try {
+    if (target.path_ledger_sha256 !== hashPathLedger(paths)) errors.push('target_receipt.path_ledger_sha256 does not match paths')
+  } catch (error) {
+    errors.push(`target_receipt path ledger is not canonical: ${error.message}`)
+  }
+  if (paths.length === 0 && target.review_diff_sha256 !== EMPTY_SHA256) {
+    errors.push('an empty path ledger requires the canonical empty review_diff_sha256')
+  }
+  if (paths.length > 0 && target.review_diff_sha256 === EMPTY_SHA256) {
+    errors.push('a non-empty path ledger cannot use the canonical empty review_diff_sha256')
+  }
   if (target.receipt_sha256 !== hashTargetReceipt(target)) errors.push('target_receipt.receipt_sha256 does not match canonical receipt')
 
   const objectLength = target.git_object_format === 'sha1' ? 40 : target.git_object_format === 'sha256' ? 64 : null
@@ -648,8 +828,8 @@ function validateReportSemantics(report) {
     if (count !== 1) errors.push(`path ${id} must belong to exactly one primary coverage bundle`)
   }
   if (coverage.complete) {
-    if (coverage.unreadable !== 0 || coverage.skipped_with_reason !== 0) {
-      errors.push('complete coverage cannot include unreadable or skipped paths')
+    if (coverage.metadata_reviewed !== 0 || coverage.unreadable !== 0 || coverage.skipped_with_reason !== 0) {
+      errors.push('complete coverage cannot include metadata-only, unreadable, or skipped paths')
     }
     if (unresolvedByPath.size > 0) errors.push('complete coverage cannot include unresolved status U paths')
     for (const record of paths) {
@@ -710,6 +890,11 @@ function validateReportSemantics(report) {
     }
     if (finding.evidence_revision !== hashEvidenceRevision(finding)) {
       errors.push(`finding ${finding.id} evidence_revision does not match anchored evidence`)
+    }
+    const requiresIndependentRefutation = ['critical', 'high'].includes(finding.severity) ||
+      (report.review_scope.depth === 'deep' && finding.severity === 'medium')
+    if (requiresIndependentRefutation && finding.refutation.independence !== 'separate_agent') {
+      errors.push(`finding ${finding.id} requires separate-agent refutation at this severity/depth`)
     }
   }
 
@@ -779,9 +964,34 @@ function validateReportSemantics(report) {
         candidate.verdict_effect === 'none') {
       errors.push(`material unverified candidate ${candidate.id} must prevent PASS`)
     }
+    const requiresIndependentRefutation = ['critical', 'high'].includes(candidate.severity) ||
+      (report.review_scope.depth === 'deep' && candidate.severity === 'medium')
+    if (candidate.candidate_state === 'unverified' && requiresIndependentRefutation) {
+      const pathId = candidate.location?.path_record_id ?? null
+      const hasLimit = report.limits.some(limit => {
+        if (limit.category !== 'independent-refutation' || limit.verdict_effect !== 'prevents_pass') return false
+        return pathId === null ? limit.affected_path_record_ids.length === 0 : limit.affected_path_record_ids.includes(pathId)
+      })
+      if (!hasLimit) errors.push(`candidate ${candidate.id} requires an independent-refutation prevents_pass limit`)
+    }
   }
 
   for (const validation of report.validation) {
+    if (validation.argv.length === 0 || validation.argv.some(argument => typeof argument !== 'string' || argument.length === 0)) {
+      errors.push('validation argv must contain at least one non-empty argument')
+    }
+    if (validation.target_receipt_sha256 !== target.receipt_sha256) {
+      errors.push('validation target_receipt_sha256 does not match target receipt')
+    }
+    if (target.repository_root !== null && validation.cwd !== target.repository_root) {
+      errors.push('repository-backed validation cwd must equal target_receipt.repository_root')
+    }
+    if (target.mode === 'patch' && target.head_state === 'not-applicable' && validation.result !== 'not_run') {
+      errors.push('context-free patch validation cannot claim an executed result')
+    }
+    if (validation.result !== 'not_run' && (validation.stdout_sha256 === null || validation.stderr_sha256 === null)) {
+      errors.push('executed validation must bind stdout and stderr digests')
+    }
     if (validation.result === 'passed' && (validation.exit_code !== 0 || validation.not_run_reason !== null)) {
       errors.push('passed validation must have exit_code 0 and no not_run_reason')
     }
@@ -834,13 +1044,6 @@ function validateReportSemantics(report) {
 
   const confirmedBlockers = report.findings.filter(item => item.disposition === 'blocking')
   const confirmedAdvisories = report.findings.filter(item => item.disposition === 'advisory')
-  const materialAdvisories = confirmedAdvisories.filter(item => {
-    const normalize = value => value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
-    const classes = [item.category, item.root_cause_class, item.impact_class].map(normalize)
-    const securityClass = /(^|-)(security|authentication|authorization|credential|secret|crypto|injection|access-control|tenant-isolation|privacy)(-|$)/
-    return ['critical', 'high'].includes(item.severity) ||
-      classes.some(value => securityClass.test(value) || value.includes('data-loss'))
-  })
   const externalEffects = [...report.candidate_audit, ...report.validation, ...report.limits]
   const preventsPass = report.findings.length > 0 || externalEffects.some(item => item.verdict_effect !== 'none')
   const hasBlockingLimit = externalEffects.some(item => item.verdict_effect === 'blocking')
@@ -850,11 +1053,13 @@ function validateReportSemantics(report) {
   if (report.verdict === 'PASS' && (!coverage.complete || !readback.matches_initial || preventsPass)) {
     errors.push('PASS requires complete coverage, a stable target, and no confirmed findings or external verdict effects')
   }
-  if (report.verdict === 'PASS_WITH_ADVISORIES' &&
+  if (report.verdict === 'ADVISORIES' &&
       (!coverage.complete || !readback.matches_initial || confirmedAdvisories.length === 0 ||
-       confirmedBlockers.length > 0 || materialAdvisories.length > 0 ||
-       externalEffects.some(item => item.verdict_effect !== 'none'))) {
-    errors.push('PASS_WITH_ADVISORIES requires complete coverage, a stable target, only portable low/medium non-security non-data-loss advisories, and no external verdict effects')
+       confirmedBlockers.length > 0 || externalEffects.some(item => item.verdict_effect !== 'none'))) {
+    errors.push('ADVISORIES requires complete content coverage, a stable target, advisory findings only, and no unresolved external verdict effects')
+  }
+  if (target.mode === 'patch' && target.head_state === 'not-applicable' && ['PASS', 'ADVISORIES'].includes(report.verdict)) {
+    errors.push('a context-free patch cannot yield PASS or ADVISORIES')
   }
   if (report.verdict === 'CHANGES_REQUESTED' && confirmedBlockers.length === 0) {
     errors.push('CHANGES_REQUESTED requires a confirmed blocking finding')
@@ -945,6 +1150,7 @@ module.exports = {
   hashFindingFingerprint,
   hashPathLedger,
   hashPathRecord,
+  hashPolicyReceipt,
   hashReviewScope,
   hashTargetReceipt,
   sha256,
