@@ -3,6 +3,8 @@ name: Skill Contract Test (Gate 3 prerequisite — no runtime sandbox)
 on:
   pull_request:
     paths:
+      - 'README.md'
+      - 'CONTRIBUTING.md'
       - 'skills/**/*.SKILL.md'
       - 'scripts/generate-marketplace.js'
       - 'scripts/open-code-review-contract.js'
@@ -10,6 +12,7 @@ on:
       - 'scripts/test-skill-adaptations.js'
       - 'scripts/static-skill-eval.js'
       - 'scripts/test-static-skill-eval.js'
+      - 'scripts/test-skills-catalog.js'
       - 'scripts/validate-skill.js'
       - 'scripts/skill-format.js'
       - 'evals/static-routing/**/*.eval.json'
@@ -19,11 +22,13 @@ on:
       - 'spec/open-code-review-report.schema.json'
       - 'spec/static-skill-eval.schema.json'
       - 'spec/skill-security-patterns.json'
-      - 'docs/static-skill-evaluations.md'
+      - 'docs/**/*.md'
       - '.github/workflows/skill-sandbox-test.yml'
   push:
     branches: [main]
     paths:
+      - 'README.md'
+      - 'CONTRIBUTING.md'
       - 'skills/**/*.SKILL.md'
       - 'scripts/generate-marketplace.js'
       - 'scripts/open-code-review-contract.js'
@@ -31,6 +36,7 @@ on:
       - 'scripts/test-skill-adaptations.js'
       - 'scripts/static-skill-eval.js'
       - 'scripts/test-static-skill-eval.js'
+      - 'scripts/test-skills-catalog.js'
       - 'scripts/validate-skill.js'
       - 'scripts/skill-format.js'
       - 'evals/static-routing/**/*.eval.json'
@@ -40,7 +46,7 @@ on:
       - 'spec/open-code-review-report.schema.json'
       - 'spec/static-skill-eval.schema.json'
       - 'spec/skill-security-patterns.json'
-      - 'docs/static-skill-evaluations.md'
+      - 'docs/**/*.md'
       - '.github/workflows/skill-sandbox-test.yml'
 
 permissions:

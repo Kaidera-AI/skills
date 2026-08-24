@@ -1,8 +1,12 @@
 # Kaidera Skills Marketplace
 
-**Open-source skills for AI agents — build, share, and collaborate.**
+**Reusable, provenance-aware skill source candidates for AI agents.**
 
 Kaidera Skills Marketplace is a community-driven catalogue of reusable skills for the [Kaidera Platform](https://kaidera.ai). Skills are modular instruction sets that teach agents new abilities—from code review to infrastructure deployment. Catalogue presence is not vetting approval; inspect each skill's trust and gate status.
+
+**Start here:** [Kaidera Skills Catalogue and Operating Guide](docs/KAIDERA-SKILLS-CATALOG.md)
+is the canonical human guide to all carried skills, their functions, routing,
+authority boundaries, operating posture, overlaps, provenance, and known debt.
 
 ---
 
@@ -11,7 +15,7 @@ Kaidera Skills Marketplace is a community-driven catalogue of reusable skills fo
 A **skill** in this repository is one `*.SKILL.md` instruction document with
 strict YAML frontmatter. It defines:
 
-- **What** the agent can do (description, capabilities)
+- **What** the skill is intended to guide and which capabilities it requests
 - **How** it does it (instructions and declared tool bindings)
 - **When** it activates (workflow phases, triggers)
 - **Who** created it (attribution, license)
@@ -30,7 +34,11 @@ the Markdown—owns and constrains that tool.
 | `security/` | Auditing, scanning, incident response | 5 |
 | `research/` | Research briefs and evidence planning | 1 |
 
-## How It Works
+## Target Lifecycle and Implemented Source Checks
+
+This repository implements source contribution plus bounded schema and pattern
+checks. Platform review, runtime sandboxing, signing, trust promotion, and agent
+binding are target/external stages and remain held unless separately evidenced.
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -47,7 +55,11 @@ the Markdown—owns and constrains that tool.
 └─────────────────────────────────────────────────────────────┘
 ```
 
-### For Platform Users
+### Target Platform Workflow (not verified by this repository)
+
+The intended Kaidera Platform workflow is listed below. This skills repository
+does not prove the live importer, admin UI, approval, or Workbench behaviour;
+verify those against the exact platform source and runtime before relying on it.
 
 1. Open the **Skills Management** page in the Kaidera admin panel
 2. Click **Add Skills** and enter this repo URL (or any public GitHub repo with skills)
@@ -55,9 +67,11 @@ the Markdown—owns and constrains that tool.
 4. Review vetting reports, edit if needed, then **Approve** or **Reject**
 5. Approved skills appear in the **Workbench** for agents to use
 
-### For External Repos
+### Target External Repository Import (not verified by this repository)
 
-You can sync skills from **any public GitHub repository** — not just this one. For example:
+The platform is intended to sync skills from public GitHub repositories, not
+just this one. The repository alone does not establish that importer contract.
+For example:
 
 ```
 https://github.com/coreyhaines31/marketingskills
@@ -159,12 +173,16 @@ The repository root is licensed under [CC-BY-4.0](LICENSE) (Creative Commons
 Attribution 4.0 International). Some skill manifests declare another licence;
 see the unresolved precedence note above before external redistribution.
 
-You are free to:
+For material it governs, CC-BY-4.0 grants permission to:
 - **Share** — copy and redistribute skills in any format
 - **Adapt** — remix, transform, and build upon skills for any purpose
 
 Under the following terms:
 - **Attribution** — You must give appropriate credit to the original author
+
+Kaidera repository policy nevertheless holds external redistribution of this
+source candidate until the root/per-skill licence and donor-provenance
+precedence is ratified. The licence grant is not a release or trust approval.
 
 ---
 
