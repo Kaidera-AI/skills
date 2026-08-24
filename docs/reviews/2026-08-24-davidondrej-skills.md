@@ -164,6 +164,45 @@ an import queue. None was accepted by this review; each candidate still needs
 an exact-commit, per-skill licence, capability, routing, dependency, and
 adversarial execution review.
 
+## Recommended acquisition sequence
+
+1. Keep `assumption-validation` and `research-brief` as the only first-wave
+   source candidates. Their bounded, no-network/no-write contracts close useful
+   gaps without importing a second orchestration plane.
+2. Add deterministic routing, collision, abstention, and capability-ceiling
+   fixtures as repository QA. Label that output `STATIC_CONTRACT_ONLY`; literal
+   fixture success is not model behaviour, runtime isolation, or trust proof.
+3. Rebuild one later `systematic-diagnosis` skill from the common MIT ideas in
+   Matt Pocock and Obra only after the first-wave routing results are reviewed.
+   Keep it focused on evidence-first debugging and do not duplicate the
+   whole-codebase audit or code-review routes.
+4. Keep Trail of Bits' requirement-to-implementation ledgers, variant analysis,
+   and property-testing patterns as research donors until the CC-BY-SA-4.0
+   distribution and derivative-work boundary is explicitly resolved.
+5. Do not add another skill creator, agent scheduler, handoff framework, or
+   command denylist. Fold useful lifecycle and evaluation lessons into the
+   existing repository gates and Cortex authority instead.
+
+## Existing catalogue capability backlog
+
+The acquisition gate cannot be limited to the two new files. Existing
+catalogue entries still demonstrate that manifest capabilities are not an
+enforced description of their bodies:
+
+- `performance-profiling` declares `risk_level: low` and no capabilities while
+  showing bearer-token `curl`, live `kubectl` operations, interactive exec, and
+  production-style profiling commands.
+- `dependency-audit` declares `risk_level: low` and no capabilities while
+  invoking registry-backed scanners, package-manager installs, `npx`, and
+  report-file writes.
+
+Those are examples, not a complete audit. Before any catalogue-wide runtime
+binding, Kai should require a full body-to-capability reconciliation, split
+instruction-only references from executable skills, and either narrow or
+remove commands that exceed each declared boundary. The static fixture layer
+can detect selected explicit examples, but only a separately qualified runtime
+sandbox can enforce filesystem, process, credential, and network limits.
+
 For code-review capability specifically, keep Alibaba OpenCodeReview as an
 architectural donor and compare it with PR-Agent, reviewdog, Danger JS, Google
 Tricorder, Semgrep, and Vercel OpenReview. The Kaidera skill's differentiator is
