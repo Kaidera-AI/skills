@@ -229,6 +229,33 @@ function losslessSourceBytes(sourceValue) {
   return bytes
 }
 
+function canonicalAbsoluteRoot(value, label = 'absolute path') {
+  canonicalUtf8Bytes(value, label)
+  if (value.includes('\0')) throw new TypeError(`${label} must be NUL-free`)
+  if (value.includes('\\')) throw new TypeError(`${label} must use canonical forward slashes`)
+  let remainder
+  if (value.startsWith('/')) {
+    if (value.startsWith('//')) throw new TypeError(`${label} must not use an unsupported UNC form`)
+    remainder = value.slice(1)
+  } else if (/^[A-Z]:\//.test(value)) {
+    remainder = value.slice(3)
+  } else {
+    throw new TypeError(`${label} must be an absolute POSIX or uppercase-drive path`)
+  }
+  if (remainder !== '') {
+    const components = remainder.split('/')
+    if (components.some(component => component === '' || component === '.' || component === '..')) {
+      throw new TypeError(`${label} must not contain empty, dot, or parent components`)
+    }
+  }
+  return value
+}
+
+function canonicalLocationDisplay(pathValue) {
+  if (pathValue.encoding === 'utf8') return pathValue.value
+  return `base64:${pathValue.value}`
+}
+
 function flattenPathRecord(record) {
   const classification = record.classification_evidence
   return {
@@ -286,6 +313,26 @@ function sortedPathBodies(records) {
 
 function hashPathLedger(records) {
   return sha256(encodeRecords(PROFILES.path, sortedPathBodies(records)))
+}
+
+function validateCanonicalPathOrder(records, errors) {
+  let inputBodies
+  let sortedBodies
+  try {
+    inputBodies = records.map(flattenPathRecord)
+    sortedBodies = sortedPathBodies(records)
+  } catch (error) {
+    errors.push(`target_receipt path order is not canonical: ${error.message}`)
+    return
+  }
+  for (let index = 0; index < inputBodies.length; index += 1) {
+    const input = encodeRecords(PROFILES.path, [inputBodies[index]])
+    const sorted = encodeRecords(PROFILES.path, [sortedBodies[index]])
+    if (Buffer.compare(input, sorted) !== 0) {
+      errors.push('target_receipt.paths records are not in canonical path/layer/stage order')
+      return
+    }
+  }
 }
 
 function flattenPolicyRecord(record) {
@@ -408,6 +455,9 @@ function validatePolicyReceipt(records, target, errors) {
   }
 
   const logicalIds = new Set()
+  if (!records.some(record => record.classification === 'accepted-policy')) {
+    errors.push('policy_receipt requires at least one accepted-policy record')
+  }
   for (const body of inputBodies) {
     const logicalId = `${body.applicability}:${body.source_value.toString('base64')}`
     if (logicalIds.has(logicalId)) errors.push(`duplicate policy_receipt source/applicability ${logicalId}`)
@@ -440,6 +490,14 @@ function forbidTargetFields(target, fields, mode, errors) {
 
 function validateTargetMode(target, errors) {
   requireTargetFields(target, ['review_diff_sha256', 'path_ledger_sha256', 'policy_receipt_sha256', 'receipt_sha256'], 'machine output', errors)
+
+  if (target.repository_root !== null) {
+    try {
+      canonicalAbsoluteRoot(target.repository_root, 'target_receipt.repository_root')
+    } catch (error) {
+      errors.push(error.message)
+    }
+  }
 
   const repositoryFields = ['repository_root', 'git_object_format', 'git_version']
   const workspaceFields = [
@@ -478,6 +536,9 @@ function validateTargetMode(target, errors) {
   } else if (target.mode === 'staged') {
     requireTargetFields(target, workspaceFields, 'staged', errors)
     forbidTargetFields(target, [...comparisonFields, 'supplied_patch_sha256'], 'staged', errors)
+    if (target.review_diff_sha256 !== target.staged_diff_sha256) {
+      errors.push('staged review_diff_sha256 must equal staged_diff_sha256')
+    }
   } else if (target.mode === 'commit') {
     requireTargetFields(target, ['comparison_parent', 'base_tree'], 'commit', errors)
     forbidTargetFields(target, ['merge_base', 'range_style', 'paths_layer', ...workspaceFields, 'supplied_patch_sha256'], 'commit', errors)
@@ -572,6 +633,13 @@ function validateStatusShape(record, errors) {
   if (record.status === 'D' && (!oldPresent || newPresent)) errors.push(`${label} status D requires only an old side`)
   if (record.status === 'M' && (!oldPresent || !newPresent || !samePath)) {
     errors.push(`${label} status M requires matching old and new paths`)
+  }
+  const comparableObjectIds = record.old_object_id !== null && record.new_object_id !== null
+  if (record.status === 'M' && oldPresent && newPresent && samePath &&
+      record.old_mode === record.new_mode && record.old_content_sha256 !== null &&
+      record.old_content_sha256 === record.new_content_sha256 &&
+      (!comparableObjectIds || record.old_object_id === record.new_object_id)) {
+    errors.push(`${label} status M must represent a content, mode, or object-identity change`)
   }
   if (record.status === 'R' && (!oldPresent || !newPresent || samePath)) {
     errors.push(`${label} status R requires distinct old and new paths`)
@@ -669,22 +737,16 @@ function validateClassificationEvidence(target, record, errors) {
   }
 }
 
-function validateReportSemantics(report) {
-  const errors = []
-  const target = report.target_receipt
+function validateTargetSnapshot(target, policyReceipt, errors) {
   const paths = target.paths
   const pathById = new Map()
   const unresolvedByPath = new Map()
   const logicalPaths = new Map()
+  const resolvedIndexPaths = new Set()
 
-  validateCanonicalUtf8Tree(report, '$', errors)
-  if (errors.length > 0) return errors
-
-  if (target.review_scope_sha256 !== hashReviewScope(report.review_scope)) {
-    errors.push('target_receipt.review_scope_sha256 does not match review_scope')
-  }
-  validatePolicyReceipt(report.policy_receipt, target, errors)
+  validatePolicyReceipt(policyReceipt, target, errors)
   validateTargetMode(target, errors)
+  validateCanonicalPathOrder(paths, errors)
 
   for (const record of paths) {
     let computed
@@ -702,12 +764,14 @@ function validateReportSemantics(report) {
     validateClassificationEvidence(target, record, errors)
     for (const side of ['old', 'new']) {
       if (record[`${side}_path`] === null) continue
-      const key = `${record.layer}:${record.stage ?? '-'}:${losslessPathBytes(record[`${side}_path`]).toString('base64')}`
+      const rawPathKey = losslessPathBytes(record[`${side}_path`]).toString('base64')
+      const key = `${record.layer}:${record.stage ?? '-'}:${rawPathKey}`
       if (logicalPaths.has(key) && logicalPaths.get(key) !== record.path_record_id) {
         errors.push(`logical path ${key} appears in multiple path records`)
       } else {
         logicalPaths.set(key, record.path_record_id)
       }
+      if (record.layer === 'index' && record.status !== 'U') resolvedIndexPaths.add(rawPathKey)
     }
     if (record.hunks_total !== null && record.hunks_reviewed !== null && record.hunks_reviewed > record.hunks_total) {
       errors.push(`path ${record.path_record_id} reviews more hunks than exist`)
@@ -762,8 +826,9 @@ function validateReportSemantics(report) {
     pathById.set(record.path_record_id, record)
   }
   for (const [key, group] of unresolvedByPath) {
-    if (group.indexCount < 2) errors.push(`unresolved path ${key} requires at least two distinct index stages`)
+    if (group.indexCount < 1 || group.indexCount > 3) errors.push(`unresolved path ${key} requires one to three distinct index stages`)
     if (group.worktreeCount > 1) errors.push(`unresolved path ${key} has more than one worktree conflict record`)
+    if (resolvedIndexPaths.has(key)) errors.push(`unresolved path ${key} cannot coexist with a resolved stage-0 index record`)
   }
   const pathIds = new Set(pathById.keys())
   try {
@@ -792,6 +857,26 @@ function validateReportSemantics(report) {
       if (record[key] !== null && (objectLength === null || record[key].length !== objectLength)) errors.push(`${key} width does not match git_object_format`)
     }
   }
+
+  return { paths, pathById, pathIds, unresolvedByPath }
+}
+
+function validateReportSemantics(report) {
+  const errors = []
+  const target = report.target_receipt
+
+  validateCanonicalUtf8Tree(report, '$', errors)
+  if (errors.length > 0) return errors
+
+  if (target.review_scope_sha256 !== hashReviewScope(report.review_scope)) {
+    errors.push('target_receipt.review_scope_sha256 does not match review_scope')
+  }
+  const { paths, pathById, pathIds, unresolvedByPath } = validateTargetSnapshot(
+    target,
+    report.policy_receipt,
+    errors,
+  )
+  const objectLength = target.git_object_format === 'sha1' ? 40 : target.git_object_format === 'sha256' ? 64 : null
 
   const coverage = report.coverage
   const dispositions = {
@@ -839,6 +924,17 @@ function validateReportSemantics(report) {
            record.hunks_total !== record.hunks_reviewed || record.bytes_total !== record.bytes_reviewed)) {
         errors.push(`complete coverage does not fully account for reviewed path ${record.path_record_id}`)
       }
+      const selectedMode = record.new_path !== null ? record.new_mode : record.old_mode
+      const contentChanged = record.old_path === null
+        ? record.new_content_sha256 !== null && record.new_content_sha256 !== EMPTY_SHA256
+        : record.new_path === null
+          ? record.old_content_sha256 !== null && record.old_content_sha256 !== EMPTY_SHA256
+          : record.old_content_sha256 !== null && record.new_content_sha256 !== null &&
+            record.old_content_sha256 !== record.new_content_sha256
+      if (record.disposition === 'reviewed' && contentChanged && gitModeType(selectedMode) === 'regular' &&
+          record.record_kind !== 'binary' && (record.hunks_total === 0 || record.bytes_total === 0)) {
+        errors.push(`content-changed regular text path ${record.path_record_id} requires nonzero hunk and byte coverage`)
+      }
     }
   }
 
@@ -860,7 +956,7 @@ function validateReportSemantics(report) {
       errors.push(`finding ${finding.id} target side does not exist in its path record`)
       continue
     }
-    if (selected.encoding === 'utf8' && selected.value !== finding.location.path) {
+    if (canonicalLocationDisplay(selected) !== finding.location.path) {
       errors.push(`finding ${finding.id} display path does not match its path record`)
     }
     if (finding.fingerprint !== hashFindingFingerprint(finding, record)) {
@@ -913,6 +1009,14 @@ function validateReportSemantics(report) {
     if (candidate.location && record && record.layer !== candidate.location.layer) {
       errors.push(`candidate ${candidate.id} layer does not match its path record`)
     }
+    if (candidate.location && record) {
+      const selected = findingPath(candidate, record)
+      if (!selected) {
+        errors.push(`candidate ${candidate.id} target side does not exist in its path record`)
+      } else if (canonicalLocationDisplay(selected) !== candidate.location.path) {
+        errors.push(`candidate ${candidate.id} display path does not match its path record`)
+      }
+    }
     if (candidate.fingerprint_status === 'verified') {
       if (!record) {
         errors.push(`candidate ${candidate.id} cannot verify its fingerprint without a path record`)
@@ -921,9 +1025,6 @@ function validateReportSemantics(report) {
         if (!selected) {
           errors.push(`candidate ${candidate.id} target side does not exist in its path record`)
         } else {
-          if (selected.encoding === 'utf8' && selected.value !== candidate.location.path) {
-            errors.push(`candidate ${candidate.id} display path does not match its path record`)
-          }
           if (candidate.location.content_sha256 !== null &&
               candidate.location.content_sha256 !== findingContentSha256(candidate, record)) {
             errors.push(`candidate ${candidate.id} content digest does not match its path record`)
@@ -966,19 +1067,57 @@ function validateReportSemantics(report) {
     }
     const requiresIndependentRefutation = ['critical', 'high'].includes(candidate.severity) ||
       (report.review_scope.depth === 'deep' && candidate.severity === 'medium')
+    const expectedRefutationResult = {
+      refuted: 'refuted',
+      unverified: 'inconclusive',
+      pre_existing: 'not_applicable',
+      resolved: 'not_applicable',
+      stale: 'not_applicable',
+      suppressed: 'not_applicable',
+    }[candidate.candidate_state]
+    if (candidate.refutation.result !== expectedRefutationResult) {
+      errors.push(`candidate ${candidate.id} refutation result does not match candidate_state`)
+    }
+    if (candidate.refutation.result === 'refuted' && candidate.refutation.independence === 'not_performed') {
+      errors.push(`candidate ${candidate.id} cannot claim refutation when no refutation was performed`)
+    }
+    if (candidate.refutation.result === 'not_applicable' && candidate.refutation.independence !== 'not_performed') {
+      errors.push(`candidate ${candidate.id} not_applicable refutation must be not_performed`)
+    }
+    if (candidate.refutation.independence === 'separate_agent' && candidate.refutation.agent_receipt_sha256 === null) {
+      errors.push(`candidate ${candidate.id} separate-agent refutation requires an agent receipt`)
+    }
+    if (candidate.refutation.independence !== 'separate_agent' && candidate.refutation.agent_receipt_sha256 !== null) {
+      errors.push(`candidate ${candidate.id} non-independent refutation cannot claim a separate-agent receipt`)
+    }
+    if (candidate.candidate_state === 'refuted' && requiresIndependentRefutation &&
+        candidate.refutation.independence !== 'separate_agent') {
+      errors.push(`candidate ${candidate.id} requires separate-agent refutation at this severity/depth`)
+    }
     if (candidate.candidate_state === 'unverified' && requiresIndependentRefutation) {
-      const pathId = candidate.location?.path_record_id ?? null
-      const hasLimit = report.limits.some(limit => {
-        if (limit.category !== 'independent-refutation' || limit.verdict_effect !== 'prevents_pass') return false
-        return pathId === null ? limit.affected_path_record_ids.length === 0 : limit.affected_path_record_ids.includes(pathId)
-      })
-      if (!hasLimit) errors.push(`candidate ${candidate.id} requires an independent-refutation prevents_pass limit`)
+      const matchingLimits = report.limits.filter(limit =>
+        limit.category === 'independent-refutation' &&
+        limit.candidate_id === candidate.id &&
+        limit.verdict_effect === 'prevents_pass')
+      if (matchingLimits.length !== 1) {
+        errors.push(`candidate ${candidate.id} requires exactly one unique independent-refutation prevents_pass limit`)
+      }
     }
   }
 
   for (const validation of report.validation) {
-    if (validation.argv.length === 0 || validation.argv.some(argument => typeof argument !== 'string' || argument.length === 0)) {
-      errors.push('validation argv must contain at least one non-empty argument')
+    if (validation.argv.length === 0 || validation.argv.some(argument =>
+      typeof argument !== 'string' || argument.length === 0 || argument.includes('\0'))) {
+      errors.push('validation argv must contain at least one non-empty NUL-free argument')
+    }
+    try {
+      canonicalAbsoluteRoot(validation.cwd, 'validation cwd')
+    } catch (error) {
+      errors.push(error.message)
+    }
+    if (validation.tool_version !== null &&
+        (typeof validation.tool_version !== 'string' || validation.tool_version.length === 0 || validation.tool_version.includes('\0'))) {
+      errors.push('validation tool_version must be a non-empty NUL-free string or null')
     }
     if (validation.target_receipt_sha256 !== target.receipt_sha256) {
       errors.push('validation target_receipt_sha256 does not match target receipt')
@@ -1017,12 +1156,49 @@ function validateReportSemantics(report) {
   }
 
   const limitIds = new Set()
+  const independentLimitCandidates = new Set()
   for (const limit of report.limits) {
     if (limitIds.has(limit.id)) errors.push(`duplicate limit id ${limit.id}`)
     limitIds.add(limit.id)
+    if (limit.category === 'independent-refutation') {
+      if (limit.candidate_id === null) {
+        errors.push(`independent-refutation limit ${limit.id} requires candidate_id`)
+        continue
+      }
+      if (independentLimitCandidates.has(limit.candidate_id)) {
+        errors.push(`candidate ${limit.candidate_id} has more than one independent-refutation limit`)
+      }
+      independentLimitCandidates.add(limit.candidate_id)
+      const candidate = report.candidate_audit.find(item => item.id === limit.candidate_id)
+      if (!candidate) {
+        errors.push(`independent-refutation limit ${limit.id} references unknown candidate ${limit.candidate_id}`)
+        continue
+      }
+      const requiresIndependentRefutation = ['critical', 'high'].includes(candidate.severity) ||
+        (report.review_scope.depth === 'deep' && candidate.severity === 'medium')
+      if (candidate.candidate_state !== 'unverified' || !requiresIndependentRefutation) {
+        errors.push(`independent-refutation limit ${limit.id} does not bind a material unverified candidate`)
+      }
+      if (limit.verdict_effect !== 'prevents_pass') {
+        errors.push(`independent-refutation limit ${limit.id} must prevent PASS`)
+      }
+      const expectedPathIds = candidate.location ? [candidate.location.path_record_id] : []
+      if (JSON.stringify(limit.affected_path_record_ids) !== JSON.stringify(expectedPathIds)) {
+        errors.push(`independent-refutation limit ${limit.id} must bind exactly its candidate path`)
+      }
+    } else if (limit.candidate_id !== null) {
+      errors.push(`non-refutation limit ${limit.id} must have candidate_id null`)
+    }
   }
 
   const readback = report.final_readback
+  const finalTarget = readback.final_target_receipt
+  validateTargetSnapshot(finalTarget, readback.final_policy_receipt, errors)
+  const boundReviewScopeSha256 = hashReviewScope(report.review_scope)
+  if (finalTarget.review_scope_sha256 !== boundReviewScopeSha256 ||
+      finalTarget.review_scope_sha256 !== target.review_scope_sha256) {
+    errors.push('final_target_receipt.review_scope_sha256 is immutable and must match review_scope')
+  }
   if (new Set(readback.changed_fields).size !== readback.changed_fields.length) {
     errors.push('final_readback.changed_fields must contain unique canonical fields')
   }
@@ -1033,13 +1209,24 @@ function validateReportSemantics(report) {
   if (readback.initial_receipt_sha256 !== target.receipt_sha256) {
     errors.push('final_readback.initial_receipt_sha256 does not match target receipt')
   }
-  if (readback.matches_initial) {
-    if (readback.changed_fields.length !== 0 || readback.final_receipt_sha256 !== readback.initial_receipt_sha256) {
-      errors.push('matching final_readback must have equal hashes and no changed fields')
-    }
-  } else if (readback.changed_fields.length === 0 || readback.final_receipt_sha256 === null ||
-             readback.final_receipt_sha256 === readback.initial_receipt_sha256) {
-    errors.push('drifted final_readback must identify changed fields and a different final hash')
+  if (readback.final_receipt_sha256 !== finalTarget.receipt_sha256) {
+    errors.push('final_readback.final_receipt_sha256 does not match final_target_receipt')
+  }
+  const expectedChangedFields = PROFILES.target
+    .map(([field]) => field)
+    .filter(field => target[field] !== finalTarget[field])
+  if (JSON.stringify(readback.changed_fields) !== JSON.stringify(expectedChangedFields)) {
+    errors.push('final_readback.changed_fields must exactly equal canonical initial/final target differences')
+  }
+  const expectedMatch = expectedChangedFields.length === 0
+  if (readback.matches_initial !== expectedMatch) {
+    errors.push('final_readback.matches_initial does not match the recomputed final target comparison')
+  }
+  if (expectedMatch && readback.final_receipt_sha256 !== readback.initial_receipt_sha256) {
+    errors.push('matching final_readback must have equal initial and final receipt hashes')
+  }
+  if (!expectedMatch && readback.final_receipt_sha256 === readback.initial_receipt_sha256) {
+    errors.push('drifted final_readback must have different initial and final receipt hashes')
   }
 
   const confirmedBlockers = report.findings.filter(item => item.disposition === 'blocking')
