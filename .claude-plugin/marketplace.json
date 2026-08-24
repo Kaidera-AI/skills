@@ -318,7 +318,7 @@
     },
     {
       "name": "open-code-review",
-      "version": "2.0.0",
+      "version": "2.1.0",
       "description": "Diff-first, evidence-gated code review for worktree changes, staged changes,\ncommits, branch ranges, path sets, and supplied PR patches. Builds an exact\nchange receipt, combines deterministic diagnostics with semantic review,\ntraces cross-file impact, independently challenges material findings, and\nreports honest coverage without modifying the repository. Use this for a\nbounded change review; use a whole-codebase audit skill for repository-wide\nhealth or architecture assessment.\n",
       "category": "development",
       "trust_tier": "unvetted",
@@ -405,7 +405,7 @@
         "adversarial-verification",
         "read-only"
       ],
-      "content_hash": "47a9d2aa1f4f2e75dc58e1dc013ac128bb05efacfc8ab96c959341f078445cd3",
+      "content_hash": "9db8cc008733b2449925abf96cf27a9c223b03a8fbc5d683d034344083e1c342",
       "signed_by": "",
       "last_reviewed": "",
       "reviewer": "",

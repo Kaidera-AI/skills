@@ -1,6 +1,6 @@
 ---
 name: open-code-review
-version: 2.0.0
+version: 2.1.0
 description: |
   Diff-first, evidence-gated code review for worktree changes, staged changes,
   commits, branch ranges, path sets, and supplied PR patches. Builds an exact
@@ -149,7 +149,7 @@ described at the end; upstream prompt text does not become a second review polic
 
 ### Digest profiles
 
-Every `open-code-review-*/v1` digest uses one binary record grammar. Start with
+Every canonical digest uses one binary record grammar. Start with
 ASCII `OCR1`, then a four-byte big-endian record count. Each record starts with
 a two-byte field count. Each field is: two-byte ASCII key length, key bytes,
 one-byte type (`0=null`, `1=raw bytes`, `2=UTF-8`, `3=unsigned 64-bit integer`,
@@ -163,8 +163,9 @@ Profiles fix both field and record order:
 
 - review-scope fields are `depth,intent_sha256,focus_sha256`;
 - target fields are `schema_version,mode,repository_root,git_object_format,
-  git_version,receipt_profile,review_scope_sha256,head_commit,head_tree,
-  base_commit,base_tree,merge_base,index_entries_sha256,staged_diff_sha256,
+  git_version,receipt_profile,review_scope_sha256,head_state,head_commit,head_tree,
+  base_commit,base_tree,merge_base,comparison_parent,range_style,paths_layer,
+  index_entries_sha256,staged_diff_sha256,
   unstaged_diff_sha256,status_porcelain_v2_sha256,untracked_inventory_sha256,
   supplied_patch_sha256,review_diff_sha256,path_ledger_sha256,
   policy_receipt_sha256`; encode exactly one record and exclude `paths` plus
@@ -192,7 +193,7 @@ Unicode scalar sequence; reject lone surrogates instead of replacement-encoding
 them. JSON input must be fatal UTF-8 and must reject duplicate object keys.
 
 The bundled producer/verifier is `scripts/open-code-review-contract.js`, SHA-256
-`2e4eb53fc7d0fdb6255887ad1237a35da7e955230850ca026aa6be1b4fce18d2`. Its non-empty review-scope vector for `standard,null,null` has
+`558437882b2208d7ab45b8bec9c1464d9f657a214ce0f6ad3df1e6bde8bfde5b`. Its non-empty review-scope vector for `standard,null,null` has
 SHA-256 `af4f6f29771251b5c8bb722e3f6df9bae7b3ce1c8814152ff4fd9229470d19d9`.
 Use null fields rather than changing a profile. Markdown may report raw receipt
 components and a null derived digest when canonical support is unavailable, but
@@ -240,7 +241,9 @@ NUL-delimited stage entries and object bytes; do not call `git write-tree`.
 
 Resolve the requested ref to a full commit SHA and tree. For a merge commit,
 require `comparison_parent` (a parent number or resolved full parent SHA); do
-not silently choose parent 1. Include add/delete/rename/type/submodule metadata.
+not silently choose parent 1. Resolve the chosen input to a full parent object ID
+in the receipt; use the literal `root` only for a root commit. Include
+add/delete/rename/type/submodule metadata.
 
 ### Range
 
@@ -512,8 +515,11 @@ new evidence; return `INCOMPLETE (target drift)` and identify the changed fields
 
 Verdicts:
 
-- `PASS`: target stable, coverage adequate for the requested depth, and no
-  confirmed blocking findings;
+- `PASS`: target stable, coverage complete, and no confirmed findings or
+  unresolved verdict effects;
+- `PASS_WITH_ADVISORIES`: target stable and coverage complete, with one or more
+  confirmed non-blocking findings called out explicitly and no blocking or
+  unresolved evidence;
 - `CHANGES_REQUESTED`: one or more confirmed findings should block acceptance;
 - `BLOCKED`: the target or mandatory evidence cannot be accessed safely;
 - `INCOMPLETE`: review budget/capability ended before the coverage ledger closed,
@@ -598,24 +604,26 @@ Lead with the verdict and highest-impact confirmed findings. Include:
 7. **Final target readback** — receipt match or drift details.
 
 For `output=json`, emit exactly these top-level keys: `schema_version` (integer
-`1`), `verdict`, `review_scope`, `target_receipt`, `findings`,
+`2`), `verdict`, `review_scope`, `target_receipt`, `findings`,
 `candidate_audit`, `coverage`, `validation`, `limits`, and `final_readback`.
 Arrays may be empty when honestly applicable; receipt objects must be populated
 using the shapes below. The JSON Schema validates structure; the bundled helper
 must additionally validate digest/reference/count/verdict semantics before the
 report is consumed or reused.
 
-The portable v1 verifier is deliberately conservative because a report cannot
-authenticate its own governing policy. `PASS` therefore requires zero confirmed
-findings. A claimed suppression always prevents `PASS`; only a separately trusted
-Gate 4 policy adapter may authorise a non-blocking finding or suppression. Do not
-weaken this by accepting a policy digest supplied only inside the report.
+The portable v2 verifier is deliberately conservative because a report cannot
+authenticate its own governing policy. Bare `PASS` therefore requires zero
+confirmed findings. `PASS_WITH_ADVISORIES` is a distinct, non-clean verdict that
+can represent confirmed advisory findings without silently treating them as a
+clean pass. A claimed suppression always prevents either pass verdict; only a
+separately trusted Gate 4 policy adapter may authorise suppression. Do not weaken
+this by accepting a policy digest supplied only inside the report.
 `CHANGES_REQUESTED` requires at least one confirmed blocking finding; failed
 validation, missing evidence, or an unverified candidate instead produces
 `BLOCKED` or `INCOMPLETE` as appropriate.
 The bundled machine contract is
 `spec/open-code-review-report.schema.json`, SHA-256
-`0fffa00af5c38203f24f0cfcdef79ac8f5f68c0c90785b1309d7f2b8a7fc3685`;
+`d917a52bd0c71df30b4b87467eb696195bb713cd1ce2ed2a14e550c3e53b32cf`;
 when that exact file is unavailable, the schemas in this skill remain
 authoritative and the missing external schema is a reported limitation.
 
@@ -624,18 +632,22 @@ inapplicable fields as `null`, not by changing their meaning:
 
 ```json
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "mode": "range",
   "repository_root": "/absolute/repo",
   "git_object_format": "sha1",
   "git_version": "2.x",
-  "receipt_profile": "open-code-review-target/v1",
+  "receipt_profile": "open-code-review-target/v2",
   "review_scope_sha256": "sha256 of the review_scope profile",
+  "head_state": "present",
   "head_commit": "full object id",
   "head_tree": "full object id",
   "base_commit": "full object id or null",
   "base_tree": "full object id or null",
   "merge_base": "full object id or null",
+  "comparison_parent": null,
+  "range_style": "merge-base",
+  "paths_layer": null,
   "index_entries_sha256": null,
   "staged_diff_sha256": null,
   "unstaged_diff_sha256": null,
@@ -650,9 +662,20 @@ inapplicable fields as `null`, not by changing their meaning:
 }
 ```
 
+Machine output always records `head_state` as `present`, `unborn`, or
+`not-applicable`; object IDs must agree with that state. It also always binds
+`review_diff_sha256`, `path_ledger_sha256`, `policy_receipt_sha256`, and
+`receipt_sha256`. Workspace/staged/commit/range/paths bind `head_commit` and
+`head_tree` when `head_state=present`; patch mode instead requires
+`supplied_patch_sha256`. Commit mode records the resolved `comparison_parent`
+and base tree, range mode records `range_style` plus its required base identity,
+and paths mode records `paths_layer`. Fields belonging to another mode are null.
+An empty diff may have an empty path ledger, but it may not omit these target
+identities or their digest of the exact empty diff.
+
 `review_scope` is exactly `{depth,intent_sha256,focus_sha256}` with depth
 `quick`, `standard`, or `deep`; the optional intent/focus values hash their
-exact UTF-8 bytes. For `open-code-review-target/v1`, encode one record with the
+exact UTF-8 bytes. For `open-code-review-target/v2`, encode one record with the
 scalar fields in the profile order above. Bind the path array through
 `path_ledger_sha256`. A path's lossless
 value uses UTF-8 only when it round-trips exactly; otherwise use base64 over the
@@ -662,8 +685,13 @@ Each path record carries layer (`head`, `index`, or `worktree`), status, old/new
 lossless path object (`encoding` + `value`), old/new mode and object ID, index
 stage when relevant, separate old/new SHA-256 content digests, hunk/byte coverage,
 disposition, reason, and a `path_record_id` digest over that exact record. A
-side digest may be null only when that side is absent or its content was not
-read; a verified finding position requires the exact selected-side digest. Every
+side digest must be present for every present side of a `reviewed` or
+`metadata-reviewed` record. Only an `unreadable` or `skipped-with-reason` record
+may leave a present side unread, and it must state why. Metadata review also
+requires a concrete reason, an exact byte inventory, zero claimed text hunks,
+and a record kind of `binary`, `symlink`, `submodule`, `generated`, or `vendored`;
+an ordinary text `file` cannot be relabelled to avoid content review. A verified finding position requires the exact
+selected-side digest. Every
 finding and bundle references this ID so staged and unstaged bytes at the same
 path cannot be confused. `metadata-reviewed` is adequate for `PASS` only when
 the requested contract does not require unavailable binary/submodule content
@@ -686,7 +714,7 @@ Use these stable shapes for the remaining machine receipt fields:
     "skipped_with_reason": 0,
     "hunks_total": 12,
     "hunks_reviewed": 12,
-    "bundles": [{"id": "producer-consumer", "primary_path_record_ids": [], "supporting_path_record_ids": []}]
+    "bundles": [{"id": "producer-consumer", "primary_path_record_ids": ["sha256 path_record_id"], "supporting_path_record_ids": ["sha256 path_record_id"]}]
   },
   "validation": [{
     "argv": ["tool", "--check"],
@@ -726,7 +754,8 @@ fingerprint. `limits` items are
 `{id,category,description,affected_path_record_ids,verdict_effect,
 required_evidence}`. Put only current confirmed unsuppressed findings in
 `findings`; every other considered or historical item goes in
-`candidate_audit`. Until a trusted Gate 4 adapter exists, a `suppressed` candidate
+`candidate_audit`. Candidate IDs and fingerprints are unique; a confirmed
+fingerprint appears only in `findings`, not again as a candidate. Until a trusted Gate 4 adapter exists, a `suppressed` candidate
 must retain `verdict_effect: prevents_pass`; matching an opaque policy hash is
 binding evidence, not suppression authority.
 

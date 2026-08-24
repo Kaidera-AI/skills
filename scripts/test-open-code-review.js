@@ -59,18 +59,22 @@ const zeroSha = '0'.repeat(64)
 const zeroObject = '0'.repeat(40)
 const reviewScope = { depth: 'standard', intent_sha256: null, focus_sha256: null }
 const targetReceipt = {
-  schema_version: 1,
+  schema_version: 2,
   mode: 'workspace',
   repository_root: '/repo',
   git_object_format: 'sha1',
   git_version: '2.50.0',
-  receipt_profile: 'open-code-review-target/v1',
+  receipt_profile: 'open-code-review-target/v2',
   review_scope_sha256: hashReviewScope(reviewScope),
+  head_state: 'present',
   head_commit: zeroObject,
   head_tree: zeroObject,
   base_commit: null,
   base_tree: null,
   merge_base: null,
+  comparison_parent: null,
+  range_style: null,
+  paths_layer: null,
   index_entries_sha256: zeroSha,
   staged_diff_sha256: zeroSha,
   unstaged_diff_sha256: zeroSha,
@@ -85,7 +89,7 @@ const targetReceipt = {
 }
 targetReceipt.receipt_sha256 = hashTargetReceipt(targetReceipt)
 const validEmptyReport = {
-  schema_version: 1,
+  schema_version: 2,
   verdict: 'PASS',
   review_scope: reviewScope,
   target_receipt: targetReceipt,
@@ -244,9 +248,149 @@ loneSurrogate.new_path.value = '\ud800'
 assert.throws(() => hashPathRecord(loneSurrogate), /does not round-trip canonically/)
 
 const advisoryPass = structuredClone(changeReport)
-advisoryPass.verdict = 'PASS'
+advisoryPass.verdict = 'PASS_WITH_ADVISORIES'
 advisoryPass.findings[0].disposition = 'advisory'
-assert(!validateReport(advisoryPass), 'schema must reject PASS with any confirmed finding')
+assert(validateReport(advisoryPass), ajv.errorsText(validateReport.errors))
+assert.deepEqual(validateReportSemantics(advisoryPass), [])
+advisoryPass.verdict = 'PASS'
+assert(!validateReport(advisoryPass), 'schema must reserve bare PASS for a finding-free report')
+
+assert.throws(
+  () => encodeRecords(PROFILES.finding, [{
+    source: '\ud800', rule_identity: null, path_encoding: 'utf8', path_value: Buffer.from('a'),
+    symbol: null, root_cause_class: 'test', impact_class: 'test', target_side: 'new',
+  }]),
+  /does not round-trip canonically/,
+)
+
+const emptyCommit = structuredClone(validEmptyReport)
+emptyCommit.target_receipt.mode = 'commit'
+emptyCommit.target_receipt.head_commit = null
+emptyCommit.target_receipt.head_tree = null
+emptyCommit.target_receipt.comparison_parent = null
+emptyCommit.target_receipt.base_commit = null
+emptyCommit.target_receipt.base_tree = null
+emptyCommit.target_receipt.index_entries_sha256 = null
+emptyCommit.target_receipt.staged_diff_sha256 = null
+emptyCommit.target_receipt.unstaged_diff_sha256 = null
+emptyCommit.target_receipt.status_porcelain_v2_sha256 = null
+emptyCommit.target_receipt.untracked_inventory_sha256 = null
+emptyCommit.target_receipt.receipt_sha256 = hashTargetReceipt(emptyCommit.target_receipt)
+emptyCommit.final_readback.initial_receipt_sha256 = emptyCommit.target_receipt.receipt_sha256
+emptyCommit.final_readback.final_receipt_sha256 = emptyCommit.target_receipt.receipt_sha256
+assert(validateReport(emptyCommit), ajv.errorsText(validateReport.errors))
+assert(validateReportSemantics(emptyCommit).some(error => error.includes('head_commit is required for commit mode')))
+
+for (const [mode, expected] of [
+  ['workspace', 'head_commit is required for workspace mode'],
+  ['range', 'head_commit is required for range mode'],
+]) {
+  const missingIdentity = structuredClone(validEmptyReport)
+  missingIdentity.target_receipt.mode = mode
+  missingIdentity.target_receipt.head_commit = null
+  missingIdentity.target_receipt.head_tree = null
+  missingIdentity.target_receipt.receipt_sha256 = hashTargetReceipt(missingIdentity.target_receipt)
+  missingIdentity.final_readback.initial_receipt_sha256 = missingIdentity.target_receipt.receipt_sha256
+  missingIdentity.final_readback.final_receipt_sha256 = missingIdentity.target_receipt.receipt_sha256
+  assert(validateReport(missingIdentity), ajv.errorsText(validateReport.errors))
+  assert(validateReportSemantics(missingIdentity).some(error => error.includes(expected)))
+}
+const missingPatch = structuredClone(validEmptyReport)
+missingPatch.target_receipt.mode = 'patch'
+missingPatch.target_receipt.head_state = 'not-applicable'
+missingPatch.target_receipt.head_commit = null
+missingPatch.target_receipt.head_tree = null
+missingPatch.target_receipt.receipt_sha256 = hashTargetReceipt(missingPatch.target_receipt)
+missingPatch.final_readback.initial_receipt_sha256 = missingPatch.target_receipt.receipt_sha256
+missingPatch.final_readback.final_receipt_sha256 = missingPatch.target_receipt.receipt_sha256
+assert(validateReport(missingPatch), ajv.errorsText(validateReport.errors))
+assert(validateReportSemantics(missingPatch).some(error => error.includes('supplied_patch_sha256 is required for patch mode')))
+
+const missingPathsLayer = structuredClone(validEmptyReport)
+missingPathsLayer.target_receipt.mode = 'paths'
+missingPathsLayer.target_receipt.receipt_sha256 = hashTargetReceipt(missingPathsLayer.target_receipt)
+missingPathsLayer.final_readback.initial_receipt_sha256 = missingPathsLayer.target_receipt.receipt_sha256
+missingPathsLayer.final_readback.final_receipt_sha256 = missingPathsLayer.target_receipt.receipt_sha256
+assert(validateReport(missingPathsLayer), ajv.errorsText(validateReport.errors))
+assert(validateReportSemantics(missingPathsLayer).some(error => error.includes('paths_layer is required for paths mode')))
+
+const unbornWorkspace = structuredClone(validEmptyReport)
+unbornWorkspace.target_receipt.head_state = 'unborn'
+unbornWorkspace.target_receipt.head_commit = null
+unbornWorkspace.target_receipt.head_tree = null
+unbornWorkspace.target_receipt.receipt_sha256 = hashTargetReceipt(unbornWorkspace.target_receipt)
+unbornWorkspace.final_readback.initial_receipt_sha256 = unbornWorkspace.target_receipt.receipt_sha256
+unbornWorkspace.final_readback.final_receipt_sha256 = unbornWorkspace.target_receipt.receipt_sha256
+assert(validateReport(unbornWorkspace), ajv.errorsText(validateReport.errors))
+assert.deepEqual(validateReportSemantics(unbornWorkspace), [])
+
+const contextFreePatch = structuredClone(validEmptyReport)
+contextFreePatch.target_receipt.mode = 'patch'
+contextFreePatch.target_receipt.head_state = 'not-applicable'
+contextFreePatch.target_receipt.head_commit = null
+contextFreePatch.target_receipt.head_tree = null
+contextFreePatch.target_receipt.index_entries_sha256 = null
+contextFreePatch.target_receipt.staged_diff_sha256 = null
+contextFreePatch.target_receipt.unstaged_diff_sha256 = null
+contextFreePatch.target_receipt.status_porcelain_v2_sha256 = null
+contextFreePatch.target_receipt.untracked_inventory_sha256 = null
+contextFreePatch.target_receipt.supplied_patch_sha256 = zeroSha
+contextFreePatch.target_receipt.receipt_sha256 = hashTargetReceipt(contextFreePatch.target_receipt)
+contextFreePatch.final_readback.initial_receipt_sha256 = contextFreePatch.target_receipt.receipt_sha256
+contextFreePatch.final_readback.final_receipt_sha256 = contextFreePatch.target_receipt.receipt_sha256
+assert(validateReport(contextFreePatch), ajv.errorsText(validateReport.errors))
+assert.deepEqual(validateReportSemantics(contextFreePatch), [])
+
+const { report: missingContentPass } = reportWithOnePath()
+missingContentPass.target_receipt.paths[0].old_content_sha256 = null
+missingContentPass.target_receipt.paths[0].new_content_sha256 = null
+resealSinglePathReport(missingContentPass)
+assert(validateReport(missingContentPass), ajv.errorsText(validateReport.errors))
+assert(validateReportSemantics(missingContentPass).some(error => error.includes('lacks an old-side content digest')))
+
+const { report: deletedGhostContentPass } = reportWithOnePath()
+deletedGhostContentPass.target_receipt.paths[0].status = 'D'
+deletedGhostContentPass.target_receipt.paths[0].new_path = null
+deletedGhostContentPass.target_receipt.paths[0].new_mode = null
+deletedGhostContentPass.target_receipt.paths[0].new_object_id = null
+resealSinglePathReport(deletedGhostContentPass)
+assert(validateReport(deletedGhostContentPass), ajv.errorsText(validateReport.errors))
+assert(validateReportSemantics(deletedGhostContentPass).some(error => error.includes('new-side metadata without a new path')))
+
+const { report: sidelessPass } = reportWithOnePath()
+const sidelessRecord = sidelessPass.target_receipt.paths[0]
+for (const key of [
+  'old_path', 'new_path', 'old_mode', 'new_mode', 'old_object_id', 'new_object_id',
+  'old_content_sha256', 'new_content_sha256',
+]) sidelessRecord[key] = null
+resealSinglePathReport(sidelessPass)
+assert(validateReport(sidelessPass), ajv.errorsText(validateReport.errors))
+assert(validateReportSemantics(sidelessPass).some(error => error.includes('has no old or new side')))
+
+const { report: unjustifiedMetadataPass } = reportWithOnePath()
+unjustifiedMetadataPass.target_receipt.paths[0].disposition = 'metadata-reviewed'
+unjustifiedMetadataPass.coverage.reviewed = 0
+unjustifiedMetadataPass.coverage.metadata_reviewed = 1
+resealSinglePathReport(unjustifiedMetadataPass)
+assert(validateReport(unjustifiedMetadataPass), ajv.errorsText(validateReport.errors))
+assert(validateReportSemantics(unjustifiedMetadataPass).some(error => error.includes('requires a reason')))
+
+const { report: emptyMetadataEvidencePass } = reportWithOnePath()
+const emptyMetadataRecord = emptyMetadataEvidencePass.target_receipt.paths[0]
+emptyMetadataRecord.record_kind = 'binary'
+emptyMetadataRecord.disposition = 'metadata-reviewed'
+emptyMetadataRecord.reason = 'Binary format reviewed through type and digest metadata.'
+emptyMetadataRecord.hunks_total = 0
+emptyMetadataRecord.hunks_reviewed = 0
+emptyMetadataRecord.bytes_total = null
+emptyMetadataRecord.bytes_reviewed = null
+emptyMetadataEvidencePass.coverage.reviewed = 0
+emptyMetadataEvidencePass.coverage.metadata_reviewed = 1
+emptyMetadataEvidencePass.coverage.hunks_total = 0
+emptyMetadataEvidencePass.coverage.hunks_reviewed = 0
+resealSinglePathReport(emptyMetadataEvidencePass)
+assert(validateReport(emptyMetadataEvidencePass), ajv.errorsText(validateReport.errors))
+assert(validateReportSemantics(emptyMetadataEvidencePass).some(error => error.includes('exact byte inventory')))
 
 const { report: unreadablePass } = reportWithOnePath()
 unreadablePass.target_receipt.paths[0].disposition = 'unreadable'
@@ -274,6 +418,13 @@ const wrongSnippet = structuredClone(changeReport)
 wrongSnippet.findings[0].location.snippet_sha256 = zeroSha
 assert(validateReport(wrongSnippet), ajv.errorsText(validateReport.errors))
 assert(validateReportSemantics(wrongSnippet).some(error => error.includes('snippet digest')))
+
+const surrogateEvidence = structuredClone(changeReport)
+surrogateEvidence.findings[0].location.snippet = '\ud800'
+surrogateEvidence.findings[0].location.snippet_sha256 = sha256(Buffer.from('\ud800', 'utf8'))
+surrogateEvidence.findings[0].evidence_revision = hashEvidenceRevision(surrogateEvidence.findings[0])
+assert(validateReport(surrogateEvidence), ajv.errorsText(validateReport.errors))
+assert(validateReportSemantics(surrogateEvidence).some(error => error.includes('non-canonical UTF-8')))
 
 const wrongEvidenceRevision = structuredClone(changeReport)
 wrongEvidenceRevision.findings[0].evidence_revision = zeroSha
@@ -320,6 +471,10 @@ blockingLimitPass.limits = [{
   affected_path_record_ids: [], verdict_effect: 'blocking', required_evidence: 'Qualified runtime replay',
 }]
 assert(!validateReport(blockingLimitPass), 'schema must reject PASS with a blocking limit')
+const blockedChanges = structuredClone(changeReport)
+blockedChanges.limits = structuredClone(blockingLimitPass.limits)
+assert(validateReport(blockedChanges), ajv.errorsText(validateReport.errors))
+assert(validateReportSemantics(blockedChanges).some(error => error.includes('cannot coexist')))
 const emptyBlocked = structuredClone(validEmptyReport)
 emptyBlocked.verdict = 'BLOCKED'
 assert(validateReport(emptyBlocked), ajv.errorsText(validateReport.errors))
@@ -386,6 +541,20 @@ const candidate = {
 unresolvedPass.candidate_audit = [candidate]
 assert(validateReport(unresolvedPass), ajv.errorsText(validateReport.errors))
 assert(validateReportSemantics(unresolvedPass).some(error => error.includes('must prevent PASS')))
+const duplicateCandidateId = structuredClone(unresolvedPass)
+duplicateCandidateId.candidate_audit.push({
+  ...structuredClone(duplicateCandidateId.candidate_audit[0]),
+  fingerprint: '1'.repeat(64),
+})
+assert(validateReport(duplicateCandidateId), ajv.errorsText(validateReport.errors))
+assert(validateReportSemantics(duplicateCandidateId).some(error => error.includes('duplicate candidate id')))
+const duplicateCandidateFingerprint = structuredClone(unresolvedPass)
+duplicateCandidateFingerprint.candidate_audit.push({
+  ...structuredClone(duplicateCandidateFingerprint.candidate_audit[0]),
+  id: 'CAND-002',
+})
+assert(validateReport(duplicateCandidateFingerprint), ajv.errorsText(validateReport.errors))
+assert(validateReportSemantics(duplicateCandidateFingerprint).some(error => error.includes('duplicate candidate fingerprint')))
 const invalidSuppression = structuredClone(unresolvedPass)
 invalidSuppression.verdict = 'INCOMPLETE'
 invalidSuppression.candidate_audit[0].candidate_state = 'suppressed'
@@ -411,6 +580,13 @@ assert(validateReport(unauthenticatedSuppression), ajv.errorsText(validateReport
 assert.deepEqual(validateReportSemantics(unauthenticatedSuppression), [])
 unauthenticatedSuppression.verdict = 'PASS'
 assert(!validateReport(unauthenticatedSuppression), 'an unauthenticated suppression must never authorize PASS')
+
+const nullDriftReceipt = structuredClone(validEmptyReport)
+nullDriftReceipt.verdict = 'INCOMPLETE'
+nullDriftReceipt.final_readback.matches_initial = false
+nullDriftReceipt.final_readback.changed_fields = ['head_commit']
+nullDriftReceipt.final_readback.final_receipt_sha256 = null
+assert(!validateReport(nullDriftReceipt), 'schema must reject target drift without a final receipt digest')
 
 const reportFixtureRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'open-code-review-report-'))
 try {
@@ -459,7 +635,7 @@ assert.equal(marketplace.source, 'https://github.com/Kaidera-AI/skills')
 assert.equal(marketplace.generation_basis, 'maximum skill updated date')
 assert.equal(marketplace.generated_at, dryRunMarketplace.generated_at)
 assert.deepEqual(dryRunMarketplace, marketplace, 'committed marketplace must equal fresh deterministic output')
-assert.equal(entry.version, '2.0.0')
+assert.equal(entry.version, '2.1.0')
 assert.equal(entry.risk_level, 'medium')
 assert.equal(entry.trust_tier, 'unvetted')
 assert.deepEqual(entry.capabilities_required, ['tool:file_read', 'tool:code_interpreter'])

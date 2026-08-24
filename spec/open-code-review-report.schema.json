@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "urn:kaidera:open-code-review-report:v1",
+  "$id": "urn:kaidera:open-code-review-report:v2",
   "title": "Kaidera Open Code Review report",
   "type": "object",
   "additionalProperties": false,
@@ -17,8 +17,8 @@
     "final_readback"
   ],
   "properties": {
-    "schema_version": {"const": 1},
-    "verdict": {"enum": ["PASS", "CHANGES_REQUESTED", "BLOCKED", "INCOMPLETE"]},
+    "schema_version": {"const": 2},
+    "verdict": {"enum": ["PASS", "PASS_WITH_ADVISORIES", "CHANGES_REQUESTED", "BLOCKED", "INCOMPLETE"]},
     "review_scope": {"$ref": "#/$defs/reviewScope"},
     "target_receipt": {"$ref": "#/$defs/targetReceipt"},
     "findings": {"type": "array", "items": {"$ref": "#/$defs/finding"}},
@@ -29,6 +29,23 @@
     "final_readback": {"$ref": "#/$defs/finalReadback"}
   },
   "allOf": [
+    {
+      "if": {"properties": {"verdict": {"const": "PASS_WITH_ADVISORIES"}}, "required": ["verdict"]},
+      "then": {
+        "properties": {
+          "coverage": {"type": "object", "properties": {"complete": {"const": true}}},
+          "final_readback": {"type": "object", "properties": {"matches_initial": {"const": true}}},
+          "findings": {
+            "type": "array",
+            "minItems": 1,
+            "items": {"type": "object", "properties": {"disposition": {"const": "advisory"}}, "required": ["disposition"]}
+          },
+          "candidate_audit": {"type": "array", "items": {"type": "object", "properties": {"verdict_effect": {"const": "none"}}}},
+          "validation": {"type": "array", "items": {"type": "object", "properties": {"verdict_effect": {"const": "none"}}}},
+          "limits": {"type": "array", "items": {"type": "object", "properties": {"verdict_effect": {"const": "none"}}}}
+        }
+      }
+    },
     {
       "if": {"properties": {"verdict": {"const": "PASS"}}, "required": ["verdict"]},
       "then": {
@@ -116,36 +133,47 @@
       "additionalProperties": false,
       "required": [
         "schema_version", "mode", "repository_root", "git_object_format",
-        "git_version", "receipt_profile", "review_scope_sha256", "head_commit", "head_tree",
-        "base_commit", "base_tree", "merge_base", "index_entries_sha256",
+        "git_version", "receipt_profile", "review_scope_sha256", "head_state", "head_commit", "head_tree",
+        "base_commit", "base_tree", "merge_base", "comparison_parent", "range_style", "paths_layer",
+        "index_entries_sha256",
         "staged_diff_sha256", "unstaged_diff_sha256",
         "status_porcelain_v2_sha256", "untracked_inventory_sha256",
         "supplied_patch_sha256", "review_diff_sha256", "path_ledger_sha256",
         "policy_receipt_sha256", "receipt_sha256", "paths"
       ],
       "properties": {
-        "schema_version": {"const": 1},
+        "schema_version": {"const": 2},
         "mode": {"enum": ["workspace", "staged", "commit", "range", "paths", "patch"]},
         "repository_root": {"type": "string", "minLength": 1},
         "git_object_format": {"enum": ["sha1", "sha256"]},
         "git_version": {"type": "string", "minLength": 1},
-        "receipt_profile": {"const": "open-code-review-target/v1"},
+        "receipt_profile": {"const": "open-code-review-target/v2"},
         "review_scope_sha256": {"$ref": "#/$defs/sha256"},
+        "head_state": {"enum": ["present", "unborn", "not-applicable"]},
         "head_commit": {"$ref": "#/$defs/objectId"},
         "head_tree": {"$ref": "#/$defs/objectId"},
         "base_commit": {"$ref": "#/$defs/objectId"},
         "base_tree": {"$ref": "#/$defs/objectId"},
         "merge_base": {"$ref": "#/$defs/objectId"},
+        "comparison_parent": {
+          "anyOf": [
+            {"type": "string", "pattern": "^(?:[0-9a-f]{40}|[0-9a-f]{64})$"},
+            {"const": "root"},
+            {"type": "null"}
+          ]
+        },
+        "range_style": {"type": ["string", "null"], "enum": ["merge-base", "two-dot", null]},
+        "paths_layer": {"type": ["string", "null"], "enum": ["head", "index", "worktree", null]},
         "index_entries_sha256": {"$ref": "#/$defs/nullableSha256"},
         "staged_diff_sha256": {"$ref": "#/$defs/nullableSha256"},
         "unstaged_diff_sha256": {"$ref": "#/$defs/nullableSha256"},
         "status_porcelain_v2_sha256": {"$ref": "#/$defs/nullableSha256"},
         "untracked_inventory_sha256": {"$ref": "#/$defs/nullableSha256"},
         "supplied_patch_sha256": {"$ref": "#/$defs/nullableSha256"},
-        "review_diff_sha256": {"$ref": "#/$defs/nullableSha256"},
-        "path_ledger_sha256": {"$ref": "#/$defs/nullableSha256"},
-        "policy_receipt_sha256": {"$ref": "#/$defs/nullableSha256"},
-        "receipt_sha256": {"$ref": "#/$defs/nullableSha256"},
+        "review_diff_sha256": {"$ref": "#/$defs/sha256"},
+        "path_ledger_sha256": {"$ref": "#/$defs/sha256"},
+        "policy_receipt_sha256": {"$ref": "#/$defs/sha256"},
+        "receipt_sha256": {"$ref": "#/$defs/sha256"},
         "paths": {"type": "array", "items": {"$ref": "#/$defs/pathRecord"}}
       }
     },
@@ -380,8 +408,8 @@
       "properties": {
         "matches_initial": {"type": "boolean"},
         "changed_fields": {"type": "array", "items": {"type": "string"}},
-        "initial_receipt_sha256": {"$ref": "#/$defs/nullableSha256"},
-        "final_receipt_sha256": {"$ref": "#/$defs/nullableSha256"}
+        "initial_receipt_sha256": {"$ref": "#/$defs/sha256"},
+        "final_receipt_sha256": {"$ref": "#/$defs/sha256"}
       }
     }
   }
