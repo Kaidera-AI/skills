@@ -171,7 +171,8 @@ Profiles fix both field and record order:
   `receipt_sha256` itself;
 - path ledger fields are `record_kind,status,layer,stage,old_path_encoding,
   old_path_value,new_path_encoding,new_path_value,old_mode,new_mode,
-  old_object_id,new_object_id,content_sha256,hunks_total,hunks_reviewed,
+  old_object_id,new_object_id,old_content_sha256,new_content_sha256,
+  hunks_total,hunks_reviewed,
   bytes_total,bytes_reviewed,disposition,reason`; sort by raw new-path bytes,
   layer (`head,index,worktree`), stage, raw old-path bytes, then the complete
   serialized record as tie-breaker;
@@ -179,15 +180,19 @@ Profiles fix both field and record order:
   revision,object_identity,content_sha256,classification`; sort by numeric
   authority rank, raw source bytes, then the complete record; and
 - finding fingerprint fields are `source,rule_identity,path_encoding,
-  path_value,symbol,root_cause_class,impact_class,target_side` in that order.
+  path_value,symbol,root_cause_class,impact_class,target_side` in that order; and
+- evidence-revision fields are `artifact_blob_id,content_sha256,line,
+  snippet_sha256,position_status` in that order.
 
 Unless stated otherwise, fields are UTF-8. `stage`, count/byte fields,
 `schema_version`, and `authority_rank` are unsigned 64-bit integers. Path/source
 values are raw bytes. A missing value uses the null type, never an empty-string
-substitute.
+substitute. Every declared UTF-8 value must encode and decode to the identical
+Unicode scalar sequence; reject lone surrogates instead of replacement-encoding
+them. JSON input must be fatal UTF-8 and must reject duplicate object keys.
 
 The bundled producer/verifier is `scripts/open-code-review-contract.js`, SHA-256
-`249a66a8d42c8746ea09233016f4b86cae25f572b6ead5c04af3b74ae639308d`. Its non-empty review-scope vector for `standard,null,null` has
+`2e4eb53fc7d0fdb6255887ad1237a35da7e955230850ca026aa6be1b4fce18d2`. Its non-empty review-scope vector for `standard,null,null` has
 SHA-256 `af4f6f29771251b5c8bb722e3f6df9bae7b3ce1c8814152ff4fd9229470d19d9`.
 Use null fields rather than changing a profile. Markdown may report raw receipt
 components and a null derived digest when canonical support is unavailable, but
@@ -549,7 +554,7 @@ Each finding must contain:
     "symbol": "saveRecord",
     "snippet": "await store.write(record)",
     "snippet_sha256": "sha256 of the exact anchored snippet",
-    "content_sha256": "sha256 of filesystem bytes, or null when artifact_blob_id binds them",
+    "content_sha256": "sha256 of the exact selected-side bytes",
     "position_status": "verified"
   },
   "execution_path": ["request", "saveRecord", "store.write"],
@@ -599,9 +604,18 @@ Arrays may be empty when honestly applicable; receipt objects must be populated
 using the shapes below. The JSON Schema validates structure; the bundled helper
 must additionally validate digest/reference/count/verdict semantics before the
 report is consumed or reused.
+
+The portable v1 verifier is deliberately conservative because a report cannot
+authenticate its own governing policy. `PASS` therefore requires zero confirmed
+findings. A claimed suppression always prevents `PASS`; only a separately trusted
+Gate 4 policy adapter may authorise a non-blocking finding or suppression. Do not
+weaken this by accepting a policy digest supplied only inside the report.
+`CHANGES_REQUESTED` requires at least one confirmed blocking finding; failed
+validation, missing evidence, or an unverified candidate instead produces
+`BLOCKED` or `INCOMPLETE` as appropriate.
 The bundled machine contract is
 `spec/open-code-review-report.schema.json`, SHA-256
-`f98349c593606e2b526b73a20a977c8d6dce0b26ccac46dc1e29903c6a0ce223`;
+`0fffa00af5c38203f24f0cfcdef79ac8f5f68c0c90785b1309d7f2b8a7fc3685`;
 when that exact file is unavailable, the schemas in this skill remain
 authoritative and the missing external schema is a reported limitation.
 
@@ -646,8 +660,10 @@ raw path bytes and record that encoding.
 
 Each path record carries layer (`head`, `index`, or `worktree`), status, old/new
 lossless path object (`encoding` + `value`), old/new mode and object ID, index
-stage when relevant, content digest for non-object bytes, hunk/byte coverage,
-disposition, reason, and a `path_record_id` digest over that exact record. Every
+stage when relevant, separate old/new SHA-256 content digests, hunk/byte coverage,
+disposition, reason, and a `path_record_id` digest over that exact record. A
+side digest may be null only when that side is absent or its content was not
+read; a verified finding position requires the exact selected-side digest. Every
 finding and bundle references this ID so staged and unstaged bytes at the same
 path cannot be confused. `metadata-reviewed` is adequate for `PASS` only when
 the requested contract does not require unavailable binary/submodule content
@@ -694,6 +710,12 @@ Use these stable shapes for the remaining machine receipt fields:
 
 Use `result` values `passed`, `failed`, or `not_run`. Counts are integers and
 must reconcile with the path ledger; an empty object is not a valid receipt.
+Every changed path belongs to exactly one primary bundle. `coverage.complete`
+requires no unreadable/skipped path and exact reviewed/total hunk and byte counts
+for every text-reviewed path. A verified position requires a side that exists,
+the side's exact object identity when one exists, a content digest matching the
+path record, a digest of the literal UTF-8 snippet, and the canonical evidence-
+revision digest.
 
 `candidate_audit` items carry `source`, `rule`, `root_cause_class`,
 `impact_class`, the finding location/evidence fields, and `fingerprint_status`
@@ -704,7 +726,9 @@ fingerprint. `limits` items are
 `{id,category,description,affected_path_record_ids,verdict_effect,
 required_evidence}`. Put only current confirmed unsuppressed findings in
 `findings`; every other considered or historical item goes in
-`candidate_audit`.
+`candidate_audit`. Until a trusted Gate 4 adapter exists, a `suppressed` candidate
+must retain `verdict_effect: prevents_pass`; matching an opaque policy hash is
+binding evidence, not suppression authority.
 
 ## Incremental reruns and finding lifecycle
 

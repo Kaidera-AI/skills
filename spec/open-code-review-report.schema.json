@@ -35,10 +35,24 @@
         "properties": {
           "coverage": {"type": "object", "properties": {"complete": {"const": true}}},
           "final_readback": {"type": "object", "properties": {"matches_initial": {"const": true}}},
-          "findings": {"type": "array", "items": {"type": "object", "properties": {"disposition": {"const": "advisory"}}}},
+          "findings": {"type": "array", "maxItems": 0},
           "candidate_audit": {"type": "array", "items": {"type": "object", "properties": {"verdict_effect": {"const": "none"}}}},
           "validation": {"type": "array", "items": {"type": "object", "properties": {"verdict_effect": {"const": "none"}}}},
           "limits": {"type": "array", "items": {"type": "object", "properties": {"verdict_effect": {"const": "none"}}}}
+        }
+      }
+    },
+    {
+      "if": {"properties": {"verdict": {"const": "CHANGES_REQUESTED"}}, "required": ["verdict"]},
+      "then": {
+        "properties": {
+          "coverage": {"type": "object", "properties": {"complete": {"const": true}}},
+          "final_readback": {"type": "object", "properties": {"matches_initial": {"const": true}}},
+          "findings": {
+            "type": "array",
+            "contains": {"type": "object", "properties": {"disposition": {"const": "blocking"}}, "required": ["disposition"]},
+            "minContains": 1
+          }
         }
       }
     }
@@ -72,7 +86,7 @@
       "required": [
         "path_record_id", "record_kind", "status", "layer", "stage",
         "old_path", "new_path", "old_mode", "new_mode", "old_object_id",
-        "new_object_id", "content_sha256", "hunks_total", "hunks_reviewed",
+        "new_object_id", "old_content_sha256", "new_content_sha256", "hunks_total", "hunks_reviewed",
         "bytes_total", "bytes_reviewed", "disposition", "reason"
       ],
       "properties": {
@@ -87,7 +101,8 @@
         "new_mode": {"type": ["string", "null"], "pattern": "^[0-7]{6}$"},
         "old_object_id": {"$ref": "#/$defs/objectId"},
         "new_object_id": {"$ref": "#/$defs/objectId"},
-        "content_sha256": {"$ref": "#/$defs/nullableSha256"},
+        "old_content_sha256": {"$ref": "#/$defs/nullableSha256"},
+        "new_content_sha256": {"$ref": "#/$defs/nullableSha256"},
         "hunks_total": {"type": ["integer", "null"], "minimum": 0},
         "hunks_reviewed": {"type": ["integer", "null"], "minimum": 0},
         "bytes_total": {"type": ["integer", "null"], "minimum": 0},
@@ -152,7 +167,20 @@
         "snippet_sha256": {"$ref": "#/$defs/nullableSha256"},
         "content_sha256": {"$ref": "#/$defs/nullableSha256"},
         "position_status": {"enum": ["verified", "unavailable", "stale"]}
-      }
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"position_status": {"const": "verified"}}, "required": ["position_status"]},
+          "then": {
+            "properties": {
+              "line": {"type": "integer", "minimum": 1},
+              "snippet": {"type": "string"},
+              "snippet_sha256": {"$ref": "#/$defs/sha256"},
+              "content_sha256": {"$ref": "#/$defs/sha256"}
+            }
+          }
+        }
+      ]
     },
     "suppression": {
       "type": ["object", "null"],
@@ -244,7 +272,12 @@
       "allOf": [
         {
           "if": {"properties": {"candidate_state": {"const": "suppressed"}}, "required": ["candidate_state"]},
-          "then": {"properties": {"suppression": {"not": {"type": "null"}}}},
+          "then": {
+            "properties": {
+              "suppression": {"not": {"type": "null"}},
+              "verdict_effect": {"const": "prevents_pass"}
+            }
+          },
           "else": {"properties": {"suppression": {"type": "null"}}}
         },
         {
@@ -277,8 +310,8 @@
             "required": ["id", "primary_path_record_ids", "supporting_path_record_ids"],
             "properties": {
               "id": {"type": "string", "minLength": 1},
-              "primary_path_record_ids": {"type": "array", "items": {"$ref": "#/$defs/sha256"}},
-              "supporting_path_record_ids": {"type": "array", "items": {"$ref": "#/$defs/sha256"}}
+              "primary_path_record_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/sha256"}},
+              "supporting_path_record_ids": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/sha256"}}
             }
           }
         }

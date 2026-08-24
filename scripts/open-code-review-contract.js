@@ -7,6 +7,7 @@ const fs = require('node:fs')
 const path = require('node:path')
 const Ajv2020 = require('ajv/dist/2020')
 const addFormats = require('ajv-formats')
+const YAML = require('yaml')
 
 const MAX_REPORT_BYTES = 16 * 1024 * 1024
 const TYPE = { null: 0, raw: 1, utf8: 2, u64: 3, boolean: 4 }
@@ -53,7 +54,8 @@ const PROFILES = {
     ['new_mode', 'utf8'],
     ['old_object_id', 'utf8'],
     ['new_object_id', 'utf8'],
-    ['content_sha256', 'utf8'],
+    ['old_content_sha256', 'utf8'],
+    ['new_content_sha256', 'utf8'],
     ['hunks_total', 'u64'],
     ['hunks_reviewed', 'u64'],
     ['bytes_total', 'u64'],
@@ -80,6 +82,13 @@ const PROFILES = {
     ['root_cause_class', 'utf8'],
     ['impact_class', 'utf8'],
     ['target_side', 'utf8'],
+  ],
+  evidenceRevision: [
+    ['artifact_blob_id', 'utf8'],
+    ['content_sha256', 'utf8'],
+    ['line', 'u64'],
+    ['snippet_sha256', 'utf8'],
+    ['position_status', 'utf8'],
   ],
 }
 
@@ -156,7 +165,13 @@ function canonicalBase64(value) {
 
 function losslessPathBytes(pathValue) {
   if (pathValue === null) return null
-  if (pathValue.encoding === 'utf8') return Buffer.from(pathValue.value, 'utf8')
+  if (pathValue.encoding === 'utf8') {
+    const encoded = Buffer.from(pathValue.value, 'utf8')
+    if (encoded.toString('utf8') !== pathValue.value) {
+      throw new TypeError('UTF-8 path value does not round-trip canonically')
+    }
+    return encoded
+  }
   if (pathValue.encoding === 'base64') return canonicalBase64(pathValue.value)
   throw new TypeError('unknown lossless path encoding')
 }
@@ -175,7 +190,8 @@ function flattenPathRecord(record) {
     new_mode: record.new_mode,
     old_object_id: record.old_object_id,
     new_object_id: record.new_object_id,
-    content_sha256: record.content_sha256,
+    old_content_sha256: record.old_content_sha256,
+    new_content_sha256: record.new_content_sha256,
     hunks_total: record.hunks_total,
     hunks_reviewed: record.hunks_reviewed,
     bytes_total: record.bytes_total,
@@ -227,7 +243,20 @@ function hashTargetReceipt(receipt) {
 
 function findingPath(finding, pathRecord) {
   if (finding.location.side === 'old') return pathRecord.old_path
+  if (finding.location.side === 'new') return pathRecord.new_path
   return pathRecord.new_path || pathRecord.old_path
+}
+
+function findingObjectId(finding, pathRecord) {
+  if (finding.location.side === 'old') return pathRecord.old_object_id
+  if (finding.location.side === 'new') return pathRecord.new_object_id
+  return pathRecord.new_path ? pathRecord.new_object_id : pathRecord.old_object_id
+}
+
+function findingContentSha256(finding, pathRecord) {
+  if (finding.location.side === 'old') return pathRecord.old_content_sha256
+  if (finding.location.side === 'new') return pathRecord.new_content_sha256
+  return pathRecord.new_path ? pathRecord.new_content_sha256 : pathRecord.old_content_sha256
 }
 
 function flattenFinding(finding, pathRecord) {
@@ -247,6 +276,16 @@ function flattenFinding(finding, pathRecord) {
 
 function hashFindingFingerprint(finding, pathRecord) {
   return sha256(encodeRecords(PROFILES.finding, [flattenFinding(finding, pathRecord)]))
+}
+
+function hashEvidenceRevision(finding) {
+  return sha256(encodeRecords(PROFILES.evidenceRevision, [{
+    artifact_blob_id: finding.artifact_blob_id,
+    content_sha256: finding.location.content_sha256,
+    line: finding.location.line,
+    snippet_sha256: finding.location.snippet_sha256,
+    position_status: finding.location.position_status,
+  }]))
 }
 
 function addReferenceErrors(ids, references, label, errors) {
@@ -312,11 +351,37 @@ function validateReportSemantics(report) {
   if (coverage.hunks_total !== sum('hunks_total')) errors.push('coverage.hunks_total does not match path records')
   if (coverage.hunks_reviewed !== sum('hunks_reviewed')) errors.push('coverage.hunks_reviewed does not match path records')
   const bundleIds = new Set()
+  const primaryCounts = new Map(paths.map(item => [item.path_record_id, 0]))
   for (const bundle of coverage.bundles) {
     if (bundleIds.has(bundle.id)) errors.push(`duplicate coverage bundle id ${bundle.id}`)
     bundleIds.add(bundle.id)
     addReferenceErrors(pathIds, bundle.primary_path_record_ids, `coverage bundle ${bundle.id}`, errors)
     addReferenceErrors(pathIds, bundle.supporting_path_record_ids, `coverage bundle ${bundle.id}`, errors)
+    if (bundle.primary_path_record_ids.length === 0) errors.push(`coverage bundle ${bundle.id} has no primary path`)
+    const primary = new Set(bundle.primary_path_record_ids)
+    const supporting = new Set(bundle.supporting_path_record_ids)
+    if (primary.size !== bundle.primary_path_record_ids.length) errors.push(`coverage bundle ${bundle.id} repeats a primary path`)
+    if (supporting.size !== bundle.supporting_path_record_ids.length) errors.push(`coverage bundle ${bundle.id} repeats a supporting path`)
+    for (const id of primary) {
+      if (supporting.has(id)) errors.push(`coverage bundle ${bundle.id} uses one path as primary and supporting`)
+      if (primaryCounts.has(id)) primaryCounts.set(id, primaryCounts.get(id) + 1)
+    }
+  }
+  for (const [id, count] of primaryCounts) {
+    if (count !== 1) errors.push(`path ${id} must belong to exactly one primary coverage bundle`)
+  }
+  if (coverage.complete) {
+    if (coverage.unreadable !== 0 || coverage.skipped_with_reason !== 0) {
+      errors.push('complete coverage cannot include unreadable or skipped paths')
+    }
+    for (const record of paths) {
+      if (record.disposition === 'reviewed' &&
+          (!Number.isInteger(record.hunks_total) || !Number.isInteger(record.hunks_reviewed) ||
+           !Number.isInteger(record.bytes_total) || !Number.isInteger(record.bytes_reviewed) ||
+           record.hunks_total !== record.hunks_reviewed || record.bytes_total !== record.bytes_reviewed)) {
+        errors.push(`complete coverage does not fully account for reviewed path ${record.path_record_id}`)
+      }
+    }
   }
 
   const findingIds = new Set()
@@ -330,22 +395,40 @@ function validateReportSemantics(report) {
     }
     if (record.layer !== finding.location.layer) errors.push(`finding ${finding.id} layer does not match its path record`)
     const selected = findingPath(finding, record)
-    if (selected?.encoding === 'utf8' && selected.value !== finding.location.path) {
+    if (!selected) {
+      errors.push(`finding ${finding.id} target side does not exist in its path record`)
+      continue
+    }
+    if (selected.encoding === 'utf8' && selected.value !== finding.location.path) {
       errors.push(`finding ${finding.id} display path does not match its path record`)
     }
     if (finding.fingerprint !== hashFindingFingerprint(finding, record)) {
       errors.push(`finding ${finding.id} fingerprint does not match canonical identity`)
     }
-    if (finding.location.content_sha256 !== null && record.content_sha256 !== null &&
-        finding.location.content_sha256 !== record.content_sha256) {
+    const expectedContentSha256 = findingContentSha256(finding, record)
+    if (finding.location.content_sha256 !== null && finding.location.content_sha256 !== expectedContentSha256) {
       errors.push(`finding ${finding.id} content digest does not match its path record`)
     }
-    if (finding.artifact_blob_id !== null && finding.artifact_blob_id.length !== objectLength) {
+    const expectedObjectId = findingObjectId(finding, record)
+    if (finding.artifact_blob_id !== expectedObjectId) {
+      errors.push(`finding ${finding.id} artifact_blob_id does not match its target side`)
+    } else if (finding.artifact_blob_id !== null && finding.artifact_blob_id.length !== objectLength) {
       errors.push(`finding ${finding.id} artifact_blob_id width does not match git_object_format`)
     }
     if (finding.location.position_status === 'verified' &&
-        (finding.location.line === null || finding.location.snippet === null || finding.location.snippet_sha256 === null)) {
+        (finding.location.line === null || finding.location.snippet === null || finding.location.snippet_sha256 === null ||
+         finding.location.content_sha256 === null || expectedContentSha256 === null)) {
       errors.push(`finding ${finding.id} has incomplete verified position evidence`)
+    }
+    if (finding.location.snippet !== null &&
+        finding.location.snippet_sha256 !== sha256(Buffer.from(finding.location.snippet, 'utf8'))) {
+      errors.push(`finding ${finding.id} snippet digest does not match its snippet`)
+    }
+    if ((finding.location.snippet === null) !== (finding.location.snippet_sha256 === null)) {
+      errors.push(`finding ${finding.id} snippet and snippet digest presence do not match`)
+    }
+    if (finding.evidence_revision !== hashEvidenceRevision(finding)) {
+      errors.push(`finding ${finding.id} evidence_revision does not match anchored evidence`)
     }
   }
 
@@ -358,8 +441,26 @@ function validateReportSemantics(report) {
     if (candidate.fingerprint_status === 'verified') {
       if (!record) {
         errors.push(`candidate ${candidate.id} cannot verify its fingerprint without a path record`)
-      } else if (candidate.fingerprint !== hashFindingFingerprint(candidate, record)) {
-        errors.push(`candidate ${candidate.id} fingerprint does not match canonical identity`)
+      } else {
+        const selected = findingPath(candidate, record)
+        if (!selected) {
+          errors.push(`candidate ${candidate.id} target side does not exist in its path record`)
+        } else {
+          if (selected.encoding === 'utf8' && selected.value !== candidate.location.path) {
+            errors.push(`candidate ${candidate.id} display path does not match its path record`)
+          }
+          if (candidate.location.content_sha256 !== null &&
+              candidate.location.content_sha256 !== findingContentSha256(candidate, record)) {
+            errors.push(`candidate ${candidate.id} content digest does not match its path record`)
+          }
+          if (candidate.location.snippet !== null &&
+              candidate.location.snippet_sha256 !== sha256(Buffer.from(candidate.location.snippet, 'utf8'))) {
+            errors.push(`candidate ${candidate.id} snippet digest does not match its snippet`)
+          }
+          if (candidate.fingerprint !== hashFindingFingerprint(candidate, record)) {
+            errors.push(`candidate ${candidate.id} fingerprint does not match canonical identity`)
+          }
+        }
       }
     }
     if (candidate.fingerprint_status === 'carried' && !['resolved', 'stale'].includes(candidate.candidate_state)) {
@@ -371,10 +472,16 @@ function validateReportSemantics(report) {
     if (candidate.suppression && candidate.suppression.policy_receipt_sha256 !== target.policy_receipt_sha256) {
       errors.push(`candidate ${candidate.id} suppression does not bind the accepted policy receipt`)
     }
+    if (candidate.suppression && candidate.suppression.scope !== candidate.fingerprint) {
+      errors.push(`candidate ${candidate.id} suppression scope does not match its exact fingerprint`)
+    }
     if (candidate.suppression && Date.parse(candidate.suppression.expires_at) <= Date.now()) {
       errors.push(`candidate ${candidate.id} suppression has expired`)
     }
-    if (['refuted', 'pre_existing', 'resolved', 'stale', 'suppressed'].includes(candidate.candidate_state) &&
+    if (candidate.candidate_state === 'suppressed' && candidate.verdict_effect !== 'prevents_pass') {
+      errors.push(`candidate ${candidate.id} has an unauthenticated suppression that must prevent PASS`)
+    }
+    if (['refuted', 'pre_existing', 'resolved', 'stale'].includes(candidate.candidate_state) &&
         candidate.verdict_effect !== 'none') {
       errors.push(`candidate ${candidate.id} has an impossible verdict_effect`)
     }
@@ -421,15 +528,26 @@ function validateReportSemantics(report) {
     errors.push('drifted final_readback must identify changed fields and a different final hash')
   }
 
-  const preventsPass = report.findings.some(item => item.disposition === 'blocking') ||
-    report.candidate_audit.some(item => item.verdict_effect !== 'none') ||
-    report.validation.some(item => item.verdict_effect !== 'none') ||
-    report.limits.some(item => item.verdict_effect !== 'none')
+  const confirmedBlockers = report.findings.filter(item => item.disposition === 'blocking')
+  const externalEffects = [...report.candidate_audit, ...report.validation, ...report.limits]
+  const preventsPass = report.findings.length > 0 || externalEffects.some(item => item.verdict_effect !== 'none')
+  const hasBlockingLimit = externalEffects.some(item => item.verdict_effect === 'blocking')
+  const hasIncompleteSignal = !coverage.complete || !readback.matches_initial ||
+    externalEffects.some(item => item.verdict_effect === 'prevents_pass')
   if (report.verdict === 'PASS' && (!coverage.complete || !readback.matches_initial || preventsPass)) {
     errors.push('PASS requires complete coverage, a stable target, and no blocking evidence')
   }
-  if (report.verdict === 'CHANGES_REQUESTED' && !preventsPass) {
-    errors.push('CHANGES_REQUESTED requires blocking evidence')
+  if (report.verdict === 'CHANGES_REQUESTED' && confirmedBlockers.length === 0) {
+    errors.push('CHANGES_REQUESTED requires a confirmed blocking finding')
+  }
+  if (report.verdict === 'CHANGES_REQUESTED' && (!coverage.complete || !readback.matches_initial)) {
+    errors.push('CHANGES_REQUESTED requires complete coverage and a stable target')
+  }
+  if (report.verdict === 'BLOCKED' && !hasBlockingLimit) {
+    errors.push('BLOCKED requires an explicit blocking candidate, validation, or limit')
+  }
+  if (report.verdict === 'INCOMPLETE' && !hasIncompleteSignal) {
+    errors.push('INCOMPLETE requires unfinished coverage, target drift, or prevents_pass evidence')
   }
 
   return errors
@@ -458,7 +576,14 @@ function readReport(filePath) {
     if (payload.length > MAX_REPORT_BYTES || payload.length !== held.size || after.size !== held.size) {
       throw new Error('report changed during read or exceeds the size limit')
     }
-    return JSON.parse(new TextDecoder('utf-8', { fatal: true }).decode(payload))
+    const source = new TextDecoder('utf-8', { fatal: true }).decode(payload)
+    const duplicateCheck = YAML.parseDocument(source, {
+      schema: 'json', strict: true, uniqueKeys: true, maxAliasCount: 0,
+    })
+    if (duplicateCheck.errors.length !== 0) {
+      throw new Error('report JSON is ambiguous or is not uniquely keyed')
+    }
+    return JSON.parse(source)
   } finally {
     fs.closeSync(fd)
   }
@@ -491,6 +616,7 @@ if (require.main === module) process.exit(main())
 module.exports = {
   PROFILES,
   encodeRecords,
+  hashEvidenceRevision,
   hashFindingFingerprint,
   hashPathLedger,
   hashPathRecord,

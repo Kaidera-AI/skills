@@ -15,6 +15,7 @@ const { assertUniqueSkillNames, marketplaceRelativePath } = require('./generate-
 const {
   PROFILES,
   encodeRecords,
+  hashEvidenceRevision,
   hashFindingFingerprint,
   hashPathLedger,
   hashPathRecord,
@@ -33,8 +34,13 @@ const scannerPath = path.join(root, 'scripts', 'security-scan.py')
 const securityPatternPath = path.join(root, 'spec', 'skill-security-patterns.json')
 const reportSchemaPath = path.join(root, 'spec', 'open-code-review-report.schema.json')
 const reportContractPath = path.join(root, 'scripts', 'open-code-review-contract.js')
+const attributesPath = path.join(root, '.gitattributes')
 
 const skill = fs.readFileSync(skillPath, 'utf8')
+const attributes = fs.readFileSync(attributesPath, 'utf8')
+for (const pattern of ['*.js text eol=lf', '*.json text eol=lf', '*.md text eol=lf']) {
+  assert(attributes.split('\n').includes(pattern), `missing deterministic line-ending rule: ${pattern}`)
+}
 const securityPatterns = JSON.parse(fs.readFileSync(securityPatternPath, 'utf8'))
 assert.equal(securityPatterns.schema_version, 1)
 assert(securityPatterns.patterns.length > 0)
@@ -132,7 +138,8 @@ function reportWithOnePath() {
     new_mode: '100644',
     old_object_id: zeroObject,
     new_object_id: zeroObject,
-    content_sha256: zeroSha,
+    old_content_sha256: zeroSha,
+    new_content_sha256: zeroSha,
     hunks_total: 1,
     hunks_reviewed: 1,
     bytes_total: 20,
@@ -152,12 +159,33 @@ function reportWithOnePath() {
     skipped_with_reason: 0,
     hunks_total: 1,
     hunks_reviewed: 1,
-    bundles: [],
+    bundles: [{
+      id: 'bundle-example',
+      primary_path_record_ids: [pathRecord.path_record_id],
+      supporting_path_record_ids: [],
+    }],
   }
   report.target_receipt.receipt_sha256 = hashTargetReceipt(report.target_receipt)
   report.final_readback.initial_receipt_sha256 = report.target_receipt.receipt_sha256
   report.final_readback.final_receipt_sha256 = report.target_receipt.receipt_sha256
   return { report, pathRecord }
+}
+
+function resealSinglePathReport(report) {
+  assert.equal(report.target_receipt.paths.length, 1)
+  assert.equal(report.findings.length, 0)
+  assert.equal(report.candidate_audit.length, 0)
+  const record = report.target_receipt.paths[0]
+  record.path_record_id = hashPathRecord(record)
+  for (const bundle of report.coverage.bundles) {
+    bundle.primary_path_record_ids = bundle.primary_path_record_ids.map(() => record.path_record_id)
+    bundle.supporting_path_record_ids = bundle.supporting_path_record_ids.map(() => record.path_record_id)
+  }
+  report.target_receipt.path_ledger_sha256 = hashPathLedger([record])
+  report.target_receipt.receipt_sha256 = hashTargetReceipt(report.target_receipt)
+  report.final_readback.initial_receipt_sha256 = report.target_receipt.receipt_sha256
+  report.final_readback.final_receipt_sha256 = report.target_receipt.receipt_sha256
+  return record
 }
 
 function blockingFinding(pathRecord) {
@@ -182,7 +210,7 @@ function blockingFinding(pathRecord) {
       line: 1,
       symbol: 'saveRecord',
       snippet: 'save(record)',
-      snippet_sha256: zeroSha,
+      snippet_sha256: sha256(Buffer.from('save(record)', 'utf8')),
       content_sha256: zeroSha,
       position_status: 'verified',
     },
@@ -201,6 +229,7 @@ function blockingFinding(pathRecord) {
     refutation: { independence: 'separate_agent', result: 'survived', reason: 'No guard closes the path.' },
   }
   finding.fingerprint = hashFindingFingerprint(finding, pathRecord)
+  finding.evidence_revision = hashEvidenceRevision(finding)
   return finding
 }
 
@@ -209,6 +238,72 @@ changeReport.verdict = 'CHANGES_REQUESTED'
 changeReport.findings = [blockingFinding(changedPath)]
 assert(validateReport(changeReport), ajv.errorsText(validateReport.errors))
 assert.deepEqual(validateReportSemantics(changeReport), [])
+
+const loneSurrogate = structuredClone(changedPath)
+loneSurrogate.new_path.value = '\ud800'
+assert.throws(() => hashPathRecord(loneSurrogate), /does not round-trip canonically/)
+
+const advisoryPass = structuredClone(changeReport)
+advisoryPass.verdict = 'PASS'
+advisoryPass.findings[0].disposition = 'advisory'
+assert(!validateReport(advisoryPass), 'schema must reject PASS with any confirmed finding')
+
+const { report: unreadablePass } = reportWithOnePath()
+unreadablePass.target_receipt.paths[0].disposition = 'unreadable'
+unreadablePass.target_receipt.paths[0].reason = 'reader failed'
+unreadablePass.coverage.reviewed = 0
+unreadablePass.coverage.unreadable = 1
+resealSinglePathReport(unreadablePass)
+assert(validateReport(unreadablePass), ajv.errorsText(validateReport.errors))
+assert(validateReportSemantics(unreadablePass).some(error => error.includes('cannot include unreadable')))
+
+const { report: partialPass } = reportWithOnePath()
+partialPass.target_receipt.paths[0].hunks_reviewed = 0
+partialPass.target_receipt.paths[0].bytes_reviewed = 0
+partialPass.coverage.hunks_reviewed = 0
+resealSinglePathReport(partialPass)
+assert(validateReport(partialPass), ajv.errorsText(validateReport.errors))
+assert(validateReportSemantics(partialPass).some(error => error.includes('does not fully account')))
+
+const { report: unbundledPass } = reportWithOnePath()
+unbundledPass.coverage.bundles = []
+assert(validateReport(unbundledPass), ajv.errorsText(validateReport.errors))
+assert(validateReportSemantics(unbundledPass).some(error => error.includes('exactly one primary')))
+
+const wrongSnippet = structuredClone(changeReport)
+wrongSnippet.findings[0].location.snippet_sha256 = zeroSha
+assert(validateReport(wrongSnippet), ajv.errorsText(validateReport.errors))
+assert(validateReportSemantics(wrongSnippet).some(error => error.includes('snippet digest')))
+
+const wrongEvidenceRevision = structuredClone(changeReport)
+wrongEvidenceRevision.findings[0].evidence_revision = zeroSha
+assert(validateReport(wrongEvidenceRevision), ajv.errorsText(validateReport.errors))
+assert(validateReportSemantics(wrongEvidenceRevision).some(error => error.includes('evidence_revision')))
+
+const wrongArtifact = structuredClone(changeReport)
+wrongArtifact.findings[0].artifact_blob_id = '1'.repeat(40)
+wrongArtifact.findings[0].evidence_revision = hashEvidenceRevision(wrongArtifact.findings[0])
+assert(validateReport(wrongArtifact), ajv.errorsText(validateReport.errors))
+assert(validateReportSemantics(wrongArtifact).some(error => error.includes('artifact_blob_id')))
+
+const deletedNewSide = structuredClone(changeReport)
+deletedNewSide.target_receipt.paths[0].status = 'D'
+deletedNewSide.target_receipt.paths[0].new_path = null
+deletedNewSide.target_receipt.paths[0].new_mode = null
+deletedNewSide.target_receipt.paths[0].new_object_id = null
+deletedNewSide.target_receipt.paths[0].new_content_sha256 = null
+const deletedRecord = deletedNewSide.target_receipt.paths[0]
+const priorPathId = deletedRecord.path_record_id
+deletedRecord.path_record_id = hashPathRecord(deletedRecord)
+deletedNewSide.coverage.bundles[0].primary_path_record_ids = [deletedRecord.path_record_id]
+deletedNewSide.findings[0].location.path_record_id = deletedRecord.path_record_id
+deletedNewSide.target_receipt.path_ledger_sha256 = hashPathLedger([deletedRecord])
+deletedNewSide.target_receipt.receipt_sha256 = hashTargetReceipt(deletedNewSide.target_receipt)
+deletedNewSide.final_readback.initial_receipt_sha256 = deletedNewSide.target_receipt.receipt_sha256
+deletedNewSide.final_readback.final_receipt_sha256 = deletedNewSide.target_receipt.receipt_sha256
+assert.notEqual(priorPathId, deletedRecord.path_record_id)
+assert(validateReport(deletedNewSide), ajv.errorsText(validateReport.errors))
+assert(validateReportSemantics(deletedNewSide).some(error => error.includes('target side does not exist')))
 
 const impossiblePass = structuredClone(changeReport)
 impossiblePass.verdict = 'PASS'
@@ -225,6 +320,17 @@ blockingLimitPass.limits = [{
   affected_path_record_ids: [], verdict_effect: 'blocking', required_evidence: 'Qualified runtime replay',
 }]
 assert(!validateReport(blockingLimitPass), 'schema must reject PASS with a blocking limit')
+const emptyBlocked = structuredClone(validEmptyReport)
+emptyBlocked.verdict = 'BLOCKED'
+assert(validateReport(emptyBlocked), ajv.errorsText(validateReport.errors))
+assert(validateReportSemantics(emptyBlocked).some(error => error.includes('BLOCKED requires')))
+const emptyIncomplete = structuredClone(validEmptyReport)
+emptyIncomplete.verdict = 'INCOMPLETE'
+assert(validateReport(emptyIncomplete), ajv.errorsText(validateReport.errors))
+assert(validateReportSemantics(emptyIncomplete).some(error => error.includes('INCOMPLETE requires')))
+const partialChanges = structuredClone(changeReport)
+partialChanges.coverage.complete = false
+assert(!validateReport(partialChanges), 'schema must reject CHANGES_REQUESTED with incomplete coverage')
 const contradictoryValidation = structuredClone(validEmptyReport)
 contradictoryValidation.validation = [{
   argv: ['check'], cwd: '/repo', tool_version: null, exit_code: 17,
@@ -285,6 +391,27 @@ invalidSuppression.verdict = 'INCOMPLETE'
 invalidSuppression.candidate_audit[0].candidate_state = 'suppressed'
 assert(!validateReport(invalidSuppression), 'schema must reject suppressed candidates without a suppression receipt')
 
+const candidateOnlyChanges = structuredClone(unresolvedPass)
+candidateOnlyChanges.verdict = 'CHANGES_REQUESTED'
+candidateOnlyChanges.candidate_audit[0].verdict_effect = 'blocking'
+assert(!validateReport(candidateOnlyChanges), 'schema must require a confirmed blocking finding for CHANGES_REQUESTED')
+
+const unauthenticatedSuppression = structuredClone(unresolvedPass)
+unauthenticatedSuppression.verdict = 'INCOMPLETE'
+unauthenticatedSuppression.candidate_audit[0].candidate_state = 'suppressed'
+unauthenticatedSuppression.candidate_audit[0].verdict_effect = 'prevents_pass'
+unauthenticatedSuppression.candidate_audit[0].suppression = {
+  owner: 'reported-owner',
+  reason: 'reported exception',
+  scope: unauthenticatedSuppression.candidate_audit[0].fingerprint,
+  expires_at: '2999-01-01T00:00:00Z',
+  policy_receipt_sha256: unauthenticatedSuppression.target_receipt.policy_receipt_sha256,
+}
+assert(validateReport(unauthenticatedSuppression), ajv.errorsText(validateReport.errors))
+assert.deepEqual(validateReportSemantics(unauthenticatedSuppression), [])
+unauthenticatedSuppression.verdict = 'PASS'
+assert(!validateReport(unauthenticatedSuppression), 'an unauthenticated suppression must never authorize PASS')
+
 const reportFixtureRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'open-code-review-report-'))
 try {
   const reportFixture = path.join(reportFixtureRoot, 'report.json')
@@ -301,6 +428,17 @@ try {
   })
   assert.notEqual(contractResult.status, 0, 'semantic verifier CLI accepted non-reconciling coverage')
   assert(`${contractResult.stdout}\n${contractResult.stderr}`.includes('coverage.reviewed'))
+  const duplicateVerdict = JSON.stringify(validEmptyReport).replace(
+    '"verdict":"PASS"',
+    '"verdict":"PASS","verdict":"INCOMPLETE"',
+  )
+  fs.writeFileSync(reportFixture, `${duplicateVerdict}\n`)
+  contractResult = spawnSync(process.execPath, [reportContractPath, reportFixture], {
+    cwd: root,
+    encoding: 'utf8',
+  })
+  assert.notEqual(contractResult.status, 0, 'semantic verifier CLI accepted duplicate JSON keys')
+  assert(`${contractResult.stdout}\n${contractResult.stderr}`.includes('ambiguous'))
 } finally {
   fs.rmSync(reportFixtureRoot, { recursive: true, force: true })
 }
