@@ -2,33 +2,30 @@
 
 **Open-source skills for AI agents — build, share, and collaborate.**
 
-Kaidera Skills Marketplace is a community-driven repository of vetted, reusable skills that extend AI agent capabilities on the [Kaidera Platform](https://kaidera.ai). Skills are modular instruction sets that teach agents new abilities - from code review to infrastructure deployment.
+Kaidera Skills Marketplace is a community-driven catalogue of reusable skills for the [Kaidera Platform](https://kaidera.ai). Skills are modular instruction sets that teach agents new abilities—from code review to infrastructure deployment. Catalogue presence is not vetting approval; inspect each skill's trust and gate status.
 
 ---
 
 ## What Is a Skill?
 
-A **skill** is a structured YAML file (`skill.yaml` or `SKILL.md`) that defines:
+A **skill** in this repository is one `*.SKILL.md` instruction document with
+strict YAML frontmatter. It defines:
 
 - **What** the agent can do (description, capabilities)
-- **How** it does it (prompt additions, code, tool bindings)
+- **How** it does it (instructions and declared tool bindings)
 - **When** it activates (workflow phases, triggers)
 - **Who** created it (attribution, license)
 
-Skills come in three types:
-
-| Type | Purpose | Example |
-|------|---------|---------|
-| **Steering** | Shapes agent behavior via prompt injection | `code-review.SKILL.md` |
-| **Tool** | Executable Python code in a sandbox | `api-test.SKILL.md` |
-| **Hybrid** | Both steering and executable code | `tdd-workflow.SKILL.md` |
+Skills do not embed executable Python. A skill may request a declared platform
+capability such as file reading or sandboxed code execution, but the runtime—not
+the Markdown—owns and constrains that tool.
 
 ## Skill Categories
 
 | Category | Description | Count |
 |----------|-------------|-------|
 | `context/` | Project and workspace awareness | 6 |
-| `development/` | Code writing, review, testing | 7 |
+| `development/` | Code writing, review, testing | 9 |
 | `devops/` | Deployment, infrastructure, CI/CD | 5 |
 | `security/` | Auditing, scanning, incident response | 5 |
 
@@ -38,13 +35,13 @@ Skills come in three types:
 ┌─────────────────────────────────────────────────────────────┐
 │                    SKILLS LIFECYCLE                           │
 │                                                              │
-│  1. CONTRIBUTE  ──  Author writes a skill.yaml               │
+│  1. CONTRIBUTE  ──  Author writes a *.SKILL.md               │
 │  2. SUBMIT      ──  PR to this repo (or sync via platform)   │
-│  3. VET         ──  Automated security scan + sandbox test    │
+│  3. CHECK       ──  Schema + bounded static security checks   │
 │  4. REVIEW      ──  Platform admin reviews in Pending tab     │
-│  5. APPROVE     ──  Skill moves to Approved, available to     │
-│                     agents in the workbench                   │
-│  6. ATTRIBUTE   ──  Original author credited (CC-BY-4.0)     │
+│  5. APPROVE     ──  Only after the external sandbox/signing   │
+│                     gates and human policy are satisfied      │
+│  6. ATTRIBUTE   ──  Original author + declared licence kept   │
 │                                                              │
 └─────────────────────────────────────────────────────────────┘
 ```
@@ -65,7 +62,9 @@ You can sync skills from **any public GitHub repository** — not just this one.
 https://github.com/coreyhaines31/marketingskills
 ```
 
-The platform will walk the repo, find all `skill.yaml` / `SKILL.md` files, parse them, and import them to your Pending queue. **The original author is always credited** via the attribution fields.
+The repository catalogue discovers `*.SKILL.md` files. Any platform importer
+that also supports other formats has a separate contract. **The original author
+must be credited** via the attribution fields.
 
 ## Skill Format
 
@@ -75,13 +74,24 @@ Every skill follows the [SKILL_FORMAT.md](spec/SKILL_FORMAT.md) specification. H
 ---
 name: code-review
 version: 1.0.0
-description: Reviews code for bugs, security issues, and best practices
+description: Reviews a bounded change for concrete defects.
+engenai:
+  category: development
+  trust_tier: unvetted
+  risk_level: low
+  capabilities_required:
+    - tool:file_read
+  allowed_domains: []
+  content_hash: ""
+  signed_by: ""
+  last_reviewed: ""
+  reviewer: ""
 author: Kaidera Team
-skill_type: steering
-category: development
-trust_tier: official
+license: Apache-2.0
+updated: 2026-08-24
 tags: [code-review, quality, security]
-default_permission: allow
+safety_constraints:
+  - Read-only; do not edit or publish review comments.
 ---
 
 ## Instructions
@@ -103,7 +113,10 @@ We welcome contributions! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 - Report issues with skills that don't work as expected
 - Suggest new skill categories
 
-All contributions are licensed under **CC-BY-4.0** — you retain credit as the original author, and the community can build on your work.
+The repository root currently carries CC-BY-4.0 while skill frontmatter can
+declare a per-skill licence. The repository does not yet define a ratified
+precedence rule for disagreement between those declarations. Treat that as a
+licensing hold for external redistribution until the maintainers resolve it.
 
 ## Attribution
 
@@ -117,18 +130,23 @@ If you see your work here without proper credit, please [open an issue](https://
 
 ## Security
 
-Every skill goes through a multi-gate security pipeline before it reaches an agent:
+The target security policy is a multi-gate pipeline. The repository currently implements only prerequisites:
 
-1. **Static Analysis** — Pattern matching for prompt injection, credential leaks, dangerous imports
-2. **Sandbox Testing** — Isolated execution with restricted syscalls and network
-3. **Expert Review** — Human approval required for community-submitted skills
-4. **Runtime Envelope** — Hermetic XML boundary prevents skills from overriding system prompts
+1. **Strict catalogue validation** — YAML, capability, domain, integrity-shape, and schema checks
+2. **Bounded static scan** — Pattern matching for selected prompt-injection and credential signatures
+3. **Sandbox gate — HOLD** — no gVisor/capability execution proof is implemented in this repository
+4. **Human signing/provenance gate — HOLD** — Cosign/SLSA and enforced reviewer trust roots are not active
 
-See [SKILL_FORMAT.md](spec/SKILL_FORMAT.md) for the full vetting specification.
+No generated body hash or marketplace entry is sandbox/signing approval. See [SKILL_FORMAT.md](spec/SKILL_FORMAT.md) for the target policy and exact current status.
+All current catalogue entries are therefore marked `unvetted`. Applying that
+trust correction to an existing deployment can deactivate bindings; Kai must
+approve the migration or provide preserved Gate 4 evidence before merge/cutover.
 
 ## License
 
-This repository is licensed under [CC-BY-4.0](LICENSE) (Creative Commons Attribution 4.0 International).
+The repository root is licensed under [CC-BY-4.0](LICENSE) (Creative Commons
+Attribution 4.0 International). Some skill manifests declare another licence;
+see the unresolved precedence note above before external redistribution.
 
 You are free to:
 - **Share** — copy and redistribute skills in any format

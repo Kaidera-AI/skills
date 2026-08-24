@@ -38,7 +38,7 @@ description: |                     # REQUIRED. One short paragraph, plain Englis
 # ── Classification ────────────────────────────────────────────────────────────
 engenai:
   category: development            # REQUIRED. See Category List below.
-  trust_tier: official             # REQUIRED. See Trust Tiers below.
+  trust_tier: unvetted             # REQUIRED. Trusted tiers are Gate 4-held.
   risk_level: low                  # REQUIRED. low | medium | high
 
   # ── Capability Declarations (REQUIRED — even if empty) ──────────────────────
@@ -117,7 +117,10 @@ the agent's base system prompt.
 | `community_vetted` | Grey-green | Community submitted, passed full 4-gate vetting pipeline |
 | `unvetted` | Grey | GitHub-only, not injected into platform agents |
 
-Only `official`, `verified_partner`, and `community_vetted` skills are injected at runtime. `unvetted` skills are browsable in the portal but cannot be bound to agents.
+Only `official`, `verified_partner`, and `community_vetted` skills are eligible
+for runtime injection, and only after the runtime independently verifies the
+applicable Gate 3/4 evidence. A tier label or catalogue row alone is not that
+evidence. `unvetted` skills are browsable but cannot be bound to agents.
 
 ---
 
@@ -137,15 +140,29 @@ The marketplace policy requires four gates before a skill reaches
 
 The repository does **not** yet implement all four policy gates:
 
-- Gate 1 has a local contract validator and forbidden-pattern checks, but not a
-  complete YAML/JSON-Schema implementation.
+- Gate 1 has strict YAML parsing with duplicate-key rejection plus complete-
+  catalogue capability/domain/field validation. A separate formal JSON Schema
+  is still future work.
 - Gate 2 has a bounded regex scanner, not the specified LLM Guard control.
 - Gate 3 is a **HOLD**. `skill-sandbox-test.yml` performs contract checks and a
   marketplace dry run; it does not execute a skill in gVisor or another
   capability sandbox.
-- Gate 4 is a **HOLD**. `skill-publish.yml` refreshes body hashes and the
-  marketplace, but Cosign/SLSA and required human-review enforcement are not
-  active.
+- Gate 4 is a **HOLD**. `skill-publish.yml` reproduces the marketplace
+  deterministically and checks for drift, but Cosign/SLSA and
+  required human-review enforcement are not active.
+
+While this hold exists, repository validation accepts only `trust_tier:
+unvetted` and requires approval/signature fields to remain empty. The code-local
+hold flag is not a trust root and cannot ratify a tier. Lifting it requires a
+separately reviewed verifier, pinned trust policy, human approval enforcement,
+and signed provenance.
+
+Gate 1 also rejects duplicate skill names, unknown schema fields, invalid
+calendar dates, category/path disagreement, symlink/non-regular inputs, files
+over 1 MiB, and capability/risk mismatch (`code_interpreter`, network, external
+MCP, or writes cannot be declared low risk). Domain references are checked
+against the manifest allowlist, including literal, scheme-relative, IPv6, and
+basic HTML-entity-obfuscated HTTP(S) forms.
 
 Passing the current workflows therefore proves only their named local checks.
 It must not be described as Gate 3/4 acceptance, signature, provenance, or
@@ -164,17 +181,29 @@ The following patterns cause **automatic rejection at Gate 2**:
 - `<|im_start|>` / `<|system|>` — ChatML / Llama template injection
 - `### instruction` — Alpaca template injection
 - Zero-width / invisible Unicode (U+200B, U+FEFF, RTL override)
-- Base64-encoded strings outside declared code blocks
-- Hardcoded API keys, tokens, or credentials of any kind
+- Printable, mixed-class Base64 payload candidates anywhere in the injectable
+  document, including fenced examples
+- Selected high-confidence OpenAI, GitHub, Google, and AWS credential signatures
+
+These bounded patterns are not a complete secret scanner or semantic prompt-
+injection proof. Gate 2 remains a subset until a separately maintained corpus
+and scanner policy are ratified.
 
 ---
 
-## CI-managed and approval fields
+## Generated integrity and approval fields
 
-The current catalogue-refresh workflow fills:
+The deterministic catalogue generator fills each marketplace entry's:
 
-- `content_hash`: SHA-256 of the trimmed skill body (everything below the
-  frontmatter) for catalogue consistency.
+- `content_hash`: SHA-256 of the skill body (everything below the frontmatter)
+  after CRLF/CR line endings are normalized to LF and leading/trailing
+  whitespace is trimmed, for catalogue consistency.
+
+The in-file `engenai.content_hash` may remain empty while Gate 4 is held. When
+non-empty, strict validation requires it to equal the same canonical body hash.
+The integrity workflow regenerates the complete catalogue and fails on drift;
+it has read-only repository permissions and never commits or pushes generated
+changes.
 
 This body hash is not a signature and does not bind frontmatter capability or
 trust metadata. Until the Gate 4 hold is lifted, these approval fields remain
@@ -200,7 +229,7 @@ description: |
 
 engenai:
   category: development
-  trust_tier: official
+  trust_tier: unvetted
   risk_level: low
   capabilities_required: []
   allowed_domains: []

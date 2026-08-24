@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "patterns": [
+    {"id": "xml-envelope", "name": "XML envelope escape", "pattern": "</skills_context>", "flags": "i"},
+    {"id": "policy-puppetry", "name": "Policy Puppetry", "pattern": "<platform_policy", "flags": "i"},
+    {"id": "direct-override", "name": "direct override", "pattern": "ignore\\s+(all\\s+)?(previous\\s+)?instructions", "flags": "i"},
+    {"id": "identity-role", "name": "identity role replacement", "pattern": "you\\s+are\\s+now\\s+(a|an)\\s", "flags": "i"},
+    {"id": "identity-purpose", "name": "identity purpose replacement", "pattern": "your\\s+true\\s+purpose", "flags": "i"},
+    {"id": "chatml-token", "name": "ChatML injection", "pattern": "<\\|im_start\\|>", "flags": "i"},
+    {"id": "llama-token", "name": "Llama template injection", "pattern": "<\\|system\\|>", "flags": "i"},
+    {"id": "alpaca-heading", "name": "Alpaca template injection", "pattern": "###\\s*instruction", "flags": "i"},
+    {"id": "invisible-unicode", "name": "invisible Unicode", "pattern": "[\\u200b\\u200c\\u200d\\ufeff\\u202a-\\u202e]", "flags": ""},
+    {"id": "credential-signature", "name": "hardcoded credential", "pattern": "(sk-(?:(?:proj|svcacct)-)?[A-Za-z0-9_-]{20,}|gh[pousr]_[A-Za-z0-9]{36,255}|github_pat_[A-Za-z0-9_]{22,255}|AIza[A-Za-z0-9_-]{35}|AKIA[A-Za-z0-9]{16})", "flags": ""}
+  ]
+}

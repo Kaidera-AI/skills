@@ -1,14 +1,16 @@
 ---
 name: code-review
-version: 2.0.0
+version: 2.1.1
 description: |
-  Two-stage code review process for EnGenAI. Stage 1 checks spec compliance,
-  Stage 2 checks code quality. Stage 2 cannot begin until Stage 1 passes.
-  Based on the Superpowers research pattern.
+  Lightweight, no-tool, two-stage checklist for an already completed change
+  when the user explicitly wants specification compliance to gate a subsequent
+  code-quality pass. It does not construct immutable diff receipts or perform
+  adversarial evidence review; use open-code-review for those bounded-change
+  guarantees and ultrareview for whole-codebase health audits.
 
 engenai:
   category: development
-  trust_tier: official
+  trust_tier: unvetted
   risk_level: low
   capabilities_required: []
   allowed_domains: []
@@ -19,7 +21,7 @@ engenai:
 
 author: engenai
 license: Apache-2.0
-updated: 2026-03-05
+updated: 2026-08-24
 tags: [review, quality, spec-compliance, code-quality]
 
 safety_constraints:
@@ -30,6 +32,10 @@ safety_constraints:
 # Code Review
 
 Two-stage review gate. Stage 2 cannot begin until Stage 1 passes.
+
+Use this only for an explicitly requested lightweight spec-first checklist.
+Route evidence-gated workspace/commit/range/PR review to `open-code-review`, and
+route repository/module health or architecture audit to `ultrareview`.
 
 ## Pre-Conditions
 

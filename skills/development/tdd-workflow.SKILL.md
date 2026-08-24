@@ -1,6 +1,6 @@
 ---
 name: tdd-workflow
-version: 2.0.0
+version: 2.0.1
 description: |
   Test-Driven Development workflow for EnGenAI backend and frontend code.
   Write failing tests first, then implement, then verify with evidence.
@@ -8,7 +8,7 @@ description: |
 
 engenai:
   category: development
-  trust_tier: official
+  trust_tier: unvetted
   risk_level: low
   capabilities_required: []
   allowed_domains: []
@@ -19,7 +19,7 @@ engenai:
 
 author: engenai
 license: Apache-2.0
-updated: 2026-03-05
+updated: 2026-08-24
 tags: [tdd, testing, pytest, jest, verification]
 
 safety_constraints:

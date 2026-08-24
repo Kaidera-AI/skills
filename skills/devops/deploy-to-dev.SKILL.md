@@ -1,6 +1,6 @@
 ---
 name: deploy-to-dev
-version: 3.0.0
+version: 3.0.2
 description: |
   Deploy to dev.engenai.app via GitOps CI/CD pipeline. Push to sprint branch
   triggers GitHub Actions → builds images → updates gitops/dev → ArgoCD syncs.
@@ -8,10 +8,11 @@ description: |
 
 engenai:
   category: devops
-  trust_tier: official
+  trust_tier: unvetted
   risk_level: medium
   capabilities_required: []
-  allowed_domains: []
+  allowed_domains:
+    - dev.engenai.app
   content_hash: ""
   signed_by: ""
   last_reviewed: ""
@@ -19,7 +20,7 @@ engenai:
 
 author: engenai
 license: Apache-2.0
-updated: 2026-03-05
+updated: 2026-08-24
 tags: [deploy, cicd, argocd, gitops, kubernetes]
 
 safety_constraints:

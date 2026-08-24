@@ -1,6 +1,6 @@
 ---
 name: infrastructure-context
-version: 1.0.0
+version: 1.0.2
 description: |
   EnGenAI infrastructure conventions — GCP GKE, ArgoCD GitOps, Terraform,
   Helm, CI/CD pipeline, K8s deployment patterns, and security hardening
@@ -8,10 +8,11 @@ description: |
 
 engenai:
   category: context
-  trust_tier: official
+  trust_tier: unvetted
   risk_level: low
   capabilities_required: []
-  allowed_domains: []
+  allowed_domains:
+    - github.com
   content_hash: ""
   signed_by: ""
   last_reviewed: ""
@@ -19,7 +20,7 @@ engenai:
 
 author: engenai
 license: Apache-2.0
-updated: 2026-03-05
+updated: 2026-08-24
 tags: [context, infrastructure, k8s, gcp, argocd, terraform, cicd]
 
 safety_constraints:

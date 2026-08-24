@@ -1,7 +1,7 @@
 {
   "name": "skills",
   "version": "1.0.0",
-  "description": "EnGenAI Skills Marketplace — vetted, open-source skills for AI agents",
+  "description": "Kaidera Skills Marketplace — locally validated skill manifests for AI agents",
   "private": true,
   "scripts": {
     "validate": "node scripts/validate-skill.js",
@@ -11,5 +11,10 @@
   },
   "engines": {
     "node": ">=20"
+  },
+  "dependencies": {
+    "ajv": "8.20.0",
+    "ajv-formats": "3.0.1",
+    "yaml": "2.9.0"
   }
 }

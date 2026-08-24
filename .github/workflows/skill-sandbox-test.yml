@@ -7,13 +7,36 @@ on:
       - 'scripts/generate-marketplace.js'
       - 'scripts/test-open-code-review.js'
       - 'scripts/validate-skill.js'
+      - 'scripts/skill-format.js'
+      - 'package.json'
+      - 'package-lock.json'
       - 'spec/SKILL_FORMAT.md'
+      - 'spec/open-code-review-report.schema.json'
+      - 'spec/skill-security-patterns.json'
       - '.github/workflows/skill-sandbox-test.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'skills/**/*.SKILL.md'
+      - 'scripts/generate-marketplace.js'
+      - 'scripts/test-open-code-review.js'
+      - 'scripts/validate-skill.js'
+      - 'scripts/skill-format.js'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'spec/SKILL_FORMAT.md'
+      - 'spec/open-code-review-report.schema.json'
+      - 'spec/skill-security-patterns.json'
+      - '.github/workflows/skill-sandbox-test.yml'
+
+permissions:
+  contents: read
 
 jobs:
   schema-validation:
     name: Full Schema Validation
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
 
@@ -22,38 +45,13 @@ jobs:
           node-version: '20'
 
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --ignore-scripts --no-audit
 
       - name: Run marketplace and review-skill contract tests
         run: npm test
 
-      - name: Validate all skills in PR
-        run: |
-          git diff --name-only origin/${{ github.base_ref }}...HEAD \
-            | sed -n '/^skills\/.*\.SKILL\.md$/p' \
-            | xargs -r node scripts/validate-skill.js --strict
-
-      - name: Check capabilities_required is declared
-        run: |
-          git diff --name-only origin/${{ github.base_ref }}...HEAD \
-            | sed -n '/^skills\/.*\.SKILL\.md$/p' \
-            | while IFS= read -r f; do
-                if ! grep -q 'capabilities_required:' "$f"; then
-                  echo "ERROR: $f missing capabilities_required"
-                  exit 1
-                fi
-              done
-
-      - name: Check safety_constraints is declared
-        run: |
-          git diff --name-only origin/${{ github.base_ref }}...HEAD \
-            | sed -n '/^skills\/.*\.SKILL\.md$/p' \
-            | while IFS= read -r f; do
-                if ! grep -q 'safety_constraints:' "$f"; then
-                  echo "ERROR: $f missing safety_constraints"
-                  exit 1
-                fi
-              done
+      - name: Validate complete skill catalogue strictly
+        run: find skills -name '*.SKILL.md' -print0 | sort -z | xargs -0 node scripts/validate-skill.js --strict
 
       - name: Declare runtime sandbox hold
         run: |
@@ -63,6 +61,7 @@ jobs:
   marketplace-json-dry-run:
     name: Marketplace JSON Dry Run
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
 
@@ -71,7 +70,7 @@ jobs:
           node-version: '20'
 
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --ignore-scripts --no-audit
 
       - name: Generate marketplace.json (dry run)
         run: node scripts/generate-marketplace.js --dry-run
