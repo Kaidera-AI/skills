@@ -7,24 +7,82 @@ const fs = require('node:fs')
 const path = require('node:path')
 const Ajv2020 = require('ajv/dist/2020')
 const YAML = require('yaml')
-const { parseSkillContent, readSkillFile } = require('./skill-format')
-const { validateSkill } = require('./validate-skill')
 
-const PROFILE = 'kaidera-static-routing-v1'
+const PROFILE_VERSION = 'v2'
+const PROFILE = 'kaidera-static-routing-v2'
+const SCHEMA_VERSION = 2
 const MAX_EVAL_BYTES = 1024 * 1024
+const INTERPRETATION_DEPENDENCIES = [
+  'ajv', 'ajv-formats', 'fast-deep-equal', 'fast-uri', 'json-schema-traverse', 'require-from-string', 'yaml',
+]
+const EVALUATOR_IMPLEMENTATION_PATHS = [
+  'scripts/static-skill-eval.js',
+  'scripts/skill-format.js',
+  'scripts/validate-skill.js',
+  'spec/skill-security-patterns.json',
+]
+const NETWORK_CAPABILITIES = new Set(['tool:mcp_external', 'tool:web_search'])
 const SHELL_FENCE_LANGUAGES = new Set(['bash', 'console', 'powershell', 'pwsh', 'sh', 'shell', 'zsh'])
 const NETWORK_COMMANDS = new Set(['curl', 'ftp', 'nc', 'ncat', 'netcat', 'scp', 'sftp', 'ssh', 'telnet', 'wget'])
 const WRITE_COMMANDS = new Set(['chmod', 'chown', 'cp', 'dd', 'install', 'mkdir', 'mv', 'rm', 'rmdir', 'tee', 'touch', 'truncate'])
-const READ_COMMANDS = new Set(['cat', 'find', 'grep', 'head', 'less', 'more', 'readlink', 'rg', 'stat', 'tail'])
-const NETWORK_GIT_SUBCOMMANDS = new Set(['clone', 'fetch', 'pull', 'push'])
+const READ_COMMANDS = new Set(['awk', 'cat', 'grep', 'head', 'less', 'more', 'readlink', 'rg', 'sed', 'stat', 'tail'])
+const NEUTRAL_COMMANDS = new Set(['basename', 'date', 'dirname', 'echo', 'false', 'printf', 'pwd', 'true', 'type', 'uname', 'which'])
+const NETWORK_GIT_SUBCOMMANDS = new Set(['clone', 'fetch', 'ls-remote', 'pull', 'push', 'submodule'])
 const WRITE_GIT_SUBCOMMANDS = new Set([
-  'add', 'am', 'apply', 'checkout', 'cherry-pick', 'clean', 'commit', 'gc', 'maintenance',
-  'merge', 'push', 'rebase', 'reset', 'restore', 'tag', 'update-index', 'write-tree',
+  'add', 'am', 'apply', 'branch', 'checkout', 'cherry-pick', 'clean', 'clone', 'commit', 'fetch',
+  'gc', 'init', 'maintenance', 'merge', 'mv', 'notes', 'pull', 'push', 'rebase', 'reset', 'restore',
+  'revert', 'rm', 'sparse-checkout', 'stash', 'submodule', 'switch', 'tag', 'update-index', 'worktree',
+  'write-tree',
 ])
-const READ_GIT_SUBCOMMANDS = new Set(['cat-file', 'diff', 'log', 'ls-files', 'rev-parse', 'show', 'status'])
+const READ_GIT_SUBCOMMANDS = new Set([
+  'cat-file', 'diff', 'diff-tree', 'for-each-ref', 'grep', 'hash-object', 'log', 'ls-files',
+  'merge-base', 'name-rev', 'rev-list', 'rev-parse', 'show', 'show-ref', 'status',
+])
+const POWERSHELL_NETWORK_COMMANDS = new Set(['irm', 'invoke-restmethod', 'invoke-webrequest', 'iwr'])
+const POWERSHELL_WRITE_COMMANDS = new Set([
+  'add-content', 'clear-content', 'copy-item', 'move-item', 'new-item', 'out-file', 'remove-item',
+  'rename-item', 'set-content',
+])
+const POWERSHELL_READ_COMMANDS = new Set(['get-childitem', 'get-content', 'get-item', 'select-string'])
+const PACKAGE_MANAGER_RULES = new Map([
+  ['apt', { networkWrite: new Set(['download', 'install', 'update', 'upgrade']), network: new Set([]), write: new Set(['autoremove', 'purge', 'remove']), read: new Set(['list', 'show']) }],
+  ['apt-get', { networkWrite: new Set(['download', 'install', 'update', 'upgrade']), network: new Set([]), write: new Set(['autoremove', 'purge', 'remove']), read: new Set(['indextargets']) }],
+  ['brew', { networkWrite: new Set(['install', 'update', 'upgrade']), network: new Set([]), write: new Set(['uninstall']), read: new Set(['info', 'list']) }],
+  ['bun', { networkWrite: new Set(['add', 'install', 'publish', 'remove', 'update']), network: new Set([]), write: new Set([]), read: new Set([]) }],
+  ['cargo', { networkWrite: new Set(['install', 'publish', 'update']), network: new Set(['search']), write: new Set(['uninstall']), read: new Set(['metadata']) }],
+  ['dnf', { networkWrite: new Set(['install', 'update', 'upgrade']), network: new Set([]), write: new Set(['remove']), read: new Set(['info', 'list']) }],
+  ['npm', { networkWrite: new Set(['add', 'audit', 'ci', 'install', 'publish', 'uninstall', 'update']), network: new Set(['view']), write: new Set([]), read: new Set(['list']) }],
+  ['pip', { networkWrite: new Set(['download', 'install']), network: new Set([]), write: new Set(['uninstall']), read: new Set(['freeze', 'list', 'show']) }],
+  ['pip3', { networkWrite: new Set(['download', 'install']), network: new Set([]), write: new Set(['uninstall']), read: new Set(['freeze', 'list', 'show']) }],
+  ['pipx', { networkWrite: new Set(['install', 'upgrade']), network: new Set([]), write: new Set(['uninstall']), read: new Set(['list']) }],
+  ['pnpm', { networkWrite: new Set(['add', 'audit', 'install', 'publish', 'remove', 'update']), network: new Set(['view']), write: new Set([]), read: new Set(['list']) }],
+  ['yarn', { networkWrite: new Set(['add', 'install', 'npm', 'remove', 'up', 'upgrade']), network: new Set(['info']), write: new Set([]), read: new Set(['list', 'why']) }],
+  ['yum', { networkWrite: new Set(['install', 'update', 'upgrade']), network: new Set([]), write: new Set(['remove']), read: new Set(['info', 'list']) }],
+])
+let evaluatorSupport = null
 
 function sha256(bytes) {
   return crypto.createHash('sha256').update(bytes).digest('hex')
+}
+
+function uint64(value) {
+  const bytes = Buffer.allocUnsafe(8)
+  bytes.writeBigUInt64BE(BigInt(value))
+  return bytes
+}
+
+function updateFileRecord(hash, relativePath, bytes) {
+  const pathBytes = Buffer.from(relativePath, 'utf8')
+  hash.update(uint64(pathBytes.length))
+  hash.update(pathBytes)
+  hash.update(uint64(bytes.length))
+  hash.update(bytes)
+}
+
+function hashFileRecords(files) {
+  const hash = crypto.createHash('sha256')
+  for (const file of files) updateFileRecord(hash, file.path, file.bytes)
+  return hash.digest('hex')
 }
 
 function stableValue(value) {
@@ -39,7 +97,7 @@ function stableStringify(value) {
   return JSON.stringify(stableValue(value))
 }
 
-function readRegularUtf8(filePath) {
+function readRegularBytes(filePath) {
   const before = fs.lstatSync(filePath)
   if (!before.isFile() || before.isSymbolicLink()) throw new Error('must be a regular non-symlink file')
   if (before.size > MAX_EVAL_BYTES) throw new Error(`exceeds ${MAX_EVAL_BYTES} byte limit`)
@@ -66,18 +124,112 @@ function readRegularUtf8(filePath) {
     if (bytes.length > MAX_EVAL_BYTES || after.size !== held.size || bytes.length !== after.size) {
       throw new Error('changed while being read or exceeds the byte limit')
     }
-    try {
-      return new TextDecoder('utf-8', { fatal: true }).decode(bytes)
-    } catch {
-      throw new Error('must contain valid UTF-8')
-    }
+    return bytes
   } finally {
     fs.closeSync(fd)
   }
 }
 
-function parseUniqueJson(filePath) {
-  const source = readRegularUtf8(filePath)
+function hashDirectoryTree(directoryPath) {
+  const rootPath = fs.realpathSync.native(directoryPath)
+  const hash = crypto.createHash('sha256')
+  let fileCount = 0
+  let totalBytes = 0
+
+  function visit(absoluteDirectory, relativeDirectory) {
+    const entries = fs.readdirSync(absoluteDirectory, { withFileTypes: true }).sort((left, right) => compareText(left.name, right.name))
+    for (const entry of entries) {
+      const absolutePath = path.join(absoluteDirectory, entry.name)
+      const relativePath = path.posix.join(relativeDirectory, entry.name)
+      const stat = fs.lstatSync(absolutePath)
+      if (stat.isSymbolicLink()) throw new Error(`dependency tree contains a symlink: ${relativePath}`)
+      if (stat.isDirectory()) {
+        visit(absolutePath, relativePath)
+      } else if (stat.isFile()) {
+        const bytes = readRegularBytes(absolutePath)
+        updateFileRecord(hash, relativePath, bytes)
+        fileCount += 1
+        totalBytes += bytes.length
+      } else {
+        throw new Error(`dependency tree contains a non-file entry: ${relativePath}`)
+      }
+    }
+  }
+
+  visit(rootPath, '')
+  return { sha256: hash.digest('hex'), files: fileCount, bytes: totalBytes }
+}
+
+function decodeUtf8(bytes, { rejectBom = false } = {}) {
+  if (rejectBom && bytes.length >= 3 && bytes[0] === 0xef && bytes[1] === 0xbb && bytes[2] === 0xbf) {
+    throw new Error('must not contain a UTF-8 BOM')
+  }
+  try {
+    return new TextDecoder('utf-8', { fatal: true, ignoreBOM: rejectBom }).decode(bytes)
+  } catch {
+    throw new Error('must contain valid UTF-8')
+  }
+}
+
+function rootContext(root) {
+  const absoluteRoot = path.resolve(root)
+  const rootStat = fs.lstatSync(absoluteRoot)
+  if (!rootStat.isDirectory() || rootStat.isSymbolicLink()) {
+    throw new Error('repository root must be a regular non-symlink directory')
+  }
+  return { absoluteRoot, realRoot: fs.realpathSync.native(absoluteRoot) }
+}
+
+function resolveRootEntry(root, relativePath, expectedType = 'file') {
+  if (typeof relativePath !== 'string' || relativePath === '' || path.isAbsolute(relativePath) || relativePath.includes('\0')) {
+    throw new Error('path must be a non-empty repository-relative path')
+  }
+  const segments = relativePath.split('/')
+  if (segments.length === 0 || segments.some(segment => segment === '.' || segment === '..' || segment.includes(path.sep))) {
+    throw new Error('path must not contain empty, dot, or parent components')
+  }
+
+  const { absoluteRoot, realRoot } = rootContext(root)
+  let current = absoluteRoot
+  for (let index = 0; index < segments.length; index += 1) {
+    current = path.join(current, segments[index])
+    const stat = fs.lstatSync(current)
+    if (stat.isSymbolicLink()) throw new Error(`path component is a symlink: ${segments.slice(0, index + 1).join('/')}`)
+    if (index < segments.length - 1 && !stat.isDirectory()) {
+      throw new Error(`path component is not a directory: ${segments.slice(0, index + 1).join('/')}`)
+    }
+  }
+
+  const finalStat = fs.lstatSync(current)
+  if (expectedType === 'file' && !finalStat.isFile()) throw new Error('must resolve to a regular file')
+  if (expectedType === 'directory' && !finalStat.isDirectory()) throw new Error('must resolve to a directory')
+  const realEntry = fs.realpathSync.native(current)
+  const containment = path.relative(realRoot, realEntry)
+  if (containment === '..' || containment.startsWith(`..${path.sep}`) || path.isAbsolute(containment)) {
+    throw new Error('resolved path escapes repository root')
+  }
+  return current
+}
+
+function readRootBytes(root, relativePath) {
+  const absolutePath = resolveRootEntry(root, relativePath, 'file')
+  const bytes = readRegularBytes(absolutePath)
+  return { absolutePath, bytes }
+}
+
+function readRootUtf8(root, relativePath, { rejectBom = true } = {}) {
+  const { absolutePath, bytes } = readRootBytes(root, relativePath)
+  return { absolutePath, bytes, source: decodeUtf8(bytes, { rejectBom }) }
+}
+
+function parseUniqueJsonRead(read) {
+  const { source } = read
+  let value
+  try {
+    value = JSON.parse(source)
+  } catch (error) {
+    throw new Error(`must contain strict JSON: ${error.message}`)
+  }
   const document = YAML.parseDocument(source, {
     prettyErrors: true,
     schema: 'json',
@@ -90,17 +242,53 @@ function parseUniqueJson(filePath) {
   if (document.warnings.length > 0) {
     throw new Error(document.warnings.map(warning => warning.message).join('; '))
   }
-  const value = document.toJS({ maxAliasCount: 0 })
   if (!value || typeof value !== 'object' || Array.isArray(value)) throw new Error('must contain one JSON object')
-  return { source, value }
+  return { ...read, value }
+}
+
+function parseUniqueJsonAtRoot(root, relativePath) {
+  return parseUniqueJsonRead(readRootUtf8(root, relativePath))
+}
+
+function loadEvaluatorSupport() {
+  if (!evaluatorSupport) {
+    const skillFormat = require('./skill-format')
+    const skillValidator = require('./validate-skill')
+    evaluatorSupport = {
+      parseSkillContent: skillFormat.parseSkillContent,
+      validateSkill: skillValidator.validateSkill,
+    }
+  }
+  return evaluatorSupport
 }
 
 function normalizeText(value) {
   return value.normalize('NFKC').toLowerCase().replace(/\s+/g, ' ').trim()
 }
 
+function isWordCharacter(value) {
+  return typeof value === 'string' && /[\p{L}\p{N}_]/u.test(value)
+}
+
+function phraseMatches(normalizedPrompt, phrase) {
+  let offset = 0
+  const first = [...phrase][0]
+  const last = [...phrase].at(-1)
+  while (offset <= normalizedPrompt.length - phrase.length) {
+    const index = normalizedPrompt.indexOf(phrase, offset)
+    if (index === -1) return false
+    const before = index === 0 ? null : [...normalizedPrompt.slice(0, index)].at(-1)
+    const afterIndex = index + phrase.length
+    const after = afterIndex === normalizedPrompt.length ? null : [...normalizedPrompt.slice(afterIndex)][0]
+    if ((!isWordCharacter(first) || !isWordCharacter(before)) &&
+        (!isWordCharacter(last) || !isWordCharacter(after))) return true
+    offset = index + 1
+  }
+  return false
+}
+
 function groupMatches(normalizedPrompt, group) {
-  return group.every(phrase => normalizedPrompt.includes(phrase))
+  return group.every(phrase => phraseMatches(normalizedPrompt, phrase))
 }
 
 function evaluatePrompt(prompt, suites) {
@@ -186,7 +374,40 @@ function hasOutputRedirection(command) {
       quote = character
       continue
     }
-    if (character === '>' && command[index + 1] !== '&' && command[index - 1] !== '>') return true
+    if (character === '>') {
+      if (command[index + 1] !== '&') return true
+      const duplicationTarget = command.slice(index + 2).match(/^\s*([^\s;&|<>]+)/)
+      if (!duplicationTarget || !/^\d+$/.test(duplicationTarget[1])) return true
+      index += 1 + duplicationTarget[0].length
+    }
+  }
+  return false
+}
+
+function hasUnsupportedControlOperator(command) {
+  let quote = null
+  let escaped = false
+  for (let index = 0; index < command.length; index += 1) {
+    const character = command[index]
+    if (escaped) {
+      escaped = false
+      continue
+    }
+    if (character === '\\' && quote !== "'") {
+      escaped = true
+      continue
+    }
+    if (quote) {
+      if (character === quote) quote = null
+      continue
+    }
+    if (character === '"' || character === "'") {
+      quote = character
+      continue
+    }
+    if (character === '&' && !['&', '<', '>'].includes(command[index - 1]) && !['&', '>'].includes(command[index + 1])) {
+      return true
+    }
   }
   return false
 }
@@ -203,39 +424,109 @@ function commandParts(command) {
   }).filter(part => part.executable)
 }
 
+function gitSubcommand(args) {
+  for (let index = 0; index < args.length; index += 1) {
+    const argument = args[index].toLowerCase()
+    if (['-c', '-C', '--git-dir', '--namespace', '--super-prefix', '--work-tree'].map(value => value.toLowerCase()).includes(argument)) {
+      index += 1
+      continue
+    }
+    if (argument.startsWith('--git-dir=') || argument.startsWith('--namespace=') ||
+        argument.startsWith('--super-prefix=') || argument.startsWith('--work-tree=')) continue
+    if (argument.startsWith('-')) continue
+    return { name: argument, args: args.slice(index + 1) }
+  }
+  return { name: '', args: [] }
+}
+
+function classifyPackageManager(executable, args, classifications) {
+  const rules = PACKAGE_MANAGER_RULES.get(executable)
+  if (!rules) return false
+  const subcommand = (args.find(argument => !argument.startsWith('-')) || '').toLowerCase()
+  if (rules.networkWrite.has(subcommand)) {
+    classifications.add('network')
+    classifications.add('write')
+  } else if (rules.network.has(subcommand)) {
+    classifications.add('network')
+  } else if (rules.write.has(subcommand)) {
+    classifications.add('write')
+  } else if (rules.read.has(subcommand)) {
+    classifications.add('read')
+  } else {
+    classifications.add('unknown')
+  }
+  return true
+}
+
 function classifyCommand(command) {
   const classifications = new Set()
   if (hasOutputRedirection(command)) classifications.add('write')
+  if (hasUnsupportedControlOperator(command)) classifications.add('unknown')
 
   for (const part of commandParts(command)) {
     const executable = part.executable.toLowerCase()
-    const first = (part.args[0] || '').toLowerCase()
-    const second = (part.args[1] || '').toLowerCase()
-    if (part.args.some(argument => ['--help', '--version'].includes(argument.toLowerCase()))) continue
+    let recognized = false
 
-    if (NETWORK_COMMANDS.has(executable)) classifications.add('network')
-    if (WRITE_COMMANDS.has(executable)) classifications.add('write')
-    if (READ_COMMANDS.has(executable)) classifications.add('read')
+    if (NETWORK_COMMANDS.has(executable)) {
+      recognized = true
+      classifications.add('network')
+    }
+    if (WRITE_COMMANDS.has(executable)) {
+      recognized = true
+      classifications.add('write')
+    }
+    if (READ_COMMANDS.has(executable)) {
+      recognized = true
+      classifications.add('read')
+      if (executable === 'sed' && part.args.some(argument => {
+        const option = argument.toLowerCase()
+        return option === '-i' || /^-[^-]*i/.test(option) || option.startsWith('--in-place')
+      })) {
+        classifications.add('write')
+      }
+    }
+    if (NEUTRAL_COMMANDS.has(executable)) recognized = true
+    if (executable === 'find') {
+      recognized = true
+      classifications.add('read')
+      if (part.args.some(argument => argument.toLowerCase() === '-delete')) classifications.add('write')
+      if (part.args.some(argument => ['-fls', '-fprintf', '-fprint', '-fprint0'].includes(argument.toLowerCase()))) {
+        classifications.add('write')
+      }
+      if (part.args.some(argument => ['-exec', '-execdir', '-ok', '-okdir'].includes(argument.toLowerCase()))) {
+        classifications.add('unknown')
+      }
+    }
     if (executable === 'git') {
-      if (NETWORK_GIT_SUBCOMMANDS.has(first)) classifications.add('network')
-      if (WRITE_GIT_SUBCOMMANDS.has(first) || (first === 'hash-object' && part.args.includes('-w'))) classifications.add('write')
-      if (READ_GIT_SUBCOMMANDS.has(first)) classifications.add('read')
+      recognized = true
+      const subcommand = gitSubcommand(part.args)
+      if (!subcommand.name) classifications.add('unknown')
+      if (NETWORK_GIT_SUBCOMMANDS.has(subcommand.name)) classifications.add('network')
+      if ((WRITE_GIT_SUBCOMMANDS.has(subcommand.name) ||
+          (subcommand.name === 'hash-object' && subcommand.args.includes('-w')))) classifications.add('write')
+      if (READ_GIT_SUBCOMMANDS.has(subcommand.name)) classifications.add('read')
+      if (!NETWORK_GIT_SUBCOMMANDS.has(subcommand.name) && !WRITE_GIT_SUBCOMMANDS.has(subcommand.name) &&
+          !READ_GIT_SUBCOMMANDS.has(subcommand.name)) classifications.add('unknown')
     }
-    if (executable === 'gh' && (first === 'api' || ['comment', 'create', 'merge'].includes(second))) {
+    if (executable === 'gh') {
+      recognized = true
       classifications.add('network')
     }
-    if (['npm', 'pnpm', 'yarn'].includes(executable) && ['add', 'ci', 'install', 'publish'].includes(first)) {
+    if (POWERSHELL_NETWORK_COMMANDS.has(executable)) {
+      recognized = true
       classifications.add('network')
+      if (part.args.some(argument => argument.toLowerCase() === '-outfile')) classifications.add('write')
+    }
+    if (POWERSHELL_WRITE_COMMANDS.has(executable)) {
+      recognized = true
       classifications.add('write')
     }
-    if (['pip', 'pip3'].includes(executable) && first === 'install') {
-      classifications.add('network')
-      classifications.add('write')
+    if (POWERSHELL_READ_COMMANDS.has(executable)) {
+      recognized = true
+      classifications.add('read')
     }
-    if (executable === 'brew' && ['install', 'update', 'upgrade'].includes(first)) {
-      classifications.add('network')
-      classifications.add('write')
-    }
+    if (classifyPackageManager(executable, part.args, classifications)) recognized = true
+    if (!recognized) classifications.add('unknown')
   }
   return classifications
 }
@@ -246,6 +537,12 @@ function semanticLint(body, declaredCapabilities, assertions) {
   for (const entry of shellFenceLines(body)) {
     const classifications = classifyCommand(entry.command)
     const command = entry.command.slice(0, 160)
+    if (!capabilitySet.has('tool:code_interpreter')) {
+      findings.push({ code: 'STATIC_LINT_UNDECLARED_CODE_INTERPRETER', line: entry.line, command })
+    }
+    if (classifications.has('unknown')) {
+      findings.push({ code: 'STATIC_LINT_UNKNOWN_COMMAND', line: entry.line, command })
+    }
     if (classifications.has('network') && assertions.no_network) {
       findings.push({ code: 'STATIC_LINT_NETWORK_COMMAND', line: entry.line, command })
     }
@@ -271,29 +568,189 @@ function formatSchemaErrors(errors) {
   return (errors || []).map(error => `${error.instancePath || '/'} ${error.message}`).sort()
 }
 
+function listFixturePaths(root) {
+  const baseRelativePath = 'evals/static-routing'
+  const baseAbsolutePath = resolveRootEntry(root, baseRelativePath, 'directory')
+  const fixturePaths = []
+
+  function visit(absoluteDirectory, relativeDirectory) {
+    const entries = fs.readdirSync(absoluteDirectory, { withFileTypes: true }).sort((left, right) => compareText(left.name, right.name))
+    for (const entry of entries) {
+      const relativePath = path.posix.join(relativeDirectory, entry.name)
+      const absolutePath = path.join(absoluteDirectory, entry.name)
+      const stat = fs.lstatSync(absolutePath)
+      if (stat.isSymbolicLink()) throw new Error(`fixture path component is a symlink: ${relativePath}`)
+      if (stat.isDirectory()) {
+        visit(absolutePath, relativePath)
+      } else if (stat.isFile() && entry.name.endsWith('.eval.json')) {
+        fixturePaths.push(relativePath)
+      }
+    }
+  }
+
+  visit(baseAbsolutePath, baseRelativePath)
+  return fixturePaths.sort(compareText)
+}
+
 function createSuiteValidator(root = path.join(__dirname, '..')) {
-  const schemaPath = path.join(root, 'spec', 'static-skill-eval.schema.json')
-  const schemaDocument = parseUniqueJson(schemaPath)
+  const schemaPath = 'spec/static-skill-eval.schema.json'
+  const schemaDocument = parseUniqueJsonAtRoot(root, schemaPath)
   const ajv = new Ajv2020({ allErrors: true, strict: true })
-  return ajv.compile(schemaDocument.value)
+  const validate = ajv.compile(schemaDocument.value)
+  validate.schemaReceipt = { path: schemaPath, sha256: sha256(schemaDocument.bytes) }
+  return validate
+}
+
+function dependencyReceipt(name) {
+  const packageJsonPath = fs.realpathSync.native(require.resolve(`${name}/package.json`))
+  const bytes = readRegularBytes(packageJsonPath)
+  const parsed = parseUniqueJsonRead({
+    absolutePath: packageJsonPath,
+    bytes,
+    source: decodeUtf8(bytes, { rejectBom: true }),
+  })
+  const tree = hashDirectoryTree(path.dirname(packageJsonPath))
+  return {
+    name,
+    version: parsed.value.version,
+    package_json_sha256: sha256(bytes),
+    package_tree_sha256: tree.sha256,
+    package_tree_files: tree.files,
+    package_tree_bytes: tree.bytes,
+  }
+}
+
+function runningImplementationPath(relativePath) {
+  return relativePath === 'scripts/static-skill-eval.js'
+    ? __filename
+    : path.join(__dirname, '..', ...relativePath.split('/'))
+}
+
+function createInterpretationReceipts(root, validateSuite, errors) {
+  const lockPath = 'package-lock.json'
+  const lockDocument = parseUniqueJsonAtRoot(root, lockPath)
+  const implementationFiles = EVALUATOR_IMPLEMENTATION_PATHS.map(relativePath => {
+    const repositoryRead = readRootBytes(root, relativePath)
+    const runningBytes = readRegularBytes(fs.realpathSync.native(runningImplementationPath(relativePath)))
+    if (!repositoryRead.bytes.equals(runningBytes)) {
+      errors.push(`${relativePath}: repository bytes do not match the running evaluator implementation`)
+    }
+    return { path: relativePath, bytes: runningBytes, sha256: sha256(runningBytes) }
+  })
+  loadEvaluatorSupport()
+  for (const file of implementationFiles) {
+    const repositoryAfterLoad = readRootBytes(root, file.path).bytes
+    const runningAfterLoad = readRegularBytes(fs.realpathSync.native(runningImplementationPath(file.path)))
+    if (!file.bytes.equals(repositoryAfterLoad) || !file.bytes.equals(runningAfterLoad)) {
+      errors.push(`${file.path}: evaluator implementation changed while support modules were loading`)
+    }
+  }
+  const bundleSha256 = hashFileRecords(implementationFiles)
+  const dependencies = INTERPRETATION_DEPENDENCIES.map(dependencyReceipt).sort((left, right) => compareText(left.name, right.name))
+  for (const dependency of dependencies) {
+    const lockedVersion = lockDocument.value.packages?.[`node_modules/${dependency.name}`]?.version
+    if (dependency.version !== lockedVersion) {
+      errors.push(`${lockPath}: resolved ${dependency.name}@${dependency.version} does not match lock version ${String(lockedVersion)}`)
+    }
+  }
+  return {
+    evaluator: {
+      path: implementationFiles[0].path,
+      sha256: implementationFiles[0].sha256,
+      bundle_sha256: bundleSha256,
+      support_files: implementationFiles.slice(1).map(file => ({ path: file.path, sha256: file.sha256 })),
+    },
+    schema: validateSuite.schemaReceipt,
+    package_lock: { path: lockPath, sha256: sha256(lockDocument.bytes) },
+    runtime: { node: process.version },
+    dependencies,
+  }
+}
+
+function groupSubsumes(left, right) {
+  const rightPhrases = new Set(right)
+  return left.every(phrase => rightPhrases.has(phrase))
+}
+
+function withoutRoutingGroup(suites, skill, ruleName, groupIndex) {
+  return suites.map(suite => {
+    if (suite.skill !== skill) return suite
+    return {
+      ...suite,
+      routing: {
+        ...suite.routing,
+        [ruleName]: suite.routing[ruleName].filter((_, index) => index !== groupIndex),
+      },
+    }
+  })
+}
+
+function ruleHasOutcomeSensitiveCase(suite, allSuites, ruleName, groupIndex) {
+  const mutatedSuites = withoutRoutingGroup(allSuites, suite.skill, ruleName, groupIndex)
+  return suite.cases.some(testCase => {
+    const baseline = evaluatePrompt(testCase.prompt, allSuites)
+    if (stableStringify(baseline) !== stableStringify(testCase.expected)) return false
+    const mutated = evaluatePrompt(testCase.prompt, mutatedSuites)
+    if (ruleName === 'route_when_any') {
+      return testCase.kind === 'positive' && baseline.outcome === 'route' && baseline.route === suite.skill &&
+        (mutated.outcome !== 'route' || mutated.route !== suite.skill)
+    }
+    return testCase.kind === 'boundary' && baseline.outcome === 'manual-only' && baseline.reason === 'safety-boundary' &&
+      (mutated.outcome !== 'manual-only' || mutated.reason !== 'safety-boundary')
+  })
+}
+
+function addRuleRelationshipErrors(suite, allSuites, prefix, errors) {
+  for (const ruleName of ['route_when_any', 'manual_only_when_any']) {
+    for (let groupIndex = 0; groupIndex < suite.routing[ruleName].length; groupIndex += 1) {
+      const group = suite.routing[ruleName][groupIndex]
+      const identity = stableStringify(sorted(group))
+      for (const otherSuite of allSuites) {
+        for (let otherIndex = 0; otherIndex < otherSuite.routing[ruleName].length; otherIndex += 1) {
+          if (suite.skill === otherSuite.skill && groupIndex === otherIndex) continue
+          const otherGroup = otherSuite.routing[ruleName][otherIndex]
+          if (groupSubsumes(otherGroup, group)) {
+            errors.push(`${prefix}: redundant ${ruleName} phrase group ${identity} is subsumed by ${otherSuite.skill}/${ruleName}[${otherIndex}]`)
+            otherIndex = otherSuite.routing[ruleName].length
+            break
+          }
+        }
+      }
+      if (ruleName === 'route_when_any') {
+        for (const otherSuite of allSuites) {
+          const shadowIndex = otherSuite.routing.manual_only_when_any.findIndex(manualGroup => groupSubsumes(manualGroup, group))
+          if (shadowIndex !== -1) {
+            errors.push(`${prefix}: shadowed route_when_any phrase group ${identity} is subsumed by ${otherSuite.skill}/manual_only_when_any[${shadowIndex}]`)
+            break
+          }
+        }
+      }
+      if (!ruleHasOutcomeSensitiveCase(suite, allSuites, ruleName, groupIndex)) {
+        const kind = ruleName === 'route_when_any' ? 'positive route' : 'safety-boundary'
+        errors.push(`${prefix}: ${ruleName} phrase group ${identity} has no outcome-distinguishing ${kind} case`)
+      }
+    }
+  }
 }
 
 function addSuiteSemanticErrors(wrapper, allSkillNames, allSuites, errors) {
   const { suite, fixturePath, root } = wrapper
+  const { parseSkillContent, validateSkill } = loadEvaluatorSupport()
   const prefix = fixturePath
   if (path.posix.basename(fixturePath) !== `${suite.skill}.eval.json`) {
     errors.push(`${prefix}: fixture filename must be ${suite.skill}.eval.json`)
   }
-  const skillAbsolutePath = path.resolve(root, suite.skill_path)
-  const rootPrefix = `${path.resolve(root)}${path.sep}`
-  if (!skillAbsolutePath.startsWith(rootPrefix)) {
-    errors.push(`${prefix}: skill_path escapes repository root`)
+  let beforeRead
+  try {
+    beforeRead = readRootUtf8(root, suite.skill_path)
+  } catch (error) {
+    errors.push(`${prefix}: could not read contained skill: ${error.message}`)
     return
   }
 
   let validation
   try {
-    validation = validateSkill(skillAbsolutePath, { strict: true })
+    validation = validateSkill(beforeRead.absolutePath, { strict: true })
   } catch (error) {
     errors.push(`${prefix}: could not validate skill: ${error.message}`)
     return
@@ -303,9 +760,21 @@ function addSuiteSemanticErrors(wrapper, allSkillNames, allSuites, errors) {
     return
   }
 
-  const content = readSkillFile(skillAbsolutePath)
+  let afterRead
+  try {
+    afterRead = readRootUtf8(root, suite.skill_path)
+  } catch (error) {
+    errors.push(`${prefix}: could not re-read contained skill: ${error.message}`)
+    return
+  }
+  if (!beforeRead.bytes.equals(afterRead.bytes)) {
+    errors.push(`${prefix}: target skill changed while it was being validated`)
+    return
+  }
+
+  const content = afterRead.source
   const { frontmatter, body } = parseSkillContent(content)
-  wrapper.skillSha256 = sha256(Buffer.from(content, 'utf8'))
+  wrapper.skillSha256 = sha256(afterRead.bytes)
   wrapper.semanticLint = semanticLint(body, frontmatter.engenai.capabilities_required, suite.contract)
 
   if (frontmatter.name !== suite.skill) errors.push(`${prefix}: skill name does not match target frontmatter`)
@@ -322,11 +791,12 @@ function addSuiteSemanticErrors(wrapper, allSkillNames, allSuites, errors) {
   for (const capability of declared) {
     if (!ceiling.has(capability)) errors.push(`${prefix}: ${capability} exceeds capability_ceiling`)
   }
-  if (suite.contract.no_write && declared.includes('tool:file_write')) {
-    errors.push(`${prefix}: no_write conflicts with tool:file_write`)
+  if (suite.contract.no_write && ceiling.has('tool:file_write')) {
+    errors.push(`${prefix}: no_write conflicts with capability_ceiling tool:file_write`)
   }
-  if (suite.contract.no_network && declared.some(capability => ['tool:web_search', 'tool:mcp_external'].includes(capability))) {
-    errors.push(`${prefix}: no_network conflicts with a declared network capability`)
+  const ceilingNetworkCapabilities = [...ceiling].filter(capability => NETWORK_CAPABILITIES.has(capability))
+  if (suite.contract.no_network && ceilingNetworkCapabilities.length > 0) {
+    errors.push(`${prefix}: no_network conflicts with capability_ceiling ${ceilingNetworkCapabilities.sort().join(', ')}`)
   }
   for (const finding of wrapper.semanticLint) {
     errors.push(`${prefix}: ${finding.code} at skill body line ${finding.line}: ${finding.command}`)
@@ -391,30 +861,30 @@ function addSuiteSemanticErrors(wrapper, allSkillNames, allSuites, errors) {
       const identity = stableStringify(sorted(group))
       if (seen.has(identity)) errors.push(`${prefix}: duplicate ${ruleName} phrase group ${identity}`)
       seen.add(identity)
-      if (!allSuites.some(otherSuite => otherSuite.cases.some(testCase =>
-        groupMatches(normalizeText(testCase.prompt), group)))) {
-        errors.push(`${prefix}: unexercised ${ruleName} phrase group ${identity}`)
-      }
     }
   }
+  addRuleRelationshipErrors(suite, allSuites, prefix, errors)
 }
 
 function runEvaluation({ root = path.join(__dirname, '..') } = {}) {
   const errors = []
-  const evalDirectory = path.join(root, 'evals', 'static-routing', 'v1')
   const validateSuite = createSuiteValidator(root)
+  const interpretationReceipts = createInterpretationReceipts(root, validateSuite, errors)
 
-  const fixtureNames = fs.readdirSync(evalDirectory).filter(name => name.endsWith('.eval.json')).sort()
-  if (fixtureNames.length === 0) errors.push('no static routing fixtures found')
+  const fixturePaths = listFixturePaths(root)
+  if (fixturePaths.length === 0) errors.push('no static routing fixtures found')
   const wrappers = []
   const seenSkills = new Set()
 
-  for (const fixtureName of fixtureNames) {
-    const absolutePath = path.join(evalDirectory, fixtureName)
-    const relativePath = path.relative(root, absolutePath).split(path.sep).join('/')
+  for (const relativePath of fixturePaths) {
+    const expectedPrefix = `evals/static-routing/${PROFILE_VERSION}/`
+    if (!relativePath.startsWith(expectedPrefix)) {
+      errors.push(`${relativePath}: unsupported fixture profile directory; expected ${expectedPrefix}`)
+      continue
+    }
     let parsed
     try {
-      parsed = parseUniqueJson(absolutePath)
+      parsed = parseUniqueJsonAtRoot(root, relativePath)
     } catch (error) {
       errors.push(`${relativePath}: ${error.message}`)
       continue
@@ -428,7 +898,7 @@ function runEvaluation({ root = path.join(__dirname, '..') } = {}) {
     wrappers.push({
       root,
       fixturePath: relativePath,
-      fixtureSha256: sha256(Buffer.from(parsed.source, 'utf8')),
+      fixtureSha256: sha256(parsed.bytes),
       suite: parsed.value,
       semanticLint: [],
       skillSha256: null,
@@ -460,7 +930,7 @@ function runEvaluation({ root = path.join(__dirname, '..') } = {}) {
   errors.sort()
   const semanticLintFindings = wrappers.reduce((total, wrapper) => total + wrapper.semanticLint.length, 0)
   return {
-    schema_version: 1,
+    schema_version: SCHEMA_VERSION,
     evaluator_profile: PROFILE,
     claim: 'STATIC_CONTRACT_ONLY',
     status: errors.length === 0 ? 'PASS' : 'FAIL',
@@ -471,6 +941,7 @@ function runEvaluation({ root = path.join(__dirname, '..') } = {}) {
       semantic_lint_findings: semanticLintFindings,
       errors: errors.length,
     },
+    interpretation_receipts: interpretationReceipts,
     suites: wrappers.map(wrapper => ({
       skill: wrapper.suite.skill,
       fixture_path: wrapper.fixturePath,
@@ -483,9 +954,10 @@ function runEvaluation({ root = path.join(__dirname, '..') } = {}) {
     })).sort((left, right) => compareText(left.skill, right.skill)),
     cases: caseReceipts,
     limitations: [
-      'Literal fixture matching is not model-routing or instruction-following evidence.',
+      'Boundary-aware literal fixture matching is not model-routing or instruction-following evidence.',
       'Rules and expected results share one reviewable fixture; a coordinated edit can redefine the static contract.',
       'Semantic lint inspects only explicit shell-language fenced examples and is not a general program analysis.',
+      'Receipts identify checked on-disk bytes and installed package trees, not atomic process-memory state or provenance.',
       'No skill, model, command, network service, write operation, credential, or sandbox is executed.',
       'Gate 3 runtime isolation and Gate 4 human trust, provenance, and signing remain HOLD.',
     ],
@@ -526,8 +998,12 @@ module.exports = {
   classifyCommand,
   createSuiteValidator,
   evaluatePrompt,
+  groupMatches,
+  hashDirectoryTree,
+  hashFileRecords,
   main,
   normalizeText,
+  phraseMatches,
   runEvaluation,
   semanticLint,
   shellFenceLines,

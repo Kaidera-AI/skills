@@ -1,6 +1,6 @@
 {
-  "schema_version": 1,
-  "evaluator_profile": "kaidera-static-routing-v1",
+  "schema_version": 2,
+  "evaluator_profile": "kaidera-static-routing-v2",
   "skill": "research-brief",
   "skill_path": "skills/research/research-brief.SKILL.md",
   "contract": {
@@ -32,6 +32,17 @@
       }
     },
     {
+      "id": "browser-answer-substring-route",
+      "kind": "positive",
+      "prompt": "Draft a research brief describing what the browser answer widget renders; do not conduct the research.",
+      "expected": {
+        "outcome": "route",
+        "route": "research-brief",
+        "candidates": ["research-brief"],
+        "reason": "single-match"
+      }
+    },
+    {
       "id": "ordinary-summary",
       "kind": "negative",
       "prompt": "Summarise this supplied paragraph in three bullets.",
@@ -54,9 +65,20 @@
       }
     },
     {
-      "id": "conduct-and-publish-boundary",
+      "id": "conduct-research-boundary",
       "kind": "boundary",
-      "prompt": "Browse the web, answer the question, and publish the report.",
+      "prompt": "Browse the web and answer the research question now.",
+      "expected": {
+        "outcome": "manual-only",
+        "route": null,
+        "candidates": ["research-brief"],
+        "reason": "safety-boundary"
+      }
+    },
+    {
+      "id": "publish-report-boundary",
+      "kind": "boundary",
+      "prompt": "Publish the report to the external research portal now.",
       "expected": {
         "outcome": "manual-only",
         "route": null,

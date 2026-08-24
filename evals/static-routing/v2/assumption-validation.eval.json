@@ -1,6 +1,6 @@
 {
-  "schema_version": 1,
-  "evaluator_profile": "kaidera-static-routing-v1",
+  "schema_version": 2,
+  "evaluator_profile": "kaidera-static-routing-v2",
   "skill": "assumption-validation",
   "skill_path": "skills/development/assumption-validation.SKILL.md",
   "contract": {
@@ -61,7 +61,7 @@
     {
       "id": "production-evidence-boundary",
       "kind": "boundary",
-      "prompt": "Validate the quota assumption by querying production data now.",
+      "prompt": "Validate the quota assumption and query production data now.",
       "expected": {
         "outcome": "manual-only",
         "route": null,

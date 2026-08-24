@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "urn:kaidera:static-skill-eval-suite:v1",
+  "$id": "urn:kaidera:static-skill-eval-suite:v2",
   "title": "Kaidera static skill routing evaluation suite",
   "type": "object",
   "additionalProperties": false,
@@ -14,8 +14,8 @@
     "cases"
   ],
   "properties": {
-    "schema_version": {"const": 1},
-    "evaluator_profile": {"const": "kaidera-static-routing-v1"},
+    "schema_version": {"const": 2},
+    "evaluator_profile": {"const": "kaidera-static-routing-v2"},
     "skill": {"type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"},
     "skill_path": {
       "type": "string",
@@ -60,7 +60,31 @@
         "capability_ceiling": {"$ref": "#/$defs/capabilityList"},
         "no_write": {"const": true},
         "no_network": {"const": true}
-      }
+      },
+      "allOf": [
+        {
+          "properties": {
+            "capability_ceiling": {
+              "not": {
+                "type": "array",
+                "contains": {"const": "tool:file_write"}
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "capability_ceiling": {
+              "not": {
+                "type": "array",
+                "contains": {
+                  "enum": ["tool:mcp_external", "tool:web_search"]
+                }
+              }
+            }
+          }
+        }
+      ]
     },
     "phrase": {
       "type": "string",

@@ -1,6 +1,6 @@
 {
-  "schema_version": 1,
-  "evaluator_profile": "kaidera-static-routing-v1",
+  "schema_version": 2,
+  "evaluator_profile": "kaidera-static-routing-v2",
   "skill": "open-code-review",
   "skill_path": "skills/development/open-code-review.SKILL.md",
   "contract": {
@@ -39,9 +39,42 @@
       }
     },
     {
+      "id": "bounded-commit-review",
+      "kind": "positive",
+      "prompt": "Review the commit note about implementation prefixes in the parser; return findings only.",
+      "expected": {
+        "outcome": "route",
+        "route": "open-code-review",
+        "candidates": ["open-code-review"],
+        "reason": "single-match"
+      }
+    },
+    {
+      "id": "bounded-pull-request-review",
+      "kind": "positive",
+      "prompt": "Review the pull request patch for concrete defects and return findings only.",
+      "expected": {
+        "outcome": "route",
+        "route": "open-code-review",
+        "candidates": ["open-code-review"],
+        "reason": "single-match"
+      }
+    },
+    {
       "id": "whole-repository-audit",
       "kind": "negative",
       "prompt": "Audit the whole repository architecture and dead code, not a bounded change.",
+      "expected": {
+        "outcome": "abstain",
+        "route": null,
+        "candidates": [],
+        "reason": "no-match"
+      }
+    },
+    {
+      "id": "substring-non-match",
+      "kind": "negative",
+      "prompt": "Please preview our commitment schedule for the next quarter.",
       "expected": {
         "outcome": "abstain",
         "route": null,
