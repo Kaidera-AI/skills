@@ -199,7 +199,7 @@ canonical padded base64. JSON input must be fatal UTF-8 and must reject
 duplicate object keys.
 
 The bundled producer/verifier is `scripts/open-code-review-contract.js`, SHA-256
-`9680fa1db8c5b344611b4ec0175c49bdabc935baaddf5b34c348b984c32b32b2`. Its non-empty review-scope vector for `standard,null,null` has
+`4aeb04b752a5b738f618c50481e9be7b9fd5cbf9caaaaca9eb34911fe7148e86`. Its non-empty review-scope vector for `standard,null,null` has
 SHA-256 `af4f6f29771251b5c8bb722e3f6df9bae7b3ce1c8814152ff4fd9229470d19d9`.
 The one-record v4 policy vector shown below has SHA-256
 `45dc5b5fcafa1889753b8ace3edf77660885dacd975921229bb385e73b6905e6`.
@@ -607,6 +607,8 @@ Each finding must contain:
   "refutation": {
     "independence": "separate_agent",
     "result": "survived",
+    "agent_receipt_sha256": "sha256 binding the separate reviewer receipt",
+    "evidence": ["Target-bound evidence produced by the challenge."],
     "reason": "No caller or transaction converts the failure into rollback."
   }
 }
@@ -663,7 +665,7 @@ as appropriate. Portable validation does not discharge the repository's external
 Gate 3 adversarial/security review or Gate 4 authority/acceptance hold.
 The bundled machine contract is
 `spec/open-code-review-report.schema.json`, SHA-256
-`bdc685dd21a16aa28879433e20e6721d111a5528d7e6f576090cb17bcd8541f2`;
+`6b953cb9dd4f5ce80d70ebeed2b96818d65b736b0d614d5e28bb3e8006a59428`;
 when that exact file is unavailable, the schemas in this skill remain
 authoritative and the missing external schema is a reported limitation.
 
@@ -740,12 +742,16 @@ repository identity is invalid. The receipt also always binds
 `supplied_patch_sha256`. Commit mode records the resolved `comparison_parent`
 and base tree, range mode records `range_style` plus its required base identity,
 and paths mode records `paths_layer`. Fields belonging to another mode are null.
+Every non-null Git object ID is full-width and nonzero; Git's all-zero
+missing-object sentinel is represented by a null side, never as an object.
+Commit-typed target fields and tree-typed target fields cannot claim the same
+object ID.
 An empty path ledger requires `review_diff_sha256` to be SHA-256 of empty bytes,
 `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855`;
 a non-empty ledger forbids that digest. Patch mode additionally requires
 `review_diff_sha256 == supplied_patch_sha256`. The canonical empty-ledger
 workspace target vector in `scripts/test-open-code-review.js` hashes to
-`4af39dfa938fcf8deb350379f84aeabcaaf10b87ee02815b72ae1ccc14b4fbf8`.
+`6edb2140092c33e2d08c3f1389811fd1972394345d62ef7cdf335752157bf92a`.
 
 Apply a complete mode matrix, not a permissive bag of optional fields:
 
@@ -937,7 +943,10 @@ requires no unreadable/skipped path and exact reviewed/total hunk and byte count
 for every text-reviewed path. A verified position requires a side that exists,
 the side's exact object identity when one exists, a content digest matching the
 path record, a digest of the literal UTF-8 snippet, and the canonical evidence-
-revision digest.
+revision digest. A finding's refutation also carries a non-empty evidence array
+and `agent_receipt_sha256`; that digest is required for `separate_agent` and
+null for `same_agent`. The digest proves internal binding, not external agent
+identity or independence.
 
 `candidate_audit` items carry `source`, `rule`, `root_cause_class`,
 `impact_class`, the finding location/evidence fields, and `fingerprint_status`
@@ -1010,7 +1019,7 @@ Lifecycle transitions are evidence-gated: unseen fingerprint to `new`; the same
 fingerprint on a continuous complete receipt to `repeated`; a complete rerun
 that proves the prior execution path is gone to `resolved`; invalidated target,
 policy, analyzer, or coverage receipts to `stale`; and a still-confirmed finding
-with a reported non-expired suppression to `suppressed`. An incomplete rerun
+with a reported suppression to `suppressed`. An incomplete rerun
 cannot emit `resolved`. In the portable report every suppression prevents
 `PASS`; only an external Gate 4 decision can make it non-blocking for a separate
 acceptance process.
@@ -1019,9 +1028,11 @@ Encode `fingerprint` as lowercase SHA-256 over the
 `open-code-review-finding/v1` profile defined above. A non-null suppression is
 exactly `{owner, reason, scope, expires_at, policy_receipt_sha256}`; every value
 is a non-empty string, `expires_at` is an ISO-8601 timestamp, and the policy
-digest matches the accepted receipt. Expired, malformed, or self-proposed
-suppressions are ignored and reported. A matching digest proves internal
-binding, not external authority.
+digest matches the accepted receipt. The portable verifier has no authenticated
+clock and therefore treats expiry as recorded metadata while still preventing
+`PASS`; an external Gate 4 adapter must evaluate expiry against its trusted
+time. Malformed or self-proposed suppressions are ignored and reported. A
+matching digest proves internal binding, not external authority.
 
 For quality governance, retain local aggregate outcomes such as accepted,
 fixed, rejected-as-incorrect, irrelevant, unclear, suppressed, and expired by

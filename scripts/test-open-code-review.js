@@ -63,6 +63,11 @@ assert.deepEqual(
 )
 const zeroSha = '0'.repeat(64)
 const zeroObject = '0'.repeat(40)
+const headCommitObject = '1'.repeat(40)
+const headTreeObject = '2'.repeat(40)
+const baseCommitObject = '3'.repeat(40)
+const baseTreeObject = '4'.repeat(40)
+const blobObject = '5'.repeat(40)
 const emptySha = 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
 const emptyTreeSha1 = '4b825dc642cb6eb9a060e54bf8d69288fbee4904'
 const emptyTreeSha256 = '6ef19b41225c5369f1c104d45d8d85efa9b057b53b14b4b9b939dd74decc5321'
@@ -86,8 +91,8 @@ const targetReceipt = {
   receipt_profile: 'open-code-review-target/v4',
   review_scope_sha256: hashReviewScope(reviewScope),
   head_state: 'present',
-  head_commit: zeroObject,
-  head_tree: zeroObject,
+  head_commit: headCommitObject,
+  head_tree: headTreeObject,
   base_commit: null,
   base_tree: null,
   merge_base: null,
@@ -107,7 +112,7 @@ const targetReceipt = {
   paths: [],
 }
 targetReceipt.receipt_sha256 = hashTargetReceipt(targetReceipt)
-assert.equal(targetReceipt.receipt_sha256, '4af39dfa938fcf8deb350379f84aeabcaaf10b87ee02815b72ae1ccc14b4fbf8')
+assert.equal(targetReceipt.receipt_sha256, '6edb2140092c33e2d08c3f1389811fd1972394345d62ef7cdf335752157bf92a')
 const validEmptyReport = {
   schema_version: 4,
   verdict: 'PASS',
@@ -140,6 +145,28 @@ const validEmptyReport = {
 }
 assert(validateReport(validEmptyReport), ajv.errorsText(validateReport.errors))
 assert.deepEqual(validateReportSemantics(validEmptyReport), [])
+const allZeroHeadObject = structuredClone(validEmptyReport)
+allZeroHeadObject.target_receipt.head_commit = zeroObject
+resealTarget(allZeroHeadObject)
+assert(!validateReport(allZeroHeadObject), 'schema must reject Git all-zero object sentinels')
+assert(validateReportSemantics(allZeroHeadObject).some(error => error.includes('all-zero missing-object sentinel')))
+const allZeroComparisonParent = structuredClone(validEmptyReport)
+allZeroComparisonParent.target_receipt.mode = 'commit'
+allZeroComparisonParent.target_receipt.base_commit = zeroObject
+allZeroComparisonParent.target_receipt.base_tree = baseTreeObject
+allZeroComparisonParent.target_receipt.comparison_parent = zeroObject
+for (const field of [
+  'index_entries_sha256', 'staged_diff_sha256', 'unstaged_diff_sha256',
+  'status_porcelain_v2_sha256', 'untracked_inventory_sha256',
+]) allZeroComparisonParent.target_receipt[field] = null
+resealTarget(allZeroComparisonParent)
+assert(!validateReport(allZeroComparisonParent), 'schema must reject an all-zero comparison parent')
+assert(validateReportSemantics(allZeroComparisonParent).some(error => error.includes('all-zero missing-object sentinel')))
+const commitTreeIdentityCollision = structuredClone(validEmptyReport)
+commitTreeIdentityCollision.target_receipt.head_tree = headCommitObject
+resealTarget(commitTreeIdentityCollision)
+assert(validateReport(commitTreeIdentityCollision), ajv.errorsText(validateReport.errors))
+assert(validateReportSemantics(commitTreeIdentityCollision).some(error => error.includes('commit and tree fields')))
 for (const legacyVersion of [1, 2, 3]) {
   const legacyReport = structuredClone(validEmptyReport)
   legacyReport.schema_version = legacyVersion
@@ -165,7 +192,7 @@ const policyContextRecord = {
   applicability: 'complete report',
   source: { encoding: 'utf8', value: 'repository:review-policy' },
   revision: 'base-commit',
-  object_identity: zeroObject,
+  object_identity: baseCommitObject,
   content_sha256: zeroSha,
   classification: 'context',
 }
@@ -244,7 +271,7 @@ function reportWithOnePath() {
     new_path: { encoding: 'utf8', value: 'src/example.ts' },
     old_mode: '100644',
     new_mode: '100644',
-    old_object_id: zeroObject,
+    old_object_id: blobObject,
     new_object_id: null,
     old_content_sha256: zeroSha,
     new_content_sha256: '1'.repeat(64),
@@ -349,7 +376,13 @@ function blockingFinding(pathRecord) {
     fingerprint: zeroSha,
     evidence_revision: zeroSha,
     suppression: null,
-    refutation: { independence: 'separate_agent', result: 'survived', reason: 'No guard closes the path.' },
+    refutation: {
+      independence: 'separate_agent',
+      result: 'survived',
+      agent_receipt_sha256: '8'.repeat(64),
+      evidence: ['A separate reviewer rechecked the guard and reproduced the ordering path.'],
+      reason: 'No guard closes the path.',
+    },
   }
   finding.fingerprint = hashFindingFingerprint(finding, pathRecord)
   finding.evidence_revision = hashEvidenceRevision(finding)
@@ -361,8 +394,20 @@ changeReport.verdict = 'CHANGES_REQUESTED'
 changeReport.findings = [blockingFinding(changedPath)]
 assert(validateReport(changeReport), ajv.errorsText(validateReport.errors))
 assert.deepEqual(validateReportSemantics(changeReport), [])
+const missingFindingRefuterReceipt = structuredClone(changeReport)
+missingFindingRefuterReceipt.findings[0].refutation.agent_receipt_sha256 = null
+assert(!validateReport(missingFindingRefuterReceipt), 'separate-agent finding refutation requires a receipt digest')
+const emptyFindingRefuterEvidence = structuredClone(changeReport)
+emptyFindingRefuterEvidence.findings[0].refutation.evidence = []
+assert(!validateReport(emptyFindingRefuterEvidence), 'finding refutation requires concrete challenge evidence')
+const { report: allZeroPathObject } = reportWithOnePath()
+allZeroPathObject.target_receipt.paths[0].old_object_id = zeroObject
+resealSinglePathReport(allZeroPathObject)
+assert(!validateReport(allZeroPathObject), 'schema must reject an all-zero path object ID')
+assert(validateReportSemantics(allZeroPathObject).some(error => error.includes('all-zero missing-object sentinel')))
 const sameAgentHighFinding = structuredClone(changeReport)
 sameAgentHighFinding.findings[0].refutation.independence = 'same_agent'
+sameAgentHighFinding.findings[0].refutation.agent_receipt_sha256 = null
 assert(validateReport(sameAgentHighFinding), ajv.errorsText(validateReport.errors))
 assert(validateReportSemantics(sameAgentHighFinding).some(error => error.includes('requires separate-agent refutation')))
 
@@ -418,6 +463,7 @@ const deepSameAgentMedium = structuredClone(advisoryReport)
 deepSameAgentMedium.review_scope.depth = 'deep'
 deepSameAgentMedium.target_receipt.review_scope_sha256 = hashReviewScope(deepSameAgentMedium.review_scope)
 deepSameAgentMedium.findings[0].refutation.independence = 'same_agent'
+deepSameAgentMedium.findings[0].refutation.agent_receipt_sha256 = null
 resealTarget(deepSameAgentMedium)
 assert(validateReport(deepSameAgentMedium), ajv.errorsText(validateReport.errors))
 assert(validateReportSemantics(deepSameAgentMedium).some(error => error.includes('requires separate-agent refutation')))
@@ -470,9 +516,9 @@ assert(validateReportSemantics(emptyCommit).some(error => error.includes('head_c
 
 const selfParentCommit = structuredClone(validEmptyReport)
 selfParentCommit.target_receipt.mode = 'commit'
-selfParentCommit.target_receipt.base_commit = zeroObject
-selfParentCommit.target_receipt.base_tree = zeroObject
-selfParentCommit.target_receipt.comparison_parent = zeroObject
+selfParentCommit.target_receipt.base_commit = headCommitObject
+selfParentCommit.target_receipt.base_tree = baseTreeObject
+selfParentCommit.target_receipt.comparison_parent = headCommitObject
 for (const field of [
   'index_entries_sha256', 'staged_diff_sha256', 'unstaged_diff_sha256',
   'status_porcelain_v2_sha256', 'untracked_inventory_sha256',
@@ -561,14 +607,14 @@ resealTarget(validRootCommitReport)
 assert(validateReport(validRootCommitReport), ajv.errorsText(validateReport.errors))
 assert.deepEqual(validateReportSemantics(validRootCommitReport), [])
 const wrongRootTree = structuredClone(validRootCommitReport)
-wrongRootTree.target_receipt.base_tree = zeroObject
+wrongRootTree.target_receipt.base_tree = baseTreeObject
 resealTarget(wrongRootTree)
 assert(validateReport(wrongRootTree), ajv.errorsText(validateReport.errors))
 assert(validateReportSemantics(wrongRootTree).some(error => error.includes('canonical sha1 empty tree')))
 const validSha256RootCommit = structuredClone(validRootCommitReport)
 validSha256RootCommit.target_receipt.git_object_format = 'sha256'
-validSha256RootCommit.target_receipt.head_commit = '0'.repeat(64)
-validSha256RootCommit.target_receipt.head_tree = '0'.repeat(64)
+validSha256RootCommit.target_receipt.head_commit = '1'.repeat(64)
+validSha256RootCommit.target_receipt.head_tree = '2'.repeat(64)
 validSha256RootCommit.target_receipt.base_tree = emptyTreeSha256
 resealTarget(validSha256RootCommit)
 assert(validateReport(validSha256RootCommit), ajv.errorsText(validateReport.errors))
@@ -692,7 +738,7 @@ assert(validateReport(partialContextPatch), ajv.errorsText(validateReport.errors
 assert(validateReportSemantics(partialContextPatch).some(error => error.includes('must be null for context-free patch mode')))
 
 const unrelatedPatchIdentity = structuredClone(contextFreePatch)
-unrelatedPatchIdentity.target_receipt.base_tree = zeroObject
+unrelatedPatchIdentity.target_receipt.base_tree = baseTreeObject
 unrelatedPatchIdentity.target_receipt.receipt_sha256 = hashTargetReceipt(unrelatedPatchIdentity.target_receipt)
 syncMatchingReadback(unrelatedPatchIdentity)
 assert(validateReport(unrelatedPatchIdentity), ajv.errorsText(validateReport.errors))
@@ -835,7 +881,7 @@ assert(validateReport(missingIndexIdentity), ajv.errorsText(validateReport.error
 assert(validateReportSemantics(missingIndexIdentity).some(error => error.includes('index new side requires mode and object identity')))
 
 const { report: fakeWorktreeObject } = reportWithOnePath()
-fakeWorktreeObject.target_receipt.paths[0].new_object_id = zeroObject
+fakeWorktreeObject.target_receipt.paths[0].new_object_id = '6'.repeat(40)
 resealSinglePathReport(fakeWorktreeObject)
 assert(validateReport(fakeWorktreeObject), ajv.errorsText(validateReport.errors))
 assert(validateReportSemantics(fakeWorktreeObject).some(error => error.includes('must not claim an unverified Git object identity')))
@@ -908,7 +954,7 @@ for (const field of ['old_path', 'old_mode', 'old_object_id', 'old_content_sha25
 conflictStage2.status = 'U'
 conflictStage2.layer = 'index'
 conflictStage2.stage = 2
-conflictStage2.new_object_id = zeroObject
+conflictStage2.new_object_id = blobObject
 conflictStage2.hunks_total = 0
 conflictStage2.hunks_reviewed = 0
 conflictStage2.path_record_id = hashPathRecord(conflictStage2)
@@ -1303,7 +1349,7 @@ unknownReference.findings[0].location.path_record_id = zeroSha
 assert(validateReport(unknownReference), ajv.errorsText(validateReport.errors))
 assert(validateReportSemantics(unknownReference).some(error => error.includes('unknown path_record_id')))
 const wrongObjectWidth = structuredClone(validEmptyReport)
-wrongObjectWidth.target_receipt.head_commit = '0'.repeat(64)
+wrongObjectWidth.target_receipt.head_commit = 'a'.repeat(64)
 wrongObjectWidth.target_receipt.receipt_sha256 = hashTargetReceipt(wrongObjectWidth.target_receipt)
 syncMatchingReadback(wrongObjectWidth)
 assert(validateReport(wrongObjectWidth), ajv.errorsText(validateReport.errors))
@@ -1495,6 +1541,10 @@ unauthenticatedSuppression.candidate_audit[0].suppression = {
 }
 assert(validateReport(unauthenticatedSuppression), ajv.errorsText(validateReport.errors))
 assert.deepEqual(validateReportSemantics(unauthenticatedSuppression), [])
+const expiredReportedSuppression = structuredClone(unauthenticatedSuppression)
+expiredReportedSuppression.candidate_audit[0].suppression.expires_at = '2000-01-01T00:00:00Z'
+assert(validateReport(expiredReportedSuppression), ajv.errorsText(validateReport.errors))
+assert.deepEqual(validateReportSemantics(expiredReportedSuppression), [], 'portable suppression semantics must not depend on wall-clock time')
 unauthenticatedSuppression.verdict = 'PASS'
 assert(!validateReport(unauthenticatedSuppression), 'an unauthenticated suppression must never authorize PASS')
 
@@ -1502,7 +1552,7 @@ const validTargetDrift = structuredClone(validEmptyReport)
 validTargetDrift.verdict = 'INCOMPLETE'
 validTargetDrift.final_readback.matches_initial = false
 validTargetDrift.final_readback.changed_fields = ['head_commit']
-validTargetDrift.final_readback.final_target_receipt.head_commit = '1'.repeat(40)
+validTargetDrift.final_readback.final_target_receipt.head_commit = '7'.repeat(40)
 validTargetDrift.final_readback.final_target_receipt.receipt_sha256 = hashTargetReceipt(
   validTargetDrift.final_readback.final_target_receipt,
 )

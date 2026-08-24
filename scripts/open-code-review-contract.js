@@ -488,6 +488,10 @@ function forbidTargetFields(target, fields, mode, errors) {
   }
 }
 
+function isAllZeroObjectId(value) {
+  return typeof value === 'string' && /^0+$/.test(value)
+}
+
 function validateTargetMode(target, errors) {
   requireTargetFields(target, ['review_diff_sha256', 'path_ledger_sha256', 'policy_receipt_sha256', 'receipt_sha256'], 'machine output', errors)
 
@@ -847,14 +851,25 @@ function validateTargetSnapshot(target, policyReceipt, errors) {
   const objectLength = target.git_object_format === 'sha1' ? 40 : target.git_object_format === 'sha256' ? 64 : null
   for (const key of ['head_commit', 'head_tree', 'base_commit', 'base_tree', 'merge_base']) {
     if (target[key] !== null && (objectLength === null || target[key].length !== objectLength)) errors.push(`${key} width does not match git_object_format`)
+    if (isAllZeroObjectId(target[key])) errors.push(`${key} cannot use Git's all-zero missing-object sentinel`)
   }
   if (target.comparison_parent !== null && target.comparison_parent !== 'root' &&
       (objectLength === null || target.comparison_parent.length !== objectLength)) {
     errors.push('comparison_parent width does not match git_object_format')
   }
+  if (isAllZeroObjectId(target.comparison_parent)) {
+    errors.push("comparison_parent cannot use Git's all-zero missing-object sentinel")
+  }
+  const commitObjects = [target.head_commit, target.base_commit, target.merge_base,
+    target.comparison_parent === 'root' ? null : target.comparison_parent].filter(Boolean)
+  const treeObjects = [target.head_tree, target.base_tree].filter(Boolean)
+  if (commitObjects.some(commitObject => treeObjects.includes(commitObject))) {
+    errors.push('commit and tree fields cannot claim the same Git object identity')
+  }
   for (const record of paths) {
     for (const key of ['old_object_id', 'new_object_id']) {
       if (record[key] !== null && (objectLength === null || record[key].length !== objectLength)) errors.push(`${key} width does not match git_object_format`)
+      if (isAllZeroObjectId(record[key])) errors.push(`${key} cannot use Git's all-zero missing-object sentinel`)
     }
   }
 
@@ -992,6 +1007,12 @@ function validateReportSemantics(report) {
     if (requiresIndependentRefutation && finding.refutation.independence !== 'separate_agent') {
       errors.push(`finding ${finding.id} requires separate-agent refutation at this severity/depth`)
     }
+    if (finding.refutation.independence === 'separate_agent' && finding.refutation.agent_receipt_sha256 === null) {
+      errors.push(`finding ${finding.id} separate-agent refutation requires an agent receipt`)
+    }
+    if (finding.refutation.independence !== 'separate_agent' && finding.refutation.agent_receipt_sha256 !== null) {
+      errors.push(`finding ${finding.id} same-agent refutation cannot claim a separate-agent receipt`)
+    }
   }
 
   const candidateIds = new Set()
@@ -1050,9 +1071,6 @@ function validateReportSemantics(report) {
     }
     if (candidate.suppression && candidate.suppression.scope !== candidate.fingerprint) {
       errors.push(`candidate ${candidate.id} suppression scope does not match its exact fingerprint`)
-    }
-    if (candidate.suppression && Date.parse(candidate.suppression.expires_at) <= Date.now()) {
-      errors.push(`candidate ${candidate.id} suppression has expired`)
     }
     if (candidate.candidate_state === 'suppressed' && candidate.verdict_effect !== 'prevents_pass') {
       errors.push(`candidate ${candidate.id} has an unauthenticated suppression that must prevent PASS`)
