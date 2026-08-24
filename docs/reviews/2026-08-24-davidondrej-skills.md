@@ -3,6 +3,13 @@
 Status: source review complete; two local adaptations are unvetted and remain
 subject to the repository's held Gate 3 and Gate 4 controls.
 
+This local candidate also carries the deterministic
+`kaidera-static-routing-v2` evaluation profile for the two adaptations and
+`open-code-review`: three suites, 17 literal routing/abstention/collision/safety
+cases, capability ceilings, and bounded fenced-command lint. Its machine claim
+is exactly `STATIC_CONTRACT_ONLY`. It does not exercise a model, host loader,
+tool, network, write path, or sandbox and is not behavioural or trust evidence.
+
 ## Evidence boundary
 
 - Donor repository: `davidondrej/skills`
@@ -169,9 +176,10 @@ adversarial execution review.
 1. Keep `assumption-validation` and `research-brief` as the only first-wave
    source candidates. Their bounded, no-network/no-write contracts close useful
    gaps without importing a second orchestration plane.
-2. Add deterministic routing, collision, abstention, and capability-ceiling
-   fixtures as repository QA. Label that output `STATIC_CONTRACT_ONLY`; literal
-   fixture success is not model behaviour, runtime isolation, or trust proof.
+2. Retain the added deterministic routing, collision, abstention, and
+   capability-ceiling fixtures as repository QA. Keep the output labelled
+   `STATIC_CONTRACT_ONLY`; literal fixture success is not model behaviour,
+   runtime isolation, or trust proof.
 3. Rebuild one later `systematic-diagnosis` skill from the common MIT ideas in
    Matt Pocock and Obra only after the first-wave routing results are reviewed.
    Keep it focused on evidence-first debugging and do not duplicate the
