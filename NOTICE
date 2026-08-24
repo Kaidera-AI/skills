@@ -16,3 +16,9 @@ Some skills in this repository were contributed by community members or
 adapted from external repositories. Each skill's YAML frontmatter contains
 the original author's attribution. Please respect these attributions when
 redistributing or building upon these skills.
+
+Research donors added 2026-08-24:
+- David Ondrej, davidondrej/skills at
+  69c3ae5228eb146724fd23dac3d43eab5805bcc3 (MIT, Copyright 2026 David
+  Ondrej). The independently written assumption-validation and research-brief
+  skills preserve exact source links in their frontmatter.

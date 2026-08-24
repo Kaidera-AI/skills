@@ -25,9 +25,10 @@ the Markdown—owns and constrains that tool.
 | Category | Description | Count |
 |----------|-------------|-------|
 | `context/` | Project and workspace awareness | 6 |
-| `development/` | Code writing, review, testing | 9 |
+| `development/` | Code writing, review, testing | 10 |
 | `devops/` | Deployment, infrastructure, CI/CD | 5 |
 | `security/` | Auditing, scanning, incident response | 5 |
+| `research/` | Research briefs and evidence planning | 1 |
 
 ## How It Works
 
