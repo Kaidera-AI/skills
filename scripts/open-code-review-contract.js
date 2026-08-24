@@ -843,6 +843,18 @@ function validateTargetSnapshot(target, policyReceipt, errors) {
   if (paths.length === 0 && target.review_diff_sha256 !== EMPTY_SHA256) {
     errors.push('an empty path ledger requires the canonical empty review_diff_sha256')
   }
+  if (target.mode === 'workspace' && paths.length === 0) {
+    for (const field of [
+      'staged_diff_sha256',
+      'unstaged_diff_sha256',
+      'status_porcelain_v2_sha256',
+      'untracked_inventory_sha256',
+    ]) {
+      if (target[field] !== EMPTY_SHA256) {
+        errors.push(`an empty workspace path ledger requires the canonical empty ${field}`)
+      }
+    }
+  }
   if (paths.length > 0 && target.review_diff_sha256 === EMPTY_SHA256) {
     errors.push('a non-empty path ledger cannot use the canonical empty review_diff_sha256')
   }

@@ -100,10 +100,10 @@ const targetReceipt = {
   range_style: null,
   paths_layer: null,
   index_entries_sha256: zeroSha,
-  staged_diff_sha256: zeroSha,
-  unstaged_diff_sha256: zeroSha,
-  status_porcelain_v2_sha256: zeroSha,
-  untracked_inventory_sha256: zeroSha,
+  staged_diff_sha256: emptySha,
+  unstaged_diff_sha256: emptySha,
+  status_porcelain_v2_sha256: emptySha,
+  untracked_inventory_sha256: emptySha,
   supplied_patch_sha256: null,
   review_diff_sha256: emptySha,
   path_ledger_sha256: hashPathLedger([]),
@@ -112,7 +112,7 @@ const targetReceipt = {
   paths: [],
 }
 targetReceipt.receipt_sha256 = hashTargetReceipt(targetReceipt)
-assert.equal(targetReceipt.receipt_sha256, '6edb2140092c33e2d08c3f1389811fd1972394345d62ef7cdf335752157bf92a')
+assert.equal(targetReceipt.receipt_sha256, '38039d4f93ca633ae1a6c62d83886f07db408b12575f9e96ace709abe345f1f1')
 const validEmptyReport = {
   schema_version: 4,
   verdict: 'PASS',
@@ -245,6 +245,22 @@ wrongEmptyDiffDigest.target_receipt.review_diff_sha256 = zeroSha
 resealTarget(wrongEmptyDiffDigest)
 assert(validateReport(wrongEmptyDiffDigest), ajv.errorsText(validateReport.errors))
 assert(validateReportSemantics(wrongEmptyDiffDigest).some(error => error.includes('empty path ledger requires')))
+for (const field of [
+  'staged_diff_sha256',
+  'unstaged_diff_sha256',
+  'status_porcelain_v2_sha256',
+  'untracked_inventory_sha256',
+]) {
+  const contradictoryEmptyWorkspace = structuredClone(validEmptyReport)
+  contradictoryEmptyWorkspace.target_receipt[field] = zeroSha
+  resealTarget(contradictoryEmptyWorkspace)
+  assert(validateReport(contradictoryEmptyWorkspace), ajv.errorsText(validateReport.errors))
+  assert(
+    validateReportSemantics(contradictoryEmptyWorkspace)
+      .some(error => error.includes(`empty ${field}`)),
+    `empty workspace must reject a non-empty ${field}`,
+  )
+}
 const zeroProfile = encodeRecords(PROFILES.path, [])
 assert.equal(zeroProfile.toString('hex'), '4f43523100000000')
 assert.equal(sha256(zeroProfile), '724072e03452f24857227526db38f9717a8e96a6797c7abf64096d05d3fe1ba2')
@@ -1702,7 +1718,7 @@ assert.equal(marketplace.source, 'https://github.com/Kaidera-AI/skills')
 assert.equal(marketplace.generation_basis, 'maximum skill updated date')
 assert.equal(marketplace.generated_at, dryRunMarketplace.generated_at)
 assert.deepEqual(dryRunMarketplace, marketplace, 'committed marketplace must equal fresh deterministic output')
-assert.equal(entry.version, '4.0.0')
+assert.equal(entry.version, '4.0.1')
 assert.equal(entry.risk_level, 'medium')
 assert.equal(entry.trust_tier, 'unvetted')
 assert.deepEqual(entry.capabilities_required, ['tool:file_read', 'tool:code_interpreter'])
@@ -1832,7 +1848,7 @@ try {
     'base64-encoded payload',
   )
   expectValidationFailure(
-    skill.replace('updated: 2026-08-24', 'updated: 9999-99-99'),
+    skill.replace('updated: 2026-08-25', 'updated: 9999-99-99'),
     'updated must be a real ISO calendar date',
   )
   expectValidationFailure(

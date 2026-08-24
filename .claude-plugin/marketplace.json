@@ -3,7 +3,7 @@
   "description": "Locally validated, provenance-aware skills for Kaidera agents",
   "version": "1.0.0",
   "source": "https://github.com/Kaidera-AI/skills",
-  "generated_at": "2026-08-24T00:00:00.000Z",
+  "generated_at": "2026-08-25T00:00:00.000Z",
   "generation_basis": "maximum skill updated date",
   "skills": [
     {
@@ -383,7 +383,7 @@
     },
     {
       "name": "open-code-review",
-      "version": "4.0.0",
+      "version": "4.0.1",
       "description": "Diff-first, evidence-gated code review for worktree changes, staged changes,\ncommits, branch ranges, path sets, and supplied PR patches. Builds an exact\nchange receipt, combines deterministic diagnostics with semantic review,\ntraces cross-file impact, independently challenges material findings, and\nreports honest coverage without modifying the repository. Use this for a\nbounded change review; use a whole-codebase audit skill for repository-wide\nhealth or architecture assessment.\n",
       "category": "development",
       "trust_tier": "unvetted",
@@ -460,7 +460,7 @@
       },
       "author": "Kaidera-AI",
       "license": "Apache-2.0",
-      "updated": "2026-08-24",
+      "updated": "2026-08-25",
       "tags": [
         "code-review",
         "diff-review",
@@ -470,7 +470,7 @@
         "adversarial-verification",
         "read-only"
       ],
-      "content_hash": "7ab21cab2d1cb250995cb9afa4ee42172f443071d5c54aea09a324cddd892faf",
+      "content_hash": "fd6cf692e45a280966d7ce0ea23411c130fdd5699560258f47b67b7f4bc16c09",
       "signed_by": "",
       "last_reviewed": "",
       "reviewer": "",

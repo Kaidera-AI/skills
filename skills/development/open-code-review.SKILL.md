@@ -1,6 +1,6 @@
 ---
 name: open-code-review
-version: 4.0.0
+version: 4.0.1
 description: |
   Diff-first, evidence-gated code review for worktree changes, staged changes,
   commits, branch ranges, path sets, and supplied PR patches. Builds an exact
@@ -28,7 +28,7 @@ engenai:
 
 author: Kaidera-AI
 license: Apache-2.0
-updated: 2026-08-24
+updated: 2026-08-25
 tags: [code-review, diff-review, pull-request, static-analysis, blast-radius, adversarial-verification, read-only]
 
 attribution_author: Alibaba OpenCodeReview contributors
@@ -199,7 +199,7 @@ canonical padded base64. JSON input must be fatal UTF-8 and must reject
 duplicate object keys.
 
 The bundled producer/verifier is `scripts/open-code-review-contract.js`, SHA-256
-`4aeb04b752a5b738f618c50481e9be7b9fd5cbf9caaaaca9eb34911fe7148e86`. Its non-empty review-scope vector for `standard,null,null` has
+`9165e4966153dc3e3fc43dfa7f6aab84709bf9185a60ef409ee5ea5156bea5c1`. Its non-empty review-scope vector for `standard,null,null` has
 SHA-256 `af4f6f29771251b5c8bb722e3f6df9bae7b3ce1c8814152ff4fd9229470d19d9`.
 The one-record v4 policy vector shown below has SHA-256
 `45dc5b5fcafa1889753b8ace3edf77660885dacd975921229bb385e73b6905e6`.
@@ -750,8 +750,16 @@ An empty path ledger requires `review_diff_sha256` to be SHA-256 of empty bytes,
 `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855`;
 a non-empty ledger forbids that digest. Patch mode additionally requires
 `review_diff_sha256 == supplied_patch_sha256`. The canonical empty-ledger
+workspace also requires `staged_diff_sha256`, `unstaged_diff_sha256`,
+`status_porcelain_v2_sha256`, and `untracked_inventory_sha256` to equal that
+empty digest. For these empty receipts, the framed input is exactly zero bytes:
+no newline, NUL, length prefix, or sentinel. The semantic verifier cannot
+reconstruct non-empty raw Git/status streams from normalized path records; for
+a non-empty workspace it proves only presence and canonical target binding, so
+retain the exact command bytes as external review evidence rather than claiming
+the JSON report independently replays them. The canonical empty-ledger
 workspace target vector in `scripts/test-open-code-review.js` hashes to
-`6edb2140092c33e2d08c3f1389811fd1972394345d62ef7cdf335752157bf92a`.
+`38039d4f93ca633ae1a6c62d83886f07db408b12575f9e96ace709abe345f1f1`.
 
 Apply a complete mode matrix, not a permissive bag of optional fields:
 
