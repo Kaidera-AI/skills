@@ -148,6 +148,11 @@ canonical digest/semantic verifier. Structural schema success alone is not a
 valid review verdict; machine reports must also pass
 `node scripts/open-code-review-contract.js <report.json>`.
 
+Three skills also have [versioned static routing fixtures](docs/static-skill-evaluations.md)
+for exact positive, abstain, collision, capability-ceiling, no-write, and
+no-network contracts. These deterministic dry-runs do not execute a model or
+enforce a sandbox, do not prove behavioural routing, and do not promote trust.
+
 ## License
 
 The repository root is licensed under [CC-BY-4.0](LICENSE) (Creative Commons

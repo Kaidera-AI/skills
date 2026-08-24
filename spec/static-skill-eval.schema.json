@@ -1,0 +1,157 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:kaidera:static-skill-eval-suite:v1",
+  "title": "Kaidera static skill routing evaluation suite",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "evaluator_profile",
+    "skill",
+    "skill_path",
+    "contract",
+    "routing",
+    "cases"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "evaluator_profile": {"const": "kaidera-static-routing-v1"},
+    "skill": {"type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"},
+    "skill_path": {
+      "type": "string",
+      "pattern": "^skills/[a-z0-9-]+/[a-z0-9-]+\\.SKILL\\.md$"
+    },
+    "contract": {"$ref": "#/$defs/contract"},
+    "routing": {"$ref": "#/$defs/routing"},
+    "cases": {
+      "type": "array",
+      "minItems": 3,
+      "items": {"$ref": "#/$defs/case"}
+    }
+  },
+  "$defs": {
+    "capability": {
+      "enum": [
+        "tool:code_interpreter",
+        "tool:file_read",
+        "tool:file_write",
+        "tool:mcp_external",
+        "tool:web_search"
+      ]
+    },
+    "capabilityList": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/capability"}
+    },
+    "contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "expected_trust_tier",
+        "expected_declared_capabilities",
+        "capability_ceiling",
+        "no_write",
+        "no_network"
+      ],
+      "properties": {
+        "expected_trust_tier": {"const": "unvetted"},
+        "expected_declared_capabilities": {"$ref": "#/$defs/capabilityList"},
+        "capability_ceiling": {"$ref": "#/$defs/capabilityList"},
+        "no_write": {"const": true},
+        "no_network": {"const": true}
+      }
+    },
+    "phrase": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 120,
+      "pattern": "^[a-z0-9][a-z0-9 .:_/+\\-]*$"
+    },
+    "phraseGroup": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/phrase"}
+    },
+    "phraseGroups": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/phraseGroup"}
+    },
+    "routing": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["route_when_any", "manual_only_when_any"],
+      "properties": {
+        "route_when_any": {"$ref": "#/$defs/phraseGroups"},
+        "manual_only_when_any": {"$ref": "#/$defs/phraseGroups"}
+      }
+    },
+    "case": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "kind", "prompt", "expected"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"},
+        "kind": {"enum": ["positive", "negative", "collision", "boundary"]},
+        "prompt": {"type": "string", "minLength": 12, "maxLength": 1000},
+        "expected": {"$ref": "#/$defs/expected"}
+      }
+    },
+    "expected": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["outcome", "route", "candidates", "reason"],
+      "properties": {
+        "outcome": {"enum": ["route", "abstain", "manual-only"]},
+        "route": {
+          "anyOf": [
+            {"type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"},
+            {"type": "null"}
+          ]
+        },
+        "candidates": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"}
+        },
+        "reason": {
+          "enum": ["single-match", "no-match", "multi-skill-collision", "safety-boundary"]
+        }
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"outcome": {"const": "route"}}, "required": ["outcome"]},
+          "then": {
+            "properties": {
+              "route": {"type": "string"},
+              "candidates": {"type": "array", "minItems": 1, "maxItems": 1},
+              "reason": {"const": "single-match"}
+            }
+          }
+        },
+        {
+          "if": {"properties": {"outcome": {"const": "abstain"}}, "required": ["outcome"]},
+          "then": {
+            "properties": {
+              "route": {"type": "null"},
+              "candidates": {"type": "array", "maxItems": 0},
+              "reason": {"const": "no-match"}
+            }
+          }
+        },
+        {
+          "if": {"properties": {"outcome": {"const": "manual-only"}}, "required": ["outcome"]},
+          "then": {
+            "properties": {
+              "route": {"type": "null"},
+              "candidates": {"type": "array", "minItems": 1},
+              "reason": {"enum": ["multi-skill-collision", "safety-boundary"]}
+            }
+          }
+        }
+      ]
+    }
+  }
+}

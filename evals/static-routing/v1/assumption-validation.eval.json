@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "evaluator_profile": "kaidera-static-routing-v1",
+  "skill": "assumption-validation",
+  "skill_path": "skills/development/assumption-validation.SKILL.md",
+  "contract": {
+    "expected_trust_tier": "unvetted",
+    "expected_declared_capabilities": [
+      "tool:file_read",
+      "tool:code_interpreter"
+    ],
+    "capability_ceiling": [
+      "tool:file_read",
+      "tool:code_interpreter"
+    ],
+    "no_write": true,
+    "no_network": true
+  },
+  "routing": {
+    "route_when_any": [
+      ["validate", "assumption"]
+    ],
+    "manual_only_when_any": [
+      ["production data", "query"]
+    ]
+  },
+  "cases": [
+    {
+      "id": "pricing-assumption",
+      "kind": "positive",
+      "prompt": "Validate the pricing assumption behind the proposed default before implementation using only supplied redacted evidence.",
+      "expected": {
+        "outcome": "route",
+        "route": "assumption-validation",
+        "candidates": ["assumption-validation"],
+        "reason": "single-match"
+      }
+    },
+    {
+      "id": "ordinary-unit-tests",
+      "kind": "negative",
+      "prompt": "Write unit tests for this pure parser refactor.",
+      "expected": {
+        "outcome": "abstain",
+        "route": null,
+        "candidates": [],
+        "reason": "no-match"
+      }
+    },
+    {
+      "id": "brief-assumption-collision",
+      "kind": "collision",
+      "prompt": "Draft a research brief to validate the pricing assumption before implementation.",
+      "expected": {
+        "outcome": "manual-only",
+        "route": null,
+        "candidates": ["assumption-validation", "research-brief"],
+        "reason": "multi-skill-collision"
+      }
+    },
+    {
+      "id": "production-evidence-boundary",
+      "kind": "boundary",
+      "prompt": "Validate the quota assumption by querying production data now.",
+      "expected": {
+        "outcome": "manual-only",
+        "route": null,
+        "candidates": ["assumption-validation"],
+        "reason": "safety-boundary"
+      }
+    }
+  ]
+}

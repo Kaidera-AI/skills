@@ -8,13 +8,18 @@ on:
       - 'scripts/open-code-review-contract.js'
       - 'scripts/test-open-code-review.js'
       - 'scripts/test-skill-adaptations.js'
+      - 'scripts/static-skill-eval.js'
+      - 'scripts/test-static-skill-eval.js'
       - 'scripts/validate-skill.js'
       - 'scripts/skill-format.js'
+      - 'evals/static-routing/v1/*.eval.json'
       - 'package.json'
       - 'package-lock.json'
       - 'spec/SKILL_FORMAT.md'
       - 'spec/open-code-review-report.schema.json'
+      - 'spec/static-skill-eval.schema.json'
       - 'spec/skill-security-patterns.json'
+      - 'docs/static-skill-evaluations.md'
       - '.github/workflows/skill-sandbox-test.yml'
   push:
     branches: [main]
@@ -24,13 +29,18 @@ on:
       - 'scripts/open-code-review-contract.js'
       - 'scripts/test-open-code-review.js'
       - 'scripts/test-skill-adaptations.js'
+      - 'scripts/static-skill-eval.js'
+      - 'scripts/test-static-skill-eval.js'
       - 'scripts/validate-skill.js'
       - 'scripts/skill-format.js'
+      - 'evals/static-routing/v1/*.eval.json'
       - 'package.json'
       - 'package-lock.json'
       - 'spec/SKILL_FORMAT.md'
       - 'spec/open-code-review-report.schema.json'
+      - 'spec/static-skill-eval.schema.json'
       - 'spec/skill-security-patterns.json'
+      - 'docs/static-skill-evaluations.md'
       - '.github/workflows/skill-sandbox-test.yml'
 
 permissions:
@@ -51,7 +61,7 @@ jobs:
       - name: Install dependencies
         run: npm ci --ignore-scripts --no-audit
 
-      - name: Run marketplace and review-skill contract tests
+      - name: Run marketplace, review, and static routing contract tests
         run: npm test
 
       - name: Validate complete skill catalogue strictly
