@@ -168,6 +168,12 @@ Passing the current workflows therefore proves only their named local checks.
 It must not be described as Gate 3/4 acceptance, signature, provenance, or
 publication approval.
 
+The `open-code-review` report schema is a skill-specific output contract, not a
+replacement for the skill-manifest validator. Because JSON Schema cannot prove
+cross-record references, canonical digests, count reconciliation, or verdict
+semantics, a report is consumable only after the bundled semantic verifier also
+passes.
+
 ---
 
 ## Forbidden Patterns

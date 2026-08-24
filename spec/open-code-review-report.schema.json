@@ -7,6 +7,7 @@
   "required": [
     "schema_version",
     "verdict",
+    "review_scope",
     "target_receipt",
     "findings",
     "candidate_audit",
@@ -18,6 +19,7 @@
   "properties": {
     "schema_version": {"const": 1},
     "verdict": {"enum": ["PASS", "CHANGES_REQUESTED", "BLOCKED", "INCOMPLETE"]},
+    "review_scope": {"$ref": "#/$defs/reviewScope"},
     "target_receipt": {"$ref": "#/$defs/targetReceipt"},
     "findings": {"type": "array", "items": {"$ref": "#/$defs/finding"}},
     "candidate_audit": {"type": "array", "items": {"$ref": "#/$defs/candidateAudit"}},
@@ -26,10 +28,35 @@
     "limits": {"type": "array", "items": {"$ref": "#/$defs/limit"}},
     "final_readback": {"$ref": "#/$defs/finalReadback"}
   },
+  "allOf": [
+    {
+      "if": {"properties": {"verdict": {"const": "PASS"}}, "required": ["verdict"]},
+      "then": {
+        "properties": {
+          "coverage": {"type": "object", "properties": {"complete": {"const": true}}},
+          "final_readback": {"type": "object", "properties": {"matches_initial": {"const": true}}},
+          "findings": {"type": "array", "items": {"type": "object", "properties": {"disposition": {"const": "advisory"}}}},
+          "candidate_audit": {"type": "array", "items": {"type": "object", "properties": {"verdict_effect": {"const": "none"}}}},
+          "validation": {"type": "array", "items": {"type": "object", "properties": {"verdict_effect": {"const": "none"}}}},
+          "limits": {"type": "array", "items": {"type": "object", "properties": {"verdict_effect": {"const": "none"}}}}
+        }
+      }
+    }
+  ],
   "$defs": {
     "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
     "objectId": {"type": ["string", "null"], "pattern": "^(?:[0-9a-f]{40}|[0-9a-f]{64})$"},
     "nullableSha256": {"anyOf": [{"$ref": "#/$defs/sha256"}, {"type": "null"}]},
+    "reviewScope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["depth", "intent_sha256", "focus_sha256"],
+      "properties": {
+        "depth": {"enum": ["quick", "standard", "deep"]},
+        "intent_sha256": {"$ref": "#/$defs/nullableSha256"},
+        "focus_sha256": {"$ref": "#/$defs/nullableSha256"}
+      }
+    },
     "losslessPath": {
       "type": ["object", "null"],
       "additionalProperties": false,
@@ -74,7 +101,7 @@
       "additionalProperties": false,
       "required": [
         "schema_version", "mode", "repository_root", "git_object_format",
-        "git_version", "receipt_profile", "head_commit", "head_tree",
+        "git_version", "receipt_profile", "review_scope_sha256", "head_commit", "head_tree",
         "base_commit", "base_tree", "merge_base", "index_entries_sha256",
         "staged_diff_sha256", "unstaged_diff_sha256",
         "status_porcelain_v2_sha256", "untracked_inventory_sha256",
@@ -88,6 +115,7 @@
         "git_object_format": {"enum": ["sha1", "sha256"]},
         "git_version": {"type": "string", "minLength": 1},
         "receipt_profile": {"const": "open-code-review-target/v1"},
+        "review_scope_sha256": {"$ref": "#/$defs/sha256"},
         "head_commit": {"$ref": "#/$defs/objectId"},
         "head_tree": {"$ref": "#/$defs/objectId"},
         "base_commit": {"$ref": "#/$defs/objectId"},
@@ -143,7 +171,8 @@
       "additionalProperties": false,
       "required": [
         "id", "title", "severity", "confidence", "state", "introduced_by",
-        "category", "source", "rule", "artifact_blob_id", "location",
+        "category", "source", "rule", "root_cause_class", "impact_class",
+        "artifact_blob_id", "location",
         "execution_path", "evidence", "impact", "reproduction",
         "mitigations_checked", "recommended_fix", "validation", "disposition",
         "lifecycle", "fingerprint", "evidence_revision", "suppression", "refutation"
@@ -158,6 +187,8 @@
         "category": {"type": "string", "minLength": 1},
         "source": {"type": "string", "minLength": 1},
         "rule": {"type": ["string", "null"]},
+        "root_cause_class": {"type": "string", "minLength": 1},
+        "impact_class": {"type": "string", "minLength": 1},
         "artifact_blob_id": {"$ref": "#/$defs/objectId"},
         "location": {"$ref": "#/$defs/location"},
         "execution_path": {"type": "array", "items": {"type": "string"}},
@@ -188,22 +219,39 @@
       "type": "object",
       "additionalProperties": false,
       "required": [
-        "id", "fingerprint", "title", "severity", "confidence",
-        "candidate_state", "location", "evidence", "suppression", "verdict_effect", "reason"
+        "id", "fingerprint", "fingerprint_status", "title", "severity", "confidence",
+        "source", "rule", "root_cause_class", "impact_class", "candidate_state",
+        "location", "evidence", "suppression", "verdict_effect", "reason"
       ],
       "properties": {
         "id": {"type": "string", "minLength": 1},
         "fingerprint": {"$ref": "#/$defs/sha256"},
+        "fingerprint_status": {"enum": ["verified", "carried"]},
         "title": {"type": "string", "minLength": 1},
         "severity": {"enum": ["critical", "high", "medium", "low"]},
         "confidence": {"enum": ["high", "medium", "low"]},
+        "source": {"type": "string", "minLength": 1},
+        "rule": {"type": ["string", "null"]},
+        "root_cause_class": {"type": "string", "minLength": 1},
+        "impact_class": {"type": "string", "minLength": 1},
         "candidate_state": {"enum": ["refuted", "unverified", "pre_existing", "resolved", "stale", "suppressed"]},
         "location": {"anyOf": [{"$ref": "#/$defs/location"}, {"type": "null"}]},
         "evidence": {"type": "array", "items": {"type": "string"}},
         "suppression": {"$ref": "#/$defs/suppression"},
         "verdict_effect": {"enum": ["none", "prevents_pass", "blocking"]},
         "reason": {"type": "string", "minLength": 1}
-      }
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"candidate_state": {"const": "suppressed"}}, "required": ["candidate_state"]},
+          "then": {"properties": {"suppression": {"not": {"type": "null"}}}},
+          "else": {"properties": {"suppression": {"type": "null"}}}
+        },
+        {
+          "if": {"properties": {"fingerprint_status": {"const": "carried"}}, "required": ["fingerprint_status"]},
+          "then": {"properties": {"candidate_state": {"enum": ["resolved", "stale"]}}}
+        }
+      ]
     },
     "coverage": {
       "type": "object",
@@ -241,7 +289,7 @@
       "additionalProperties": false,
       "required": [
         "argv", "cwd", "tool_version", "exit_code", "stdout_sha256",
-        "stderr_sha256", "result", "not_run_reason"
+        "stderr_sha256", "result", "not_run_reason", "verdict_effect"
       ],
       "properties": {
         "argv": {"type": "array", "items": {"type": "string"}},
@@ -251,8 +299,30 @@
         "stdout_sha256": {"$ref": "#/$defs/nullableSha256"},
         "stderr_sha256": {"$ref": "#/$defs/nullableSha256"},
         "result": {"enum": ["passed", "failed", "not_run"]},
-        "not_run_reason": {"type": ["string", "null"]}
-      }
+        "not_run_reason": {"type": ["string", "null"]},
+        "verdict_effect": {"enum": ["none", "prevents_pass", "blocking"]}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"result": {"const": "passed"}}, "required": ["result"]},
+          "then": {"properties": {"exit_code": {"const": 0}, "not_run_reason": {"type": "null"}, "verdict_effect": {"const": "none"}}}
+        },
+        {
+          "if": {"properties": {"result": {"const": "failed"}}, "required": ["result"]},
+          "then": {"properties": {"verdict_effect": {"enum": ["prevents_pass", "blocking"]}}}
+        },
+        {
+          "if": {"properties": {"result": {"const": "not_run"}}, "required": ["result"]},
+          "then": {
+            "properties": {
+              "exit_code": {"type": "null"},
+              "stdout_sha256": {"type": "null"},
+              "stderr_sha256": {"type": "null"},
+              "not_run_reason": {"type": "string", "minLength": 1}
+            }
+          }
+        }
+      ]
     },
     "limit": {
       "type": "object",

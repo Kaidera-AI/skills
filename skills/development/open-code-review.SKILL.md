@@ -113,9 +113,12 @@ apply the same receipt and evidence rules with `depth=quick`; do not manufacture
 extra phases or findings.
 
 This Kaidera skill intentionally shares its name with Alibaba's installed
-delegate skill. Select one instruction authority, never inject both. When this
-manifest is selected, an `ocr` executable is only the optional adapter described
-at the end; upstream prompt text does not become a second review policy.
+delegate skill. The host loader must resolve skills by source-qualified identity
+and enforce mutual exclusion before injection; prose inside either skill cannot
+repair a loader collision after both prompts are injected. If the loader cannot
+prove that exclusion, return `BLOCKED (ambiguous skill authority)`. When this
+manifest alone is selected, an `ocr` executable is only the optional adapter
+described at the end; upstream prompt text does not become a second review policy.
 
 ## Non-negotiable review invariants
 
@@ -158,6 +161,14 @@ normalization is applied. The zero-record stream is hex
 
 Profiles fix both field and record order:
 
+- review-scope fields are `depth,intent_sha256,focus_sha256`;
+- target fields are `schema_version,mode,repository_root,git_object_format,
+  git_version,receipt_profile,review_scope_sha256,head_commit,head_tree,
+  base_commit,base_tree,merge_base,index_entries_sha256,staged_diff_sha256,
+  unstaged_diff_sha256,status_porcelain_v2_sha256,untracked_inventory_sha256,
+  supplied_patch_sha256,review_diff_sha256,path_ledger_sha256,
+  policy_receipt_sha256`; encode exactly one record and exclude `paths` plus
+  `receipt_sha256` itself;
 - path ledger fields are `record_kind,status,layer,stage,old_path_encoding,
   old_path_value,new_path_encoding,new_path_value,old_mode,new_mode,
   old_object_id,new_object_id,content_sha256,hunks_total,hunks_reviewed,
@@ -170,9 +181,19 @@ Profiles fix both field and record order:
 - finding fingerprint fields are `source,rule_identity,path_encoding,
   path_value,symbol,root_cause_class,impact_class,target_side` in that order.
 
-Use null fields rather than changing a profile. If an implementation cannot
-produce this byte grammar, report the raw receipt components and set the
-derived digest to `null`; do not label an implementation-private hash canonical.
+Unless stated otherwise, fields are UTF-8. `stage`, count/byte fields,
+`schema_version`, and `authority_rank` are unsigned 64-bit integers. Path/source
+values are raw bytes. A missing value uses the null type, never an empty-string
+substitute.
+
+The bundled producer/verifier is `scripts/open-code-review-contract.js`, SHA-256
+`249a66a8d42c8746ea09233016f4b86cae25f572b6ead5c04af3b74ae639308d`. Its non-empty review-scope vector for `standard,null,null` has
+SHA-256 `af4f6f29771251b5c8bb722e3f6df9bae7b3ce1c8814152ff4fd9229470d19d9`.
+Use null fields rather than changing a profile. Markdown may report raw receipt
+components and a null derived digest when canonical support is unavailable, but
+`output=json` is unavailable unless every schema-required canonical ID/digest
+can be produced and the bundled semantic verifier passes. Never label an
+implementation-private hash canonical.
 
 ### Workspace
 
@@ -516,6 +537,8 @@ Each finding must contain:
   "category": "correctness",
   "source": "agent",
   "rule": null,
+  "root_cause_class": "error-ordering",
+  "impact_class": "data-loss",
   "artifact_blob_id": "full object id when available",
   "location": {
     "path_record_id": "sha256 of the exact target path record",
@@ -570,12 +593,15 @@ Lead with the verdict and highest-impact confirmed findings. Include:
 7. **Final target readback** — receipt match or drift details.
 
 For `output=json`, emit exactly these top-level keys: `schema_version` (integer
-`1`), `verdict`, `target_receipt`, `findings`, `candidate_audit`, `coverage`,
-`validation`, `limits`, and `final_readback`. Arrays may be empty when honestly
-applicable; the three receipt objects must be populated using the shapes below.
+`1`), `verdict`, `review_scope`, `target_receipt`, `findings`,
+`candidate_audit`, `coverage`, `validation`, `limits`, and `final_readback`.
+Arrays may be empty when honestly applicable; receipt objects must be populated
+using the shapes below. The JSON Schema validates structure; the bundled helper
+must additionally validate digest/reference/count/verdict semantics before the
+report is consumed or reused.
 The bundled machine contract is
 `spec/open-code-review-report.schema.json`, SHA-256
-`32ce34f90d0f98797dd0a398045d76d4ff6d234202832f9a503ce57663ea2637`;
+`f98349c593606e2b526b73a20a977c8d6dce0b26ccac46dc1e29903c6a0ce223`;
 when that exact file is unavailable, the schemas in this skill remain
 authoritative and the missing external schema is a reported limitation.
 
@@ -590,6 +616,7 @@ inapplicable fields as `null`, not by changing their meaning:
   "git_object_format": "sha1",
   "git_version": "2.x",
   "receipt_profile": "open-code-review-target/v1",
+  "review_scope_sha256": "sha256 of the review_scope profile",
   "head_commit": "full object id",
   "head_tree": "full object id",
   "base_commit": "full object id or null",
@@ -609,9 +636,11 @@ inapplicable fields as `null`, not by changing their meaning:
 }
 ```
 
-For `open-code-review-target/v1`, encode one record with the scalar fields in
-the order shown using the digest grammar above. Bind the path array through
-`path_ledger_sha256` and exclude `receipt_sha256` itself. A path's lossless
+`review_scope` is exactly `{depth,intent_sha256,focus_sha256}` with depth
+`quick`, `standard`, or `deep`; the optional intent/focus values hash their
+exact UTF-8 bytes. For `open-code-review-target/v1`, encode one record with the
+scalar fields in the profile order above. Bind the path array through
+`path_ledger_sha256`. A path's lossless
 value uses UTF-8 only when it round-trips exactly; otherwise use base64 over the
 raw path bytes and record that encoding.
 
@@ -651,7 +680,8 @@ Use these stable shapes for the remaining machine receipt fields:
     "stdout_sha256": "sha256 or null",
     "stderr_sha256": "sha256 or null",
     "result": "passed",
-    "not_run_reason": null
+    "not_run_reason": null,
+    "verdict_effect": "none"
   }],
   "final_readback": {
     "matches_initial": true,
@@ -665,9 +695,12 @@ Use these stable shapes for the remaining machine receipt fields:
 Use `result` values `passed`, `failed`, or `not_run`. Counts are integers and
 must reconcile with the path ledger; an empty object is not a valid receipt.
 
-`candidate_audit` items reuse the finding identity/location/evidence fields and
-add `candidate_state` (`refuted`, `unverified`, `pre_existing`, `resolved`,
-`stale`, or `suppressed`), `verdict_effect`, and `reason`. `limits` items are
+`candidate_audit` items carry `source`, `rule`, `root_cause_class`,
+`impact_class`, the finding location/evidence fields, and `fingerprint_status`
+(`verified` or `carried`). They add `candidate_state` (`refuted`, `unverified`,
+`pre_existing`, `resolved`, `stale`, or `suppressed`), `verdict_effect`, and
+`reason`. Only resolved/stale historical items may carry rather than recompute a
+fingerprint. `limits` items are
 `{id,category,description,affected_path_record_ids,verdict_effect,
 required_evidence}`. Put only current confirmed unsuppressed findings in
 `findings`; every other considered or historical item goes in
@@ -690,6 +723,9 @@ authority. Validate its schema and target/policy/analyzer receipts before use.
 - A rebase/force-push, merge-base change, policy digest change, analyzer/rule
   change, mode change, or lost path coverage invalidates the affected cache and
   may require a full review.
+- If any governing authority lacks a versioned reference or readable content
+  identity, incremental reuse is forbidden even when its stable display name is
+  unchanged. Rebuild the review from the current target and policy context.
 - Review only the delta from the last accepted head when every intervening commit,
   receipt, and coverage record is continuous. Otherwise restart from the trusted
   base.

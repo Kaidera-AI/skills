@@ -142,6 +142,11 @@ All current catalogue entries are therefore marked `unvetted`. Applying that
 trust correction to an existing deployment can deactivate bindings; Kai must
 approve the migration or provide preserved Gate 4 evidence before merge/cutover.
 
+`open-code-review` additionally ships a versioned JSON report schema and a
+canonical digest/semantic verifier. Structural schema success alone is not a
+valid review verdict; machine reports must also pass
+`node scripts/open-code-review-contract.js <report.json>`.
+
 ## License
 
 The repository root is licensed under [CC-BY-4.0](LICENSE) (Creative Commons

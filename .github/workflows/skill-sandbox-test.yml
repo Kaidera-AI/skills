@@ -5,6 +5,7 @@ on:
     paths:
       - 'skills/**/*.SKILL.md'
       - 'scripts/generate-marketplace.js'
+      - 'scripts/open-code-review-contract.js'
       - 'scripts/test-open-code-review.js'
       - 'scripts/validate-skill.js'
       - 'scripts/skill-format.js'
@@ -19,6 +20,7 @@ on:
     paths:
       - 'skills/**/*.SKILL.md'
       - 'scripts/generate-marketplace.js'
+      - 'scripts/open-code-review-contract.js'
       - 'scripts/test-open-code-review.js'
       - 'scripts/validate-skill.js'
       - 'scripts/skill-format.js'

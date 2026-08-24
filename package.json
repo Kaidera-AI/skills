@@ -7,6 +7,7 @@
     "validate": "node scripts/validate-skill.js",
     "generate": "node scripts/generate-marketplace.js",
     "scan": "python3 scripts/security-scan.py",
+    "review-contract": "node scripts/open-code-review-contract.js",
     "test": "node scripts/test-open-code-review.js"
   },
   "engines": {
