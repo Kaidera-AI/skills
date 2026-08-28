@@ -3,7 +3,7 @@
   "description": "Vetted, open-source skills for AI agents built on EnGenAI",
   "version": "1.0.0",
   "source": "https://github.com/engenai-platform/engenai-skills",
-  "generated_at": "2026-08-24T14:52:30.656Z",
+  "generated_at": "2026-08-28T02:16:55.591Z",
   "skills": [
     {
       "name": "agent-platform-context",
@@ -311,6 +311,32 @@
       "content_hash": "8fbb8af37d520873a6b43935c0083c2ded0fddd6ccf516acc8d405e273b7f37d",
       "signed_by": "",
       "file": "skills/development/ultrareview.SKILL.md"
+    },
+    {
+      "name": "unlazy",
+      "version": "1.0.0",
+      "description": "Completion discipline for substantial autonomous work. Write acceptance gates before executing, decompose with a Depth Tree, and re-measure every claim against evidence before reporting. Use when the failure mode is quiet incompleteness: long or multi-part tasks, work returned half-done, exhaustive audits or migrations, or parallel work streams.",
+      "category": "development",
+      "trust_tier": "unvetted",
+      "risk_level": "medium",
+      "capabilities_required": [
+        "- tool:file_read",
+        "tool:file_write"
+      ],
+      "author": "kaidera-ai",
+      "license": "MIT",
+      "updated": "2026-08-28",
+      "tags": [
+        "completion",
+        "verification",
+        "gates",
+        "decomposition",
+        "evidence",
+        "orchestration"
+      ],
+      "content_hash": "99010cf70eaf720fc9029102d902c6aa4acef1390ec762ec547a3252a0dae741",
+      "signed_by": "",
+      "file": "skills/development/unlazy.SKILL.md"
     },
     {
       "name": "container-build",
