@@ -1,8 +1,8 @@
 ---
 name: ultrareview
-version: 1.0.0
+version: 1.1.1
 description: |
-  Comprehensive, evidence-cited, read-only codebase review. Fans the codebase
+  Comprehensive, evidence-cited, read-only whole-codebase or module health audit. Fans the codebase
   across independent review dimensions (correctness, security, change-risk,
   maintainability, blast-radius, tests, performance, spec/contract compliance),
   then adversarially verifies every HIGH/CRITICAL finding before reporting.
@@ -10,11 +10,13 @@ description: |
   review dimensions derived from the repowise codebase-intelligence model
   (JIT change-risk, code-health biomarkers, dead-code, blast-radius, git
   hotspots/prior-defects). Read-only by default; an explicit Fix Mode is
-  opt-in only. Designed for the Kaidera platform workbench and KOS app.
+  opt-in only. Use open-code-review when the primary object is a bounded
+  workspace, commit, range, or PR change. Designed for the Kaidera platform
+  workbench and KOS app.
 
 engenai:
   category: development
-  trust_tier: official
+  trust_tier: unvetted
   risk_level: low
   capabilities_required: []
   allowed_domains: []
@@ -25,7 +27,7 @@ engenai:
 
 author: Kaidera
 license: Apache-2.0
-updated: 2026-07-24
+updated: 2026-08-24
 tags: [code-review, quality, security, change-risk, blast-radius, adversarial-verify, read-only]
 
 parameters:
@@ -67,9 +69,10 @@ HIGH/CRITICAL finding so only real, evidence-backed issues survive.
 
 ## When to use
 
-- Deep pre-merge or pre-release review of a module, service, or diff.
+- Deep health or architecture audit of a repository, module, or service.
 - Independent QA of a fix or feature before sign-off.
 - Periodic health audit of a codebase area.
+- For a bounded workspace/commit/range/PR diff, use `open-code-review` instead.
 - Not intended for trivial one-line typo checks — use a lighter review there.
 
 ## Hard rules (apply to every phase)

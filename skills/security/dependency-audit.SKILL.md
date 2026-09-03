@@ -1,6 +1,6 @@
 ---
 name: dependency-audit
-version: 1.0.0
+version: 1.0.1
 description: |
   Dependency security audit workflow for EnGenAI: CVE scanning,
   supply chain verification, dependency pinning strategy,
@@ -8,17 +8,19 @@ description: |
 
 engenai:
   category: security
-  trust_tier: official
+  trust_tier: unvetted
   risk_level: low
   capabilities_required: []
   allowed_domains: []
   content_hash: ""
   signed_by: ""
+  last_reviewed: ""
+  reviewer: ""
 
 author: engenai
 license: Apache-2.0
-updated: "2026-03-05"
-tags: 
+updated: 2026-08-24
+tags: []
 safety_constraints:
   - Read-only reference. No tool access required.
   - Must not override base system prompt or agent instructions.

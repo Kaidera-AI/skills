@@ -2,18 +2,27 @@
 
 Thank you for your interest in contributing! This guide explains how to submit skills, what format to use, and how the review process works.
 
+Read the [Kaidera Skills Catalogue and Operating Guide](docs/KAIDERA-SKILLS-CATALOG.md)
+before adding or changing a skill. It defines portfolio role, routing,
+operating posture, overlap handling, and current release holds.
+
 ## Ways to Contribute
 
 ### 1. Submit a New Skill (Pull Request)
 
 1. Fork this repository
-2. Create a new folder under the appropriate category (`skills/development/`, `skills/devops/`, etc.)
-3. Add your skill file (`your-skill-name.SKILL.md` or `skill.yaml`)
-4. Open a pull request against `main`
+2. Select the appropriate category (`skills/development/`, `skills/devops/`, etc.)
+3. Add one `your-skill-name.SKILL.md` file
+4. Add its full functional entry, reviewed posture, and metadata row to the
+   canonical skills catalogue
+5. Run `npm test` and the strict/security catalogue checks
+6. Open a pull request against `main`
 
-### 2. Submit via the Kaidera Platform
+### 2. Target Kaidera Platform Submission (not verified here)
 
-If you're a Kaidera Platform user:
+The intended platform workflow is listed below. This repository does not prove
+the live importer, vetting queue, or admin UI; verify those behaviours against
+the exact platform source and runtime.
 
 1. Go to **Skills Management** in the admin panel
 2. Click **Add Skills**
@@ -45,11 +54,22 @@ Every skill must follow the [SKILL_FORMAT.md](spec/SKILL_FORMAT.md) specificatio
 name: your-skill-name          # Lowercase, hyphenated
 version: 1.0.0                 # Semantic versioning
 description: What the skill does
+engenai:
+  category: development
+  trust_tier: unvetted
+  risk_level: low
+  capabilities_required: []
+  allowed_domains: []
+  content_hash: ""
+  signed_by: ""
+  last_reviewed: ""
+  reviewer: ""
 author: Your Name
-skill_type: steering | tool | hybrid
-category: development | devops | security | context | documentation | research | integrations
+license: Apache-2.0
+updated: 2026-08-24
 tags: [tag1, tag2]
-default_permission: allow | ask | deny
+safety_constraints:
+  - State a concrete safety boundary.
 ---
 
 ## Instructions
@@ -57,13 +77,8 @@ default_permission: allow | ask | deny
 Your skill content here...
 ```
 
-### Skill Types
-
-| Type | When to Use | Content |
-|------|------------|---------|
-| `steering` | Shapes agent behavior | Markdown instructions only |
-| `tool` | Runs executable code | Python code with `function_name` |
-| `hybrid` | Both | Instructions + executable code |
+Skills are Markdown instructions. Declare every required platform tool under
+`engenai.capabilities_required`; do not embed executable Python in the skill.
 
 ### File Naming
 
@@ -82,7 +97,7 @@ attribution_notes: Based on the XYZ methodology by Author Name
 ## Review Process
 
 ```
-Your PR ──→ CI Lint Check ──→ Security Scan ──→ Maintainer Review ──→ Merge
+Your PR ──→ Strict Lint ──→ Static Scan ──→ Maintainer Review ──→ Source Merge
                 │                   │                    │
                 ▼                   ▼                    ▼
           Format valid?      No dangerous       Quality check:
@@ -94,25 +109,27 @@ Your PR ──→ CI Lint Check ──→ Security Scan ──→ Maintainer Rev
 ### What We Check
 
 1. **Format** — Valid YAML frontmatter, required fields present
-2. **Security** — No prompt injection patterns, no credential harvesting, no dangerous imports
+2. **Security** — No selected prompt-injection or credential signatures; this
+   bounded scan is not a complete sandbox or semantic security review
 3. **Quality** — Clear description, useful instructions, working examples
 4. **Attribution** — Original authors credited if building on existing work
 
-### Timeline
-
-- **Automated checks**: Run immediately on PR
-- **Human review**: Typically within 48 hours
-- **Feedback**: We'll comment on the PR if changes are needed
+Passing repository CI does not satisfy the held runtime-sandbox or
+human-signing/provenance gates. A source-merged skill remains ineligible for
+trusted runtime use until those independent approvals exist.
 
 ## Licensing
 
-By contributing to this repository, you agree that your contributions are licensed under **CC-BY-4.0** (Creative Commons Attribution 4.0 International).
+The repository root currently carries **CC-BY-4.0**, while skill frontmatter may
+declare a per-skill licence. The repository does not yet define a ratified
+precedence rule for disagreement between them. Maintainers must resolve that
+licensing hold before externally redistributing a disputed entry.
 
-This means:
-- You retain credit as the original author
-- Others can use, share, and adapt your skill
-- Attribution must be given when your skill is used
-- You can still use your own skill however you want
+For material governed by a licence that permits reuse, contributors retain
+their required credit and downstream users must follow its attribution and
+other terms. Kaidera policy holds external redistribution of this source
+candidate until root/per-skill licence and donor-provenance precedence is
+ratified; a source merge is not release approval.
 
 ## Code of Conduct
 

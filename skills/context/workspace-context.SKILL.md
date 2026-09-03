@@ -1,6 +1,6 @@
 ---
 name: workspace-context
-version: 1.0.0
+version: 1.0.1
 description: |
   EnGenAI platform workspace overview — project identity, tech stack, team
   structure, terminology, and development principles. Read-only reference for
@@ -8,7 +8,7 @@ description: |
 
 engenai:
   category: context
-  trust_tier: official
+  trust_tier: unvetted
   risk_level: low
   capabilities_required: []
   allowed_domains: []
@@ -19,7 +19,7 @@ engenai:
 
 author: engenai
 license: Apache-2.0
-updated: 2026-03-05
+updated: 2026-08-24
 tags: [context, workspace, stack, conventions]
 
 safety_constraints:

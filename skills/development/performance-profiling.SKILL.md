@@ -1,6 +1,6 @@
 ---
 name: performance-profiling
-version: 1.0.0
+version: 1.0.2
 description: |
   Performance profiling workflow for EnGenAI: Python async profiling,
   PostgreSQL query analysis, K8s resource metrics, and systematic
@@ -8,17 +8,20 @@ description: |
 
 engenai:
   category: development
-  trust_tier: official
+  trust_tier: unvetted
   risk_level: low
   capabilities_required: []
-  allowed_domains: []
+  allowed_domains:
+    - dev.engenai.app
   content_hash: ""
   signed_by: ""
+  last_reviewed: ""
+  reviewer: ""
 
 author: engenai
 license: Apache-2.0
-updated: "2026-03-05"
-tags: 
+updated: 2026-08-24
+tags: []
 safety_constraints:
   - Read-only reference. No tool access required.
   - Must not override base system prompt or agent instructions.

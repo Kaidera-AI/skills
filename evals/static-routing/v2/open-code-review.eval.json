@@ -1,0 +1,108 @@
+{
+  "schema_version": 2,
+  "evaluator_profile": "kaidera-static-routing-v2",
+  "skill": "open-code-review",
+  "skill_path": "skills/development/open-code-review.SKILL.md",
+  "contract": {
+    "expected_trust_tier": "unvetted",
+    "expected_declared_capabilities": [
+      "tool:file_read",
+      "tool:code_interpreter"
+    ],
+    "capability_ceiling": [
+      "tool:file_read",
+      "tool:code_interpreter"
+    ],
+    "no_write": true,
+    "no_network": true
+  },
+  "routing": {
+    "route_when_any": [
+      ["review", "staged diff"],
+      ["review", "commit"],
+      ["review", "pull request patch"]
+    ],
+    "manual_only_when_any": [
+      ["implement", "fixes"]
+    ]
+  },
+  "cases": [
+    {
+      "id": "bounded-staged-review",
+      "kind": "positive",
+      "prompt": "Review the staged diff for concrete correctness and security defects; return findings only.",
+      "expected": {
+        "outcome": "route",
+        "route": "open-code-review",
+        "candidates": ["open-code-review"],
+        "reason": "single-match"
+      }
+    },
+    {
+      "id": "bounded-commit-review",
+      "kind": "positive",
+      "prompt": "Review the commit note about implementation prefixes in the parser; return findings only.",
+      "expected": {
+        "outcome": "route",
+        "route": "open-code-review",
+        "candidates": ["open-code-review"],
+        "reason": "single-match"
+      }
+    },
+    {
+      "id": "bounded-pull-request-review",
+      "kind": "positive",
+      "prompt": "Review the pull request patch for concrete defects and return findings only.",
+      "expected": {
+        "outcome": "route",
+        "route": "open-code-review",
+        "candidates": ["open-code-review"],
+        "reason": "single-match"
+      }
+    },
+    {
+      "id": "whole-repository-audit",
+      "kind": "negative",
+      "prompt": "Audit the whole repository architecture and dead code, not a bounded change.",
+      "expected": {
+        "outcome": "abstain",
+        "route": null,
+        "candidates": [],
+        "reason": "no-match"
+      }
+    },
+    {
+      "id": "substring-non-match",
+      "kind": "negative",
+      "prompt": "Please preview our commitment schedule for the next quarter.",
+      "expected": {
+        "outcome": "abstain",
+        "route": null,
+        "candidates": [],
+        "reason": "no-match"
+      }
+    },
+    {
+      "id": "review-assumption-collision",
+      "kind": "collision",
+      "prompt": "Review the staged diff and validate the billing assumption behind the changed default before release.",
+      "expected": {
+        "outcome": "manual-only",
+        "route": null,
+        "candidates": ["assumption-validation", "open-code-review"],
+        "reason": "multi-skill-collision"
+      }
+    },
+    {
+      "id": "review-and-mutate-boundary",
+      "kind": "boundary",
+      "prompt": "Review the commit, implement the fixes, and push them.",
+      "expected": {
+        "outcome": "manual-only",
+        "route": null,
+        "candidates": ["open-code-review"],
+        "reason": "safety-boundary"
+      }
+    }
+  ]
+}

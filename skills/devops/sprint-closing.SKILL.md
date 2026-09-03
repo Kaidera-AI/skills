@@ -1,6 +1,6 @@
 ---
 name: sprint-closing
-version: 2.0.0
+version: 2.0.1
 description: |
   Close an EnGenAI sprint with the mandatory 6-phase process. Every sprint
   must be fully documented and Amad must give explicit approval before any
@@ -8,7 +8,7 @@ description: |
 
 engenai:
   category: devops
-  trust_tier: official
+  trust_tier: unvetted
   risk_level: low
   capabilities_required: []
   allowed_domains: []
@@ -19,7 +19,7 @@ engenai:
 
 author: engenai
 license: Apache-2.0
-updated: 2026-03-05
+updated: 2026-08-24
 tags: [sprint, closure, documentation, process]
 
 safety_constraints:

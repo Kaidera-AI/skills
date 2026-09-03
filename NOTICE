@@ -16,3 +16,13 @@ Some skills in this repository were contributed by community members or
 adapted from external repositories. Each skill's YAML frontmatter contains
 the original author's attribution. Please respect these attributions when
 redistributing or building upon these skills.
+
+Research donors added 2026-08-24:
+- Alibaba OpenCodeReview contributors, alibaba/open-code-review at
+  0c44f1049e054b062b8900b93a4828f7b0baf77b (Apache-2.0). The
+  independently written open-code-review skill uses the upstream project only
+  as an architecture and review-pipeline research donor.
+- David Ondrej, davidondrej/skills at
+  69c3ae5228eb146724fd23dac3d43eab5805bcc3 (MIT, Copyright 2026 David
+  Ondrej). The independently written assumption-validation and research-brief
+  skills preserve exact source links in their frontmatter.

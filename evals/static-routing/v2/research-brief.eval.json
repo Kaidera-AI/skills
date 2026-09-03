@@ -1,0 +1,90 @@
+{
+  "schema_version": 2,
+  "evaluator_profile": "kaidera-static-routing-v2",
+  "skill": "research-brief",
+  "skill_path": "skills/research/research-brief.SKILL.md",
+  "contract": {
+    "expected_trust_tier": "unvetted",
+    "expected_declared_capabilities": ["tool:file_read"],
+    "capability_ceiling": ["tool:file_read"],
+    "no_write": true,
+    "no_network": true
+  },
+  "routing": {
+    "route_when_any": [
+      ["draft", "research brief"]
+    ],
+    "manual_only_when_any": [
+      ["browse", "answer"],
+      ["publish", "report"]
+    ]
+  },
+  "cases": [
+    {
+      "id": "vendor-research-brief",
+      "kind": "positive",
+      "prompt": "Draft a research brief for comparing SSO vendors; do not conduct the research.",
+      "expected": {
+        "outcome": "route",
+        "route": "research-brief",
+        "candidates": ["research-brief"],
+        "reason": "single-match"
+      }
+    },
+    {
+      "id": "browser-answer-substring-route",
+      "kind": "positive",
+      "prompt": "Draft a research brief describing what the browser answer widget renders; do not conduct the research.",
+      "expected": {
+        "outcome": "route",
+        "route": "research-brief",
+        "candidates": ["research-brief"],
+        "reason": "single-match"
+      }
+    },
+    {
+      "id": "ordinary-summary",
+      "kind": "negative",
+      "prompt": "Summarise this supplied paragraph in three bullets.",
+      "expected": {
+        "outcome": "abstain",
+        "route": null,
+        "candidates": [],
+        "reason": "no-match"
+      }
+    },
+    {
+      "id": "review-brief-collision",
+      "kind": "collision",
+      "prompt": "Review the pull request patch and draft a research brief about the unresolved library choice.",
+      "expected": {
+        "outcome": "manual-only",
+        "route": null,
+        "candidates": ["open-code-review", "research-brief"],
+        "reason": "multi-skill-collision"
+      }
+    },
+    {
+      "id": "conduct-research-boundary",
+      "kind": "boundary",
+      "prompt": "Browse the web and answer the research question now.",
+      "expected": {
+        "outcome": "manual-only",
+        "route": null,
+        "candidates": ["research-brief"],
+        "reason": "safety-boundary"
+      }
+    },
+    {
+      "id": "publish-report-boundary",
+      "kind": "boundary",
+      "prompt": "Publish the report to the external research portal now.",
+      "expected": {
+        "outcome": "manual-only",
+        "route": null,
+        "candidates": ["research-brief"],
+        "reason": "safety-boundary"
+      }
+    }
+  ]
+}

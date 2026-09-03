@@ -1,163 +1,151 @@
 #!/usr/bin/env node
-/**
- * generate-marketplace.js — Auto-generate .claude-plugin/marketplace.json
- *
- * Scans all skills/**\/*.SKILL.md files, extracts frontmatter, and generates
- * a Claude Code plugin source manifest.
- *
- * Usage:
- *   node scripts/generate-marketplace.js
- *   node scripts/generate-marketplace.js --dry-run  (print, do not write)
- *
- * Output: .claude-plugin/marketplace.json
- */
 
 'use strict'
 
-const fs = require('fs')
-const path = require('path')
-const crypto = require('crypto')
+const fs = require('node:fs')
+const path = require('node:path')
+const { computeContentHash, parseSkillContent, readSkillFile } = require('./skill-format')
+const { validateSkill } = require('./validate-skill')
 
-const DRY_RUN = process.argv.includes('--dry-run')
-
-// ── Frontmatter parser (minimal) ──────────────────────────────────────────────
-
-function parseSimpleFrontmatter(content) {
-  const parts = content.split('---')
-  if (parts.length < 3) return null
-
-  const yaml = parts[1].trim()
-  const body = parts.slice(2).join('---').trim()
-  const fm = {}
-
-  // Extract top-level fields
-  const nameMatch = yaml.match(/^name:\s*(.+)$/m)
-  const versionMatch = yaml.match(/^version:\s*(.+)$/m)
-  const descMatch = yaml.match(/^description:\s*\|?\s*\n([\s\S]*?)(?=\n\w|\nengenai:)/m)
-  const authorMatch = yaml.match(/^author:\s*(.+)$/m)
-  const licenseMatch = yaml.match(/^license:\s*(.+)$/m)
-  const updatedMatch = yaml.match(/^updated:\s*(.+)$/m)
-  const tagsMatch = yaml.match(/^tags:\s*\[([^\]]*)\]/m)
-
-  // Extract engenai section
-  const engenaiMatch = yaml.match(/^engenai:\n([\s\S]*?)(?=\n\w|\n$)/m)
-  const engenaiBlock = engenaiMatch ? engenaiMatch[1] : ''
-
-  const categoryMatch = engenaiBlock.match(/category:\s*(.+)/)
-  const trustTierMatch = engenaiBlock.match(/trust_tier:\s*(.+)/)
-  const riskLevelMatch = engenaiBlock.match(/risk_level:\s*(.+)/)
-  const contentHashMatch = engenaiBlock.match(/content_hash:\s*"?([^"\n]*)"?/)
-  const signedByMatch = engenaiBlock.match(/signed_by:\s*"?([^"\n]*)"?/)
-
-  // Parse capabilities_required list
-  const capsMatch = engenaiBlock.match(/capabilities_required:\s*\n((?:\s+-\s+.+\n?)*)/m)
-  const capabilities = capsMatch
-    ? capsMatch[1].trim().split('\n').map(l => l.replace(/^\s+-\s+/, '').trim()).filter(Boolean)
-    : []
-
-  fm.name = nameMatch ? nameMatch[1].trim() : null
-  fm.version = versionMatch ? versionMatch[1].trim() : null
-  fm.description = descMatch ? descMatch[1].trim().replace(/\n\s+/g, ' ') : ''
-  fm.author = authorMatch ? authorMatch[1].trim() : null
-  fm.license = licenseMatch ? licenseMatch[1].trim() : null
-  fm.updated = updatedMatch ? updatedMatch[1].trim() : null
-  fm.tags = tagsMatch ? tagsMatch[1].split(',').map(t => t.trim()).filter(Boolean) : []
-  fm.category = categoryMatch ? categoryMatch[1].trim() : null
-  fm.trust_tier = trustTierMatch ? trustTierMatch[1].trim() : null
-  fm.risk_level = riskLevelMatch ? riskLevelMatch[1].trim() : null
-  fm.content_hash = contentHashMatch ? contentHashMatch[1].trim() : ''
-  fm.signed_by = signedByMatch ? signedByMatch[1].trim() : ''
-  fm.capabilities_required = capabilities
-
-  return { frontmatter: fm, body }
-}
-
-// ── Compute content hash ──────────────────────────────────────────────────────
-
-function computeHash(body) {
-  return crypto.createHash('sha256').update(body, 'utf8').digest('hex')
-}
-
-// ── Scan skills directory ─────────────────────────────────────────────────────
+const root = path.join(__dirname, '..')
+const skillsDir = path.join(root, 'skills')
+const outputPath = path.join(root, '.claude-plugin', 'marketplace.json')
 
 function findSkillFiles(dir) {
   const results = []
-  const entries = fs.readdirSync(dir, { withFileTypes: true })
-  for (const entry of entries) {
-    const full = path.join(dir, entry.name)
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    const fullPath = path.join(dir, entry.name)
     if (entry.isDirectory()) {
-      results.push(...findSkillFiles(full))
-    } else if (entry.name.endsWith('.SKILL.md')) {
-      results.push(full)
+      results.push(...findSkillFiles(fullPath))
+    } else if (entry.isFile() && entry.name.endsWith('.SKILL.md')) {
+      results.push(fullPath)
     }
   }
   return results.sort()
 }
 
-// ── Main ──────────────────────────────────────────────────────────────────────
+function marketplaceRelativePath(filePath) {
+  return path.relative(root, filePath).replace(/\\/g, '/')
+}
 
-const skillsDir = path.join(__dirname, '..', 'skills')
-const outputPath = path.join(__dirname, '..', '.claude-plugin', 'marketplace.json')
-
-const skillFiles = findSkillFiles(skillsDir)
-const skills = []
-
-for (const filePath of skillFiles) {
-  const content = fs.readFileSync(filePath, 'utf8')
-  const parsed = parseSimpleFrontmatter(content)
-
-  if (!parsed || !parsed.frontmatter.name) {
-    console.warn(`WARN: Could not parse ${filePath} — skipping`)
-    continue
+function skillEntry(filePath) {
+  const { errors, parsed } = validateSkill(filePath, { strict: false })
+  if (errors.length > 0) {
+    throw new Error(`${filePath} failed validation:\n- ${errors.join('\n- ')}`)
   }
 
   const { frontmatter: fm, body } = parsed
-  const computedHash = computeHash(body)
-
-  // Verify stored hash matches computed (if a hash is stored)
-  if (fm.content_hash && fm.content_hash !== computedHash) {
-    console.error(`ERROR: Hash mismatch for ${filePath}`)
-    console.error(`  Stored:   ${fm.content_hash}`)
-    console.error(`  Computed: ${computedHash}`)
-    process.exit(1)
-  }
-
-  const relativePath = path.relative(path.join(__dirname, '..'), filePath)
-
-  skills.push({
+  const manifest = fm.engenai
+  const entry = {
     name: fm.name,
     version: fm.version,
     description: fm.description,
-    category: fm.category,
-    trust_tier: fm.trust_tier,
-    risk_level: fm.risk_level,
-    capabilities_required: fm.capabilities_required,
+    category: manifest.category,
+    trust_tier: manifest.trust_tier,
+    risk_level: manifest.risk_level,
+    capabilities_required: manifest.capabilities_required,
+    allowed_domains: manifest.allowed_domains,
+    safety_constraints: fm.safety_constraints,
+    parameters: fm.parameters || {},
     author: fm.author,
     license: fm.license,
     updated: fm.updated,
-    tags: fm.tags,
-    content_hash: computedHash,
-    signed_by: fm.signed_by || '',
-    file: relativePath,
-  })
+    tags: fm.tags || [],
+    content_hash: computeContentHash(body),
+    signed_by: manifest.signed_by,
+    last_reviewed: manifest.last_reviewed,
+    reviewer: manifest.reviewer,
+    file: marketplaceRelativePath(filePath),
+  }
+
+  if (fm.attribution_author || fm.attribution_url || fm.attribution_notes) {
+    entry.attribution_author = fm.attribution_author || ''
+    entry.attribution_url = fm.attribution_url || ''
+    entry.attribution_notes = fm.attribution_notes || ''
+  }
+
+  return entry
 }
 
-const manifest = {
-  name: 'EnGenAI Skills Marketplace',
-  description: 'Vetted, open-source skills for AI agents built on EnGenAI',
-  version: '1.0.0',
-  source: 'https://github.com/engenai-platform/engenai-skills',
-  generated_at: new Date().toISOString(),
-  skills,
+function assertUniqueSkillNames(skills) {
+  const seen = new Map()
+  for (const skill of skills) {
+    const prior = seen.get(skill.name)
+    if (prior) {
+      throw new Error(`duplicate skill name ${skill.name}: ${prior} and ${skill.file}`)
+    }
+    seen.set(skill.name, skill.file)
+  }
 }
 
-const output = JSON.stringify(manifest, null, 2)
+function buildMarketplace() {
+  const skills = findSkillFiles(skillsDir).map(skillEntry)
+  assertUniqueSkillNames(skills)
+  const newestSkillDate = skills.reduce(
+    (latest, skill) => (skill.updated > latest ? skill.updated : latest),
+    '1970-01-01',
+  )
 
-if (DRY_RUN) {
-  console.log(output)
-  console.log(`\nDry run: ${skills.length} skill(s) would be published.`)
-} else {
+  return {
+    name: 'Kaidera Skills Marketplace',
+    description: 'Locally validated, provenance-aware skills for Kaidera agents',
+    version: '1.0.0',
+    source: 'https://github.com/Kaidera-AI/skills',
+    // This is deliberately source-derived so two clean checkouts produce the
+    // same catalogue bytes. It is the newest declared skill revision date,
+    // not a wall-clock timestamp from the generator process.
+    generated_at: `${newestSkillDate}T00:00:00.000Z`,
+    generation_basis: 'maximum skill updated date',
+    skills,
+  }
+}
+
+function main(argv = process.argv.slice(2)) {
+  const hashIndex = argv.indexOf('--hash')
+  if (hashIndex !== -1) {
+    const filePath = argv[hashIndex + 1]
+    if (!filePath) {
+      console.error('Usage: generate-marketplace.js --hash <skill-file.SKILL.md>')
+      return 1
+    }
+    try {
+      const { body } = parseSkillContent(readSkillFile(filePath))
+      console.log(computeContentHash(body))
+      return 0
+    } catch (error) {
+      console.error(`ERROR: ${error.message}`)
+      return 1
+    }
+  }
+
+  let marketplace
+  try {
+    marketplace = buildMarketplace()
+  } catch (error) {
+    console.error(`ERROR: ${error.message}`)
+    return 1
+  }
+
+  const output = JSON.stringify(marketplace, null, 2)
+  if (argv.includes('--dry-run')) {
+    console.log(output)
+    console.log(`\nDry run: ${marketplace.skills.length} skill(s) would be published.`)
+    return 0
+  }
+
   fs.mkdirSync(path.dirname(outputPath), { recursive: true })
-  fs.writeFileSync(outputPath, output + '\n')
-  console.log(`Generated marketplace.json with ${skills.length} skill(s).`)
+  fs.writeFileSync(outputPath, `${output}\n`)
+  console.log(`Generated marketplace.json with ${marketplace.skills.length} skill(s).`)
+  return 0
+}
+
+if (require.main === module) process.exit(main())
+
+module.exports = {
+  assertUniqueSkillNames,
+  buildMarketplace,
+  findSkillFiles,
+  main,
+  marketplaceRelativePath,
+  skillEntry,
 }

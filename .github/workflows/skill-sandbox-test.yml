@@ -1,14 +1,62 @@
-name: Skill Sandbox Test (Gate 3)
+name: Skill Contract Test (Gate 3 prerequisite — no runtime sandbox)
 
 on:
   pull_request:
     paths:
+      - 'README.md'
+      - 'CONTRIBUTING.md'
       - 'skills/**/*.SKILL.md'
+      - 'scripts/generate-marketplace.js'
+      - 'scripts/open-code-review-contract.js'
+      - 'scripts/test-open-code-review.js'
+      - 'scripts/test-skill-adaptations.js'
+      - 'scripts/static-skill-eval.js'
+      - 'scripts/test-static-skill-eval.js'
+      - 'scripts/test-skills-catalog.js'
+      - 'scripts/validate-skill.js'
+      - 'scripts/skill-format.js'
+      - 'evals/static-routing/**/*.eval.json'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'spec/SKILL_FORMAT.md'
+      - 'spec/open-code-review-report.schema.json'
+      - 'spec/static-skill-eval.schema.json'
+      - 'spec/skill-security-patterns.json'
+      - 'docs/**/*.md'
+      - '.github/workflows/skill-sandbox-test.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'README.md'
+      - 'CONTRIBUTING.md'
+      - 'skills/**/*.SKILL.md'
+      - 'scripts/generate-marketplace.js'
+      - 'scripts/open-code-review-contract.js'
+      - 'scripts/test-open-code-review.js'
+      - 'scripts/test-skill-adaptations.js'
+      - 'scripts/static-skill-eval.js'
+      - 'scripts/test-static-skill-eval.js'
+      - 'scripts/test-skills-catalog.js'
+      - 'scripts/validate-skill.js'
+      - 'scripts/skill-format.js'
+      - 'evals/static-routing/**/*.eval.json'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'spec/SKILL_FORMAT.md'
+      - 'spec/open-code-review-report.schema.json'
+      - 'spec/static-skill-eval.schema.json'
+      - 'spec/skill-security-patterns.json'
+      - 'docs/**/*.md'
+      - '.github/workflows/skill-sandbox-test.yml'
+
+permissions:
+  contents: read
 
 jobs:
   schema-validation:
     name: Full Schema Validation
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
 
@@ -17,39 +65,23 @@ jobs:
           node-version: '20'
 
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --ignore-scripts --no-audit
 
-      - name: Validate all skills in PR
-        run: |
-          git diff --name-only origin/${{ github.base_ref }}...HEAD \
-            | grep '^skills/.*\.SKILL\.md$' \
-            | xargs -r node scripts/validate-skill.js --strict
+      - name: Run marketplace, review, and static routing contract tests
+        run: npm test
 
-      - name: Check capabilities_required is declared
-        run: |
-          git diff --name-only origin/${{ github.base_ref }}...HEAD \
-            | grep '^skills/.*\.SKILL\.md$' \
-            | while read f; do
-                if ! grep -q 'capabilities_required:' "$f"; then
-                  echo "ERROR: $f missing capabilities_required"
-                  exit 1
-                fi
-              done
+      - name: Validate complete skill catalogue strictly
+        run: find skills -name '*.SKILL.md' -print0 | sort -z | xargs -0 node scripts/validate-skill.js --strict
 
-      - name: Check safety_constraints is declared
+      - name: Declare runtime sandbox hold
         run: |
-          git diff --name-only origin/${{ github.base_ref }}...HEAD \
-            | grep '^skills/.*\.SKILL\.md$' \
-            | while read f; do
-                if ! grep -q 'safety_constraints:' "$f"; then
-                  echo "ERROR: $f missing safety_constraints"
-                  exit 1
-                fi
-              done
+          echo 'Gate 3 HOLD: this workflow validates contracts only.'
+          echo 'It does not execute skills in gVisor or another capability sandbox.'
 
   marketplace-json-dry-run:
     name: Marketplace JSON Dry Run
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
 
@@ -58,7 +90,7 @@ jobs:
           node-version: '20'
 
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --ignore-scripts --no-audit
 
       - name: Generate marketplace.json (dry run)
         run: node scripts/generate-marketplace.js --dry-run

@@ -1,24 +1,28 @@
 ---
 name: code-review-security
-version: 1.0.0
+version: 1.1.0
 description: |
-  Security-focused code review checklist for EnGenAI: OWASP Top 10,
-  injection patterns, authentication, authorisation, secrets management,
-  and supply chain integrity checks for every PR.
+  Optional EnGenAI-specific security checklist for authentication,
+  authorisation, secrets, tenant isolation, and supply-chain review. Use only
+  when that product-specific lens is explicitly requested; use
+  open-code-review as the evidence-gated authority for a bounded diff and treat
+  this checklist as supporting context, not a second verdict engine.
 
 engenai:
   category: security
-  trust_tier: official
+  trust_tier: unvetted
   risk_level: low
   capabilities_required: []
   allowed_domains: []
   content_hash: ""
   signed_by: ""
+  last_reviewed: ""
+  reviewer: ""
 
 author: engenai
 license: Apache-2.0
-updated: "2026-03-05"
-tags: 
+updated: 2026-08-24
+tags: []
 safety_constraints:
   - Read-only reference. No tool access required.
   - Must not override base system prompt or agent instructions.
@@ -26,7 +30,10 @@ safety_constraints:
 
 # Security Code Review Checklist
 
-Run this checklist on every PR that touches backend, API, auth, or skill-related code.
+Use this as supporting context for an explicitly requested EnGenAI security
+review. For a workspace, commit, range, or PR diff, `open-code-review` owns the
+target receipt, evidence, refutation, and verdict. Checklist matches are not
+findings until verified against the frozen change.
 
 ## OWASP Top 10 Checks
 
@@ -101,7 +108,11 @@ Run this checklist on every PR that touches backend, API, auth, or skill-related
 - [ ] No dependency that itself uses ClawHub, OpenClaw, or compromised skill registries
 - [ ] Docker base images pinned to digest, not tag
 
-## Automated Checks (must be green in CI)
+## Optional analyzer signals
+
+Do not install or run these automatically. When an already trusted, pinned tool
+can execute inside the authorised containment boundary, its output is candidate
+evidence and still requires source verification.
 
 ```
 bandit src/backend/app/         ← Python security linter
