@@ -6,7 +6,7 @@ description: |
   canvas, Tailwind CSS, Zustand state management, TypeScript strict mode,
   and component conventions. Reference for Marv and frontend agents.
 
-engenai:
+kaidera:
   category: context
   trust_tier: unvetted
   risk_level: low
@@ -17,7 +17,7 @@ engenai:
   last_reviewed: ""
   reviewer: ""
 
-author: engenai
+author: kaidera
 license: Apache-2.0
 updated: 2026-08-24
 tags: [context, frontend, nextjs, react, tailwind, typescript]

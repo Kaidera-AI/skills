@@ -5,9 +5,9 @@ description: |
   Validates proposed infrastructure names against a portable organization,
   project, environment, role, locality, and ordinal grammar before creation.
 
-engenai:
+kaidera:
   category: devops
-  trust_tier: official
+  trust_tier: unvetted
   risk_level: low
   capabilities_required:
     - tool:file_read

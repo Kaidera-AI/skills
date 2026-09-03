@@ -775,14 +775,14 @@ function addSuiteSemanticErrors(wrapper, allSkillNames, allSuites, errors) {
   const content = afterRead.source
   const { frontmatter, body } = parseSkillContent(content)
   wrapper.skillSha256 = sha256(afterRead.bytes)
-  wrapper.semanticLint = semanticLint(body, frontmatter.engenai.capabilities_required, suite.contract)
+  wrapper.semanticLint = semanticLint(body, (frontmatter.kaidera || frontmatter.engenai).capabilities_required, suite.contract)
 
   if (frontmatter.name !== suite.skill) errors.push(`${prefix}: skill name does not match target frontmatter`)
-  if (frontmatter.engenai.trust_tier !== suite.contract.expected_trust_tier) {
+  if ((frontmatter.kaidera || frontmatter.engenai).trust_tier !== suite.contract.expected_trust_tier) {
     errors.push(`${prefix}: trust tier drifted from ${suite.contract.expected_trust_tier}`)
   }
 
-  const declared = sorted(frontmatter.engenai.capabilities_required)
+  const declared = sorted((frontmatter.kaidera || frontmatter.engenai).capabilities_required)
   const expected = sorted(suite.contract.expected_declared_capabilities)
   const ceiling = new Set(suite.contract.capability_ceiling)
   if (stableStringify(declared) !== stableStringify(expected)) {

@@ -36,7 +36,7 @@ description: |                     # REQUIRED. One short paragraph, plain Englis
   What this skill does.
 
 # ── Classification ────────────────────────────────────────────────────────────
-engenai:
+kaidera:
   category: development            # REQUIRED. See Category List below.
   trust_tier: unvetted             # REQUIRED. Trusted tiers are Gate 4-held.
   risk_level: low                  # REQUIRED. low | medium | high
@@ -93,6 +93,8 @@ the agent's base system prompt.
 ```
 
 ---
+
+> **Manifest key.** The security manifest block is `kaidera:` (renamed from `engenai:` on 2026-09-03). The legacy key is accepted by the validator with a warning until 2026-12-31, then rejected.
 
 ## Category List
 
@@ -205,7 +207,7 @@ The deterministic catalogue generator fills each marketplace entry's:
   after CRLF/CR line endings are normalized to LF and leading/trailing
   whitespace is trimmed, for catalogue consistency.
 
-The in-file `engenai.content_hash` may remain empty while Gate 4 is held. When
+The in-file `kaidera.content_hash` may remain empty while Gate 4 is held. When
 non-empty, strict validation requires it to equal the same canonical body hash.
 The integrity workflow regenerates the complete catalogue and fails on drift;
 it has read-only repository permissions and never commits or pushes generated
@@ -233,7 +235,7 @@ version: 1.0.0
 description: |
   Guides writing conventional commit messages following the Kaidera format.
 
-engenai:
+kaidera:
   category: development
   trust_tier: unvetted
   risk_level: low

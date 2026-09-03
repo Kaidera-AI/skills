@@ -6,7 +6,7 @@ description: |
   triggers GitHub Actions → builds images → updates gitops/dev → ArgoCD syncs.
   Never push directly to develop or gitops branches.
 
-engenai:
+kaidera:
   category: devops
   trust_tier: unvetted
   risk_level: medium
@@ -18,7 +18,7 @@ engenai:
   last_reviewed: ""
   reviewer: ""
 
-author: engenai
+author: kaidera
 license: Apache-2.0
 updated: 2026-08-24
 tags: [deploy, cicd, argocd, gitops, kubernetes]

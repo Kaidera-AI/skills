@@ -14,7 +14,7 @@ description: |
   workspace, commit, range, or PR change. Designed for the Kaidera platform
   workbench and KOS app.
 
-engenai:
+kaidera:
   category: development
   trust_tier: unvetted
   risk_level: low

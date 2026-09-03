@@ -5,7 +5,7 @@ description: |
   Terraform IaC patterns for EnGenAI: GCP module structure, state management,
   workspace conventions, variable patterns, and safe apply workflow.
 
-engenai:
+kaidera:
   category: devops
   trust_tier: unvetted
   risk_level: low
@@ -17,7 +17,7 @@ engenai:
   last_reviewed: ""
   reviewer: ""
 
-author: engenai
+author: kaidera
 license: Apache-2.0
 updated: 2026-08-24
 tags: []

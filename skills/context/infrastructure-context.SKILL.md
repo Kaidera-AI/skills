@@ -6,7 +6,7 @@ description: |
   Helm, CI/CD pipeline, K8s deployment patterns, and security hardening
   requirements. Reference for DevOps and infrastructure agents.
 
-engenai:
+kaidera:
   category: context
   trust_tier: unvetted
   risk_level: low
@@ -18,7 +18,7 @@ engenai:
   last_reviewed: ""
   reviewer: ""
 
-author: engenai
+author: kaidera
 license: Apache-2.0
 updated: 2026-08-24
 tags: [context, infrastructure, k8s, gcp, argocd, terraform, cicd]

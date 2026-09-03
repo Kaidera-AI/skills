@@ -35,7 +35,7 @@ function skillEntry(filePath) {
   }
 
   const { frontmatter: fm, body } = parsed
-  const manifest = fm.engenai
+  const manifest = fm.kaidera || fm.engenai
   const entry = {
     name: fm.name,
     version: fm.version,

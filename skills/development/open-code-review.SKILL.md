@@ -10,7 +10,7 @@ description: |
   bounded change review; use a whole-codebase audit skill for repository-wide
   health or architecture assessment.
 
-engenai:
+kaidera:
   category: development
   trust_tier: unvetted
   risk_level: medium

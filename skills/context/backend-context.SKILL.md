@@ -6,7 +6,7 @@ description: |
   access, authentication, middleware, and security patterns. Reference for
   Sophi and any agent working in src/backend/.
 
-engenai:
+kaidera:
   category: context
   trust_tier: unvetted
   risk_level: low
@@ -17,7 +17,7 @@ engenai:
   last_reviewed: ""
   reviewer: ""
 
-author: engenai
+author: kaidera
 license: Apache-2.0
 updated: 2026-08-24
 tags: [context, backend, fastapi, python, database]

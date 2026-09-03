@@ -7,7 +7,7 @@ description: |
   threat categories, corpus custody, expected rejection properties, audit
   evidence, and regression criteria for a separately controlled test harness.
 
-engenai:
+kaidera:
   category: security
   trust_tier: unvetted
   risk_level: low
@@ -18,7 +18,7 @@ engenai:
   last_reviewed: ""
   reviewer: ""
 
-author: engenai
+author: kaidera
 license: Apache-2.0
 updated: 2026-08-24
 tags: [prompt-injection, security-testing, skills, regression, read-only]

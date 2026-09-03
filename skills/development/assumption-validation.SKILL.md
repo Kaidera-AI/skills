@@ -9,7 +9,7 @@ description: |
   proposed behaviour is desirable. This does not authorise production access,
   deployment, or a product decision.
 
-engenai:
+kaidera:
   category: development
   trust_tier: unvetted
   risk_level: medium

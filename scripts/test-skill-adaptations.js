@@ -4,6 +4,7 @@
 
 const assert = require('node:assert/strict')
 const path = require('node:path')
+const fs = require('fs')
 const { buildMarketplace } = require('./generate-marketplace')
 const { computeContentHash } = require('./skill-format')
 const { validateSkill } = require('./validate-skill')
@@ -53,7 +54,7 @@ for (const candidate of cases) {
   const result = validateSkill(filePath, { strict: true })
   assert.deepEqual(result.errors, [], `${candidate.name} must pass strict validation`)
   const { frontmatter, body } = result.parsed
-  const manifest = frontmatter.engenai
+  const manifest = frontmatter.kaidera || frontmatter.engenai
 
   assert.equal(frontmatter.name, candidate.name)
   assert.equal(manifest.category, candidate.category)
@@ -89,7 +90,11 @@ for (const candidate of cases) {
   assert.deepEqual(entry.capabilities_required, candidate.capabilities)
 }
 
-assert.equal(marketplace.skills.length, 27)
-assert.equal(new Set(marketplace.skills.map(item => item.name)).size, 27)
+const skillFileCount = fs.readdirSync(path.join(__dirname, '..', 'skills'), { withFileTypes: true })
+  .filter(entry => entry.isDirectory())
+  .reduce((total, entry) => total + fs.readdirSync(path.join(__dirname, '..', 'skills', entry.name))
+    .filter(name => name.endsWith('.SKILL.md')).length, 0)
+assert.equal(marketplace.skills.length, skillFileCount)
+assert.equal(new Set(marketplace.skills.map(item => item.name)).size, skillFileCount)
 
 console.log('David-inspired skill adaptation contracts passed')

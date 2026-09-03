@@ -6,7 +6,7 @@ description: |
   non-root UID 1001, security hardening, GitHub Actions CI build pipeline,
   GCP Artifact Registry push, and ArgoCD GitOps deployment integration.
 
-engenai:
+kaidera:
   category: devops
   trust_tier: unvetted
   risk_level: low
@@ -17,7 +17,7 @@ engenai:
   last_reviewed: ""
   reviewer: ""
 
-author: engenai
+author: kaidera
 license: Apache-2.0
 updated: 2026-08-24
 tags: []

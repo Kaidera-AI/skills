@@ -6,7 +6,7 @@ description: |
   must be fully documented and Amad must give explicit approval before any
   closure docs are committed and pushed.
 
-engenai:
+kaidera:
   category: devops
   trust_tier: unvetted
   risk_level: low
@@ -17,7 +17,7 @@ engenai:
   last_reviewed: ""
   reviewer: ""
 
-author: engenai
+author: kaidera
 license: Apache-2.0
 updated: 2026-08-24
 tags: [sprint, closure, documentation, process]

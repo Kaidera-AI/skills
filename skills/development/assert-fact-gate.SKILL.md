@@ -5,9 +5,9 @@ description: |
   Requires a fresh source check before reporting repository, build, test,
   deployment, route, version, identifier, or handoff state.
 
-engenai:
+kaidera:
   category: development
-  trust_tier: official
+  trust_tier: unvetted
   risk_level: low
   capabilities_required:
     - tool:file_read

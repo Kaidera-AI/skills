@@ -6,7 +6,7 @@ description: |
   safe migration practices, rollback requirements, data migrations,
   and PostgreSQL-specific patterns (RLS, triggers, JSONB).
 
-engenai:
+kaidera:
   category: development
   trust_tier: unvetted
   risk_level: low
@@ -17,7 +17,7 @@ engenai:
   last_reviewed: ""
   reviewer: ""
 
-author: engenai
+author: kaidera
 license: Apache-2.0
 updated: 2026-08-24
 tags: []

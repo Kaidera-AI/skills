@@ -8,9 +8,9 @@ description: |
   strategy documents, and voice-matched editing. Do not use for specifications,
   logs, structured data, translation, or already approved attributed copy.
 
-engenai:
+kaidera:
   category: documentation
-  trust_tier: official
+  trust_tier: unvetted
   risk_level: low
   capabilities_required: []
   allowed_domains:
@@ -31,10 +31,6 @@ author: Kaidera
 license: Apache-2.0
 updated: 2026-08-15
 tags: [writing, editing, voice, copywriting, documentation]
-bias: biases toward specific checkable detail over smooth readable prose
-applies_to: [generalist, knowledge-keeper, cpo, orchestrator]
-conflicts_with: []
-
 safety_constraints:
   - Treat named-person voice samples as personal data and use only material the user is authorised to provide.
   - Never invent facts, quotations, metrics, citations, biographical details, or opinions to make prose seem specific.
@@ -301,3 +297,11 @@ strip them out of human drafts:
 - Merrill, Chen & Kumer, *The Washington Post*, 13 November 2025, https://www.washingtonpost.com/technology/interactive/2025/how-detect-chatgpt-em-dash/
 - "How to spot AI writing", *The Economist*, 30 July 2026, https://www.economist.com/culture/2026/07/30/how-to-spot-ai-writing
 - Kriss, "Why Does A.I. Write Like … That?", *The New York Times Magazine*, 3 December 2025, https://www.nytimes.com/2025/12/03/magazine/chatbot-writing-style.html
+
+## Metadata (moved from the frontmatter by the canonical validator)
+
+```yaml
+bias: biases toward specific checkable detail over smooth readable prose
+applies_to: [generalist, knowledge-keeper, cpo, orchestrator]
+conflicts_with: []
+```

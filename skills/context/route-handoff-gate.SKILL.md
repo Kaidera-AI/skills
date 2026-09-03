@@ -5,9 +5,9 @@ description: |
   Verifies project, lane, layer, role, and dependency boundaries before creating
   or rerouting work to another agent or team.
 
-engenai:
+kaidera:
   category: context
-  trust_tier: official
+  trust_tier: unvetted
   risk_level: low
   capabilities_required:
     - tool:file_read

@@ -6,7 +6,7 @@ description: |
   supply chain verification, dependency pinning strategy,
   and remediation process for vulnerable packages.
 
-engenai:
+kaidera:
   category: security
   trust_tier: unvetted
   risk_level: low
@@ -17,7 +17,7 @@ engenai:
   last_reviewed: ""
   reviewer: ""
 
-author: engenai
+author: kaidera
 license: Apache-2.0
 updated: 2026-08-24
 tags: []

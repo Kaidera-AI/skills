@@ -5,9 +5,9 @@ description: |
   Confirms that proposed work belongs to the current project, role, lane, and
   approved objective before execution or assignment.
 
-engenai:
+kaidera:
   category: context
-  trust_tier: official
+  trust_tier: unvetted
   risk_level: low
   capabilities_required:
     - tool:file_read

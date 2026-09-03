@@ -54,7 +54,7 @@ Every skill must follow the [SKILL_FORMAT.md](spec/SKILL_FORMAT.md) specificatio
 name: your-skill-name          # Lowercase, hyphenated
 version: 1.0.0                 # Semantic versioning
 description: What the skill does
-engenai:
+kaidera:
   category: development
   trust_tier: unvetted
   risk_level: low
@@ -78,7 +78,7 @@ Your skill content here...
 ```
 
 Skills are Markdown instructions. Declare every required platform tool under
-`engenai.capabilities_required`; do not embed executable Python in the skill.
+`kaidera.capabilities_required`; do not embed executable Python in the skill.
 
 ### File Naming
 

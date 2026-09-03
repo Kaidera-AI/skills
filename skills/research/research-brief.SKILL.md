@@ -8,7 +8,7 @@ description: |
   questions. This drafts the brief only; it does not perform the research,
   invoke a vendor, spend money, or create an external task.
 
-engenai:
+kaidera:
   category: research
   trust_tier: unvetted
   risk_level: low

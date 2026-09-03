@@ -5,9 +5,9 @@ description: |
   Gates pushes, pull requests, merges, releases, and deployments on exact target,
   current authorization, quality evidence, and rollback readiness.
 
-engenai:
+kaidera:
   category: devops
-  trust_tier: official
+  trust_tier: unvetted
   risk_level: medium
   capabilities_required:
     - tool:file_read

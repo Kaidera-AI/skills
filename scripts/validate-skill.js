@@ -7,7 +7,9 @@ const fs = require('node:fs')
 const path = require('node:path')
 const { computeContentHash, parseSkillContent, readSkillFile } = require('./skill-format')
 
-const REQUIRED_TOP = ['name', 'version', 'description', 'engenai', 'author', 'license', 'updated', 'safety_constraints']
+const REQUIRED_TOP = ['name', 'version', 'description', 'kaidera', 'author', 'license', 'updated', 'safety_constraints']
+// Legacy manifest key: `engenai:` is accepted until 2026-12-31 and normalised to `kaidera:` with a warning.
+const LEGACY_MANIFEST_KEY = 'engenai'
 const ALLOWED_TOP = new Set([
   ...REQUIRED_TOP,
   'tags',
@@ -16,7 +18,7 @@ const ALLOWED_TOP = new Set([
   'attribution_url',
   'attribution_notes',
 ])
-const REQUIRED_ENGENAI = [
+const REQUIRED_KAIDERA = [
   'category',
   'trust_tier',
   'risk_level',
@@ -27,7 +29,7 @@ const REQUIRED_ENGENAI = [
   'last_reviewed',
   'reviewer',
 ]
-const ALLOWED_ENGENAI = new Set(REQUIRED_ENGENAI)
+const ALLOWED_KAIDERA = new Set(REQUIRED_KAIDERA)
 const ALLOWED_PARAMETER_FIELDS = new Set(['type', 'required', 'description'])
 const VALID_CATEGORIES = ['development', 'devops', 'security', 'documentation', 'research', 'integrations', 'context']
 const VALID_TRUST_TIERS = ['official', 'verified_partner', 'community_vetted', 'unvetted']
@@ -184,6 +186,11 @@ function validateSkill(filePath, { strict = false } = {}) {
   }
 
   const { frontmatter: fm, body } = parsed
+  if (fm && !fm.kaidera && fm[LEGACY_MANIFEST_KEY]) {
+    fm.kaidera = fm[LEGACY_MANIFEST_KEY]
+    delete fm[LEGACY_MANIFEST_KEY]
+    warnings.push('legacy manifest key engenai: normalised to kaidera: (rename before 2026-12-31)')
+  }
   for (const field of Object.keys(fm)) {
     if (!ALLOWED_TOP.has(field)) errors.push(`Unknown top-level field: ${field}`)
   }
@@ -217,15 +224,15 @@ function validateSkill(filePath, { strict = false } = {}) {
   if (safetyConstraints.length === 0) errors.push('safety_constraints must contain at least one constraint')
   if ('tags' in fm) validateStringArray(fm.tags, 'tags', errors)
 
-  if (!isPlainObject(fm.engenai)) {
-    errors.push('engenai must be a mapping')
+  if (!isPlainObject(fm.kaidera)) {
+    errors.push('kaidera must be a mapping')
   } else {
-    const manifest = fm.engenai
+    const manifest = fm.kaidera
     for (const field of Object.keys(manifest)) {
-      if (!ALLOWED_ENGENAI.has(field)) errors.push(`Unknown engenai field: ${field}`)
+      if (!ALLOWED_KAIDERA.has(field)) errors.push(`Unknown kaidera field: ${field}`)
     }
-    for (const field of REQUIRED_ENGENAI) {
-      if (!(field in manifest)) errors.push(`Missing required engenai.${field}`)
+    for (const field of REQUIRED_KAIDERA) {
+      if (!(field in manifest)) errors.push(`Missing required kaidera.${field}`)
     }
 
     if (!VALID_CATEGORIES.includes(manifest.category)) {
@@ -240,7 +247,7 @@ function validateSkill(filePath, { strict = false } = {}) {
       errors.push(`Invalid risk_level: ${String(manifest.risk_level)}`)
     }
 
-    const capabilities = validateStringArray(manifest.capabilities_required, 'engenai.capabilities_required', errors, {
+    const capabilities = validateStringArray(manifest.capabilities_required, 'kaidera.capabilities_required', errors, {
       allowedValues: VALID_CAPABILITIES,
     })
     if (VALID_RISK_LEVELS.includes(manifest.risk_level)) {
@@ -251,7 +258,7 @@ function validateSkill(filePath, { strict = false } = {}) {
         }
       }
     }
-    const allowedDomains = validateStringArray(manifest.allowed_domains, 'engenai.allowed_domains', errors)
+    const allowedDomains = validateStringArray(manifest.allowed_domains, 'kaidera.allowed_domains', errors)
     for (const domain of allowedDomains) {
       if (!/^(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z]{2,}$/i.test(domain)) {
         errors.push(`Invalid allowed domain: ${domain}`)
@@ -259,10 +266,10 @@ function validateSkill(filePath, { strict = false } = {}) {
     }
 
     for (const field of ['content_hash', 'signed_by', 'last_reviewed', 'reviewer']) {
-      if (typeof manifest[field] !== 'string') errors.push(`engenai.${field} must be a string`)
+      if (typeof manifest[field] !== 'string') errors.push(`kaidera.${field} must be a string`)
     }
     if (typeof manifest.last_reviewed === 'string' && manifest.last_reviewed !== '' && !isISODate(manifest.last_reviewed)) {
-      errors.push('engenai.last_reviewed must be empty or a real ISO calendar date (YYYY-MM-DD)')
+      errors.push('kaidera.last_reviewed must be empty or a real ISO calendar date (YYYY-MM-DD)')
     }
     if (manifest.trust_tier === 'unvetted' &&
         [manifest.signed_by, manifest.last_reviewed, manifest.reviewer].some(value => value !== '')) {
@@ -270,9 +277,9 @@ function validateSkill(filePath, { strict = false } = {}) {
     }
     if (typeof manifest.content_hash === 'string' && manifest.content_hash !== '') {
       if (!/^[0-9a-f]{64}$/.test(manifest.content_hash)) {
-        errors.push('engenai.content_hash must be empty or a lowercase SHA-256')
+        errors.push('kaidera.content_hash must be empty or a lowercase SHA-256')
       } else if (manifest.content_hash !== computeContentHash(body)) {
-        errors.push('engenai.content_hash does not match the canonical skill body')
+        errors.push('kaidera.content_hash does not match the canonical skill body')
       }
     }
 
@@ -313,10 +320,10 @@ function validateSkill(filePath, { strict = false } = {}) {
 
   const normalizedParts = path.normalize(filePath).split(path.sep)
   const skillsIndex = normalizedParts.lastIndexOf('skills')
-  if (skillsIndex !== -1 && normalizedParts.length > skillsIndex + 2 && isPlainObject(fm.engenai)) {
+  if (skillsIndex !== -1 && normalizedParts.length > skillsIndex + 2 && isPlainObject(fm.kaidera)) {
     const pathCategory = normalizedParts[skillsIndex + 1]
-    if (pathCategory !== fm.engenai.category) {
-      errors.push(`path category ${pathCategory} does not match engenai.category ${String(fm.engenai.category)}`)
+    if (pathCategory !== fm.kaidera.category) {
+      errors.push(`path category ${pathCategory} does not match kaidera.category ${String(fm.kaidera.category)}`)
     }
   }
 

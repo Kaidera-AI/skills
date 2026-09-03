@@ -1817,7 +1817,7 @@ function expectBothSecurityEnginesBlock(mutatedSkill, expectedMessage) {
 try {
   expectValidationFailure(
     skill.replace('    - tool:file_read', '    - tool:root_shell'),
-    'Invalid engenai.capabilities_required entry: tool:root_shell',
+    'Invalid kaidera.capabilities_required entry: tool:root_shell',
   )
   expectValidationFailure(
     `${skill}\n[undeclared domain](https://example.invalid/review)\n`,
@@ -1869,7 +1869,7 @@ try {
   )
   expectValidationFailure(
     skill.replace('  allowed_domains:', '  undeclared_runtime_capability: tool:root_shell\n  allowed_domains:'),
-    'Unknown engenai field: undeclared_runtime_capability',
+    'Unknown kaidera field: undeclared_runtime_capability',
   )
   const categoryFixture = path.join(fixtureRoot, 'skills', 'development', 'open-code-review.SKILL.md')
   fs.mkdirSync(path.dirname(categoryFixture), { recursive: true })
@@ -1881,7 +1881,7 @@ try {
   assert.notEqual(categoryResult.status, 0, 'validator accepted a category/path mismatch')
   assert(
     `${categoryResult.stdout}\n${categoryResult.stderr}`.includes(
-      'path category development does not match engenai.category security',
+      'path category development does not match kaidera.category security',
     ),
     'validator did not report the category/path mismatch',
   )

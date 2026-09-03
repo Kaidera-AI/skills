@@ -6,7 +6,7 @@ description: |
   the Lethal Trifecta threat model, forbidden patterns, and required security
   controls for all agents and skills. Mandatory reference for security reviews.
 
-engenai:
+kaidera:
   category: security
   trust_tier: unvetted
   risk_level: low
@@ -17,7 +17,7 @@ engenai:
   last_reviewed: ""
   reviewer: ""
 
-author: engenai
+author: kaidera
 license: Apache-2.0
 updated: 2026-08-24
 tags: [context, security, owasp, threat-model, secure-coding]

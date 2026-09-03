@@ -8,7 +8,7 @@ description: |
   incompleteness: long or multi-part tasks, work returned half-done, exhaustive
   audits or migrations, or parallel work streams.
 
-engenai:
+kaidera:
   category: development
   trust_tier: unvetted
   risk_level: medium
