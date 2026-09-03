@@ -6,6 +6,8 @@ Kaidera Skills Marketplace is a community-driven repository of vetted, reusable 
 
 ---
 
+**Start here:** [Kaidera Skills Catalogue and Operating Guide](docs/KAIDERA-SKILLS-CATALOG.md)
+
 ## What Is a Skill?
 
 A **skill** is a structured YAML file (`skill.yaml` or `SKILL.md`) that defines:
@@ -28,8 +30,10 @@ Skills come in three types:
 | Category | Description | Count |
 |----------|-------------|-------|
 | `context/` | Project and workspace awareness | 8 |
-| `development/` | Code writing, review, testing | 9 |
+| `development/` | Code writing, review, testing | 13 |
 | `devops/` | Deployment, infrastructure, CI/CD | 8 |
+| `documentation/` | Specs, docs, changelogs, writing voice | 1 |
+| `research/` | Research briefs and evidence planning | 1 |
 | `security/` | Auditing, scanning, incident response | 5 |
 
 ## How It Works
