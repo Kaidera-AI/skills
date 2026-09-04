@@ -527,7 +527,7 @@ compare it with the current repository and Cortex source of truth.
 
 ### `kaidera-sdlc`
 
-<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:file_write"],"category":"development","legacy":false,"name":"kaidera-sdlc","path":"skills/development/kaidera-sdlc.SKILL.md","posture":"bounded-candidate","review_fingerprint":"06bb2501ce0a441ae6e89ee8554c599d1a92bb9d26fa234ab77b27125aa4eee4","risk_level":"medium","trust_tier":"unvetted","version":"1.1.0"} -->
+<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:file_write"],"category":"development","legacy":false,"name":"kaidera-sdlc","path":"skills/development/kaidera-sdlc.SKILL.md","posture":"bounded-candidate","review_fingerprint":"77cfabb2d2da5fca69a8def2174466b89fa1015189d34a1f9d731215e8be3547","risk_level":"medium","trust_tier":"unvetted","version":"1.1.0"} -->
 
 - **Manifest:** [kaidera-sdlc.SKILL.md](../skills/development/kaidera-sdlc.SKILL.md)
 - **Function:** The AI-native SDLC loop every lead is born with: intent, grill, spec, plan before code, build inside a feedback loop, verify with output that can fail, adversarial review, ship through gates, close the loop.
