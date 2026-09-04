@@ -182,7 +182,7 @@ Use the narrowest matching skill:
 | Development | `tdd-workflow` | `2.0.1` | Legacy red-green-refactor and five-step verification workflow | Rework before use, legacy | low / none declared |
 | Development | `ultrareview` | `1.1.1` | Whole-codebase, multi-dimension health audit with optional fix mode | Rework before use | low / none declared |
 | Development | `assert-fact-gate` | `1.0.0` | Requires a fresh source check before reporting repository, build, test, | Manual-only | low / file read |
-| Development | `kaidera-sdlc` | `1.0.0` | The Kaidera AI-native SDLC: the operating loop every project lead runs for an epic, | Bounded candidate | medium / file read, file write |
+| Development | `kaidera-sdlc` | `1.1.0` | The Kaidera AI-native SDLC: the operating loop every lead runs for an epic, feature, fix, | Bounded candidate | medium / file read, file write |
 | Development | `unlazy` | `1.0.0` | Completion discipline for substantial autonomous work. Write acceptance gates | Bounded candidate | medium / file read, file write |
 | DevOps | `container-build` | `1.0.1` | Legacy hardening-oriented multi-stage image and CI build examples | Reference-only, legacy | low / none |
 | DevOps | `deploy-to-dev` | `3.0.2` | Legacy sprint-branch GitOps deployment runbook | Manual-only, legacy | medium / none declared |
@@ -527,15 +527,15 @@ compare it with the current repository and Cortex source of truth.
 
 ### `kaidera-sdlc`
 
-<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:file_write"],"category":"development","legacy":false,"name":"kaidera-sdlc","path":"skills/development/kaidera-sdlc.SKILL.md","posture":"bounded-candidate","review_fingerprint":"09533fdc4a7b953b084609bb5d8a545042bbded6882ae3fa6628da71feb2634c","risk_level":"medium","trust_tier":"unvetted","version":"1.0.0"} -->
+<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:file_write"],"category":"development","legacy":false,"name":"kaidera-sdlc","path":"skills/development/kaidera-sdlc.SKILL.md","posture":"bounded-candidate","review_fingerprint":"06bb2501ce0a441ae6e89ee8554c599d1a92bb9d26fa234ab77b27125aa4eee4","risk_level":"medium","trust_tier":"unvetted","version":"1.1.0"} -->
 
 - **Manifest:** [kaidera-sdlc.SKILL.md](../skills/development/kaidera-sdlc.SKILL.md)
 - **Function:** The AI-native SDLC loop every lead is born with: intent, grill, spec, plan before code, build inside a feedback loop, verify with output that can fail, adversarial review, ship through gates, close the loop.
 - **Use when:** Starting or scoping any work, a handoff or incident arrives, or the user asks to plan, spec, grill, review, retro or ship.
-- **Do not use when:** As an authorisation for a merge, deploy, publish or release; those wait for the named human gate. Do not skip the grill for anything that touches data, money, security or a customer.
+- **Do not use when:** As an authorisation for a merge, deploy, publish or release; those wait for the release authority's go (a human). Do not skip the full grill where risk forces it: incidents, destructive work, security, money, customer data, migrations, removals or folds, cross-project change.
 - **Inputs and output:** No parameters; file read/write for the intent, spec and plan artifacts it produces; process reference otherwise.
 - **Authority and effects:** Advisory method. It never authorises a gate; facts are looked up and decisions are put to the human and awaited.
-- **Kaidera action:** Bounded candidate: the canonical source is Kaidera OS `.agents/skills/kaidera-sdlc/` (references, templates, evals); this file is its marketplace projection and is regenerated from that source.
+- **Kaidera action:** Bounded candidate: the canonical source is Kaidera OS `.agents/skills/kaidera-sdlc/` (references, templates, evals); this file is its marketplace projection, rendered by the source's `tools/render-public.py` (its `--check`, run from a Kaidera OS checkout, proves the projection matches; marketplace CI cannot see that source, so `kaidera.source.content_sha256` names the rendered bytes and a stale projection is a review finding, not a CI failure). Never edited here.
 
 ### `open-code-review`
 

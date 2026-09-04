@@ -3,11 +3,12 @@
 'use strict'
 
 const assert = require('node:assert/strict')
+const os = require('node:os')
 const path = require('node:path')
 const fs = require('fs')
 const { buildMarketplace } = require('./generate-marketplace')
 const { computeContentHash } = require('./skill-format')
-const { validateSkill } = require('./validate-skill')
+const { LEGACY_MANIFEST_KEY_CUTOFF, TODAY_OVERRIDE_ENV, validateSkill } = require('./validate-skill')
 
 const root = path.join(__dirname, '..')
 const donorCommit = '69c3ae5228eb146724fd23dac3d43eab5805bcc3'
@@ -54,7 +55,7 @@ for (const candidate of cases) {
   const result = validateSkill(filePath, { strict: true })
   assert.deepEqual(result.errors, [], `${candidate.name} must pass strict validation`)
   const { frontmatter, body } = result.parsed
-  const manifest = frontmatter.kaidera || frontmatter.engenai
+  const manifest = frontmatter.kaidera
 
   assert.equal(frontmatter.name, candidate.name)
   assert.equal(manifest.category, candidate.category)
@@ -97,4 +98,93 @@ const skillFileCount = fs.readdirSync(path.join(__dirname, '..', 'skills'), { wi
 assert.equal(marketplace.skills.length, skillFileCount)
 assert.equal(new Set(marketplace.skills.map(item => item.name)).size, skillFileCount)
 
-console.log('David-inspired skill adaptation contracts passed')
+// Validator contract: the legacy `engenai:` manifest key is a dated decision (renamed 2026-09-03,
+// rejected from LEGACY_MANIFEST_KEY_CUTOFF). Both sides of the cutoff run through the date override.
+function withToday(value, callback) {
+  const previous = process.env[TODAY_OVERRIDE_ENV]
+  if (value === undefined) delete process.env[TODAY_OVERRIDE_ENV]
+  else process.env[TODAY_OVERRIDE_ENV] = value
+  try {
+    return callback()
+  } finally {
+    if (previous === undefined) delete process.env[TODAY_OVERRIDE_ENV]
+    else process.env[TODAY_OVERRIDE_ENV] = previous
+  }
+}
+
+function manifestSkill(manifestKeys) {
+  const manifestBody = [
+    '  category: development',
+    '  trust_tier: unvetted',
+    '  risk_level: low',
+    '  capabilities_required: []',
+    '  allowed_domains: []',
+    '  content_hash: ""',
+    '  signed_by: ""',
+    '  last_reviewed: ""',
+    '  reviewer: ""',
+  ].join('\n')
+  return [
+    '---',
+    'name: legacy-key',
+    'version: 1.0.0',
+    'description: Legacy manifest key fixture.',
+    ...manifestKeys.map(key => `${key}:\n${manifestBody}`),
+    'author: kaidera',
+    'license: Apache-2.0',
+    'updated: 2026-09-04',
+    'safety_constraints:',
+    '  - Fixture only.',
+    '---',
+    '',
+    '# Legacy key',
+    '',
+    'Fixture body.',
+    '',
+  ].join('\n')
+}
+
+assert.equal(LEGACY_MANIFEST_KEY_CUTOFF, '2026-12-31')
+const legacyWorkspace = fs.mkdtempSync(path.join(os.tmpdir(), 'kaidera-legacy-key-'))
+try {
+  const legacyPath = path.join(legacyWorkspace, 'skills', 'development', 'legacy-key.SKILL.md')
+  fs.mkdirSync(path.dirname(legacyPath), { recursive: true })
+  const rejected = /legacy manifest key engenai: is rejected from 2026-12-31/
+
+  fs.writeFileSync(legacyPath, manifestSkill(['engenai']))
+  const before = withToday('2026-12-30', () => validateSkill(legacyPath))
+  assert.deepEqual(before.errors, [], 'legacy key must validate before the cutoff')
+  assert(before.warnings.some(warning => /legacy manifest key engenai: normalised to kaidera:/.test(warning)),
+    'legacy key must warn before the cutoff')
+  assert.equal(before.parsed.frontmatter.engenai, undefined)
+  assert.equal(before.parsed.frontmatter.kaidera.category, 'development')
+  for (const today of ['2026-12-31', '2027-01-01']) {
+    const after = withToday(today, () => validateSkill(legacyPath))
+    assert(after.errors.some(error => rejected.test(error)), `legacy key must be an error on ${today}`)
+  }
+  const clock = withToday(undefined, () => validateSkill(legacyPath))
+  const clockPastCutoff = new Date().toISOString().slice(0, 10) >= LEGACY_MANIFEST_KEY_CUTOFF
+  assert.equal(clock.errors.some(error => rejected.test(error)), clockPastCutoff,
+    'without an override the validator must follow the clock')
+  const malformed = withToday('yesterday', () => validateSkill(legacyPath))
+  assert(malformed.errors.some(error => error.includes(TODAY_OVERRIDE_ENV)), 'malformed override must be an error')
+  assert(malformed.errors.some(error => rejected.test(error)), 'malformed override must not accept the legacy key')
+
+  fs.writeFileSync(legacyPath, manifestSkill(['kaidera', 'engenai']))
+  for (const today of ['2026-12-30', '2027-01-01']) {
+    const combined = withToday(today, () => validateSkill(legacyPath))
+    assert(combined.errors.some(error => /cannot be combined with kaidera:/.test(error)),
+      `combined keys must be an error on ${today}`)
+  }
+
+  fs.writeFileSync(legacyPath, manifestSkill(['kaidera']))
+  for (const today of ['2026-12-30', '2027-01-01']) {
+    const current = withToday(today, () => validateSkill(legacyPath))
+    assert.deepEqual(current.errors, [], `kaidera: key must validate on ${today}`)
+    assert.deepEqual(current.warnings, [])
+  }
+} finally {
+  fs.rmSync(legacyWorkspace, { force: true, recursive: true })
+}
+
+console.log('David-inspired skill adaptation contracts and validator legacy-key cutoff cases passed')

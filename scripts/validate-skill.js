@@ -8,8 +8,14 @@ const path = require('node:path')
 const { computeContentHash, parseSkillContent, readSkillFile } = require('./skill-format')
 
 const REQUIRED_TOP = ['name', 'version', 'description', 'kaidera', 'author', 'license', 'updated', 'safety_constraints']
-// Legacy manifest key: `engenai:` is accepted until 2026-12-31 and normalised to `kaidera:` with a warning.
+// Legacy manifest key: `engenai:` was renamed to `kaidera:` on 2026-09-03. It is normalised with a
+// warning only while today's date is before the cutoff, and is an error on and after it. The date
+// comes from the clock, or from KAIDERA_SKILLS_TODAY=YYYY-MM-DD so both sides can be tested.
 const LEGACY_MANIFEST_KEY = 'engenai'
+const LEGACY_MANIFEST_KEY_CUTOFF = '2026-12-31'
+const TODAY_OVERRIDE_ENV = 'KAIDERA_SKILLS_TODAY'
+// Optional provenance for a skill rendered from a canonical directory elsewhere.
+const SOURCE_FIELDS = ['repo', 'path', 'content_sha256']
 const ALLOWED_TOP = new Set([
   ...REQUIRED_TOP,
   'tags',
@@ -29,7 +35,7 @@ const REQUIRED_KAIDERA = [
   'last_reviewed',
   'reviewer',
 ]
-const ALLOWED_KAIDERA = new Set(REQUIRED_KAIDERA)
+const ALLOWED_KAIDERA = new Set([...REQUIRED_KAIDERA, 'source'])
 const ALLOWED_PARAMETER_FIELDS = new Set(['type', 'required', 'description'])
 const VALID_CATEGORIES = ['development', 'devops', 'security', 'documentation', 'research', 'integrations', 'context']
 const VALID_TRUST_TIERS = ['official', 'verified_partner', 'community_vetted', 'unvetted']
@@ -104,6 +110,59 @@ function suspiciousBase64Tokens(content) {
       return false
     }
   })
+}
+
+function currentDate(errors) {
+  const override = process.env[TODAY_OVERRIDE_ENV]
+  if (override === undefined || override === '') return new Date().toISOString().slice(0, 10)
+  if (!isISODate(override)) {
+    errors.push(`${TODAY_OVERRIDE_ENV} must be a real ISO calendar date (YYYY-MM-DD)`)
+    return null
+  }
+  return override
+}
+
+// Every validation path goes through here: the legacy key is either normalised with a
+// warning (before the cutoff) or recorded as an error (on and after it, or when the two
+// keys are combined). It is never accepted silently.
+function normalizeLegacyManifestKey(fm, errors, warnings) {
+  if (!(LEGACY_MANIFEST_KEY in fm)) return
+  if ('kaidera' in fm) {
+    delete fm[LEGACY_MANIFEST_KEY]
+    errors.push(`legacy manifest key ${LEGACY_MANIFEST_KEY}: cannot be combined with kaidera:`)
+    return
+  }
+  fm.kaidera = fm[LEGACY_MANIFEST_KEY]
+  delete fm[LEGACY_MANIFEST_KEY]
+  const today = currentDate(errors)
+  if (today === null || today >= LEGACY_MANIFEST_KEY_CUTOFF) {
+    errors.push(`legacy manifest key ${LEGACY_MANIFEST_KEY}: is rejected from ${LEGACY_MANIFEST_KEY_CUTOFF}; rename it to kaidera:`)
+    return
+  }
+  warnings.push(`legacy manifest key ${LEGACY_MANIFEST_KEY}: normalised to kaidera: (rejected from ${LEGACY_MANIFEST_KEY_CUTOFF})`)
+}
+
+function validateSource(source, errors) {
+  if (!isPlainObject(source)) {
+    errors.push('kaidera.source must be a mapping')
+    return
+  }
+  for (const field of Object.keys(source)) {
+    if (!SOURCE_FIELDS.includes(field)) errors.push(`Unknown kaidera.source field: ${field}`)
+  }
+  for (const field of SOURCE_FIELDS) {
+    if (!(field in source)) errors.push(`Missing required kaidera.source.${field}`)
+  }
+  if (typeof source.repo !== 'string' || !/^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/.test(source.repo)) {
+    errors.push('kaidera.source.repo must be owner/name')
+  }
+  if (typeof source.path !== 'string' || source.path === '' || source.path.startsWith('/') ||
+      source.path.split('/').some(segment => segment === '' || segment === '.' || segment === '..')) {
+    errors.push('kaidera.source.path must be a relative POSIX path without empty, . or .. segments')
+  }
+  if (typeof source.content_sha256 !== 'string' || !/^[0-9a-f]{64}$/.test(source.content_sha256)) {
+    errors.push('kaidera.source.content_sha256 must be a lowercase SHA-256')
+  }
 }
 
 function validateStringArray(value, field, errors, { allowedValues = null } = {}) {
@@ -186,11 +245,7 @@ function validateSkill(filePath, { strict = false } = {}) {
   }
 
   const { frontmatter: fm, body } = parsed
-  if (fm && !fm.kaidera && fm[LEGACY_MANIFEST_KEY]) {
-    fm.kaidera = fm[LEGACY_MANIFEST_KEY]
-    delete fm[LEGACY_MANIFEST_KEY]
-    warnings.push('legacy manifest key engenai: normalised to kaidera: (rename before 2026-12-31)')
-  }
+  normalizeLegacyManifestKey(fm, errors, warnings)
   for (const field of Object.keys(fm)) {
     if (!ALLOWED_TOP.has(field)) errors.push(`Unknown top-level field: ${field}`)
   }
@@ -282,6 +337,8 @@ function validateSkill(filePath, { strict = false } = {}) {
         errors.push('kaidera.content_hash does not match the canonical skill body')
       }
     }
+
+    if ('source' in manifest) validateSource(manifest.source, errors)
 
     for (const domain of referencedDomains(content)) {
       if (net.isIP(domain)) {
@@ -389,7 +446,10 @@ function main(argv = process.argv.slice(2)) {
 if (require.main === module) process.exit(main())
 
 module.exports = {
+  LEGACY_MANIFEST_KEY_CUTOFF,
+  TODAY_OVERRIDE_ENV,
   main,
+  normalizeLegacyManifestKey,
   referencedDomains,
   validateSkill,
 }

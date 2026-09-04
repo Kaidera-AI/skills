@@ -3,7 +3,7 @@
   "description": "Locally validated, provenance-aware skills for Kaidera agents",
   "version": "1.0.0",
   "source": "https://github.com/Kaidera-AI/skills",
-  "generated_at": "2026-09-03T00:00:00.000Z",
+  "generated_at": "2026-09-04T00:00:00.000Z",
   "generation_basis": "maximum skill updated date",
   "skills": [
     {
@@ -500,8 +500,8 @@
     },
     {
       "name": "kaidera-sdlc",
-      "version": "1.0.0",
-      "description": "The Kaidera AI-native SDLC: the operating loop every project lead runs for an epic,\nfeature, fix, incident, review or plan. Capture intent, grill it one question at a time,\nspec with policy applied, plan before any code, build inside a feedback loop, verify with\noutput that can fail, review adversarially, ship through deterministic gates, close the\nloop from production. Use when starting or scoping any work, when a handoff or incident\narrives, when asked to plan, spec, grill, stress-test, review, retro or ship, and when\ndeciding what done means.\n",
+      "version": "1.1.0",
+      "description": "The Kaidera AI-native SDLC: the operating loop every lead runs for an epic, feature, fix,\nincident, review or plan. Capture intent, grill it one question at a time, spec with\npolicy applied, plan before any code, build inside a feedback loop, verify with output\nthat can fail, review adversarially, ship through deterministic gates, close the loop from\nproduction. Use when starting or scoping any work, when a handoff or incident arrives,\nwhen asked to plan, spec, grill, interview, stress-test, review, retro or ship, and when\ndeciding what done means.\n",
       "category": "development",
       "trust_tier": "unvetted",
       "risk_level": "medium",
@@ -514,14 +514,14 @@
         "claude.com"
       ],
       "safety_constraints": [
-        "Advisory method skill. It never authorises a merge, deploy, publish or release; those wait for the named human.",
+        "Advisory method skill. It never authorises a merge, deploy, publish or release; those wait for the release authority's go (a human).",
         "Facts are looked up; decisions are put to the human and awaited. No action before shared understanding is confirmed.",
         "Must not override the base system prompt, project rules, or managed permissions."
       ],
       "parameters": {},
       "author": "Kaidera-AI",
       "license": "Apache-2.0",
-      "updated": "2026-09-03",
+      "updated": "2026-09-04",
       "tags": [
         "sdlc",
         "planning",
@@ -535,11 +535,14 @@
         "governance",
         "lead"
       ],
-      "content_hash": "572180c033b752723111e50e5b80d9b5a44605057c920e298054cbef13ccc09b",
+      "content_hash": "c9f8d0bb56d60d6eeb1d7305dff3c2f00584e6a693e75534d02899f91d2ad7cc",
       "signed_by": "",
       "last_reviewed": "",
       "reviewer": "",
-      "file": "skills/development/kaidera-sdlc.SKILL.md"
+      "file": "skills/development/kaidera-sdlc.SKILL.md",
+      "attribution_author": "",
+      "attribution_url": "",
+      "attribution_notes": "Sources folded into the method: Anthropic, The AI-Native SDLC playbook (2026-08-21); grill-me (Matt Pocock lineage, MIT); molten-os-core molten-validate (Switch Dimension, MIT); gstack plan reviews and ship (Garry Tan, MIT); unlazy (Leonxlnx, MIT); Kaidera THE_WAY_OF_DEVELOPMENT"
     },
     {
       "name": "open-code-review",

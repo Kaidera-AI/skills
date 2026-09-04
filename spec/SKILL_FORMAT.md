@@ -65,6 +65,15 @@ kaidera:
   last_reviewed: ""                # ISO 8601 date of last security review
   reviewer: ""                     # GitHub username of approving reviewer
 
+  # ── Source provenance (optional; written by a projection generator) ─────────
+  # Present only when the skill is rendered from a canonical directory in another
+  # repository. The validator checks the shape; the generator's own check verifies
+  # the hash against the source.
+  # source:
+  #   repo: owner/name               # the canonical repository
+  #   path: path/in/that/repo        # the canonical directory (relative POSIX path)
+  #   content_sha256: ""             # SHA-256 over the projected source files
+
 # ── Metadata ──────────────────────────────────────────────────────────────────
 author: engenai                    # REQUIRED. GitHub username or org name.
 license: Apache-2.0                # REQUIRED. Must be OSI-approved.
@@ -94,7 +103,7 @@ the agent's base system prompt.
 
 ---
 
-> **Manifest key.** The security manifest block is `kaidera:` (renamed from `engenai:` on 2026-09-03). The legacy key is accepted by the validator with a warning until 2026-12-31, then rejected.
+> **Manifest key.** The security manifest block is `kaidera:` (renamed from `engenai:` on 2026-09-03). The validator normalises the legacy key with a warning only while the current date is before 2026-12-31; on and after that date it is an error, and combining both keys is always an error. The date is read from the clock, or from `KAIDERA_SKILLS_TODAY=YYYY-MM-DD` so tests can exercise both sides of the cutoff.
 
 ## Category List
 

@@ -774,15 +774,23 @@ function addSuiteSemanticErrors(wrapper, allSkillNames, allSuites, errors) {
 
   const content = afterRead.source
   const { frontmatter, body } = parseSkillContent(content)
+  // The legacy engenai: key goes through the validator's single cutoff path (warning before
+  // 2026-12-31, error from then on); this evaluator never reads it directly.
+  const legacyErrors = []
+  require('./validate-skill').normalizeLegacyManifestKey(frontmatter, legacyErrors, [])
+  if (legacyErrors.length > 0) {
+    legacyErrors.forEach((message) => errors.push(`${prefix}: ${message}`))
+    return
+  }
   wrapper.skillSha256 = sha256(afterRead.bytes)
-  wrapper.semanticLint = semanticLint(body, (frontmatter.kaidera || frontmatter.engenai).capabilities_required, suite.contract)
+  wrapper.semanticLint = semanticLint(body, frontmatter.kaidera.capabilities_required, suite.contract)
 
   if (frontmatter.name !== suite.skill) errors.push(`${prefix}: skill name does not match target frontmatter`)
-  if ((frontmatter.kaidera || frontmatter.engenai).trust_tier !== suite.contract.expected_trust_tier) {
+  if (frontmatter.kaidera.trust_tier !== suite.contract.expected_trust_tier) {
     errors.push(`${prefix}: trust tier drifted from ${suite.contract.expected_trust_tier}`)
   }
 
-  const declared = sorted((frontmatter.kaidera || frontmatter.engenai).capabilities_required)
+  const declared = sorted(frontmatter.kaidera.capabilities_required)
   const expected = sorted(suite.contract.expected_declared_capabilities)
   const ceiling = new Set(suite.contract.capability_ceiling)
   if (stableStringify(declared) !== stableStringify(expected)) {
