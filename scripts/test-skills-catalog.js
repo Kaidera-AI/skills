@@ -33,6 +33,9 @@ const postureLabels = new Map([
 ])
 const posturePolicy = new Map([
   ['bounded-candidate', new Set([
+    'web-reader',
+    'container-pod-engineering',
+    'project-plan-create',
     'assumption-validation',
     'open-code-review',
     'research-brief',
@@ -54,6 +57,10 @@ const posturePolicy = new Map([
       'human-voice',
 ])],
   ['manual-only', new Set([
+    'fix-security-vulnerabilities-with-strix',
+    'managed-pentesting-with-strix',
+    'ci-security-scanning-with-strix',
+    'penetration-testing-with-strix',
     'deploy-to-dev',
     'sprint-closing',
     'terraform-module',
@@ -65,6 +72,8 @@ const posturePolicy = new Map([
     'scope-work-gate',
 ])],
   ['rework-before-use', new Set([
+    'visual-recap',
+    'visual-plan',
     'code-review',
     'code-review-security',
     'database-migration',

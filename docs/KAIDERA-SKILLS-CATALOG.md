@@ -4,7 +4,7 @@ Status: **canonical human-facing catalogue; source candidate; runtime and trust 
 
 Catalogue date: **2026-08-25**
 
-Total skills: **36**
+Total skills: **45**
 
 Source binding: consume this guide only from the same Git commit as its skill
 manifests, marketplace, and catalogue test. The enclosing commit/tree is the
@@ -25,7 +25,7 @@ a release blocker; do not silently choose one side.
 
 ## Current release boundary
 
-- All 36 skills are `unvetted`.
+- All 45 skills are `unvetted`.
 - Catalogue presence, a body hash, static validation, or a local commit is not
   approval to inject a skill into an agent.
 - Gate 1 strict manifest checks and a bounded Gate 2 pattern scan exist.
@@ -43,22 +43,22 @@ a release blocker; do not silently choose one side.
 | Category | Skills |
 |---|---:|
 | Context | 8 |
-| Development | 13 |
-| DevOps | 8 |
+| Development | 16 |
+| DevOps | 9 |
 | Documentation | 1 |
-| Research | 1 |
-| Security | 5 |
+| Research | 2 |
+| Security | 9 |
 
 | Declared trust tier | Skills |
 |---|---:|
-| `unvetted` | 36 |
+| `unvetted` | 45 |
 
 | Operating posture | Skills |
 |---|---:|
-| Bounded candidate | 5 |
+| Bounded candidate | 8 |
 | Reference-only | 12 |
-| Manual-only | 9 |
-| Rework before use | 10 |
+| Manual-only | 13 |
+| Rework before use | 12 |
 
 Legacy entries: **22**
 
@@ -144,6 +144,15 @@ Use the narrowest matching skill:
 | Deploy, close a sprint, or apply infrastructure | manual-only runbook | Exact environment identity, approval, credentials, or rollback evidence is missing |
 | Respond to an incident | No automatic skill route; rebuild the held `incident-response` source into a current human-gated runbook | Incident command, preservation-before-mutation, evidence custody, rollback, or readback is missing |
 | Design or review a prompt-injection boundary test | `prompt-injection-test` | Execution, corpus access, runtime access, or literal payload injection is requested |
+| Recap a diff, branch or PR visually | `visual-recap` | The change is small enough to review as a plain diff, the request is to plan future work or to issue the review verdict itself, or the recap must render in the Plan tab before the block-syntax rework lands |
+| Read a public web page by URL | `web-reader` | The URL is internal, authenticated, or JavaScript-rendered, or the need is a search or crawl rather than one fetch |
+| Produce a reviewable plan before coding | `visual-plan` | The change is trivial enough that its diff is the review, or execution rather than planning is requested |
+| Remediate validated Strix pentest findings | `fix-security-vulnerabilities-with-strix` | No Strix findings artefact exists yet, or target authorisation, credentials, budget, and a human merge gate are missing |
+| Run a managed cloud pentest | `managed-pentesting-with-strix` | the run must be local, air-gapped, or BYO-LLM, remediation of findings is wanted, or the target is not owned or authorised to test |
+| Design or review container images and Kubernetes Pods | `container-pod-engineering` | The request is host/VM design without a containerised workload, an application-only change, or live deployment authorisation, which belongs to the deployment gate |
+| Add Strix security scanning to CI | `ci-security-scanning-with-strix` | The user wants a one-off pentest, remediation of existing findings, or has not authorised exploit-based scanning of the named repository |
+| Decompose an epic into sequenced handoff waves | `project-plan-create` | Implementation, direct handoff filing, merge, deploy, or tag is requested rather than a bounded planning beat |
+| Pentest a target and prove exploitable vulnerabilities | `penetration-testing-with-strix` | the target is not owned or authorised for testing, or the user wants static review rather than active exploitation |
 
 ### Review-skill separation
 
@@ -184,6 +193,9 @@ Use the narrowest matching skill:
 | Development | `assert-fact-gate` | `1.0.0` | Requires a fresh source check before reporting repository, build, test, | Manual-only | low / file read |
 | Development | `kaidera-sdlc` | `1.1.0` | The Kaidera AI-native SDLC: the operating loop every lead runs for an epic, feature, fix, | Bounded candidate | medium / file read, file write |
 | Development | `unlazy` | `1.0.0` | Completion discipline for substantial autonomous work. Write acceptance gates | Bounded candidate | medium / file read, file write |
+| Development | `project-plan-create` | `1.0.0` | Decomposes the active epic into sequenced worker handoff waves; bootstraps a project plan when none exists | Bounded candidate | medium / interpreter, file read, file write |
+| Development | `visual-plan` | `1.0.0` | Turns a text plan into a standalone, reviewable MDX plan document that gates implementation on human approval. | Rework before use | medium / file read, file write |
+| Development | `visual-recap` | `1.0.0` | Turns a PR, branch, commit or diff into a structured visual recap MDX a reviewer reads before the raw diff. | Rework before use | medium / interpreter, file read, file write |
 | DevOps | `container-build` | `1.0.1` | Legacy hardening-oriented multi-stage image and CI build examples | Reference-only, legacy | low / none |
 | DevOps | `deploy-to-dev` | `3.0.2` | Legacy sprint-branch GitOps deployment runbook | Manual-only, legacy | medium / none declared |
 | DevOps | `k8s-deploy` | `1.0.1` | Legacy Kubernetes, ArgoCD, GKE, probes, resources, and network policy patterns | Reference-only, legacy | low / none |
@@ -192,12 +204,18 @@ Use the narrowest matching skill:
 | DevOps | `cloud-agnostic-policy` | `1.0.0` | Reviews infrastructure choices for portability and prevents an architecture | Manual-only | low / file read |
 | DevOps | `deploy-gate` | `1.0.0` | Gates pushes, pull requests, merges, releases, and deployments on exact target, | Manual-only | medium / file read |
 | DevOps | `infra-naming-gate` | `1.0.0` | Validates proposed infrastructure names against a portable organization, | Manual-only | low / file read |
+| DevOps | `container-pod-engineering` | `1.0.0` | Evidence-first standard and review checklist for reproducible OCI images and restricted Kubernetes Pods. | Bounded candidate | medium / file read, interpreter |
 | Research | `research-brief` | `1.0.0` | Drafts a self-contained decision-led brief without executing research | Bounded candidate | low / file read |
+| Research | `web-reader` | `1.0.0` | Fetches one public URL with curl -fsSL and prints its raw text or a best-effort tag-stripped rendering | Bounded candidate | medium / interpreter, web search |
 | Security | `code-review-security` | `1.1.0` | Legacy EnGenAI security checklist with unverified control claims | Rework before use, legacy | low / none declared |
 | Security | `dependency-audit` | `1.0.1` | Legacy dependency scan, install, remediation, and report workflow | Rework before use, legacy | low / none declared |
 | Security | `incident-response` | `1.0.2` | Legacy containment/evidence runbook with unsafe preservation ordering | Rework before use, legacy | low / none declared |
 | Security | `prompt-injection-test` | `2.0.0` | Read-only design for controlled prompt-injection boundary testing | Reference-only | low / none |
 | Security | `security-context` | `1.0.1` | Legacy threat model, OWASP, forbidden patterns, SIEM, and trust rules | Reference-only, legacy | low / none |
+| Security | `penetration-testing-with-strix` | `1.0.0` | Autonomous AI pentesting with Strix that exploits and proves vulnerabilities, via OSS CLI or managed cloud. | Manual-only | high / interpreter, external connector, file read, file write |
+| Security | `ci-security-scanning-with-strix` | `1.0.0` | Wires a diff-scoped Strix AI pentest into CI so every pull request is gated on validated findings before it merges. | Manual-only | high / file read, file write, interpreter, external connector |
+| Security | `managed-pentesting-with-strix` | `1.0.0` | Managed cloud pentesting via the app.strix.ai API: scan, triage, SARIF, and compliance reports. | Manual-only | high / interpreter, external connector, file write |
+| Security | `fix-security-vulnerabilities-with-strix` | `1.0.0` | Patches validated Strix pentest findings at the root cause and re-scans to prove each fix holds. | Manual-only | high / file read, file write, interpreter, external connector |
 | Documentation | `human-voice` | `1.0.0` | Rewrite, audit, or draft public-facing prose so it uses checkable specifics | Reference-only | low / none |
 
 ## Ownership, licensing, attribution, and domain metadata
@@ -245,6 +263,15 @@ precedence issue remains a release hold.
 | `deploy-gate` | `Kaidera` | `Apache-2.0` | None | — |
 | `infra-naming-gate` | `Kaidera` | `Apache-2.0` | None | — |
 | `human-voice` | `Kaidera` | `Apache-2.0` | `aclanthology.org`, `arxiv.org`, `en.wikipedia.org`, `www.economist.com`, `www.nytimes.com`, `www.pnas.org`, `www.science.org`, `www.washingtonpost.com` | — |
+| `penetration-testing-with-strix` | `Kaidera-AI` | `Apache-2.0` | `strix.ai`, `docs.strix.ai`, `app.strix.ai`, `docs.app.strix.ai`, `github.com`, `example.com` | [usestrix](https://docs.strix.ai) |
+| `project-plan-create` | `Kaidera-AI` | `Apache-2.0` | None | — |
+| `ci-security-scanning-with-strix` | `Kaidera-AI` | `Apache-2.0` | `strix.ai`, `app.strix.ai`, `docs.strix.ai`, `github.com` | [usestrix](https://docs.strix.ai) |
+| `container-pod-engineering` | `Kaidera-AI` | `Apache-2.0` | `docs.docker.com`, `github.com`, `kubernetes.io` | — |
+| `managed-pentesting-with-strix` | `Kaidera-AI` | `Apache-2.0` | `app.strix.ai`, `docs.app.strix.ai` | [usestrix](https://docs.app.strix.ai) |
+| `fix-security-vulnerabilities-with-strix` | `Kaidera-AI` | `Apache-2.0` | `app.strix.ai`, `docs.strix.ai` | [usestrix](https://docs.strix.ai) |
+| `visual-plan` | `Kaidera-AI` | `Apache-2.0` | `github.com`, `plan.agent-native.com`, `www.agent-native.com` | [Builder.io](https://github.com/BuilderIO/skills) |
+| `web-reader` | `Kaidera-AI` | `Apache-2.0` | `example.com` | — |
+| `visual-recap` | `Kaidera-AI` | `Apache-2.0` | `github.com`, `plan.agent-native.com` | [Builder.io](https://github.com/BuilderIO/skills) |
 
 ## Context skills
 
@@ -638,6 +665,41 @@ compare it with the current repository and Cortex source of truth.
 - **Authority and effects:** Advisory. Its gates describe evidence; they do not execute commands or grant authority.
 - **Kaidera action:** Bounded candidate: vendored from Leonxlnx/unlazy (MIT) at a pinned version; keep upstream attribution and version in the manifest.
 
+### `project-plan-create`
+
+<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:code_interpreter","tool:file_read","tool:file_write"],"category":"development","legacy":false,"name":"project-plan-create","path":"skills/development/project-plan-create.SKILL.md","posture":"bounded-candidate","review_fingerprint":"d5d5c3a526eb2b16325243358ec55d5220a2090ebfd953da19f16408a3451fdb","risk_level":"medium","trust_tier":"unvetted","version":"1.0.0"} -->
+
+- **Manifest:** [project-plan-create.SKILL.md](../skills/development/project-plan-create.SKILL.md)
+- **Function:** Turns the active epic or increment into the smallest coherent worker tasks, each assigned by capability from the live roster, ordered into dependency waves, and given exact scope, acceptance criteria, and a concrete Verify command; when the project has no operating plan it first writes docs/plans/<slug>/plan.mdx and decomposes from that. Each run is one spawned planning beat: boot, assess the epic (done, in-flight, pending, blocked, wave state, watchdog signals), then take exactly one action (handle a watchdog signal, file the next safe handoffs, escalate to the lead, or log EPIC-DONE), emitting any handoffs as a single sentinel-delimited JSON block that the parent process files under a human approval gate.
+- **Use when:** A PM or lead worker is asked to plan a project, decompose an epic or increment into tasks, sequence waves, or create worker handoffs; the recurring PM planning beat (capability pm-planning-beat, mode epic-decompose) spawns a run; or a project has no operating plan and the "Ask lead to create project plan" bootstrap is triggered.
+- **Do not use when:** The request is to do the implementation work rather than plan it; the run is not booted into a Cortex project with the cortex-* CLIs and a parent process that files the sentinel handoff block; or the caller wants handoffs filed, merged, deployed, or tagged directly, bypassing the human approval gate.
+- **Inputs:** No declared parameters. Live state is read from cortex-boot, cortex-handoff --mine, and cortex-search: the worker identity as <you>@<project>, the active epic and increment, the roster and roles, and pending handoffs including [WATCHDOG-SIGNAL] rows; the triggering handoff supplies the action budget (default one). The bootstrap path also relies on the sibling visual-plan skill to write the plan file.
+- **Output:** Exactly one ===FILE-HANDOFFS=== JSON array (or none when nothing is due), each entry carrying summary, to_role, priority, wave, acceptance, and context for the parent to file; on the bootstrap path a docs/plans/<slug>/plan.mdx operating plan; optional handoff_orchestration wave rows; and, when that is the chosen action, a cortex-log EPIC-DONE decision or a completed watchdog-signal handoff.
+- **Kaidera action:** Bounded candidate projected from the Kaidera OS canonical source `.agents/skills/project-plan-create/` (policy in its `marketplace.json`, rendered by `scripts/skills/render-marketplace-skill.py`; `kaidera.source.content_sha256` names the source bytes). Never edited here.
+
+### `visual-plan`
+
+<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:file_write"],"category":"development","legacy":false,"name":"visual-plan","path":"skills/development/visual-plan.SKILL.md","posture":"rework-before-use","review_fingerprint":"ed62bbf00113a1f822e3320033bfe733c989676ae1d37f8368ab31ee16a168ff","risk_level":"medium","trust_tier":"unvetted","version":"1.0.0"} -->
+
+- **Manifest:** [visual-plan.SKILL.md](../skills/development/visual-plan.SKILL.md)
+- **Function:** Turns the plan an agent would otherwise write in chat into a standalone, reviewable MDX document under docs/plans/<slug>/: outcome-first prose grounded in real files and symbols, hard-to-reverse decisions called out first, inline diagrams, annotated code and file maps, data-model and API-contract blocks, an optional wireframe canvas or prototype for UI work, a verification step, and a single bottom Open Questions form with recommended defaults. The plan is the approval gate: the agent presents it, names the files and areas the work touches, and makes no source edits until a human signs off.
+- **Use when:** The user asks to plan, design, or spec a non-trivial change before implementation, a pasted or existing text plan needs a richer review surface, or a multi-file, ambiguous, risky, architecture-heavy, data-heavy, or UI-heavy change would be expensive to get wrong and a human should approve the direction first.
+- **Do not use when:** The change is trivial or unambiguous, such as a typo, a one-line fix, or a single well-specified function whose diff is easier to review than a plan; the user wants the work implemented now rather than planned; or the request depends on the hosted Plan app, its MCP connector, comments, sharing, or a rendered wireframe canvas, none of which this projection provides.
+- **Inputs:** A task description or an existing text, Markdown, or pasted plan as source material; read access to the target repository (files, actions, schema, symbols) for grounding; optionally a review mode (document-only, UI-first, prototype-first) and a slug for docs/plans/<slug>/. No parameters are declared.
+- **Output:** A plan.mdx (frontmatter, markdown, and document blocks) and, for UI plans only, an optional canvas.mdx or prototype.mdx written under docs/plans/<slug>/ in the target repository, plus a chat handoff that names the files and areas the work touches and asks for approval before any code is written.
+- **Kaidera action:** Bounded candidate projected from the Kaidera OS canonical source `.agents/skills/visual-plan/` (policy in its `marketplace.json`, rendered by `scripts/skills/render-marketplace-skill.py`; `kaidera.source.content_sha256` names the source bytes). Never edited here.
+
+### `visual-recap`
+
+<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:code_interpreter","tool:file_read","tool:file_write"],"category":"development","legacy":false,"name":"visual-recap","path":"skills/development/visual-recap.SKILL.md","posture":"rework-before-use","review_fingerprint":"ccac71aa561d5f7d98712b340de56415e3d28ea8f61243b410e2c046784f9e9f","risk_level":"medium","trust_tier":"unvetted","version":"1.0.0"} -->
+
+- **Manifest:** [visual-recap.SKILL.md](../skills/development/visual-recap.SKILL.md)
+- **Function:** Turns a PR, branch, commit or diff into a structured visual recap a reviewer reads before the raw lines: a UI-impact headline (Before/After wireframes when rendered UI changed), a short outcome narrative, diff-aware data-model and api-endpoint blocks for schema and contract changes, a file-tree with per-file change flags, and a `## Key changes` group of annotated split diffs of the load-bearing files. Structured blocks are derived mechanically from the real diff; the model writes only the prose (objective, decisions visible in the diff, risks to weigh).
+- **Use when:** A PR, branch or work unit is large, multi-file, UI-heavy, or touches schema, API contracts, permissions or architecture, and a reviewer would benefit from the shape of the change before opening the raw line-by-line diff.
+- **Do not use when:** Tiny, single-file or obvious diffs that review faster as plain diff; forward planning of work not yet done (that is `visual-plan`); or as a substitute for the review verdict, the merge decision, or the reviewer actually reading the code. Until the block-syntax rework lands, do not rely on it to produce a recap the Kaidera OS Plan tab can render.
+- **Inputs:** A target: PR, branch, commit, range, or the current working-tree diff, plus the thread's conversation context to bound the work unit; no declared parameters. It reads the changed files and the git diff/stat through the shell, and reads `references/wireframe.md` before authoring any wireframe.
+- **Output:** One `recap.mdx` under `docs/plans/<slug>/` in the target repo (frontmatter, markdown, document and diff blocks) for the Kaidera OS console Plan tab, handed off by file path, never a hosted URL. With the current renderer only markdown, ```mermaid and fenced-YAML data-model, api-endpoint, annotated-code and file-tree blocks render; the diff, tabs, columns and wireframe blocks the body specifies do not.
+- **Kaidera action:** Bounded candidate projected from the Kaidera OS canonical source `.agents/skills/visual-recap/` (policy in its `marketplace.json`, rendered by `scripts/skills/render-marketplace-skill.py`; `kaidera.source.content_sha256` names the source bytes). Never edited here.
 
 ## DevOps skills
 
@@ -785,6 +847,18 @@ scope, rollback, and post-action readback.
 - **Kaidera action:** Rebuild as separate read-only module design and governed
   plan/apply skills if Terraform remains in an owning system.
 
+### `container-pod-engineering`
+
+<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:code_interpreter"],"category":"devops","legacy":false,"name":"container-pod-engineering","path":"skills/devops/container-pod-engineering.SKILL.md","posture":"bounded-candidate","review_fingerprint":"3a9caf83ae3d6140948adde9e05c433557279797a5ad2f9a6c0208e48c96e2fa","risk_level":"medium","trust_tier":"unvetted","version":"1.0.0"} -->
+
+- **Manifest:** [container-pod-engineering.SKILL.md](../skills/devops/container-pod-engineering.SKILL.md)
+- **Function:** Treats the image and the Pod as one delivery contract: reads the whole build and workload surface before changing it, chooses the base image from a compatibility matrix rather than a size ranking, makes builds reproducible and cache-efficient, keeps the runtime stage minimal and non-root with clean signal handling, records exactly one process-placement decision (single container, multi-process container, multi-container Pod, init container, native sidecar, or separate workloads), pins a readable tag plus immutable digest with a named refresh owner, defines the Pod from Pod Security Restricted defaults with purpose-specific startup, readiness, and liveness probes, validates the built artifact rather than its source, and returns a PASS, CONDITIONAL, or BLOCKED verdict with exact evidence.
+- **Use when:** Authoring or reviewing a Dockerfile, Containerfile, `.dockerignore`, or image-build workflow; choosing a base image, libc family, architecture, tag, or digest; packaging native Python, Node.js, Go, Rust, Java, or system-library dependencies; deciding whether processes belong in one container, one Pod, or separate workloads; changing Pod templates, probes, resources, security contexts, volumes, service accounts, lifecycle hooks, or termination behaviour; investigating slow builds, oversized images, architecture failures, crash loops, failed probes, stuck termination, or image drift; or preparing an image or Pod for a deployment handoff.
+- **Do not use when:** Host or VM design that packages or runs no containerised workload; application-only changes that leave the image and Pod contract untouched; live deployment authorisation, which stays with the deployment gate; disposable local-only experiments that will never enter CI or a shared registry; or auditing a third-party image without permission or source to rebuild it, where only observable risk is reported and no Dockerfile is invented.
+- **Inputs:** No declared parameters. It reads the Dockerfile or Containerfile, build context and `.dockerignore`, lockfiles, build workflow, image references, Helm or Kustomize output, workload controller, service account, and fresh target inventory (Kubernetes version, CPU architectures, libc and runtime constraints), and runs the repository's existing build, inspect, history, smoke-run, render, SBOM, and scan commands to gather evidence.
+- **Output:** A bounded verdict of PASS, CONDITIONAL, or BLOCKED in the checklist's template: source revision, Dockerfile and build context, workload manifests, image tag plus digest, verified platforms, base-compatibility and process-placement decisions, security posture, probe and shutdown evidence, SBOM and scan references, required fixes separated from optional optimisations, documented exceptions with owners, rollback and digest-refresh implications, and the next authorised action. The verdict is evidence for a deployment gate, never a deploy.
+- **Kaidera action:** Bounded candidate projected from the Kaidera OS canonical source `.agents/skills/container-pod-engineering/` (policy in its `marketplace.json`, rendered by `scripts/skills/render-marketplace-skill.py`; `kaidera.source.content_sha256` names the source bytes). Never edited here.
+
 ## Documentation skills
 
 Writing and documentation guidance. Reference-only unless a manifest says otherwise.
@@ -826,6 +900,18 @@ Writing and documentation guidance. Reference-only unless a manifest says otherw
   research execution skills so “draft” cannot silently become “run”. Its
   `github.com` allowed-domain declaration is currently inert and unnecessary:
   the skill forbids browsing and declares no network-capable tool.
+
+### `web-reader`
+
+<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:code_interpreter","tool:web_search"],"category":"research","legacy":false,"name":"web-reader","path":"skills/research/web-reader.SKILL.md","posture":"bounded-candidate","review_fingerprint":"945596f02315ce1622ea4d61b43c56fd9ed2271368e3d9d9ef6a986a3b7fe08f","risk_level":"medium","trust_tier":"unvetted","version":"1.0.0"} -->
+
+- **Manifest:** [web-reader.SKILL.md](../skills/research/web-reader.SKILL.md)
+- **Function:** Fetches a single public web page from a shell with curl -fsSL (fail on HTTP errors, silent, follow redirects) and prints the first 4,000 characters of its HTML or text; a second one-liner pipes the response through Python to drop script blocks and tags for a rough plain-text view.
+- **Use when:** The agent needs the readable content of a specific public HTTP(S) URL the user supplied or the task names, a shell with curl and python3 is already available, and network use is approved.
+- **Do not use when:** The URL is private, internal, loopback, or a cloud-metadata endpoint; the page needs login, cookies, or JavaScript rendering; the need is a web search or a crawl rather than one known URL; or the fetched text would be acted on as instructions.
+- **Inputs:** One public HTTP(S) URL supplied in the prompt. The skill declares no formal parameters and reads or writes no workspace files.
+- **Output:** The page's raw HTML or text truncated to about 4,000 characters, or a best-effort plain-text rendering with script blocks and tags removed, returned to the agent as untrusted data.
+- **Kaidera action:** Bounded candidate projected from the Kaidera OS canonical source `.agents/skills/web-reader/` (policy in its `marketplace.json`, rendered by `scripts/skills/render-marketplace-skill.py`; `kaidera.source.content_sha256` names the source bytes). Never edited here.
 
 ## Security skills
 
@@ -933,6 +1019,54 @@ Writing and documentation guidance. Reference-only unless a manifest says otherw
 - **Authority and effects:** No scanning, enforcement, or incident authority.
 - **Kaidera action:** Preserve general secure-coding ideas, but rederive control
   and event claims from current source and runtime evidence.
+
+### `penetration-testing-with-strix`
+
+<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:code_interpreter","tool:mcp_external","tool:file_read","tool:file_write"],"category":"security","legacy":false,"name":"penetration-testing-with-strix","path":"skills/security/penetration-testing-with-strix.SKILL.md","posture":"manual-only","review_fingerprint":"8fadabbd2509f22fe4e816b229f991591a1ee1ab103d2e266447762590e94a7b","risk_level":"high","trust_tier":"unvetted","version":"1.0.0"} -->
+
+- **Manifest:** [penetration-testing-with-strix.SKILL.md](../skills/security/penetration-testing-with-strix.SKILL.md)
+- **Function:** Runs Strix's autonomous AI penetration-testing agents against a web app, API, URL, domain, IP, local codebase, or repository, dynamically exploiting the target and reporting only vulnerabilities confirmed with a working proof-of-concept - OWASP Top 10 and beyond, including injection, XSS, SSRF, authentication and access-control flaws, IDOR, and business-logic bugs. The same engine runs two interchangeable ways: the self-hosted open-source CLI in a Docker sandbox with a bring-your-own LLM key, or the managed app.strix.ai cloud API with no local infrastructure, both emitting identical findings as Markdown, JSON, CSV, and SARIF 2.1.0.
+- **Use when:** The user asks to pentest, hack, security-scan, security-audit, or find and prove exploitable vulnerabilities in an app, API, website, repository, domain, or IP they own or are authorised to test, and wants exploit-validated findings with proof-of-concept rather than a static flag list. Pick the open-source CLI for free, local, air-gapped, or bring-your-own-LLM runs when Docker is present; pick the cloud API when there is no Docker or LLM key, or the team needs shared dashboards, scheduling, or PR reviews.
+- **Do not use when:** The user does not own the target or lacks written authorisation to test it; the task is static or read-only code review or a security checklist rather than active exploitation (route to open-code-review or code-review-security); or the environment forbids external SaaS calls, software installation, or LLM/credit spend. Remediation-and-verify, CI wiring, and the full managed-cloud workflow belong to the companion fix-security-vulnerabilities-with-strix, ci-security-scanning-with-strix, and managed-pentesting-with-strix skills.
+- **Inputs:** No formal parameters. Operationally it takes one or more targets (URL, repository URL, local path, domain, or IP, repeatable); for the open-source CLI a running Docker daemon plus STRIX_LLM and LLM_API_KEY environment variables, with flags for scan mode (quick/standard/deep), --max-budget, --max-turns, and --instruction/--instruction-file for credentials, scope, and focus; for the cloud path a STRIX_API_TOKEN and a pre-registered domain or repository asset.
+- **Output:** Vulnerability findings validated by a working proof-of-concept, each with remediation and summarised by severity. The CLI writes a run directory - penetration_test_report.md, per-finding vulnerabilities/*.md, vulnerabilities.json and .csv, findings.sarif, and run.json; the cloud path returns findings in the scan detail plus an exportable SARIF 2.1.0 file. Headless exit codes are 0 (none found in what was analysed), 1 (fatal error), and 2 (vulnerabilities found), and a clean exit is not proof of full coverage - check run status, cost against budget, and stated coverage.
+- **Kaidera action:** Bounded candidate projected from the Kaidera OS canonical source `.agents/skills/penetration-testing-with-strix/` (policy in its `marketplace.json`, rendered by `scripts/skills/render-marketplace-skill.py`; `kaidera.source.content_sha256` names the source bytes). Never edited here.
+
+### `ci-security-scanning-with-strix`
+
+<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:file_write","tool:code_interpreter","tool:mcp_external"],"category":"security","legacy":false,"name":"ci-security-scanning-with-strix","path":"skills/security/ci-security-scanning-with-strix.SKILL.md","posture":"manual-only","review_fingerprint":"0bfdbd3016fbc1436681dab605fa04c5c578b091d395531d00299bb22bcc2a37","risk_level":"high","trust_tier":"unvetted","version":"1.0.0"} -->
+
+- **Manifest:** [ci-security-scanning-with-strix.SKILL.md](../skills/security/ci-security-scanning-with-strix.SKILL.md)
+- **Function:** Wires a diff-scoped Strix AI pentest into a CI/CD pipeline so each pull request is scanned before it merges. It authors either a self-hosted step for the open-source CLI in the runner (install, headless quick scan, exit-code gate, a run-completion check so a budget-stopped scan cannot fail open, optional SARIF upload to code scanning) or the managed app.strix.ai path through the SCM app or a REST call, and returns findings as PR comments and SARIF 2.1.0.
+- **Use when:** The user asks to add security scanning, SAST/DAST, pentesting, vulnerability checks, or an automated security review to a CI pipeline, pre-merge gate, or PR workflow on GitHub Actions, GitLab CI, or another pipeline, names the target repository, and can provision the required secrets.
+- **Do not use when:** The request is a one-off pentest of an app, API, or URL (penetration-testing-with-strix or managed-pentesting-with-strix), remediating findings an existing scan already produced (fix-security-vulnerabilities-with-strix), or any case where the user has not authorised exploit-based scanning of the named repository, cannot provision the secrets, or requires that code never leave their infrastructure yet asks for the managed platform.
+- **Inputs:** The target repository and CI system, the PR base-branch convention, whether scans may leave the user's infrastructure (self-hosted CLI versus managed platform), the scan mode and --max-budget ceiling, and user-provisioned secrets: STRIX_LLM and LLM_API_KEY for the CLI, or a STRIX_API_TOKEN with pr_reviews:write for the API path. No declared parameters.
+- **Output:** A pipeline definition (for example .github/workflows/security.yml, or an equivalent shell step for other CI systems) that runs a diff-scoped scan on every PR, fails the job on exit code 2 or an incomplete run, and optionally uploads strix_runs/<run>/findings.sarif to code scanning, together with the list of repository secrets the user must add; or, for the managed path, the SCM-app setup and the API call that starts a PR review.
+- **Kaidera action:** Bounded candidate projected from the Kaidera OS canonical source `.agents/skills/ci-security-scanning-with-strix/` (policy in its `marketplace.json`, rendered by `scripts/skills/render-marketplace-skill.py`; `kaidera.source.content_sha256` names the source bytes). Never edited here.
+
+### `managed-pentesting-with-strix`
+
+<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:code_interpreter","tool:mcp_external","tool:file_write"],"category":"security","legacy":false,"name":"managed-pentesting-with-strix","path":"skills/security/managed-pentesting-with-strix.SKILL.md","posture":"manual-only","review_fingerprint":"8324a91a348843adfe5e507e7664e68a1cab00b074e9c83f1062066aebf77407","risk_level":"high","trust_tier":"unvetted","version":"1.0.0"} -->
+
+- **Manifest:** [managed-pentesting-with-strix.SKILL.md](../skills/security/managed-pentesting-with-strix.SKILL.md)
+- **Function:** Drives the app.strix.ai REST API to run Strix's managed, autonomous pentesting as a service, with no local Docker, LLM key, or install. It creates org-scoped least-privilege API tokens, registers a verified domain (black-box) or an owner/name repository (white-box) as an asset, launches and polls a scan (live test, code review, internal infra, or compliance pentest), triages the returned vulnerabilities, exports SARIF 2.1.0, downloads PDF/DOCX reports for compliance evidence on the Enterprise plan, starts PR security reviews, and configures recurring schedules and lifecycle webhooks — all over bearer-token HTTP calls made with curl and jq.
+- **Use when:** Use when the user wants continuous or scheduled pentesting-as-a-service, an auditor-ready pentest report tracked in a team dashboard, or security testing from a sandboxed agent or CI environment with no local infrastructure, and holds a Strix org-scoped token together with written authorisation to test the target.
+- **Do not use when:** Do not use for fully local, free, air-gapped, or BYO-LLM runs (use the open-source penetration-testing-with-strix CLI skill), to remediate the findings (hand off to fix-security-vulnerabilities-with-strix), or against any asset the organisation does not own or lacks written authorisation to test.
+- **Inputs:** A Strix org-scoped API token from Settings → API Access, supplied through an environment variable with only the scopes the task needs; the target registered as an asset — a verified domain for black-box or an owner/name repository for white-box; and optional scan steering such as engagement type, focus/concerns/context, authenticated-scan credentials, paths or branches, and notification settings.
+- **Output:** A completed scan carrying an executive summary, methodology, recommendations, a severity roll-up, and a vulnerabilities array (title, severity, CVSS, CWE, endpoint, PoC, and code diffs); a SARIF 2.1.0 file for GitHub code scanning or ASPM ingestion; downloadable PDF/DOCX pentest reports for compliance evidence on the Enterprise plan; and optional PR-review comments, recurring schedules, and lifecycle webhook events.
+- **Kaidera action:** Bounded candidate projected from the Kaidera OS canonical source `.agents/skills/managed-pentesting-with-strix/` (policy in its `marketplace.json`, rendered by `scripts/skills/render-marketplace-skill.py`; `kaidera.source.content_sha256` names the source bytes). Never edited here.
+
+### `fix-security-vulnerabilities-with-strix`
+
+<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:file_write","tool:code_interpreter","tool:mcp_external"],"category":"security","legacy":false,"name":"fix-security-vulnerabilities-with-strix","path":"skills/security/fix-security-vulnerabilities-with-strix.SKILL.md","posture":"manual-only","review_fingerprint":"7f8ba57bd9b62cdf4c2821887f497e2e302ba889ec6ea0f34d057aade5591f90","risk_level":"high","trust_tier":"unvetted","version":"1.0.0"} -->
+
+- **Manifest:** [fix-security-vulnerabilities-with-strix.SKILL.md](../skills/security/fix-security-vulnerabilities-with-strix.SKILL.md)
+- **Function:** Turns validated Strix findings into minimal root-cause fixes and proves them closed: reads strix_runs/<run>/vulnerabilities/*.md, vulnerabilities.json, or a cloud scan's vulnerabilities[]; orders work critical to low; reproduces the PoC; patches the sink or the server-side check using the framework's built-in defence; re-scans the changed files with the Strix CLI (diff scope, budget-capped) or reruns/retests the cloud scan; runs the project's own tests; and reports severity, root cause, fix location, and verification result per finding.
+- **Use when:** A Strix scan has already produced findings (a strix_runs report, vulnerabilities.json, findings.sarif, or an app.strix.ai scan) and the user asks to remediate, patch, or fix them and to prove each fix holds under a re-scan.
+- **Do not use when:** No Strix findings artefact exists yet (route to a pentest skill first), the request is a code review or audit rather than remediation, the re-scan or PoC target is not owned or written-authorised, the user has not supplied the Strix API token or LLM key and a budget, or a merge, deployment, or secret rotation would happen on the agent's own authority.
+- **Inputs:** No declared parameters. The body expects a findings source (a strix_runs/<run>/ directory, or a cloud scan id with a user-supplied STRIX_API_TOKEN and the base URL and auth setup from managed-pentesting-with-strix), the repository holding the affected code with a resolvable default branch for --diff-base, and optionally the original PoC text for a focused --instruction re-test.
+- **Output:** Patched source files with minimal diffs, fresh strix_runs/<run>/ verification artefacts or a new cloud scan or retest id, and a per-finding report of severity, root cause, fix file:line, and verification result (re-scan clean or PoC no longer reproduces) that contains no live secrets.
+- **Kaidera action:** Bounded candidate projected from the Kaidera OS canonical source `.agents/skills/fix-security-vulnerabilities-with-strix/` (policy in its `marketplace.json`, rendered by `scripts/skills/render-marketplace-skill.py`; `kaidera.source.content_sha256` names the source bytes). Never edited here.
 
 ## Common usage examples
 

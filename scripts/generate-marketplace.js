@@ -129,8 +129,10 @@ function main(argv = process.argv.slice(2)) {
 
   const output = JSON.stringify(marketplace, null, 2)
   if (argv.includes('--dry-run')) {
-    console.log(output)
-    console.log(`\nDry run: ${marketplace.skills.length} skill(s) would be published.`)
+    // Synchronous writes: console.log to a pipe is asynchronous and the process.exit() below
+    // dropped everything past ~64 KiB once the catalogue outgrew 36 skills (truncated dry run).
+    fs.writeSync(process.stdout.fd, `${output}\n`)
+    fs.writeSync(process.stdout.fd, `\nDry run: ${marketplace.skills.length} skill(s) would be published.\n`)
     return 0
   }
 
