@@ -129,10 +129,8 @@ function main(argv = process.argv.slice(2)) {
 
   const output = JSON.stringify(marketplace, null, 2)
   if (argv.includes('--dry-run')) {
-    // Synchronous writes: console.log to a pipe is asynchronous and the process.exit() below
-    // dropped everything past ~64 KiB once the catalogue outgrew 36 skills (truncated dry run).
-    fs.writeSync(process.stdout.fd, `${output}\n`)
-    fs.writeSync(process.stdout.fd, `\nDry run: ${marketplace.skills.length} skill(s) would be published.\n`)
+    console.log(output)
+    console.log(`\nDry run: ${marketplace.skills.length} skill(s) would be published.`)
     return 0
   }
 
@@ -142,7 +140,9 @@ function main(argv = process.argv.slice(2)) {
   return 0
 }
 
-if (require.main === module) process.exit(main())
+// Let stdout drain before exit: process.exit() discards asynchronous pipe writes past ~64 KiB,
+// which silently truncated the dry run once the catalogue outgrew 36 skills.
+if (require.main === module) process.exitCode = main()
 
 module.exports = {
   assertUniqueSkillNames,
