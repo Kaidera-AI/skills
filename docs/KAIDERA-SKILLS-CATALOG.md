@@ -62,7 +62,7 @@ a release blocker; do not silently choose one side.
 
 Legacy entries: **22**
 
-Current-source entries: **14**
+Current-source entries: **23**
 
 `Legacy` is a documentation classification, not a trust or compatibility
 guarantee.
