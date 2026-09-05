@@ -111,6 +111,15 @@ const legacySkills = new Set([
   'workspace-context',
 ])
 const currentSourceSkills = new Set([
+  'ci-security-scanning-with-strix',
+  'container-pod-engineering',
+  'fix-security-vulnerabilities-with-strix',
+  'managed-pentesting-with-strix',
+  'penetration-testing-with-strix',
+  'project-plan-create',
+  'visual-plan',
+  'visual-recap',
+  'web-reader',
   'assumption-validation',
   'open-code-review',
   'prompt-injection-test',
