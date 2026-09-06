@@ -171,7 +171,7 @@ Use the narrowest matching skill:
 | Context | `workspace-context` | `1.0.1` | Legacy workspace identity, stack, structure, terminology, and principles | Reference-only, legacy | low / none |
 | Context | `route-handoff-gate` | `1.0.0` | Verifies project, lane, layer, role, and dependency boundaries before creating | Manual-only | low / file read |
 | Context | `scope-work-gate` | `1.0.0` | Confirms that proposed work belongs to the current project, role, lane, and | Manual-only | low / file read |
-| Development | `adaptech-uiux-design` | `1.0.0` | Governing UI/UX and design-system rulebook for dark-aviation dashboards: glass/neo/minimalism, palette, elevation, accessibility | Bounded candidate | medium / file read, file write |
+| Development | `adaptech-uiux-design` | `1.1.0` | Governing UI/UX and design-system rulebook for dark-aviation dashboards: glass/neo/minimalism, palette, elevation, accessibility | Bounded candidate | medium / file read, file write |
 | Development | `api-design` | `1.0.1` | Legacy FastAPI URL, schema, auth, error, pagination, and OpenAPI patterns | Reference-only, legacy | low / none |
 | Development | `api-test` | `1.0.1` | Legacy FastAPI contract/integration testing and async mock patterns | Reference-only, legacy | low / none |
 | Development | `assumption-validation` | `1.0.0` | Evidence-gates costly or customer-visible product assumptions | Bounded candidate | medium / file read, interpreter |
@@ -395,7 +395,7 @@ compare it with the current repository and Cortex source of truth.
 
 ### `adaptech-uiux-design`
 
-<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:file_write"],"category":"development","legacy":false,"name":"adaptech-uiux-design","path":"skills/development/adaptech-uiux-design.SKILL.md","posture":"bounded-candidate","review_fingerprint":"1ceb786d83938acde65b5fd8504dae2bc2c4c7ce9f892f55f2f8ebd0c5d08950","risk_level":"medium","trust_tier":"unvetted","version":"1.0.0"} -->
+<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:file_write"],"category":"development","legacy":false,"name":"adaptech-uiux-design","path":"skills/development/adaptech-uiux-design.SKILL.md","posture":"bounded-candidate","review_fingerprint":"6098b833b9bfde14c9322d491593ff6ee159c94a93a60325c9244a79330cd076","risk_level":"medium","trust_tier":"unvetted","version":"1.1.0"} -->
 
 - **Manifest:** [adaptech-uiux-design.SKILL.md](../skills/development/adaptech-uiux-design.SKILL.md)
 - **Function:** Governing UI/UX and design-system rulebook for ASW Connect / AdapTech dark-aviation
@@ -418,7 +418,11 @@ compare it with the current repository and Cortex source of truth.
   own design system and tokens. The skill's external rules are cited to public design skills and primary
   authorities (WCAG 2.2, Apple HIG Materials, Material Design 3, lawsofux); its palette, radius and
   hover-glow rules are Adaptech house-style owner directives, not external sources, and are marked as
-  such in the body. Keep attribution in the manifest.
+  such in the body. **v1.1.0 binds every colour, radius, spacing and motion value to the project's
+  canonical `tokens.css` (commit `54d7773`) as the implementation authority**, replacing earlier sampled
+  and derived hexes; the focus ring is teal (never gold/silver/white, which would contradict the
+  data-viz-only accent rule), and three stale ratio assertions found in `tokens.css` comments are
+  recorded with recomputed values. Keep attribution in the manifest.
 
 ### `api-design`
 
