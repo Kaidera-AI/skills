@@ -271,7 +271,7 @@
     },
     {
       "name": "adaptech-uiux-design",
-      "version": "1.2.0",
+      "version": "1.3.0",
       "description": "Governing UI/UX and design-system rulebook for ASW Connect / AdapTech dark-aviation products (Next.js 14 + Tailwind v4). Use for any UI, UX, design-system, dashboard, design-token, component, layout, typography, colour, glassmorphism, neumorphism, minimalism, accessibility, contrast, elevation, motion, data-viz, nav-rail, or design-review/critique work; also when picking colours, building cards, tables, filters, empty/loading/error states, or deciding whether an element should exist. Enforces the Adaptech house style (rounded neo/glass, pill controls, subtle hover glow), minimalism as the rationing authority, WCAG 2.2 AA with computed contrast for the real palette, an Apple-HIG/Material-3-derived elevation ladder, laws-of-UX dashboard layout, and the Kaidera SDLC\n",
       "category": "development",
       "trust_tier": "unvetted",
@@ -307,7 +307,7 @@
         "nextjs",
         "design-tokens"
       ],
-      "content_hash": "0c2977f4731b851841ef9932d57c16a0d3fc1933193bc44550c062d421b3aa1d",
+      "content_hash": "be44598422b2bd69978a50d5eb476957934177bbd878eb12b09ecb169d0b1708",
       "signed_by": "",
       "last_reviewed": "",
       "reviewer": "",

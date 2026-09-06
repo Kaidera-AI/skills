@@ -1,6 +1,6 @@
 ---
 name: adaptech-uiux-design
-version: 1.2.0
+version: 1.3.0
 description: |
   Governing UI/UX and design-system rulebook for ASW Connect / AdapTech dark-aviation products (Next.js 14 + Tailwind v4). Use for any UI, UX, design-system, dashboard, design-token, component, layout, typography, colour, glassmorphism, neumorphism, minimalism, accessibility, contrast, elevation, motion, data-viz, nav-rail, or design-review/critique work; also when picking colours, building cards, tables, filters, empty/loading/error states, or deciding whether an element should exist. Enforces the Adaptech house style (rounded neo/glass, pill controls, subtle hover glow), minimalism as the rationing authority, WCAG 2.2 AA with computed contrast for the real palette, an Apple-HIG/Material-3-derived elevation ladder, laws-of-UX dashboard layout, and the Kaidera SDLC
 
@@ -119,14 +119,19 @@ series pairs do not clear 3:1 against each other** (gold vs premium gold = 1.00:
 never sufficient: distinct marker shape or dash pattern **plus** a direct label.
 
 **P.4 Dashboard canvas pattern (light theme).** Three-tier neumorphic composition, not a flat white
-page: (1) the **page gradient `--canvas-grad-light`**, full viewport — the *only* sanctioned decorative
-gradient, and it is the canvas, not a component ornament; (2) **one full-viewport raised main card** =
+page: (1) the **page gradient `--canvas-grad-light`**, full viewport — the canvas ring, and under
+**G7 (unqualified)** the *only* gradient a rendered view may paint (≤1 `gradient()`/`<*Gradient>` per
+view; total gradient-painted area ≤15% of the view; mechanical gate
+`docs/design/gates/gradient-budget.py` in the consuming repo); (2) **one full-viewport raised main card** =
 `--surface-card #FFFFFF`, lifted by the `--ly-drop-*`/`--ly-lift-*`/`--ly-inhi-*` stack at
 `--radius-4/5`; (3) **deep neo module wells inside** = `--surface-sunken #E6EBEF`, recessed via
 `--ly-well*` (inset navy top-left, white bottom-right) at `--radius-3/4`. **Light-theme neumorphism
 inverts the dark recipe**: on dark the raised edge is a *light* shadow and the receding edge *black*; on
 light the raised edge is a **white highlight** (`rgb(255 255 255/.80-1)`) and the receding edge
 **navy-tinted** (`rgb(20 33 61/.08-.18)`). **No text on the bare gradient.**
+**G7 material corollary: every material recipe is gradient-free** — marble, gloss, capsule, stripe
+accent and hero scrim are flat fills + translucent SOLID pseudo-element overlays + inset/rim shadows
+(guide §4, tokens.css §8; class contracts in §H.5).
 
 **P.5 Locked colours.** Surfaces and neutrals per P.1; teal per P.2; data-viz per P.3; `--slate-400
 #A5B2BB` / `--slate-600 #626F77` as gradient endpoints and `--accent-secondary`; legacy marketing only
@@ -184,25 +189,19 @@ minimum: touch layouts must grow to ≥44px.
 a small lift** — never a harsh shadow jump:
 
 - **Blur 14-20px**, **alpha ≈0.30** (band 0.18-0.36), tinted with the element's own canonical accent —
-  **chrome uses `--asw-teal #58C098` or `--accent-action-hi #6FD3AC`; a data-viz module may glow in its
-  own `--viz-*` hue** — plus a **1-2px lift** (`translateY(-1px)` to `-2px`) with a matching slight
-  drop-shadow increase.
+  chrome uses `--asw-teal #58C098` or `--accent-action-hi #6FD3AC`; a data-viz module may glow in its own
+  `--viz-*` hue — plus a **1-2px lift** (`translateY(-1px)` to `-2px`).
 - **Computed ceiling — the numeric definition of "subtle"** (over `--surface-app #14213D`): `--asw-teal`
   at 0.30 peaks at **1.83:1** (1.41 at 0.18, 2.08 at 0.36); `--accent-action-hi` at 0.30 peaks at
-  **1.99:1** (2.32 at 0.36); data-viz tints are comparable (gold 1.84, premium gold 1.83, blue 1.36, red
-  1.23). **All sit below the 3:1 non-text threshold** and around the ~1.5:1 harsh-border line, so the
-  glow reads as *ambient light*, not a new outline. **White and Silver are not glow tints**: white
-  reaches 2.72:1 at 0.30 and **3.30:1** at 0.36.
-- **Additive to elevation, never a replacement** — the `--neo-raised` / `--ly-drop-*` shadow stays; the
-  glow layers outside the boundary and must not reduce adjacent-colour contrast (SC 1.4.11 does not
-  require hover indicators to contrast with the default state, but "the component must not lose contrast
-  with the adjacent colors"). **`--dur-2` 160ms** on `box-shadow`/`transform` only with `--ease-emph`;
-  no bounce, no elastic (S12), no animated `filter: blur()`.
-- **The glow is never the focus indicator** — focus is the 2px teal ring at 2px offset (§P.6).
-  **Restraint**: interactive surfaces only; not static text, not data tables, not every card in a grid at
-  once, and **never combined with a hover scale-up plus a border-colour change** — one hover signal per
-  element. Under `prefers-reduced-motion` the lift is dropped and the glow appears without transition;
-  under `prefers-contrast: more` / `forced-colors` it is removed.
+  **1.99:1** (2.32 at 0.36); data-viz tints comparable (gold 1.84, premium gold 1.83, blue 1.36, red
+  1.23) — all below the 3:1 non-text threshold and the ~1.5:1 harsh-border line, so the glow reads as
+  *ambient light*, not an outline. **White and Silver are not glow tints** (white hits 3.30:1 at 0.36).
+- **Additive to elevation, never a replacement** (`--neo-raised`/`--ly-drop-*` stays); must not reduce
+  adjacent-colour contrast (SC 1.4.11). **`--dur-2` 160ms** on `box-shadow`/`transform` only,
+  `--ease-emph`; no bounce/elastic (S12), no animated `filter: blur()`.
+- **Never the focus indicator** (focus = 2px teal ring, §P.6). **Restraint**: interactive surfaces only,
+  one hover signal per element, never with a hover scale-up plus border-colour change; reduced-motion
+  drops the lift and shows the glow without transition; `prefers-contrast: more`/`forced-colors` removes it.
 
 Canonical CSS for the glow, the pressed state and both fallbacks: `references/glass-neo.md` §"House-style glow CSS".
 
@@ -212,6 +211,20 @@ explicit brand override of exactly that default, taken through S1's own override
 execute with intent") — and the intent conditions are the H.3 numbers: canonical teal tint not white,
 ≤0.36 alpha, 14-20px blur, computed below 3:1, `--dur-2` 160ms, one signal per element. S10's "no harsh
 borders or outlines" is **satisfied**, not violated — a 1.83:1 glow is not an outline.
+
+**H.5 Gradient-free material contracts (G7; guide §4 + tokens.css §8).** The owner's 3D materials
+survive the gradient budget without a single gradient: **marble** (`.mat-marble`, `.toggle .knob`,
+`.slider .thumb`) = flat tinted body `--marble-flat` + `::before` solid white @85% specular dot (38%
+circle at 18%/14%) + `--marble-edge` inset shading + `--marble-rim`/`--marble-rim-teal` rim glow and
+contact shadow; **gloss** (`.mat-gloss-*`, `.btn.primary`, `.btn.viz`) = flat two-tone body
+`--gloss-teal/-red/-gold/-blue` (+`-hi`) + `::before` solid `--gloss-band` white 18% band over the top
+third with a hard bottom edge + `inset 0 1px 0 wht/40` + tinted drop; **capsule** (toggle-on, active
+chips) = flat hue tint `--capsule-*` @42-45% + `--capsule-lum-*` inset luminous centre +
+`--capsule-rim-*` rim glow + inner light border; **stripe accent** = static inline-SVG rotated solid
+rects (`.stripe-svg > rect`, no `<Gradient>` defs, never spends the budget); **hero scrim**
+`--hero-overlay` solid `rgb(26 26 46 / 0.62)`; **premium fill** `--grad-prem` solid `#F8B32A` (legacy
+name, no gradient). Only `--canvas-grad-light`/`--canvas-grad-dark` paint gradients, as the single
+canvas ring per view.
 
 ## 0. Process gate (SDLC-governed, non-negotiable)
 
@@ -223,17 +236,14 @@ out of scope) and write the **Design Read** one-liner: *"Reading this as: \<surf
 time**; look facts up yourself, put decisions to the human. Full grill (scored /50, capped at 39 until
 the riskiest assumption is tested, the proof names a command that can fail, and the rollback is
 rehearsed) is forced for a new view or anything touching customer data, money, or a migration.
-
 **DESIGN** → token plan *before* code (canonical tokens, typefaces and roles, layout concept with ASCII
 wireframes, principles), then **review it against the brief for generic-default drift** — would the same
 prompt for a different B2B product produce this? If yes, revise and say what changed and why. Apply the
 minimalism removal criteria and ornament ceiling before specifying any component. Product truth and
 visual direction are separate documents.
-
 **CRITIQUE** → screenshot the real surface and review it (two or three rounds); run the pre-flight (§9);
 then the structured session — Observation → Impact → Suggestion, actionable and specific only,
 severity-rated 0-4, returned as a ranked triage list with named owners (`references/design-critique.md`).
-
 **HANDOFF** → the author never approves; a different reviewer runs the adversarial pass; nits capped at
 five; verification is **output that can fail** with literal output pasted, and deterministic checks are
 **evidence, not proof** — inspect rendered viewports (desktop, laptop, tablet, mobile, 200% zoom, both
@@ -257,10 +267,12 @@ adjacent levels, never all three; the squint test must still reveal hierarchy.
 using the canonical `--border-hair` (dark `rgb(255 255 255/.10)`, light `rgb(20 33 61/.08)`);
 `--border-control` (dark `.22`, light `.20`) for input/select/toggle boundaries. Separators **or**
 spacing, never both.
-1.5 **No gradients as decoration on components, no neon, no bounce/elastic easing, no `shadow-md/lg/xl`.**
-The one sanctioned gradient is the page canvas (`--canvas-grad-light` / `--canvas-grad-dark`, §P.4);
-shadows come only from the canonical `--ly-*` / `--elev-*` ladder. **The subtle hover glow (§H.3) is
-permitted and is not a "neon glow"** — canonical teal tint, ≤0.36 alpha, 14-20px blur, computed below 3:1.
+1.5 **Gradient budget G7 (unqualified): ≤1 gradient per rendered view — the canvas ring (§P.4) — and
+≤15% of view area in gradient paint; every material recipe is gradient-free (§H.5).** No neon, no
+bounce/elastic easing, no `shadow-md/lg/xl`.
+The one sanctioned gradient is the page canvas (§P.4, G7); shadows come only from the canonical
+`--ly-*` / `--elev-*` ladder. **The subtle hover glow (§H.3) is permitted and is not a "neon glow"** —
+canonical teal tint, ≤0.36 alpha, 14-20px blur, computed below 3:1.
 1.6 **Copy minimalism.** Remove half the words, then half of what remains. No "Welcome to…", no "Please
 kindly"; banned clichés Elevate, Seamless, Unleash, Next-Gen, Game-changer, Delve. Errors state the
 problem and the fix. Never demote fees, disclaimers or opt-outs into small low-contrast type. **No emoji
@@ -271,8 +283,9 @@ content is genuinely a sequence. No decorative eyebrows, status dots, scroll cue
 or section-number labels.
 
 **Ornament ceiling per view:** ≤1 glass family · ≤1 neo treatment · ≤1 chrome accent (teal) · ≤1 bold
-element (the data) · 1 sanctioned canvas gradient (§P.4) and 0 component gradients · 0 animated blur · 0
-marquees · 0 ambient blobs inside the dashboard. **When glass and neo would both apply to one element,
+element (the data) · ≤1 gradient per view = the canvas ring (§P.4, G7) at ≤15% painted area and 0
+gradients in materials/components · 0 animated blur · 0 marquees · 0 ambient blobs inside the
+dashboard. **When glass and neo would both apply to one element,
 flat wins** — except in the light-theme canvas pattern (§P.4), where the raised main card and its
 recessed module wells are neo *by owner directive*.
 
@@ -319,18 +332,21 @@ external 8-12px guidance; one documented scale everywhere.
 1-2px lift** (or `--accent-action-hi` as the fill step).
 3.3 **Glass fill caps:** dark `--surface-glass .55` navy-tint → `--surface-glass-hi .72` →
 `--surface-glass-max rgb(255 255 255/.12)` ≡ `#303C54` as the **ceiling for text-bearing panels**; light
-`.60` → `.72` → `.80`. A white-tinted dark fill above 0.12 drops accent hues below 3:1 — which is why
-the canonical recipe is navy-tinted (darker, so contrast is *better*). Verify text against the
-**composited** value, never the base.
-3.4 **Neo edge caps, computed.** Dark `--ly-lift-*` runs `.04`→`.09` = **1.12-1.32:1** and `--ly-drop-*`
-runs `.35`→`.60` = **1.14-1.22:1** — both under the ~1.5:1 line where a soft pillow reads as an outline.
-**Light theme is asymmetric**: the white lift over `--surface-card #FFFFFF` is exactly **1.00:1 —
-invisible** — so on light **all** depth comes from the navy drop (**1.17-1.44:1**) plus the recessed well
-step (`#E6EBEF` vs white = **1.20:1**). **Never expect the light-theme inner highlight to separate a card
-from the canvas — the shadow and well tone do.**
-3.5 **`#000000` is never a surface canvas** — the darkest useful neo shadow sits at 1.08:1 against pure
-black, so neumorphism is not implementable there. `--elev-flat: none` is the canonical
-reduced-preference/disabled state.
+`.60` → `.72` → `.80`. A white-tinted dark fill above 0.12 drops accent hues below 3:1 — the canonical
+recipe is navy-tinted (darker, so contrast is *better*). Verify text against the **composited** value.
+3.4 **Neo edge caps, computed.** Dark `--ly-lift-*` `.04`→`.09` = **1.12-1.32:1**, `--ly-drop-*`
+`.35`→`.60` = **1.14-1.22:1** — under the ~1.5:1 outline line. **Light is asymmetric**: the white lift
+over `#FFFFFF` is **1.00:1 — invisible**, so all depth comes from the navy drop (**1.17-1.44:1**) plus
+the well step (`#E6EBEF` vs white = **1.20:1**); never expect the light inner highlight to separate a
+card from the canvas.
+3.5 **`#000000` is never a surface canvas** (darkest useful neo shadow = 1.08:1 against pure black).
+`--elev-flat: none` is the canonical reduced-preference/disabled state.
+3.6 **Gradient budget G7 (unqualified; guide §17 gate record v2.4).** ≤1 `gradient()`/`<*Gradient>`
+painted per rendered view — the canvas ring — and ≤15% of view area in gradient paint. **All material
+recipes at every level are gradient-free** (class contracts §H.5, tokens.css §8, guide §4); depth comes
+from the tonal step plus `--ly-*`/`--elev-*` shadows. Mechanical gate:
+`docs/design/gates/gradient-budget.py` in the consuming repo (counts every `*gradient(` and
+`<*Gradient>` per `data-view` block against VIEW_W 1312; exit 0 = green).
 
 ## 4. Typography
 
@@ -342,15 +358,17 @@ but here it is examined and chosen, and the properties they require are met via
 
 | Token | Size / lh / weight / tracking | Use |
 |---|---|---|
-| `--text-display` · `--text-title` | 76 / 1.04 / 900 / −0.025em · 64 / 1.08 / 800 / −0.020em | hero marketing · page titles |
+| `--text-display` · `--text-title` | 76 / 1.04 / 800 / −0.025em · 64 / 1.08 / 800 / −0.020em | hero marketing · page titles |
 | `--text-h2` · `--text-h3` · `--text-h4` | 44 / 1.15 / 800 / −0.015em · 28 / 1.25 / 700 / −0.010em · 22 / 1.30 / 700 / 0 | section, card, sub-card headings |
 | `--text-metric` | 44 / 1.05 / 800 / −0.010em | **KPI numbers — the bold element (§1.2)** |
 | `--text-body-lg` · `--text-body` · `--text-body-sm` | 18 / 1.60 / 400 · 16 / 1.60 / 400 · 14 / 1.50 / 400 | prose, body, dense body |
-| `--text-dense` · `--text-caption` · `--text-overline` | 13 / 1.45 / 400 / +0.005em · 12 / 1.40 / 500 / +0.010em · 11 / 1.20 / 700 / +0.080em | **table rows** · labels & table headers · uppercase eyebrows (rationed, §1.7) |
+| `--text-dense` · `--text-caption` · `--text-overline` | 13 / 1.45 / 400 / +0.005em · 12 / 1.40 / 400 / +0.010em · 11 / 1.20 / 700 / +0.080em | **table rows** · labels & table headers · uppercase eyebrows (rationed, §1.7) |
 
 4.1 **Use the token, not a size.** Each row fixes size / line-height / weight / tracking as one unit —
-never mix a size from one row with another row's leading. **Five weights**: 400 body/data · 500
-captions/labels · 700 headings · 800 titles and metrics · 900 display only. **Tracking tightens as size
+never mix a size from one row with another row's leading. **Three weights — owner cap G8, Inter
+400/700/800 only**: 400 body/caption/dense · 700 h3/h4/overline/UI emphasis/buttons/chart titles · 800
+display/title/h2/metric. Mapping from the earlier five-weight draft: 500 → 400, 600 → 700, 900 → 800
+(guide §2); hierarchy is carried by size, space and tracking, not weight count. **Tracking tightens as size
 rises** (−0.025em → +0.080em overline) and **line-height falls as size rises** (1.04 → 1.60 → 1.45 →
 1.20). Nothing below **11px**; all-caps only in `--text-overline`; the page survives **200% zoom**; no
 skipped semantic levels; headings get more space above than below.
@@ -381,52 +399,44 @@ defined boundary around a group). A card around nothing is noise.
 5.4 **Motion ladder is canonical (tokens.css §7) — use the tokens, never raw durations.** `--dur-1`
 **100ms** tint/opacity · `--dur-2` **160ms** hover elevation **and focus** · `--dur-3` **240ms**
 toggle/expand/flyout · `--dur-4` **360ms** modal/overlay enter. Easings: `--ease-standard`
-`cubic-bezier(0.2,0,0,1)` for state changes, `--ease-emph` `cubic-bezier(0.16,1,0.3,1)` for entrances
-and the hover glow, `--ease-linear` for loaders/spinners **only**. This resolves the R16 duration
-conflict in favour of the canonical ladder: every step sits inside Apple's "under 0.3s" guidance except
-`--dur-4` (360ms), the sanctioned overlay entrance. **No bounce, no elastic** (S12); never linear easing
-on an interactive state. **Motion must be motivated in one sentence** — hierarchy, storytelling,
-feedback, state transition; "it looked cool" is not a reason, so drop the animation (S1). MOTION dial =
-**2**: hover and `active` states, one orchestrated entry moment, no scattered per-card reveals (S2).
-**Hover glow + lift is the house interaction signature** (§H.3).
+`cubic-bezier(0.2,0,0,1)` state changes, `--ease-emph` `cubic-bezier(0.16,1,0.3,1)` entrances and the
+hover glow, `--ease-linear` loaders/spinners **only**. This resolves the R16 conflict in favour of the
+canonical ladder (every step inside Apple's "under 0.3s" except the sanctioned `--dur-4` overlay
+entrance). **No bounce, no elastic** (S12); never linear easing on an interactive state. **Motion must
+be motivated in one sentence** — hierarchy, storytelling, feedback, state transition; "it looked cool"
+is not a reason (S1). MOTION dial = **2**: hover/`active` states, one orchestrated entry, no scattered
+per-card reveals (S2). **Hover glow + lift is the house interaction signature** (§H.3).
 5.5 **Animate only `transform` and `opacity`** (and `box-shadow` for the glow); never `top`/`left`/
-`width`/`height`. **No `window.addEventListener('scroll')`** — use IntersectionObserver or CSS
-scroll-driven animation. **No animated `filter: blur()`** in a dashboard: blur is already the most
-expensive effect in a glass-heavy UI (S5). Grain only on `fixed pointer-events-none`; `will-change`
-sparingly; stagger lists `calc(var(--index) * 80ms)`, never mount everything at once. **All motion
+`width`/`height`. **No `window.addEventListener('scroll')`** — IntersectionObserver or CSS scroll-driven
+animation. **No animated `filter: blur()`** in a dashboard (S5). Grain only on `fixed
+pointer-events:none`; `will-change` sparingly; stagger lists `calc(var(--index) * 80ms)`. **All motion
 collapses under `prefers-reduced-motion`** (tokens.css §9b; see §7).
-
-## 6. Dashboard shell, cards, data-viz
-
 6.1 **Shell = left nav rail + top bar + content region** — users arrive with the mental model from every
 other dashboard, and deviating costs them relearning. **Nav rail: 3-5 top-level destinations max**,
 one-word labels, **labels always visible** or rail+tooltip *with* a persistent "you are here" indicator;
-**icons without labels are a defect; never hide or disable destinations**; active/selected state is
-`--accent-tertiary` = **teal** (§P.2); the rail is level-4 glass, the one sanctioned glass surface.
-**Top bar: max 2-3 actions on the right** (global search, context switcher, notifications, profile),
-height ≤80px desktop (default 64-72px), **single line**.
+**icons without labels are a defect; never hide or disable destinations**; active/selected = teal
+(§P.2); the rail is level-4 glass, the one sanctioned glass surface. **Top bar: max 2-3 actions on the
+right**, height ≤80px desktop (default 64-72px), **single line**.
 6.2 **Card hierarchy — three tiers only:** *metric card* (level 2: one `--text-metric` number + label +
 delta), *data card* (level 1-2: title, table or chart, one row of actions), *action card* (level 3, rare:
 an empty-state invitation). **A card containing another card is a defect** — except the sanctioned §P.4
-main-card → module-well composition, which is one region containing modules, not a nested duplicate.
-Where elevation doesn't communicate real hierarchy, group with `border-t`, `divide-y` or negative space
-instead; at cockpit density use **no card boxes at all** — 1px lines separate data, numerals tabular.
+main-card → module-well composition (one region containing modules, not a nested duplicate). Where
+elevation doesn't communicate real hierarchy, group with `border-t`, `divide-y` or negative space; at
+cockpit density use **no card boxes at all** — 1px lines separate data, numerals tabular.
 6.3 **Data-viz is where the accent palette lives** (§P.3). Chart-box shadows stripped, no gradient fills,
 no legend when a direct label works. Grid lines `rgb(255 255 255/.06)` (dark) / `rgb(20 33 61/.08)`
-(light). Series use `--viz-1…--viz-6` for the theme; each needs **3:1 against the surface** but **hue
-alone is never sufficient** (series pairs fall below 3:1 against each other — gold vs premium gold =
-1.00:1), so every series carries a distinct marker shape or dash pattern **plus** a direct label. **No
-hover-only information.**
+(light). Series use `--viz-1…--viz-6`; each needs **3:1 against the surface** but **hue alone is never
+sufficient** (gold vs premium gold = 1.00:1), so every series carries a distinct marker or dash pattern
+**plus** a direct label. **No hover-only information.**
 6.4 **Filters obey Hick:** defaults + one recommended preset, advanced behind disclosure, ≤7 visible
-choices per decision point, the recommended option highlighted — without simplifying to the point of
-abstraction (keep the expert path). **Row actions live in the row** (Fitts: short distance), ≥24×24 CSS
-px and 44×44 on touch; `--row-h: 48px` / `--row-h-dense: 40px`.
+choices per decision point, recommended highlighted — without simplifying to the point of abstraction
+(keep the expert path). **Row actions live in the row** (Fitts), ≥24×24 CSS px and 44×44 on touch;
+`--row-h: 48px` / `--row-h-dense: 40px`.
 6.5 **Feedback under 400ms** (Doherty): optimistic filter application, skeleton within 400ms, progress
-for long queries; skeletons match the final layout's shape, no generic circular spinner where a skeleton
-fits. **Design the peak and the end** (Peak-End): export/report completion and the worst-case
-large-query wait are deliberate moments, not dead ends. **Progress is legitimate** (Zeigarnik):
-completeness and saved-search meters, "+12 routes" signifiers rather than silent truncation. **One
-primary CTA per view**; **ship a temporary "classic view" toggle** for a revamp to minimize discord.
+for long queries; skeletons match the final layout's shape. **Design the peak and the end** (Peak-End):
+export/report completion and the worst-case large-query wait are deliberate moments. **Progress is
+legitimate** (Zeigarnik): completeness meters, "+12 routes" signifiers rather than silent truncation.
+**One primary CTA per view**; **ship a temporary "classic view" toggle** for a revamp.
 6.6 **Semantic tokens name roles, not values** — consume the canonical set rather than inventing names:
 `--surface-app/-card/-sunken/-glass*`, `--ink-primary/-body/-muted`, `--accent-action/-hi/-lo`,
 `--state-*-soft/-text`, `--border-hair/-control/-strong`, `--row-hover/-active`. Semantic HTML, clean heading hierarchy, no skipped levels.
@@ -451,26 +461,24 @@ not the base hex.**
 7.2 **Control boundaries**: subtle borders are fine only when contrasting text or an icon already
 identifies the control. **Computed caveat — `--border-control` does NOT reach 3:1**: `rgb(255 255 255/.22)`
 composites to **2.00:1** against `--surface-card #1E2E52` (2.04:1 vs app) despite tokens.css claiming
-3.03:1; light `rgb(20 33 61/.20)` is 1.50:1 on white. Where the boundary *is* the only identifier
-(empty inputs, unchecked checkboxes, slider tracks) use `--asw-teal` (6.00:1 on card) or
-`--asw-teal-ink` (3.98:1 on white), or raise the border to ≥0.35 alpha (2.99:1) / ≥0.40 (3.47:1) —
-**never rely on `--border-control` or `--border-hair` (1.42:1) alone, and never on the bare gradient.**
-**Never encode state by hue alone**: colour + glyph (↑ ↓ ●) + text label or `aria-label`. On `#000000`
-scrims use `#FF8291`, never `#E31937`/`#DC2626` (red-on-black protanopia advisory). **7:1 is an internal
-target for critical numeric data only** (primary KPIs, fare/seat figures, safety flags); AA 4.5:1 is the
-floor and 7:1 is reachable (white 15.97, teal 7.16 dark; `#14213D` 15.97, `#313C54` 11.02 light).
-**The house-style glow is compliant by construction**: `--asw-teal` at ~0.30 alpha peaks at **1.83:1**,
-`--accent-action-hi` at **1.99:1** — below the 3:1 non-text threshold, adding no outline.
+3.03:1; light `rgb(20 33 61/.20)` is 1.50:1 on white. Where the boundary *is* the only identifier (empty
+inputs, unchecked checkboxes, slider tracks) use `--asw-teal` (6.00:1 on card) or `--asw-teal-ink`
+(3.98:1 on white), or raise the border to ≥0.35 alpha (2.99:1) / ≥0.40 (3.47:1) — **never rely on
+`--border-control` or `--border-hair` (1.42:1) alone, and never on the bare gradient.** **Never encode
+state by hue alone**: colour + glyph (↑ ↓ ●) + text label or `aria-label`. On `#000000` scrims use
+`#FF8291`, never `#E31937`/`#DC2626` (red-on-black protanopia advisory). **7:1 is an internal target for
+critical numeric data only**; AA 4.5:1 is the floor and 7:1 is reachable (white 15.97, teal 7.16 dark;
+`#14213D` 15.97, `#313C54` 11.02 light). **The house-style glow is compliant by construction** (§H.3).
 
 **Reduced-preference fallbacks (mandatory; tokens.css §9a-9c already implements them).**
-`prefers-reduced-transparency: reduce` → `--surface-glass*` become solid (`--navy-700` dark,
-`--asw-cloud-white` light), `--glass-blur: 0px`, borders kept, `backdrop-filter: none !important`.
+`prefers-reduced-transparency: reduce` → `--surface-glass*` solid (`--navy-700` dark,
+`--asw-cloud-white` light), `--glass-blur: 0px`, borders kept, `backdrop-filter: none !important`;
 **`[data-glass="off"]` is the in-product "Reduce glass" setting** — the reliable path, since the media
 query is **experimental with uneven support**. `prefers-reduced-motion: reduce` → `--dur-2/3/4: 0ms`,
-animation duration 0 / iteration-count 1, transitions to opacity ≤100ms, §H.3 lift dropped.
-`prefers-contrast: more` / `forced-colors` → `--elev-flat: none`, drop glass, neo and the glow for 1px
-system borders. Keyboard reachability with the visible teal focus ring everywhere; labels above inputs,
-**never placeholder-as-label**; errors below inputs; no text below 11px.
+transitions to opacity ≤100ms, §H.3 lift dropped. `prefers-contrast: more` / `forced-colors` →
+`--elev-flat: none`, drop glass, neo and the glow for 1px system borders. Keyboard reachability with the
+visible teal focus ring everywhere; labels above inputs, **never placeholder-as-label**; errors below
+inputs; no text below 11px.
 
 ## 8. State matrices
 
@@ -499,17 +507,13 @@ view. **Name things by user understanding** ("notifications", not "webhook confi
 - [ ] **Theme canvases: dark `--surface-app #14213D` (`--canvas-grad-dark #0F1A33→#14213D`); light `--surface-app #FFFFFF` over `--canvas-grad-light #A5B2BB→#626F77`, raised card `#FFFFFF`, recessed well `--surface-sunken #E6EBEF`, no text on the bare gradient**
 - [ ] **Accent hues (`--asw-gold`/`-prem`/`--asw-red`/`--asw-crimson`/`--asw-blue`/`--asw-success`/`--viz-*`) only in data-viz — never on buttons, toggles, chips, inputs, nav states or the focus ring; chrome = `--asw-teal #58C098` (dark) / `--asw-teal-text #256F57` + `--asw-teal-ink #2E8F6F` (light) + slate/navy neutrals, never on the bare gradient; text on teal fills is `--ink-on-accent #0F1A33`, never white**
 - [ ] **House style: canonical radius scale (`--radius-pill` controls at `--control-h` 40px / `-sm` 32px, `--radius-4` 20px cards, `--radius-5` 28px overlays, `--radius-3` 16px inputs) everywhere; hover glow = canonical teal tint (`--asw-teal`/`--accent-action-hi` or the module's `--viz-*`), 14-20px, ~0.30 alpha (≤0.36), 1-2px lift, `--dur-2` 160ms, not white/silver, one signal per element, removed under reduced-motion and forced-colors**
-- [ ] Minimalism removal criteria applied; ornament ceiling respected (≤1 glass family, ≤1 neo treatment, ≤1 chrome accent, ≤1 bold element = the data, 1 sanctioned canvas gradient and 0 component gradients, 0 animated blur)
-- [ ] One surface family per layer; glass only on the functional layer; neo on pressed controls plus the light-theme main-card/module-well pair (§P.4); elevation assigned from `--elev-1…6`, never skipped, exactly one level-5 surface; glass fill within the canonical ladder (dark navy-tint `.55`→`.72` with `--surface-glass-max .12` ceiling for text-bearing panels; light `.60`→`.80`); neo edges within `--ly-*` caps; no `#000000` canvas
-- [ ] Every text token ≥4.5:1 against the **composited** surface; accent hues not used as chrome text; banned greys absent (`#8B8B9E`, `#6B7280`, `#7E7E93`, `#84929C`, `#77848C`, `#626F77` as text)
-- [ ] Focus ring is TEAL — `--asw-teal` dark / `--asw-teal-ink` light, 2px at 2px offset, `border-radius: inherit`, verified ≥3:1 against the lightest adjacent surface; never gold/silver/white; the hover glow is not the focus indicator
-- [ ] Control boundaries that *are* the identifier reach 3:1; no state encoded by hue alone; every chart series has a distinct marker/dash plus a direct label; targets ≥24×24 CSS px (≥44px on touch) with the spacing exception only where circles don't intersect
-- [ ] Full state cycle present; skeleton/empty/error authored, not omitted; no hover-only information and every tooltip value accessible; `prefers-reduced-motion`, `prefers-reduced-transparency` (+ in-product "Reduce glass"), and `prefers-contrast`/`forced-colors` fallbacks all implemented
-- [ ] Type: canonical `--text-*` tokens only, ≥11px (`--text-overline` floor), five weights, no skipped heading levels, measure capped on prose, `--nums-tabular` on data, payload <200KB, no FOIT/CLS
-- [ ] Nav rail 3-5 labelled destinations, teal active state, "you are here" indicator, nothing hidden or disabled; top bar ≤3 right-side actions, single line, ≤80px; one primary CTA per view, no duplicate CTA intent, labels don't wrap at desktop
-- [ ] Canonical `--space-*` grid not flex-math; bento cell count = content count; explicit <768px collapse; `min-h-[100dvh]`; feedback <400ms; animation only on `transform`/`opacity`; no `window.addEventListener('scroll')`; grain only on `fixed pointer-events-none`
-- [ ] Named tells absent (SaaS-card kit, cards in cards, tracked ALL-CAPS eyebrow on every heading, `A · B · C` meta, tinted near-black, `→` on button text, purple gradients, gray text on coloured backgrounds — Inter itself is the deliberate canonical `--font-sans`, not a tell); copy audited: no clichés, emoji, placeholder names, fake-precise numbers or broken strings
-- [ ] Rendered viewports inspected in **both themes** (desktop/laptop/tablet/mobile/200% zoom/reduced-motion/reduced-transparency); screenshots committed as evidence, not described; verification output pasted; author did not approve own work; nits ≤5; dated rule recorded for any repeated defect
+- [ ] Minimalism removal criteria applied; ornament ceiling respected (≤1 glass family, ≤1 neo treatment, ≤1 chrome accent, ≤1 bold element = the data, ≤1 gradient = the canvas ring at ≤15% area and 0 in materials, 0 animated blur); one surface family per layer; glass only on the functional layer; neo on pressed controls plus the light-theme main-card/module-well pair (§P.4); elevation from `--elev-1…6`, never skipped, exactly one level-5 surface; glass fill within the canonical ladder (dark navy-tint `.55`→`.72`, `--surface-glass-max .12` ceiling for text-bearing panels; light `.60`→`.80`); neo edges within `--ly-*` caps; no `#000000` canvas
+- [ ] Every text token ≥4.5:1 against the **composited** surface; accent hues not chrome text; banned greys absent (`#8B8B9E`, `#6B7280`, `#7E7E93`, `#84929C`, `#77848C`, `#626F77` as text); focus ring TEAL — `--asw-teal` dark / `--asw-teal-ink` light, 2px at 2px offset, `border-radius: inherit`, ≥3:1 vs the lightest adjacent surface, never gold/silver/white, and the hover glow is not the focus indicator
+- [ ] Control boundaries that *are* the identifier reach 3:1; no state by hue alone; every chart series has a distinct marker/dash plus a direct label; targets ≥24×24 CSS px (≥44px on touch) with the spacing exception only where circles don't intersect; full state cycle present; skeleton/empty/error authored, not omitted; no hover-only information and every tooltip value accessible; `prefers-reduced-motion`, `prefers-reduced-transparency` (+ in-product "Reduce glass"), and `prefers-contrast`/`forced-colors` fallbacks all implemented
+- [ ] Type: canonical `--text-*` tokens only, ≥11px (`--text-overline` floor), three weights 400/700/800 (G8), no skipped heading levels, measure capped on prose, `--nums-tabular` on data, payload <200KB, no FOIT/CLS
+- [ ] **G7 gradient budget: ≤1 `gradient()`/`<*Gradient>` per rendered view (the canvas ring) and ≤15% gradient-painted area; materials gradient-free — `.mat-marble`/`.mat-gloss-*`/capsule/`.stripe-svg`/`--hero-overlay` per §H.5; `docs/design/gates/gradient-budget.py` exits 0 in the consuming repo**
+- [ ] Nav rail 3-5 labelled destinations, teal active state, "you are here" indicator, nothing hidden or disabled; top bar ≤3 right-side actions, single line, ≤80px; one primary CTA per view, no duplicate CTA intent, labels don't wrap at desktop; canonical `--space-*` grid not flex-math; bento cell count = content count; explicit <768px collapse; `min-h-[100dvh]`; feedback <400ms; animation only on `transform`/`opacity`; no `window.addEventListener('scroll')`; grain only on `fixed pointer-events-none`
+- [ ] Named tells absent (SaaS-card kit, cards in cards, tracked ALL-CAPS eyebrow on every heading, `A · B · C` meta, tinted near-black, `→` on button text, purple gradients, gray text on coloured backgrounds — Inter itself is the deliberate canonical `--font-sans`, not a tell); copy audited: no clichés, emoji, placeholder names, fake-precise numbers or broken strings; rendered viewports inspected in **both themes** (desktop/laptop/tablet/mobile/200% zoom/reduced-motion/reduced-transparency); screenshots committed as evidence, not described; verification output pasted; author did not approve own work; nits ≤5; dated rule recorded for any repeated defect
 
 ## 10. Do / Don't
 
@@ -518,17 +522,13 @@ view. **Name things by user understanding** ("notifications", not "webhook confi
 | Remove first, add second | Add ornament because the surface feels empty |
 | Chrome in `--asw-teal` + slate/navy; data in the `--viz-*` palette — one bold element per view is the data | Gold/Red/Blue buttons, toggles, nav states, or a gold focus ring |
 | Dark `--surface-app #14213D`; light `#FFFFFF` over `--canvas-grad-light` | `#1A1A2E`/`#16213E` as app surfaces (legacy marketing only); text on the bare gradient |
-| Canonical radius scale: pill controls, `--radius-4` 20px cards, `--radius-5` 28px overlays | Crisp 4-6px corners on controls; mixed radii |
-| Subtle canonical-teal hover glow + 1-2px lift at `--dur-2` 160ms; focus ring = teal | Harsh shadow jumps; white/silver glows; gold, silver or white focus rings |
+| Canonical radius scale: pill controls, `--radius-4` 20px cards, `--radius-5` 28px overlays; subtle canonical-teal hover glow + 1-2px lift at `--dur-2` 160ms; focus ring = teal | Crisp 4-6px corners on controls; mixed radii; harsh shadow jumps; white/silver glows; gold, silver or white focus rings |
 | `--asw-teal-text #256F57` for teal text on light; `--ink-on-accent #0F1A33` on teal fills; `--text-on-gold #1A1A2E` on gold | Raw `--asw-teal` as light text (2.23:1); white text on teal, gold or amber |
 | Flat surfaces for content and data; neo on pressed controls + light-theme cards | Glass on tables or backgrounds; neo on dark-theme page backgrounds |
 | Elevation from `--elev-1…6` = lighter surface + shadow; `--state-*-text` tokens; verify against the composited panel | Stacking glass + inner highlight + outer shadow + glow; raw hues as text; verify against the base hex and ship |
-| Labels + icons in the nav rail, teal active state; conventional dashboard placement | Icon-only mystery-meat navigation; novel navigation to look distinctive |
-| Accessible equivalent for every tooltip; skeletons matching final layout; undo for reversible actions; 1px separators **or** spacing | Hover-only information; circular spinners everywhere; "Are you sure?" for everything; both separators and spacing plus a card wrapper |
-| Canonical `--space-*` grid, 16/24/32 dashboard spacing; `--nums-tabular` numerals | Arbitrary padding, flex math, proportional figures in data columns |
-| Canonical semantic role tokens from tokens.css; screenshot the rendered surface in both themes | Literal colour tokens (`blue-500`), invented token names, re-derived hexes; trusting a clean detector run as proof |
-| Realistic aviation content; prepare the taste decision with evidence | John Doe, Acme, `99.99%`; deciding product scope, UX, naming or messaging |
-| Record a dated rule after a repeated defect | Repeat the defect and write a longer prompt |
+| Labels + icons in the nav rail, teal active state; conventional dashboard placement; accessible equivalent for every tooltip; skeletons matching final layout; undo for reversible actions; 1px separators **or** spacing | Icon-only mystery-meat navigation; novel navigation to look distinctive; hover-only information; circular spinners everywhere; "Are you sure?" for everything; both separators and spacing plus a card wrapper |
+| Canonical `--space-*` grid, 16/24/32 dashboard spacing; `--nums-tabular` numerals; canonical semantic role tokens from tokens.css; screenshot the rendered surface in both themes | Arbitrary padding, flex math, proportional figures in data columns; literal colour tokens (`blue-500`), invented token names, re-derived hexes; trusting a clean detector run as proof |
+| Realistic aviation content; prepare the taste decision with evidence; record a dated rule after a repeated defect | John Doe, Acme, `99.99%`; deciding product scope, UX, naming or messaging; repeating the defect and writing a longer prompt |
 
 ## 11. Licence & provenance
 
@@ -1067,8 +1067,23 @@ shadow/depth discipline · computed WCAG contrast. Digest: `docs/design/research
 `--neo-inset` / `--ly-well*` gives the pressed state; `--elev-flat: none` is the canonical
 reduced-preference and disabled state.
 
-The remainder of this file is the external-source record and the computed failure-mode analysis, both of
-which still apply except where overridden above.
+## G7 gradient budget (unqualified) — gradient-free material contracts
+
+**≤1 `gradient()`/`<*Gradient>` painted per rendered view — the canvas ring (`--canvas-grad-light` /
+`--canvas-grad-dark`, §P.4) — and ≤15% of view area in gradient paint.** Every material recipe below is
+gradient-free (guide §4 + §17 gate record v2.4, tokens.css §8; mechanical gate
+`docs/design/gates/gradient-budget.py` in the consuming repo):
+
+| Material | Class contract | Gradient-free recipe |
+|---|---|---|
+| Marble knob/thumb | `.mat-marble`, `.toggle .knob`, `.slider .thumb` | flat tinted body `--marble-flat` + `::before` solid white @85% specular dot (38% circle at 18%/14%) + `--marble-edge` inset shading + `--marble-rim`/`--marble-rim-teal` rim glow + contact shadow |
+| Gloss button | `.mat-gloss-*`, `.btn.primary`, `.btn.viz` | flat two-tone body `--gloss-teal/-red/-gold/-blue` (+`-hi`) + `::before` solid `--gloss-band` white 18% band over the top third, hard bottom edge + `inset 0 1px 0 wht/40` + tinted drop |
+| Capsule (toggle-on, active chip) | capsule classes | flat hue tint `--capsule-*` @42-45% + `--capsule-lum-*` inset luminous centre + `--capsule-rim-*` saturated rim glow + inner light border |
+| Stripe accent | `.stripe-svg > rect` | static inline-SVG rotated solid rects, no `<Gradient>` defs — never spends the budget |
+| Hero scrim / premium fill | `--hero-overlay`, `--grad-prem` | solid `rgb(26 26 46 / 0.62)` / solid `#F8B32A` (legacy name, no gradient) |
+
+The glass skeleton below therefore carries **no gradient sheen**: the old `linear-gradient` top-light
+pass is replaced by a flat fill plus the solid inner-edge highlight.
 
 ## Assignment rule
 
@@ -1109,9 +1124,9 @@ blur renders as a slightly gray rectangle — that is a defect, not a style.
   isolation: isolate;
   overflow: hidden;
   border: 1px solid rgb(255 255 255 / .14);
-  background:
-    linear-gradient(135deg, rgb(255 255 255 / .16), rgb(255 255 255 / .04)),
-    rgb(22 33 62 / .42);                       /* Charcoal base, not white */
+  background: rgb(22 33 62 / .42);              /* Charcoal base, flat — G7: no gradient sheen */
+  /* top-light pass as a SOLID pseudo-element, not a gradient (G7 material contract): */
+  /* .asw-glass-overlay::before { inset: 0; background: rgb(255 255 255 / .06); } */
   backdrop-filter: blur(24px) saturate(180%) contrast(1.05);
   -webkit-backdrop-filter: blur(24px) saturate(180%) contrast(1.05);
   box-shadow:
@@ -1370,8 +1385,10 @@ endurance). A dashboard is mostly the second, with a handful of the first (displ
 
 ## Scale
 
-**Adopted ASW scale: `12 / 13 / 14 / 16 / 20 / 24 / 32` px** — seven steps on a 16px base, ratio
-≈1.2 at the dense end.
+**Canonical steps: tokens.css §6 / guide §2** — overline 11 · caption 12 · dense 13 · body 16 ·
+body-lg 18 · h4 22 · h3 28 · metric/h2 44 · title 64 · display 76. The research baseline below
+(12/13/14/16/20/24/32 on a 16px base, ratio ≈1.2 at the dense end) is the *derivation*; consume the
+tokens, never re-derive sizes.
 
 - Modular ratio **1.2-1.5** between levels creates hierarchy without extremes; arbitrary sizes
   create noise (S4 §5-6). Dense dashboards use the low end so more levels fit without shouting.
@@ -1386,14 +1403,17 @@ endurance). A dashboard is mostly the second, with a handful of the first (displ
   labels is a deliberate density decision. **Help, prose, empty-state and onboarding surfaces stay
   ≥16px** (18px where reading-heavy). Mobile body never drops below desktop body.
 
-## Weights — four maximum
+## Weights — three, by owner cap (G8)
 
 | Weight | Role |
 |---|---|
-| 400 | body text, table data, descriptions |
-| 500 | UI labels, nav items, table headers |
-| 600 | card titles, section titles, emphasized values |
-| 700 | display metrics only |
+| 400 | body, body-sm, dense table cells, caption |
+| 700 | h3, h4, overline, UI emphasis, button labels, chart titles |
+| 800 | display, title, h2, metric values |
+
+Inter ships **400/700/800 only** (guide §2, tokens.css): three faces, smaller payload, and hierarchy
+carried by size, space and tracking rather than weight count. Mapping from the earlier four-weight
+draft: 500 → 400, 600 → 700, 900 → 800.
 
 **Three levers — size, weight, colour: vary one or two between adjacent levels, never all three**
 (S4 §6). Hierarchy comes from weight and colour, not raw scale — "no oversized H1s that just
@@ -1420,12 +1440,12 @@ dark as bold `#FFFFFF` values with regular `#A3A3B5` labels).
 | Context | Line-height |
 |---|---|
 | Display / hero | 1.1-1.25 (S11 uses 1.1) |
-| Data cells, table rows, dense labels | **1.3** (S4: "Dashboard — tighter line height for dense data") |
+| Data cells, table rows, dense labels | **1.45** (guide §2 `dense` step; S4: tighter leading for dense data) |
 | UI text | 1.35-1.4 |
 | Prose, help, descriptions | 1.5-1.7 (S11 mandates **1.6** for body) |
 
-The apparent 1.6-vs-1.3 conflict is resolved **by context, not by picking one**: prose 1.6, data
-1.3. Headings get **more space above than below** (`margin: 1.5em 0 0.5em`) — but excess space above
+The apparent 1.6-vs-1.45 conflict is resolved **by context, not by picking one**: prose 1.6, data
+1.45. Headings get **more space above than below** (`margin: 1.5em 0 0.5em`) — but excess space above
 a heading breaks its association with the content it introduces (S4 Common Mistakes).
 
 ## Measure
@@ -1470,8 +1490,9 @@ create tension without purpose."
 
 ## Loading & performance
 
-- **Total font payload <200KB**; prefer WOFF2; a **variable font replaces 4-6 static weights**
-  (S4 §7). Subset per language, but **don't optimize users out** — never drop characters non-English
+- **Total font payload <200KB**; prefer WOFF2; the owner cap ships exactly three static weights
+  (400/700/800), so a variable font is unnecessary here and would only add payload (S4 §7). Subset per
+  language, but **don't optimize users out** — never drop characters non-English
   readers need or the italic/bold weights needed for emphasis.
 - `font-display: swap` shows fallback text immediately (no FOIT); **preload the critical face**;
   **system fallbacks in every `font-family`** (S4 Quick Diagnostic).
@@ -1484,13 +1505,13 @@ create tension without purpose."
 
 | Element | Spec |
 |---|---|
-| Table header | 12px/500 uppercase at +0.05em **or** 13px/600 sentence case — pick one, apply everywhere |
-| Table row text | 14px/400, line-height 1.3 |
+| Table header | 12px/400 caption (+0.010em) **or** 11px/700 overline uppercase — pick one, apply everywhere |
+| Table row text | 13px/400 dense, line-height 1.45 (guide §2) |
 | Numerals | tabular figures, right-aligned; monospace at cockpit density |
 | Deltas | colour-coded **plus** glyph-coded (↑ ↓), never hue alone |
-| Card title | 14-16px/600 |
-| Section title | 20px/600 |
-| Display metric | 24-32px/700, tracking −0.02em, line-height 1.1 |
+| Card title | `--text-h4` 22px/700 max inside bento cards (h3 28px reserved for hero tiles/panel headers) |
+| Section title | `--text-h3` 28px/700 |
+| Display metric | `--text-metric` 800; 32px cap inside tiles ≤1/3 width, 44px only in hero tiles, tracking −0.010em |
 | Labels | muted (`#A3A3B5`), values bright (`#FFFFFF`) |
 | Empty state | one icon or none, a 20px title, one line of direction, one primary action |
 | Link | distinct by colour **and** underline (SC 1.4.1); never blue-500-as-text on dark — use `#93C5FD` |
