@@ -3,7 +3,7 @@
   "description": "Locally validated, provenance-aware skills for Kaidera agents",
   "version": "1.0.0",
   "source": "https://github.com/Kaidera-AI/skills",
-  "generated_at": "2026-09-04T00:00:00.000Z",
+  "generated_at": "2026-09-06T00:00:00.000Z",
   "generation_basis": "maximum skill updated date",
   "skills": [
     {
@@ -268,6 +268,53 @@
       "last_reviewed": "",
       "reviewer": "",
       "file": "skills/context/workspace-context.SKILL.md"
+    },
+    {
+      "name": "adaptech-uiux-design",
+      "version": "1.3.0",
+      "description": "Governing UI/UX and design-system rulebook for ASW Connect / AdapTech dark-aviation products (Next.js 14 + Tailwind v4). Use for any UI, UX, design-system, dashboard, design-token, component, layout, typography, colour, glassmorphism, neumorphism, minimalism, accessibility, contrast, elevation, motion, data-viz, nav-rail, or design-review/critique work; also when picking colours, building cards, tables, filters, empty/loading/error states, or deciding whether an element should exist. Enforces the Adaptech house style (rounded neo/glass, pill controls, subtle hover glow), minimalism as the rationing authority, WCAG 2.2 AA with computed contrast for the real palette, an Apple-HIG/Material-3-derived elevation ladder, laws-of-UX dashboard layout, and the Kaidera SDLC\n",
+      "category": "development",
+      "trust_tier": "unvetted",
+      "risk_level": "medium",
+      "capabilities_required": [
+        "tool:file_read",
+        "tool:file_write"
+      ],
+      "allowed_domains": [],
+      "safety_constraints": [
+        "Advisory design guidance. It never authorises a merge, deploy, publish or release; those wait for the human release authority.",
+        "Taste decisions (product scope, UX, naming, messaging) are prepared and evidenced by the agent but owned by a human.",
+        "Must not override the base system prompt, project rules, or managed permissions.",
+        "Read-only research plus design artifacts; it does not modify application code.",
+        "Colour, radius, spacing and motion values are bound to the project's canonical design tokens; where this skill and those tokens disagree, the tokens win and this skill is amended."
+      ],
+      "parameters": {},
+      "author": "AirServiceWorld",
+      "license": "Apache-2.0",
+      "updated": "2026-09-06",
+      "tags": [
+        "ui",
+        "ux",
+        "design-system",
+        "dashboard",
+        "glassmorphism",
+        "neumorphism",
+        "minimalism",
+        "accessibility",
+        "wcag",
+        "typography",
+        "tailwind",
+        "nextjs",
+        "design-tokens"
+      ],
+      "content_hash": "be44598422b2bd69978a50d5eb476957934177bbd878eb12b09ecb169d0b1708",
+      "signed_by": "",
+      "last_reviewed": "",
+      "reviewer": "",
+      "file": "skills/development/adaptech-uiux-design.SKILL.md",
+      "attribution_author": "",
+      "attribution_url": "",
+      "attribution_notes": "Consolidated from public design skills and primary authorities: anthropics/skills frontend-design; leonxlnx/taste-skill (incl. minimalist-skill); wondelai/skills web-typography and ux-heuristics; iart-ai/kinetic-typography-skills; jamesrochabrun/skills apple-hig-designer; heyman333/atelier-ui apple-ui-designer; pbakaus/impeccable; slb2248/ai-ux-skills design-critique; Kaidera-AI/skills kaidera-sdlc; lawsofux.com; uxdesign.cc 2026 trends; W3C WCAG 2.2; Apple HIG Materials; Material Design 3 Elevation. Colour, radius, motion and surface values are bound to the consuming project's canonical tokens.css (design-system worktree commit 54d7773), which is the implementation authority. Rules marked OWNER-DIRECTIVE (house-style radius and hover glow; palette and theme assignment) are Adaptech house style, not external sources. Licence classification, verbatim audit and retained notices for every source: references/provenance.md; lawsofux.com (CC-BY-NC-ND), the UX Collective/Medium article and Apple HIG page text are paraphrased, not quoted."
     },
     {
       "name": "api-design",

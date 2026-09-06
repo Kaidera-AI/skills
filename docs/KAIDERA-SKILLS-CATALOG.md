@@ -4,7 +4,7 @@ Status: **canonical human-facing catalogue; source candidate; runtime and trust 
 
 Catalogue date: **2026-08-25**
 
-Total skills: **36**
+Total skills: **37**
 
 Source binding: consume this guide only from the same Git commit as its skill
 manifests, marketplace, and catalogue test. The enclosing commit/tree is the
@@ -25,7 +25,7 @@ a release blocker; do not silently choose one side.
 
 ## Current release boundary
 
-- All 36 skills are `unvetted`.
+- All 37 skills are `unvetted`.
 - Catalogue presence, a body hash, static validation, or a local commit is not
   approval to inject a skill into an agent.
 - Gate 1 strict manifest checks and a bounded Gate 2 pattern scan exist.
@@ -43,7 +43,7 @@ a release blocker; do not silently choose one side.
 | Category | Skills |
 |---|---:|
 | Context | 8 |
-| Development | 13 |
+| Development | 14 |
 | DevOps | 8 |
 | Documentation | 1 |
 | Research | 1 |
@@ -51,18 +51,18 @@ a release blocker; do not silently choose one side.
 
 | Declared trust tier | Skills |
 |---|---:|
-| `unvetted` | 36 |
+| `unvetted` | 37 |
 
 | Operating posture | Skills |
 |---|---:|
-| Bounded candidate | 5 |
+| Bounded candidate | 6 |
 | Reference-only | 12 |
 | Manual-only | 9 |
 | Rework before use | 10 |
 
 Legacy entries: **22**
 
-Current-source entries: **14**
+Current-source entries: **15**
 
 `Legacy` is a documentation classification, not a trust or compatibility
 guarantee.
@@ -171,6 +171,7 @@ Use the narrowest matching skill:
 | Context | `workspace-context` | `1.0.1` | Legacy workspace identity, stack, structure, terminology, and principles | Reference-only, legacy | low / none |
 | Context | `route-handoff-gate` | `1.0.0` | Verifies project, lane, layer, role, and dependency boundaries before creating | Manual-only | low / file read |
 | Context | `scope-work-gate` | `1.0.0` | Confirms that proposed work belongs to the current project, role, lane, and | Manual-only | low / file read |
+| Development | `adaptech-uiux-design` | `1.3.0` | Governing UI/UX and design-system rulebook for dark-aviation dashboards: glass/neo/minimalism, palette, elevation, accessibility | Bounded candidate | medium / file read, file write |
 | Development | `api-design` | `1.0.1` | Legacy FastAPI URL, schema, auth, error, pagination, and OpenAPI patterns | Reference-only, legacy | low / none |
 | Development | `api-test` | `1.0.1` | Legacy FastAPI contract/integration testing and async mock patterns | Reference-only, legacy | low / none |
 | Development | `assumption-validation` | `1.0.0` | Evidence-gates costly or customer-visible product assumptions | Bounded candidate | medium / file read, interpreter |
@@ -215,6 +216,7 @@ precedence issue remains a release hold.
 | `infrastructure-context` | `kaidera` | `Apache-2.0` | `github.com` | — |
 | `sprint-context` | `kaidera` | `Apache-2.0` | None | — |
 | `workspace-context` | `kaidera` | `Apache-2.0` | None | — |
+| `adaptech-uiux-design` | `AirServiceWorld` | `Apache-2.0` | None | — |
 | `api-design` | `kaidera` | `Apache-2.0` | None | — |
 | `api-test` | `kaidera` | `Apache-2.0` | None | — |
 | `assumption-validation` | `Kaidera-AI` | `Apache-2.0` | `github.com` | [David Ondrej](https://github.com/davidondrej/skills/tree/69c3ae5228eb146724fd23dac3d43eab5805bcc3/skills/ops-and-setup/risky-changes) |
@@ -390,6 +392,37 @@ compare it with the current repository and Cortex source of truth.
   repository-bound workspace context rather than a blanket name substitution.
 
 ## Development skills
+
+### `adaptech-uiux-design`
+
+<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:file_write"],"category":"development","legacy":false,"name":"adaptech-uiux-design","path":"skills/development/adaptech-uiux-design.SKILL.md","posture":"bounded-candidate","review_fingerprint":"1b1a67f7e91f2357f6cdde59c096be5d47a036e87db44ec85cfe43c8d739abfc","risk_level":"medium","trust_tier":"unvetted","version":"1.3.0"} -->
+
+- **Manifest:** [adaptech-uiux-design.SKILL.md](../skills/development/adaptech-uiux-design.SKILL.md)
+- **Function:** Governing UI/UX and design-system rulebook for ASW Connect / AdapTech dark-aviation
+  dashboards: minimalism as the rationing authority over glassmorphism and neumorphism, computed WCAG
+  2.2 AA contrast for the real brand palette, an Apple-HIG/Material-3-derived elevation ladder,
+  typography and spacing scales, state matrices, laws-of-UX dashboard layout, and a design
+  brief/critique/handoff process.
+- **Use when:** Designing or reviewing portal UI, design tokens, components, dashboard layout,
+  typography, colour, surfaces, elevation, motion, data-viz chrome, nav-rail, or accessibility; or when
+  deciding whether an element should exist at all.
+- **Do not use when:** As an authority for a merge, deploy, publish or release — those wait for the
+  human release authority. Do not use it to decide product scope, UX taste, naming or messaging: the
+  skill itself routes those to a human. Do not treat its `[OWNER-DIRECTIVE]` palette, radius and
+  hover-glow rules as portable to products outside the Adaptech/ASW house style.
+- **Inputs and output:** No parameters; file read/write for the design artifacts it produces (token
+  plans, wireframes, critique reports, verification screenshots). Guidance is reference data otherwise.
+- **Authority and effects:** Advisory design method. It authorises no gate and mutates no application
+  code; verification must be output that can fail, with rendered-viewport evidence in both themes.
+- **Kaidera action:** Bounded candidate: consolidate before runtime use against the consuming project's
+  own design system and tokens. The skill's external rules are cited to public design skills and primary
+  authorities (WCAG 2.2, Apple HIG Materials, Material Design 3, lawsofux); its palette, radius and
+  hover-glow rules are Adaptech house-style owner directives, not external sources, and are marked as
+  such in the body. **v1.1.0 binds every colour, radius, spacing and motion value to the project's
+  canonical `tokens.css` (commit `54d7773`) as the implementation authority**, replacing earlier sampled
+  and derived hexes; the focus ring is teal (never gold/silver/white, which would contradict the
+  data-viz-only accent rule), and three stale ratio assertions found in `tokens.css` comments are
+  recorded with recomputed values. Keep attribution in the manifest.
 
 ### `api-design`
 
