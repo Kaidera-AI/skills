@@ -171,7 +171,7 @@ Use the narrowest matching skill:
 | Context | `workspace-context` | `1.0.1` | Legacy workspace identity, stack, structure, terminology, and principles | Reference-only, legacy | low / none |
 | Context | `route-handoff-gate` | `1.0.0` | Verifies project, lane, layer, role, and dependency boundaries before creating | Manual-only | low / file read |
 | Context | `scope-work-gate` | `1.0.0` | Confirms that proposed work belongs to the current project, role, lane, and | Manual-only | low / file read |
-| Development | `adaptech-uiux-design` | `1.1.0` | Governing UI/UX and design-system rulebook for dark-aviation dashboards: glass/neo/minimalism, palette, elevation, accessibility | Bounded candidate | medium / file read, file write |
+| Development | `adaptech-uiux-design` | `1.2.0` | Governing UI/UX and design-system rulebook for dark-aviation dashboards: glass/neo/minimalism, palette, elevation, accessibility | Bounded candidate | medium / file read, file write |
 | Development | `api-design` | `1.0.1` | Legacy FastAPI URL, schema, auth, error, pagination, and OpenAPI patterns | Reference-only, legacy | low / none |
 | Development | `api-test` | `1.0.1` | Legacy FastAPI contract/integration testing and async mock patterns | Reference-only, legacy | low / none |
 | Development | `assumption-validation` | `1.0.0` | Evidence-gates costly or customer-visible product assumptions | Bounded candidate | medium / file read, interpreter |
@@ -395,7 +395,7 @@ compare it with the current repository and Cortex source of truth.
 
 ### `adaptech-uiux-design`
 
-<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:file_write"],"category":"development","legacy":false,"name":"adaptech-uiux-design","path":"skills/development/adaptech-uiux-design.SKILL.md","posture":"bounded-candidate","review_fingerprint":"6098b833b9bfde14c9322d491593ff6ee159c94a93a60325c9244a79330cd076","risk_level":"medium","trust_tier":"unvetted","version":"1.1.0"} -->
+<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:file_write"],"category":"development","legacy":false,"name":"adaptech-uiux-design","path":"skills/development/adaptech-uiux-design.SKILL.md","posture":"bounded-candidate","review_fingerprint":"52fc9f7e380b12cd0580981b6c93e88e10270c2ef744a37b6f19f2fa7653abab","risk_level":"medium","trust_tier":"unvetted","version":"1.2.0"} -->
 
 - **Manifest:** [adaptech-uiux-design.SKILL.md](../skills/development/adaptech-uiux-design.SKILL.md)
 - **Function:** Governing UI/UX and design-system rulebook for ASW Connect / AdapTech dark-aviation

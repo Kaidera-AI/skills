@@ -271,7 +271,7 @@
     },
     {
       "name": "adaptech-uiux-design",
-      "version": "1.1.0",
+      "version": "1.2.0",
       "description": "Governing UI/UX and design-system rulebook for ASW Connect / AdapTech dark-aviation products (Next.js 14 + Tailwind v4). Use for any UI, UX, design-system, dashboard, design-token, component, layout, typography, colour, glassmorphism, neumorphism, minimalism, accessibility, contrast, elevation, motion, data-viz, nav-rail, or design-review/critique work; also when picking colours, building cards, tables, filters, empty/loading/error states, or deciding whether an element should exist. Enforces the Adaptech house style (rounded neo/glass, pill controls, subtle hover glow), minimalism as the rationing authority, WCAG 2.2 AA with computed contrast for the real palette, an Apple-HIG/Material-3-derived elevation ladder, laws-of-UX dashboard layout, and the Kaidera SDLC\n",
       "category": "development",
       "trust_tier": "unvetted",
@@ -307,14 +307,14 @@
         "nextjs",
         "design-tokens"
       ],
-      "content_hash": "8416dbec78ab54276ce07f2f6d66180d895718ae3d6953ad028ae8315eda7dd4",
+      "content_hash": "0c2977f4731b851841ef9932d57c16a0d3fc1933193bc44550c062d421b3aa1d",
       "signed_by": "",
       "last_reviewed": "",
       "reviewer": "",
       "file": "skills/development/adaptech-uiux-design.SKILL.md",
       "attribution_author": "",
       "attribution_url": "",
-      "attribution_notes": "Consolidated from public design skills and primary authorities: anthropics/skills frontend-design; leonxlnx/taste-skill (incl. minimalist-skill); wondelai/skills web-typography and ux-heuristics; iart-ai/kinetic-typography-skills; jamesrochabrun/skills apple-hig-designer; heyman333/atelier-ui apple-ui-designer; pbakaus/impeccable; slb2248/ai-ux-skills design-critique; Kaidera-AI/skills kaidera-sdlc; lawsofux.com; uxdesign.cc 2026 trends; W3C WCAG 2.2; Apple HIG Materials; Material Design 3 Elevation. Colour, radius, motion and surface values are bound to the consuming project's canonical tokens.css (design-system worktree commit 54d7773), which is the implementation authority. Rules marked OWNER-DIRECTIVE (house-style radius and hover glow; palette and theme assignment) are Adaptech house style, not external sources."
+      "attribution_notes": "Consolidated from public design skills and primary authorities: anthropics/skills frontend-design; leonxlnx/taste-skill (incl. minimalist-skill); wondelai/skills web-typography and ux-heuristics; iart-ai/kinetic-typography-skills; jamesrochabrun/skills apple-hig-designer; heyman333/atelier-ui apple-ui-designer; pbakaus/impeccable; slb2248/ai-ux-skills design-critique; Kaidera-AI/skills kaidera-sdlc; lawsofux.com; uxdesign.cc 2026 trends; W3C WCAG 2.2; Apple HIG Materials; Material Design 3 Elevation. Colour, radius, motion and surface values are bound to the consuming project's canonical tokens.css (design-system worktree commit 54d7773), which is the implementation authority. Rules marked OWNER-DIRECTIVE (house-style radius and hover glow; palette and theme assignment) are Adaptech house style, not external sources. Licence classification, verbatim audit and retained notices for every source: references/provenance.md; lawsofux.com (CC-BY-NC-ND), the UX Collective/Medium article and Apple HIG page text are paraphrased, not quoted."
     },
     {
       "name": "api-design",

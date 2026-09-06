@@ -1,6 +1,6 @@
 ---
 name: adaptech-uiux-design
-version: 1.1.0
+version: 1.2.0
 description: |
   Governing UI/UX and design-system rulebook for ASW Connect / AdapTech dark-aviation products (Next.js 14 + Tailwind v4). Use for any UI, UX, design-system, dashboard, design-token, component, layout, typography, colour, glassmorphism, neumorphism, minimalism, accessibility, contrast, elevation, motion, data-viz, nav-rail, or design-review/critique work; also when picking colours, building cards, tables, filters, empty/loading/error states, or deciding whether an element should exist. Enforces the Adaptech house style (rounded neo/glass, pill controls, subtle hover glow), minimalism as the rationing authority, WCAG 2.2 AA with computed contrast for the real palette, an Apple-HIG/Material-3-derived elevation ladder, laws-of-UX dashboard layout, and the Kaidera SDLC
 
@@ -21,7 +21,7 @@ author: AirServiceWorld
 license: Apache-2.0
 updated: 2026-09-06
 tags: [ui, ux, design-system, dashboard, glassmorphism, neumorphism, minimalism, accessibility, wcag, typography, tailwind, nextjs, design-tokens]
-attribution_notes: "Consolidated from public design skills and primary authorities: anthropics/skills frontend-design; leonxlnx/taste-skill (incl. minimalist-skill); wondelai/skills web-typography and ux-heuristics; iart-ai/kinetic-typography-skills; jamesrochabrun/skills apple-hig-designer; heyman333/atelier-ui apple-ui-designer; pbakaus/impeccable; slb2248/ai-ux-skills design-critique; Kaidera-AI/skills kaidera-sdlc; lawsofux.com; uxdesign.cc 2026 trends; W3C WCAG 2.2; Apple HIG Materials; Material Design 3 Elevation. Colour, radius, motion and surface values are bound to the consuming project's canonical tokens.css (design-system worktree commit 54d7773), which is the implementation authority. Rules marked OWNER-DIRECTIVE (house-style radius and hover glow; palette and theme assignment) are Adaptech house style, not external sources."
+attribution_notes: "Consolidated from public design skills and primary authorities: anthropics/skills frontend-design; leonxlnx/taste-skill (incl. minimalist-skill); wondelai/skills web-typography and ux-heuristics; iart-ai/kinetic-typography-skills; jamesrochabrun/skills apple-hig-designer; heyman333/atelier-ui apple-ui-designer; pbakaus/impeccable; slb2248/ai-ux-skills design-critique; Kaidera-AI/skills kaidera-sdlc; lawsofux.com; uxdesign.cc 2026 trends; W3C WCAG 2.2; Apple HIG Materials; Material Design 3 Elevation. Colour, radius, motion and surface values are bound to the consuming project's canonical tokens.css (design-system worktree commit 54d7773), which is the implementation authority. Rules marked OWNER-DIRECTIVE (house-style radius and hover glow; palette and theme assignment) are Adaptech house style, not external sources. Licence classification, verbatim audit and retained notices for every source: references/provenance.md; lawsofux.com (CC-BY-NC-ND), the UX Collective/Medium article and Apple HIG page text are paraphrased, not quoted."
 
 safety_constraints:
   - Advisory design guidance. It never authorises a merge, deploy, publish or release; those wait for the human release authority.
@@ -36,7 +36,7 @@ safety_constraints:
 Dashboard-centric B2B aviation product UI in three surface languages — **glassmorphism**,
 **neumorphism**, **minimalism** — where **minimalism is the governing authority that rations the other
 two**. Glass and neo are never decoration budgets; every element must earn its place. Load the reference
-for the family you are working in (do not read all ten); full research with per-source citations:
+for the family you are working in (do not read all eleven); full research with per-source citations:
 `docs/design/research-digest.md`.
 
 | Reference | Load when | Reference | Load when |
@@ -46,6 +46,7 @@ for the family you are working in (do not read all ten); full research with per-
 | `glass-neo.md` | Any surface, blur, shadow, elevation, panel, card or control | `design-critique.md` | Running or receiving a critique; feedback format and severity |
 | `apple-hig.md` | Material levels, elevation ladder, reduce-transparency, tiers | `sdlc.md` | Process gates, grill, verification, review separation, done |
 | `typography.md` | Scale, weights, tracking, measure, line-height, font loading | `ux-laws.md` | Layout, hierarchy, navigation, filters, progress, timing |
+| `provenance.md` | Licence/provenance questions; per-source classification, verbatim audit, notices | | |
 
 (all under `references/`)
 
@@ -422,15 +423,13 @@ abstraction (keep the expert path). **Row actions live in the row** (Fitts: shor
 px and 44×44 on touch; `--row-h: 48px` / `--row-h-dense: 40px`.
 6.5 **Feedback under 400ms** (Doherty): optimistic filter application, skeleton within 400ms, progress
 for long queries; skeletons match the final layout's shape, no generic circular spinner where a skeleton
-fits (`--ease-linear` is for loaders only). **Design the peak and the end** (Peak-End): the export/report
-completion and the worst-case large-query wait are deliberate moments, not dead ends. **Progress is
-legitimate** (Zeigarnik): profile-completeness and saved-search meters with explicit progress; signifiers
-of more content ("+12 routes") rather than silent truncation. **One primary CTA per view**, primary
-visible and secondary hidden; **ship a temporary "classic view" toggle** for a revamp to minimize discord.
-6.6 **Semantic tokens name roles, not values** — and the canonical set already exists, so consume it
-rather than inventing names: `--surface-app/-card/-sunken/-glass*`, `--ink-primary/-body/-muted`,
-`--accent-action/-hi/-lo`, `--state-*-soft` and `--state-*-text`, `--border-hair/-control/-strong`,
-`--row-hover/-active`. Semantic HTML and a clean heading hierarchy with no skipped levels.
+fits. **Design the peak and the end** (Peak-End): export/report completion and the worst-case
+large-query wait are deliberate moments, not dead ends. **Progress is legitimate** (Zeigarnik):
+completeness and saved-search meters, "+12 routes" signifiers rather than silent truncation. **One
+primary CTA per view**; **ship a temporary "classic view" toggle** for a revamp to minimize discord.
+6.6 **Semantic tokens name roles, not values** — consume the canonical set rather than inventing names:
+`--surface-app/-card/-sunken/-glass*`, `--ink-primary/-body/-muted`, `--accent-action/-hi/-lo`,
+`--state-*-soft/-text`, `--border-hair/-control/-strong`, `--row-hover/-active`. Semantic HTML, clean heading hierarchy, no skipped levels.
 
 ## 7. Contrast & accessibility (computed, WCAG 2.2 AA floor)
 
@@ -452,16 +451,16 @@ not the base hex.**
 7.2 **Control boundaries**: subtle borders are fine only when contrasting text or an icon already
 identifies the control. **Computed caveat — `--border-control` does NOT reach 3:1**: `rgb(255 255 255/.22)`
 composites to **2.00:1** against `--surface-card #1E2E52` (2.04:1 vs app) despite tokens.css claiming
-3.03:1; light `rgb(20 33 61/.20)` is 1.50:1 on white. So where the boundary
-*is* the only identifier (empty inputs, unchecked checkboxes, slider tracks) use `--asw-teal` (6.00:1 on
-card) or `--asw-teal-ink` (3.98:1 on white), or raise the border to ≥0.35 alpha (2.99:1) / ≥0.40
-(3.47:1) — **never rely on `--border-control` or `--border-hair` (1.42:1) alone, and never on the bare gradient.** **Never encode state by hue alone**: colour + glyph
-(↑ ↓ ●) + text label or `aria-label`. On `#000000` scrims use `#FF8291`, never `#E31937`/`#DC2626`
-(red-on-black protanopia advisory). **7:1 is an internal target for critical numeric data only** (primary
-KPIs, fare/seat figures, safety flags); AA 4.5:1 is the compliance floor, and 7:1 is reachable (white
-15.97, teal 7.16 dark; `#14213D` 15.97, `#313C54` 11.02 light). **The house-style glow is compliant by
-construction**: `--asw-teal` at ~0.30 alpha peaks at **1.83:1**, `--accent-action-hi` at **1.99:1** —
-below the 3:1 non-text threshold, so it adds no outline and never reduces adjacent-colour contrast.
+3.03:1; light `rgb(20 33 61/.20)` is 1.50:1 on white. Where the boundary *is* the only identifier
+(empty inputs, unchecked checkboxes, slider tracks) use `--asw-teal` (6.00:1 on card) or
+`--asw-teal-ink` (3.98:1 on white), or raise the border to ≥0.35 alpha (2.99:1) / ≥0.40 (3.47:1) —
+**never rely on `--border-control` or `--border-hair` (1.42:1) alone, and never on the bare gradient.**
+**Never encode state by hue alone**: colour + glyph (↑ ↓ ●) + text label or `aria-label`. On `#000000`
+scrims use `#FF8291`, never `#E31937`/`#DC2626` (red-on-black protanopia advisory). **7:1 is an internal
+target for critical numeric data only** (primary KPIs, fare/seat figures, safety flags); AA 4.5:1 is the
+floor and 7:1 is reachable (white 15.97, teal 7.16 dark; `#14213D` 15.97, `#313C54` 11.02 light).
+**The house-style glow is compliant by construction**: `--asw-teal` at ~0.30 alpha peaks at **1.83:1**,
+`--accent-action-hi` at **1.99:1** — below the 3:1 non-text threshold, adding no outline.
 
 **Reduced-preference fallbacks (mandatory; tokens.css §9a-9c already implements them).**
 `prefers-reduced-transparency: reduce` → `--surface-glass*` become solid (`--navy-700` dark,
@@ -484,26 +483,22 @@ specific ("Password must be 8+ characters", never "Invalid input"), never blamin
 input**; inline for forms, toasts only for transient events.
 8.3 **Hover `[OWNER-DIRECTIVE §H.3]`:** canonical-teal outer glow + 1-2px lift over `--dur-2` 160ms —
 additive to `--elev-*`, never a replacement, one hover signal per element, interactive surfaces only,
-**never the focus indicator (§7.5)**. Full numbers, CSS and fallbacks: §H.3. **Selected** =
-`--accent-tertiary` teal + `--row-active`. **Pressed (neo level 3):** `--neo-inset` / `--ly-well*`
-inverted + `scale(0.98)`, accent fill steps `--accent-action` → `--accent-action-lo #1D5A46`; **no
-bounce**.
+**never the focus indicator (§7.5)**. **Selected** = `--accent-tertiary` teal + `--row-active`.
+**Pressed (neo level 3):** `--neo-inset` / `--ly-well*` inverted + `scale(0.98)`, accent fill steps
+`--accent-action` → `--accent-action-lo #1D5A46`; **no bounce**.
 8.4 **Disabled:** exempt from contrast requirements, but still legible and still labelled; never disable
 a nav destination — hide or remove the path instead. **Undo beats "Are you sure?"** for reversible
 actions; confirmation only for irreversible/destructive ones.
-8.5 **One action keeps one name through the whole flow**: the button that says "Publish" produces a toast
-that says "Published"; a CTA says exactly what happens ("Save changes", not "Submit"); no two CTAs with
-the same intent in one view. **Name things by user understanding, not system architecture**
-("notifications", not "webhook config"); one term per concept across the whole product.
+8.5 **One action keeps one name through the whole flow**: "Publish" produces a toast saying "Published";
+a CTA says exactly what happens ("Save changes", not "Submit"); no two CTAs with the same intent in one
+view. **Name things by user understanding** ("notifications", not "webhook config"); one term per concept.
 
 ## 9. Pre-flight check (mechanical; failing any box means not done)
 
 - [ ] Design Read + dial values declared (VARIANCE 3 / MOTION 2 / DENSITY 6) and reasoned
 - [ ] **Theme canvases: dark `--surface-app #14213D` (`--canvas-grad-dark #0F1A33→#14213D`); light `--surface-app #FFFFFF` over `--canvas-grad-light #A5B2BB→#626F77`, raised card `#FFFFFF`, recessed well `--surface-sunken #E6EBEF`, no text on the bare gradient**
-- [ ] **Accent hues (`--asw-gold`/`--asw-gold-prem`/`--asw-red`/`--asw-crimson`/`--asw-blue`/`--asw-success`/`--viz-*`) only in data-viz — never on buttons, toggles, chips, inputs or nav states, and never as the focus ring**
-- [ ] **Chrome = `--asw-teal #58C098` (dark) / `--asw-teal-text #256F57` + `--asw-teal-ink #2E8F6F` (light) + slate/navy neutrals; teal never on the bare gradient; text on teal fills is `--ink-on-accent #0F1A33`, never white**
-- [ ] **House style: canonical radius scale — `--radius-pill` controls (`--control-h` 40px / `-sm` 32px), `--radius-4` 20px cards, `--radius-5` 28px overlays/modals, `--radius-3` 16px inputs; one scale everywhere**
-- [ ] **Hover glow: canonical teal tint (`--asw-teal`/`--accent-action-hi`, or the module's own `--viz-*`), 14-20px, ~0.30 alpha (≤0.36), 1-2px lift, `--dur-2` 160ms, not white/silver, one signal per element, removed under reduced-motion and forced-colors**
+- [ ] **Accent hues (`--asw-gold`/`-prem`/`--asw-red`/`--asw-crimson`/`--asw-blue`/`--asw-success`/`--viz-*`) only in data-viz — never on buttons, toggles, chips, inputs, nav states or the focus ring; chrome = `--asw-teal #58C098` (dark) / `--asw-teal-text #256F57` + `--asw-teal-ink #2E8F6F` (light) + slate/navy neutrals, never on the bare gradient; text on teal fills is `--ink-on-accent #0F1A33`, never white**
+- [ ] **House style: canonical radius scale (`--radius-pill` controls at `--control-h` 40px / `-sm` 32px, `--radius-4` 20px cards, `--radius-5` 28px overlays, `--radius-3` 16px inputs) everywhere; hover glow = canonical teal tint (`--asw-teal`/`--accent-action-hi` or the module's `--viz-*`), 14-20px, ~0.30 alpha (≤0.36), 1-2px lift, `--dur-2` 160ms, not white/silver, one signal per element, removed under reduced-motion and forced-colors**
 - [ ] Minimalism removal criteria applied; ornament ceiling respected (≤1 glass family, ≤1 neo treatment, ≤1 chrome accent, ≤1 bold element = the data, 1 sanctioned canvas gradient and 0 component gradients, 0 animated blur)
 - [ ] One surface family per layer; glass only on the functional layer; neo on pressed controls plus the light-theme main-card/module-well pair (§P.4); elevation assigned from `--elev-1…6`, never skipped, exactly one level-5 surface; glass fill within the canonical ladder (dark navy-tint `.55`→`.72` with `--surface-glass-max .12` ceiling for text-bearing panels; light `.60`→`.80`); neo edges within `--ly-*` caps; no `#000000` canvas
 - [ ] Every text token ≥4.5:1 against the **composited** surface; accent hues not used as chrome text; banned greys absent (`#8B8B9E`, `#6B7280`, `#7E7E93`, `#84929C`, `#77848C`, `#626F77` as text)
@@ -513,8 +508,7 @@ the same intent in one view. **Name things by user understanding, not system arc
 - [ ] Type: canonical `--text-*` tokens only, ≥11px (`--text-overline` floor), five weights, no skipped heading levels, measure capped on prose, `--nums-tabular` on data, payload <200KB, no FOIT/CLS
 - [ ] Nav rail 3-5 labelled destinations, teal active state, "you are here" indicator, nothing hidden or disabled; top bar ≤3 right-side actions, single line, ≤80px; one primary CTA per view, no duplicate CTA intent, labels don't wrap at desktop
 - [ ] Canonical `--space-*` grid not flex-math; bento cell count = content count; explicit <768px collapse; `min-h-[100dvh]`; feedback <400ms; animation only on `transform`/`opacity`; no `window.addEventListener('scroll')`; grain only on `fixed pointer-events-none`
-- [ ] Named tells absent: SaaS-card kit, cards nested in cards, tracked ALL-CAPS eyebrow on every heading, `A · B · C` middle-dot meta, tinted near-black for black, `→` on button text, purple gradients, gray text on coloured backgrounds (Inter itself is the deliberate canonical `--font-sans`, not a tell)
-- [ ] Copy audited: no clichés, no emoji, no placeholder names, no fake-precise numbers, no grammatically broken strings
+- [ ] Named tells absent (SaaS-card kit, cards in cards, tracked ALL-CAPS eyebrow on every heading, `A · B · C` meta, tinted near-black, `→` on button text, purple gradients, gray text on coloured backgrounds — Inter itself is the deliberate canonical `--font-sans`, not a tell); copy audited: no clichés, emoji, placeholder names, fake-precise numbers or broken strings
 - [ ] Rendered viewports inspected in **both themes** (desktop/laptop/tablet/mobile/200% zoom/reduced-motion/reduced-transparency); screenshots committed as evidence, not described; verification output pasted; author did not approve own work; nits ≤5; dated rule recorded for any repeated defect
 
 ## 10. Do / Don't
@@ -535,6 +529,13 @@ the same intent in one view. **Name things by user understanding, not system arc
 | Canonical semantic role tokens from tokens.css; screenshot the rendered surface in both themes | Literal colour tokens (`blue-500`), invented token names, re-derived hexes; trusting a clean detector run as proof |
 | Realistic aviation content; prepare the taste decision with evidence | John Doe, Acme, `99.99%`; deciding product scope, UX, naming or messaging |
 | Record a dated rule after a repeated defect | Repeat the defect and write a longer prompt |
+
+## 11. Licence & provenance
+
+Apache-2.0 per the repo's per-skill convention; the root is CC-BY-4.0 and the precedence hold is
+unresolved (CONTRIBUTING.md) — treat CC-BY-4.0 attribution as binding until ratified. Classification of
+all 14 sources, the verbatim audit and the retained notices: `references/provenance.md` — keep its
+notices with any copy. lawsofux.com (CC-BY-NC-ND), the Medium article and Apple HIG text are paraphrase-only; MIT/Apache/CC-BY sources may be quoted with their notices.
 
 # Bundled canonical files
 
@@ -967,7 +968,7 @@ ships as a **pair** (soft fill + legible foreground), mirroring S11's pastel+tex
 
 ## references/glass-neo.md
 
-````markdown
+```markdown
 # Glass + Neumorphism (both themes)
 
 Sources: S1 taste-skill §5 + Appendix C (Liquid-Glass web approximation) · S8 2026 trends (return of
@@ -1075,7 +1076,7 @@ which still apply except where overridden above.
 
 | Layer | Family | Why |
 |---|---|---|
-| Functional / navigation (nav rail, sticky topbar, overlays) | **Glass** | Apple HIG *Materials*: "Liquid Glass forms a distinct functional layer for controls and navigation elements — like tab bars and sidebars — that floats above the content layer"; **"Don't use Liquid Glass in the content layer"** |
+| Functional / navigation (nav rail, sticky topbar, overlays) | **Glass** | Apple HIG *Materials* positions Liquid Glass as the layer above content, for controls and navigation — naming tab bars and sidebars; **"Don't use Liquid Glass in the content layer"** |
 | Tactile controls the user presses (buttons, toggles, chips, segmented) | **Neo** | S10: motion and material "explain hierarchy, not decorate"; S11 permits depth only where it is a real affordance |
 | Content and data (sections, tables, metric cards, list cards) | **Flat solid** | S9 Deference: "UI never competes with content"; S11 §1 rejects 3D glassmorphism beyond subtle navbar blurs |
 
@@ -1207,7 +1208,7 @@ the rendered experience across relevant viewports" (S12). For glass and neo spec
 the surface over **real** scrolling content (not an empty canvas), in motion, at 200% zoom, with
 reduced transparency on, with increased contrast on, and in both colour modes. Screenshot and commit
 the evidence (S14: for UI, close the loop with a screenshot or browser check, two or three rounds).
-````
+```
 
 ## references/apple-hig.md
 
@@ -1228,37 +1229,35 @@ Material Design 3 *Elevation* (m3.material.io/styles/elevation) · S9 jamesrocha
 - **Depth** — "distinct visual layers and realistic motion impart vitality and facilitate
   understanding"; blur/material is used *for* hierarchy.
 
-## Material levels (HIG *Materials*, verbatim)
+## Material levels (HIG *Materials*, paraphrased; Apple page text is all-rights-reserved, so only short quotes are kept)
 
 - iOS/iPadOS provide **four standard materials — ultra-thin, thin, regular (default), and thick —
   plus Liquid Glass.**
-- "Materials help visually separate foreground elements, such as text and controls, from background
-  elements… By allowing color to pass through from background to foreground, a material establishes
-  visual hierarchy to help people more easily retain a sense of place."
-- Liquid Glass "forms a distinct functional layer for controls and navigation elements — like tab
-  bars and sidebars — that floats above the content layer, establishing a clear visual hierarchy
-  between functional elements and content."
-- **"Don't use Liquid Glass in the content layer."** Using it there "can result in unnecessary
-  complexity and a confusing visual hierarchy." Use standard materials for content-layer elements
-  such as app backgrounds. Exception: transient interactive controls (sliders, toggles) may take a
-  Liquid Glass appearance when activated, to emphasize interactivity.
-- **"Use Liquid Glass effects sparingly."** "Limit these effects to the most important functional
-  elements in your app" — overuse on custom controls distracts from content.
-- Two variants: **regular** and **clear**. The *regular* variant "blurs and adjusts the luminosity of
-  background content to maintain legibility of text and other foreground elements"; scroll edge
-  effects further blur and reduce background opacity. Most system components use it. Use regular
-  "when background content might create legibility issues, or when components have a significant
-  amount of text, such as alerts, sidebars, or popovers." **Only use clear for components that
-  appear over visually rich backgrounds**, and "determine whether to add a dimming layer behind
-  components with clear Liquid Glass" for contrast.
-- **"Choose materials and effects based on semantic meaning and recommended usage"** — avoid
-  selecting a material by the apparent colour it imparts, because system settings change its
-  appearance.
-- **"Help ensure legibility by using vibrant colors on top of materials."** Non-vibrant gray labels
-  on material lose contrast (HIG shows a `systemGray3` label on material as the failing example).
-- **"Thicker materials, which are more opaque, can provide better contrast for text and other
-  elements with fine features. Thinner materials, which are more translucent, can help people retain
-  their context by providing a visible reminder of the content that's in the background."**
+- Materials exist to separate foreground (text, controls) from background: colour passes through
+  from background to foreground, and that translucency is what establishes visual hierarchy and
+  keeps people oriented while content moves behind a surface.
+- Liquid Glass is positioned as **the functional layer**: it forms a distinct layer for controls
+  and navigation — the HIG names tab bars and sidebars — floating above the content layer, so
+  functional elements and content stay visually separate.
+- **"Don't use Liquid Glass in the content layer."** There it adds complexity and confuses the
+  hierarchy; content-layer elements such as app backgrounds take standard materials. Exception:
+  transient interactive controls (sliders, toggles) may take a Liquid Glass appearance while
+  activated, to emphasise interactivity.
+- **"Use Liquid Glass effects sparingly."** Reserve them for the most important functional
+  elements; overuse on custom controls pulls attention away from content.
+- Two variants: **regular** and **clear**. *Regular* blurs the background and adjusts its luminosity
+  to keep foreground text legible; scroll-edge effects add further blur and reduce background
+  opacity. Most system components use regular, and the HIG directs it wherever background content
+  could hurt legibility or the component carries a lot of text (alerts, sidebars, popovers).
+  **Clear is only for components over visually rich backgrounds**, and the HIG asks designers to
+  decide whether a dimming layer is needed behind clear Liquid Glass to protect contrast.
+- **Choose materials by semantic meaning and recommended usage, not by the colour they happen to
+  impart** — system settings change a material's appearance, so colour-based selection is unstable.
+- **Legibility on materials comes from vibrant foreground colours.** The HIG's failing example is a
+  non-vibrant `systemGray3` label on a material: gray labels lose contrast there.
+- Opacity trades against context: thicker (more opaque) materials give text and fine features
+  better contrast; thinner (more translucent) ones keep a visible reminder of the background
+  content, preserving context.
 
 ## Vibrancy text tiers (HIG *Materials*, visionOS section)
 
@@ -1272,11 +1271,11 @@ legibility." S9's semantic colour ladder extends this to four levels per family:
 
 ## Reduce-transparency / increase-contrast behaviour (HIG *Materials*, primary)
 
-Liquid Glass variants "can differ in response to certain system settings, like if people choose a
-preferred look for Liquid Glass in their device's settings, or turn on **accessibility settings that
-reduce transparency or increase contrast** in the interface." S9 operationalises this: test with
-**Increase Contrast** and **Reduce Transparency**; map `colorSchemeContrast == .increased` to
-stronger text colours; respect `accessibilityReduceMotion` by collapsing animation to `.none`.
+Liquid Glass variants are not fixed: their appearance can change with system settings — a
+user-chosen Liquid Glass look, or the accessibility settings that **reduce transparency** or
+**increase contrast**. S9 operationalises this: test with **Increase Contrast** and **Reduce
+Transparency**; map `colorSchemeContrast == .increased` to stronger text colours; respect
+`accessibilityReduceMotion` by collapsing animation to `.none`.
 
 **Web translation (adopted):**
 - `@media (prefers-reduced-transparency: reduce)` → glass becomes solid `rgba(22,33,62,0.96)` with
@@ -1542,101 +1541,95 @@ structural contrast · lorem ipsum testing → test with real representative con
 Sources: S7 lawsofux.com (primary listing pages for each law) · S6 wondel `ux-heuristics` (Krug +
 Nielsen) · S1 taste-skill layout discipline. Digest: `docs/design/research-digest.md`.
 
-## The laws, with their verbatim statement and the ASW dashboard decision each drives
+## The laws, paraphrased (lawsofux.com is CC-BY-NC-ND: its phrasing is not redistributable in derived works), with the ASW dashboard decision each drives
 
-**Hick's Law** — "The time it takes to make a decision increases with the number and complexity of
-choices." Takeaways: minimize choices when response times are critical; break complex tasks into
-smaller steps; **avoid overwhelming users by highlighting recommended options**; progressive
-onboarding; **"be careful not to simplify to the point of abstraction."**
+**Hick's Law** — decision time rises with both the number and the complexity of the choices on
+offer (lawsofux.com). Its guidance: cut choices where response time matters, split complex tasks
+into steps, surface a recommended option instead of a flat list, onboard progressively — but stop
+short of simplifying until the expert's path disappears.
 → *ASW*: filter bar shows sensible defaults plus **one recommended preset**, advanced filters behind
 progressive disclosure; **≤7 visible choices per decision point**; the recommended option is
 visually highlighted; the expert path (raw filter builder, saved searches, bulk actions) is never
 removed — simplifying it away would be abstraction, not clarity.
 
-**Fitts's Law** — "The time to acquire a target is a function of the distance to and size of the
-target." Takeaways: touch targets large enough to select accurately, amply spaced, placed where they
-are easily acquired. Origin: fast movements and small targets produce greater error rates
-(speed-accuracy trade-off); "the distance between a user's task/attention area and the task-related
-button should be kept as short as possible."
+**Fitts's Law** — the time to reach a target grows with distance and shrinks with target size
+(lawsofux.com). Its guidance: make targets big enough to hit confidently, space them generously,
+and place them where the hand or pointer already is; keep the gap between the user's attention and
+the control that serves it as small as possible.
 → *ASW*: **row actions live inside the row**, not in a distant toolbar; primary action adjacent to
 the data it acts on; targets ≥24×24 CSS px (WCAG 2.2 SC 2.5.8) and 44×44 pt on touch (Apple);
 ample spacing between adjacent targets so 24px circles don't intersect; sticky action bar within
 pointer/thumb reach on long tables.
 
-**Jakob's Law** — "Users spend most of their time on other sites… users prefer your site to work the
-same way as all the other sites they already know." Takeaways: users transfer expectations from
-familiar products; leveraging existing mental models lets them focus on tasks rather than learning
-new models; **"when making changes, minimize discord by empowering users to continue using a
-familiar version for a limited time"** (its YouTube-2017 example: preview, feedback, revert).
+**Jakob's Law** — people arrive carrying the habits of every other product they use, and they
+prefer yours to behave the way those already do (lawsofux.com). Its guidance: reuse familiar
+mental models so effort goes to the task, not to learning; and when you must change established
+behaviour, let users keep the familiar version for a limited transition window.
 → *ASW*: conventional placement is not creative budget — **nav left, search top, filters above the
 table, pagination bottom-right**. For the revamp specifically: **ship a temporary "classic view"
 toggle** so analysts keep working while they adapt. Novel navigation costs users relearning and buys
 nothing.
 
-**Miller's Law** — "The average person can only keep 7 (plus or minus 2) items in their working
-memory." Takeaways: **"don't use the 'magical number seven' to justify unnecessary design
-limitations"**; organize content into smaller chunks; short-term capacity varies per individual by
-prior knowledge and situational context. (Its own further reading cites Cowan, *The Magical Mystery
-Four*, whose modern estimate is ~4 chunks for novel items — see REVALIDATION R14.)
+**Miller's Law** — working memory holds roughly seven items, plus or minus two (lawsofux.com).
+Its guidance: chunk content into small groups, and treat the number as a warning about overload —
+not as permission to cap a feature arbitrarily — because real capacity varies with prior knowledge
+and situation. (Its own further reading cites Cowan, *The Magical Mystery Four*, whose modern
+estimate is ~4 chunks for novel items — see REVALIDATION R14.)
 → *ASW*: chunk table columns into headed groups; **4-6 KPI tiles per row for novel comparisons,
 7±2 only for familiar/chunked sets** (nav destinations, column groups); long forms chunked into
 labeled fieldsets; never invoke 7±2 to justify leaving 9 filters visible.
 
-**Law of Prägnanz (Gestalt)** — "People will perceive and interpret ambiguous or complex images as
-the simplest form possible, because it is the interpretation that requires the least cognitive
-effort." Takeaways: the eye likes simplicity and order because it prevents overwhelm; people
-visually process and remember simple figures better than complex ones; complex shapes get
-transformed into a single unified shape.
+**Law of Prägnanz (Gestalt)** — ambiguous or complex visuals are read as the simplest available
+interpretation, because that reading costs the least effort (lawsofux.com). Its guidance: the eye
+prefers order because order prevents overwhelm; simple figures are processed and remembered better;
+complex shapes get collapsed into one unified shape whether you intended it or not.
 → *ASW*: simplest form wins — no ambiguous half-bordered groupings, no overlapping card/region
 boundaries, no chart chrome the eye must resolve before it can read the data.
 
-**Law of Common Region** — "Elements tend to be perceived into groups if they are sharing an area
-with a clearly defined boundary." Takeaways: common region creates clear structure and quickly
-conveys relationships; **a border around an element or group is an easy way to create it**; so is
-**defining a background** behind a group.
+**Law of Common Region** — elements enclosed in one shared area with a clear boundary are read as a
+group (lawsofux.com). Its guidance: a region is the cheapest structure signal — a border around the
+group or a shared background behind it both create it.
 → *ASW*: **a card must mean a region.** A card around one ungrouped element, or a card inside a
 card, is noise. Boundary can be a 1px border *or* a level-1/2 background fill — not both plus glass.
 
-**Law of Proximity** — "Objects that are near, or proximate to each other, tend to be grouped
-together." Takeaways: proximity establishes relationships; close elements are perceived to share
-functionality or traits; it helps users organize information faster.
+**Law of Proximity** — elements placed near each other are read as related (lawsofux.com). Its
+guidance: distance is a relationship statement; close elements are assumed to share function, and
+grouping by spacing lets people organise information faster.
 → *ASW*: related fields closer than unrelated ones; a metric's label, value and delta form one
 tight cluster; whitespace between data groups does the grouping work that borders would otherwise
 do (S4's dashboard guidance: "whitespace between data groups").
 
-**Peak-End Rule** — "People judge an experience largely based on how they felt at its peak and at
-its end, rather than the total sum or average of every moment." Takeaways: pay close attention to
-the most intense points and the final moments; identify when the product is most helpful or valuable
-and design to delight; **people recall negative experiences more vividly than positive ones**.
+**Peak-End Rule** — an experience is judged by its most intense moment and by how it ended, not by
+the average of it (lawsofux.com). Its guidance: design the peaks and the final moments on purpose;
+identify where the product is most valuable; and remember that bad moments are recalled more vividly
+than good ones.
 → *ASW*: two moments get deliberate design — the **end** (export/report completion, save
 confirmation: clear completion state, no dead end, the action keeps its name through the flow) and
 the **peak** (the worst-case large route-data query: progress, not a spinner; a tolerable wait with
 visible movement). A negative peak here is a silent multi-second freeze.
 
-**Von Restorff Effect (Isolation Effect)** — "when multiple similar objects are present, the one
-that differs from the rest is most likely to be remembered." Takeaways: make important information
-or key actions visually distinctive; **"use restraint when placing emphasis on visual elements to
-avoid them competing with one another and to ensure salient items don't get mistakenly identified as
-ads"**; don't exclude colour-vision-deficient or low-vision users by relying exclusively on colour;
-consider motion-sensitive users when using motion to communicate contrast.
+**Von Restorff Effect (Isolation Effect)** — among similar items, the one that differs is the one
+that gets remembered (lawsofux.com). Its guidance: make the important item distinctive; ration
+emphasis, because competing highlights cancel each other and salient blocks start reading as
+advertising; and never carry the distinction by colour alone (colour-vision and low-vision users)
+or by motion alone (motion-sensitive users).
 → *ASW*: **exactly one isolated element per view** (the primary metric or the primary CTA). With two
 warm accents in the brand this law is decisive: Gold (8.42:1) and Amber (8.44:1) are near-identical
 in role — **one accent per view earns the effect, two cancel it.** Emphasis always pairs colour with
 a glyph or shape, and never uses motion as the sole differentiator.
 
-**Zeigarnik Effect** — "People remember uncompleted or interrupted tasks better than completed
-tasks." Takeaways: invite content discovery with clear signifiers of additional content; artificial
-progress toward a goal increases motivation to complete; **provide a clear indication of progress**.
+**Zeigarnik Effect** — unfinished or interrupted tasks stay in memory better than completed ones
+(lawsofux.com). Its guidance: signpost that more content exists, show real progress toward a goal,
+and always indicate how far along the user is.
 → *ASW*: profile-completeness and onboarding meters, saved-search setup progress, and
 "+12 more routes" signifiers instead of silent truncation. These are legitimate information design,
 not gamification — the incompleteness is real.
 
-**Doherty Threshold** — "Productivity soars when a computer and its users interact at a pace
-(<400ms) that ensures that neither has to wait on the other." Takeaways: **provide system feedback
-within 400ms**; use perceived performance; animation engages people while work happens in the
-background; **progress bars make waits tolerable regardless of their accuracy**; a purposeful delay
-can increase perceived value and trust. Origin: Doherty & Thadani, IBM Systems Journal 1982,
-replacing the prior 2-second standard.
+**Doherty Threshold** — productivity holds while system and user keep pace with each other, which
+the original research puts under about 400ms of response (lawsofux.com; Doherty & Thadani, IBM
+Systems Journal 1982, replacing the earlier 2-second standard). Its guidance: feedback inside that
+budget, perceived-performance techniques while work continues, progress indication that makes waits
+tolerable even when imprecise, and — used honestly — a deliberate pause can signal value.
 → *ASW*: optimistic UI for filters and toggles; **skeleton within 400ms**; progress indication for
 long route-data queries; never a blank region while loading. The 400ms budget is the design
 constraint, not an aspiration.
@@ -1729,53 +1722,48 @@ transferable residue is *calm confidence*; two are warnings.
 
 ## Trend 5 — Return of glassmorphism (directly load-bearing)
 
-"Glassmorphism is back… It feels like it's returned from college, this time a little more mature." It
-was "once dismissed as a flashy visual trend, but now glass has re-entered the design conversation
-with a clearer purpose, borrowing lessons from skeuomorphism's obsession with realism and
-**neumorphism's subtle depth experiments**." That sentence is the warrant for ASW's three-language
+The author's position: glassmorphism has returned, but as a matured functional layer rather than the
+flashy visual trend it was dismissed as — one that borrows skeuomorphism's interest in realism and
+neumorphism's experiments with subtle depth. That framing is the warrant for ASW's three-language
 combination: glass and neo are presented as *lineages of the same 2026 layer*, not competing styles.
 
-"The 2026 version feels less like an aesthetic trend and more like a **functional design layer** you
-can finally use without fighting your tools." Its mechanics: "the new version of glassmorphism is
-mostly about **controlling opacity, background blur radius, and elevation**. You're deciding how much
-of the environment bleeds through and how quickly it diffuses." → These three dials are exactly the
-parameters tabulated in `glass-neo.md`.
+His mechanics for the 2026 version: it behaves as a functional design layer whose parameters are
+finally controllable in tooling — specifically **opacity, background blur radius, and elevation**,
+i.e. how much of the environment bleeds through and how fast it diffuses. → These three dials are
+exactly the parameters tabulated in `glass-neo.md`.
 
-Apple is cited as leading (Liquid Glass), turning glassmorphism into "a dynamic and visually appealing
-system rather than a static style", enabled by "modern blur APIs, standardized system styles, and
-better cross-device performance."
+Apple is cited as leading the shift (Liquid Glass), turning glassmorphism into a dynamic system
+rather than a static style, made practical by modern blur APIs, standardised system styles and
+better cross-device performance.
 
-**Accessibility issues, named explicitly by the author** (he agrees with the critics): "The most common
-issues are **inconsistent readability, where text becomes too light, too dark, or completely washed
-out. And if your background image is busy it will only make it worse.**" His recommendations:
+**Accessibility issues, named explicitly by the author** (he sides with the critics): readability
+becomes inconsistent — text ends up too light, too dark, or washed out entirely — and a busy
+background image makes every case worse. His three recommendations:
 
-1. "Maintain high contrast for text and essential features to ensure it maintains a WCAG-safe contrast
-   ratio."
-2. "**Implement an opacity slider or transparency options in your product** so it's easy to reduce or
-   disable glass effects based on user preferences."
-3. "**Test against real backgrounds, in motion, across light and dark modes.**"
+1. Keep contrast high for text and essential features so the result stays inside WCAG-safe ratios.
+2. Ship an in-product opacity/transparency control so users can reduce or disable glass effects
+   themselves.
+3. Test the surfaces against real backgrounds, in motion, in both light and dark modes.
 
-→ Adopted verbatim: the computed contrast tables (not vibes) decide every glass token; the in-product
+→ Adopted: the computed contrast tables (not vibes) decide every glass token; the in-product
 **"Reduce glass" setting is mandatory** because `prefers-reduced-transparency` is experimental with
 uneven support; glass/neo verification happens over real scrolling route-map and table content, in
 motion, at 200% zoom, in both themes.
 
 ## Trend 3 — Machine Experience (MX) design for generative AI
 
-"Generative systems cannot rely on signals alone. They also need to understand our components,
-patterns, and design systems in deeper, more **semantic** ways." Citing Figma's guidance that AI needs
-component *meaning*, not just visuals, he prescribes three practices: **component documentation**
-(descriptions and metadata explaining *why* a component exists and *when* to use it, not just how it
-looks); **semantic tokens** (a **role** like `button-primary-background` rather than a literal value
-like `blue-500`, "allowing the machine to understand the intent of the color"); **relationship
-mapping** (explicitly link a form label to its input field so an agent interprets the requested data
-correctly).
+His argument: generative systems cannot run on visual signals alone; they need component
+*meaning*. Citing Figma's guidance, he prescribes three practices: **component documentation**
+(descriptions and metadata explaining *why* a component exists and *when* to use it, not just how
+it looks); **semantic tokens** (a **role** like `button-primary-background` rather than a literal
+value like `blue-500`, so the machine reads intent); **relationship mapping** (explicitly link a
+form label to its input so an agent interprets the requested data correctly).
 
 Why it matters commercially: customers ask ChatGPT/Gemini/Perplexity to "find the best" or "compare
-options", and those agents interpret the site structurally. Citing Mike Simpson's research, AI systems
-"rely on **semantic HTML, clear heading hierarchy, predictable patterns, and consistent labeling** to
-infer relevance and meaning. When those signals are messy, LLMs misread your content or leave it out
-entirely." "MX isn't some niche technical layer, it's the new cost of visibility."
+options", and those agents interpret the site structurally. Citing Mike Simpson's research, he
+notes AI systems depend on **semantic HTML, clear heading hierarchy, predictable patterns and
+consistent labeling** to infer relevance — messy signals get misread or dropped. His conclusion:
+machine experience is not a niche technical layer but the new cost of being visible.
 
 → *ASW*: semantic role tokens throughout (three independent sources converge — S8, S9's Apple semantic
 ladders, S12's `DESIGN.md`); **no skipped heading levels** (also an Impeccable detector rule); real
@@ -1784,21 +1772,20 @@ naming so the portal is machine-readable as well as analyst-readable.
 
 ## Trend 2 — Designing for intent
 
-"Creating experiences that recognize, respect, and respond to what a user is actually trying to
-accomplish. And not what your product wants them to do, not what features exist, and not what the
-system assumes." A shift "from designing interfaces to designing **outcomes**": instead of designing
-every step of a funnel, design "the conditions a system uses to decide what to show, what to
-emphasize, and how to adapt."
+His definition: design that recognises, respects and responds to what the user is actually trying
+to accomplish — not what the product wants them to do, not what features exist, not what the system
+assumes. The shift is from designing interfaces to designing **outcomes**: instead of specifying
+every funnel step, design the conditions the system uses to decide what to show, what to emphasise
+and how to adapt.
 
 Four intent types: **informational** (seeking knowledge), **navigational** (seeking a destination),
 **commercial** (consideration phase), **transactional** (completing a transaction). Intent surfaces
 explicitly (a question, prompt or choice) or implicitly through behavior — the Google PAIR guidebook
 distinction.
 
-Success measurement shifts: "Designers should no longer judge success by how a screen looks compared to
-the old one, but by **how users behave**. If they move forward, stay engaged, and accomplish what they
-came for, the system made the right call." Optimization targets become "features → flows of
-understanding, layout → logic, aesthetics → intent."
+His measurement shift: judge success by how users behave — do they move forward, stay engaged and
+accomplish what they came for — rather than by how a screen compares to the old one. Optimization
+targets become features → flows of understanding, layout → logic, aesthetics → intent.
 
 → *ASW*: the analyst's intent is **informational → transactional** — "which airport pairs are
 under-served" then "save this filter set / export this analysis". Removal criterion 2 in
@@ -1807,13 +1794,12 @@ alters an action is decoration.
 
 ## Trend 6 — AI-generated design systems (a warning, adopted as discipline)
 
-"Design Systems aren't just libraries of components. **They're a record of decisions.** They encode
-taste, tradeoffs, and hard-won context about users, technology, and the business. When AI generates a
-system instantly, it skips the conversations that usually make a system actually useful. **You get
-consistency without conviction.**" Teams treating generated systems as shortcuts produce work that
-"looks polished, but it's brittle. The system works right up until the moment something unusual
-happens, which is most real products." Verdict: "powerful starting points… Used poorly, they replace
-thinking with output."
+His warning: design systems are not component libraries, they are **records of decisions** —
+encoded taste, tradeoffs and hard-won context about users, technology and the business. A system
+generated instantly skips the conversations that make a system useful, yielding consistency without
+conviction; teams that treat generation as a shortcut get work that looks polished but is brittle,
+working right up until something unusual happens, which is most real products. His verdict:
+generated systems are powerful starting points, but used poorly they replace thinking with output.
 
 → *ASW*: this skill and the digest are the **record of decisions with rationale and citations**,
 including the contested ones (R13, R14, R16, R17, R18) with the adopted value stated. A token without
@@ -1823,15 +1809,14 @@ files to inventory reusable elements, report usage counts and flag mismatches �
 
 ## Trend 9 — Design maturity takes a step backwards (the governing warning)
 
-"AI introduces a level of speed and ambiguity that most organizations are structurally unprepared to
-absorb… output dramatically increase[s] while being thoughtful becomes less important." The mechanism:
-"when everything can be generated instantly, teams **skip over the foundational parts of the design
-process — framing, research, and exploration** — which are the very practices that define mature design
-organizations." Symptoms: juniors rely on prompts instead of judgment; seniors get pulled into
-production firefighting; "craft becoming optional, not intentional"; design systems bypassed, standards
-relaxed, "consistency gives way to velocity." Conclusion: "the most mature design teams won't be the
-ones using the most AI. They'll be the ones disciplined enough to slow down, think deeply, and use AI
-deliberately instead of desperately."
+His claim: AI introduces speed and ambiguity most organisations are structurally unprepared to
+absorb — output rises while thoughtfulness stops being rewarded. The mechanism: when everything is
+generable instantly, teams **skip framing, research and exploration**, the very practices that
+define mature design organisations. Symptoms: juniors lean on prompts instead of judgment; seniors
+get pulled into production firefighting; craft becomes optional rather than intentional; design
+systems get bypassed, standards relax, and consistency gives way to velocity. His conclusion: the
+most mature teams will not be the ones using the most AI, but the ones disciplined enough to slow
+down, think deeply and use AI deliberately.
 
 Design maturity is two pillars: the level of Design Thinking knowledge across *every* employee, and how
 well Design Thinking is integrated into how the organization operates and decides (he uses InVision's
@@ -1851,37 +1836,37 @@ and cited; legal, ethical, accessibility constraints baked in; what to explicitl
 **4. How will you verify?** (steps to check output against real user needs; who reviews before it goes
 live).
 
-His complaint about generic AI output — "hot garbage… shortcutting good thinking… produces lots of
-generic outputs" — is the same anti-slop problem S1, S2 and S12 attack; questions 3-4 turn it into a
-gate.
+His complaint about generic AI output — that prompt shortcuts produce volume without thinking and
+a flood of interchangeable results — is the same anti-slop problem S1, S2 and S12 attack; questions
+3-4 turn it into a gate.
 
 ## Consumer trends: what transfers and what doesn't
 
-**Trend 1 Multimodal experiences** (voice, vision, touch/haptics, context and sensors, screens "no
-longer the focal point") — principles: don't make all modes equal ("we chose the *best* mode for *this*
-moment"); design seamless mode switching; **always design a fallback** ("voice fails in noisy places,
-gestures fail in low light, screens fail when hands are busy"); feedback must be audible, haptic or
-temporal; allow personalization. → For ASW the transferable part is the **fallback rule**: every
-interaction path needs a non-hover, non-pointer equivalent — the same conclusion S6 reaches from
-usability ("hover-only information — mobile and keyboard users miss it").
+**Trend 1 Multimodal experiences** (voice, vision, touch/haptics, context and sensors, with the
+screen no longer the sole focal point) — his principles: don't make all modes equal (pick the best
+mode for the moment); design seamless mode switching; **always design a fallback**, because each
+mode has an environment where it fails (voice in noise, gestures in low light, screens when hands
+are busy); feedback must be audible, haptic or temporal; allow personalization. → For ASW the
+transferable part is the **fallback rule**: every interaction path needs a non-hover, non-pointer
+equivalent — the same conclusion S6 reaches from usability (hover-only information is missed by
+mobile and keyboard users).
 
-**Trend 4 Nostalgia** — familiarity becomes a feature when everything changes fast; "it's less about
-copying the past and more about borrowing its **emotional clarity**. Back then, interfaces were
-simpler, intentions were clearer"; it manifests as familiar UI patterns, typography echoing early
-software, "playful skeuomorphic cues making a quiet comeback, and micro-interactions that feel
-**tactile** instead of abstract." "When something feels familiar, people relax. They explore more. They
-forgive more." → *ASW*: the emotional warrant for **Jakob's Law** conformity and for neumorphism's
-tactile pressed state. Adopted narrowly: tactile micro-interactions and familiar patterns yes; retro
-styling no.
+**Trend 4 Nostalgia** — familiarity becomes a feature when everything else changes fast; his point
+is borrowing the past's **emotional clarity** rather than copying its look — older interfaces were
+simpler with clearer intentions. It manifests as familiar UI patterns, typography echoing early
+software, quiet skeuomorphic cues returning, and micro-interactions that feel **tactile** instead of
+abstract; his observation is that familiar things make people relax, explore more and forgive more.
+→ *ASW*: the emotional warrant for **Jakob's Law** conformity and for neumorphism's tactile pressed
+state. Adopted narrowly: tactile micro-interactions and familiar patterns yes; retro styling no.
 
 **Trend 7 Emotionally aware modes** (Morning/Focus/Evening/Reflective modes mapped to Don Norman's
-visceral/behavioral/reflective levels; "designing **systems of feeling**"; giving users control not
-just automation; being transparent and ethical about emotional sensing) → **Not adopted for ASW.** An
-interface that changes vibe by time of day is wrong for a B2B analysis tool where consistency *is* the
-product. The transferable residue is Norman's point that "emotion directly affects cognition, problem
-solving, and trust" — i.e. **calm confidence**: predictable patterns, low-noise chrome, no
-attention-seeking motion. His own Focus Mode description ("low contrast, minimal animation, calm
-rhythm") is what a good analyst dashboard should be *all the time*.
+visceral/behavioral/reflective levels; his framing is designing **systems of feeling**, giving users
+control rather than only automation, and being transparent about emotional sensing) → **Not adopted
+for ASW.** An interface that changes vibe by time of day is wrong for a B2B analysis tool where
+consistency *is* the product. The transferable residue is Norman's point that emotion directly
+affects cognition, problem solving and trust — i.e. **calm confidence**: predictable patterns,
+low-noise chrome, no attention-seeking motion. The author's own Focus Mode description (low
+contrast, minimal animation, calm rhythm) is what a good analyst dashboard should be *all the time*.
 
 ## Net position for ASW
 
@@ -2177,7 +2162,7 @@ record the change waits at (decision_id and SHA), or the merge record with gates
 
 ## references/sdlc.md
 
-````markdown
+```markdown
 # Kaidera SDLC — the governing design process
 
 Source: S14 Kaidera-AI/skills `skills/development/kaidera-sdlc.SKILL.md` v1.1.0 (Apache-2.0; note the
@@ -2406,4 +2391,94 @@ Advisory method skill — **it never authorises a merge, deploy, publish or rele
 release authority's go (a human). Facts are looked up; decisions are put to the human and awaited; **no
 action before shared understanding is confirmed**. It must not override the base system prompt, project
 rules, or managed permissions.
-````
+```
+
+## references/provenance.md
+
+```markdown
+# Provenance, licence classification and verbatim audit
+
+Every source fetched 2026-09-06; licence evidence fetched the same day from each repo's `LICENSE`
+(or `LICENSE.txt`), the site's own terms page, or — where neither exists — recorded as absent.
+Classification scheme: **PERMISSIVE** (MIT / Apache-2.0 / BSD / CC0 / CC-BY — verbatim retention OK
+with notice), **CONDITIONAL** (attribution- or share-alike-required — keep only with attribution),
+**ALL-RIGHTS-RESERVED** (no licence file = default copyright; Medium article; Apple HIG page text —
+paraphrase, cite as source, short attributed quotations only), **OURS** (Kaidera-AI/skills — the
+target repo; note its root licence is CC-BY-4.0 while skill frontmatter declares Apache-2.0, an
+unresolved precedence hold flagged in CONTRIBUTING.md).
+
+## Per-source classification (all 14)
+
+| # | Source | Licence (evidence) | Class | Handling in this skill |
+|---|---|---|---|---|
+| S1 | github.com/leonxlnx/taste-skill | MIT, © 2026 Leonxlnx (`LICENSE` fetched) | PERMISSIVE | verbatim quotes kept, cited |
+| S2 | github.com/anthropics/skills `frontend-design` | Apache-2.0 (`skills/frontend-design/LICENSE.txt` fetched; no root LICENSE) | PERMISSIVE | verbatim quotes kept, cited |
+| S3 | mcpmarket.com/tools/skills/typography-designer | UNAVAILABLE (HTTP 403 twice, 2026-09-06) | n/a | partial rules via S4 cross-check only; nothing verbatim |
+| S4 | skills.wondel.ai web-typography | MIT, © 2025 Wondel.ai sp. z o.o. (wondelai/skills `LICENSE` fetched) | PERMISSIVE | verbatim quotes kept, cited |
+| S5 | github.com/iart-ai/kinetic-typography-skills | MIT, © 2026 iart.ai (`LICENSE` fetched) | PERMISSIVE | verbatim quotes kept, cited |
+| S6 | skills.wondel.ai ux-heuristics | MIT, © 2025 Wondel.ai sp. z o.o. (same repo as S4) | PERMISSIVE | verbatim quotes kept, cited |
+| S7 | lawsofux.com | **CC-BY-NC-ND 4.0**, © Jon Yablonski (lawsofux.com/info/: "All content on this website is licensed under the Creative Commons Attribution-NonCommercial-NoDerivatives 4.0") | **CONDITIONAL-ND** | **zero verbatim sentences**; every law statement and takeaway paraphrased in `ux-laws.md` and digest S7; ideas/facts cited to lawsofux.com |
+| S8 | uxdesign.cc (Medium), Joe Smiley 2026-01-26 | Medium terms: all rights reserved | ALL-RIGHTS-RESERVED | paraphrased in `trends-2026.md` + digest S8; no sentence-level quotes retained |
+| S9 | github.com/jamesrochabrun/skills `apple-hig-designer` | MIT, © 2025 James Rochabrun (`LICENSE` fetched) | PERMISSIVE | verbatim quotes kept, cited |
+| S10 | github.com/heyman333/atelier-ui `apple-ui-designer` | **no licence file** (repo root listing fetched: `.claude-plugin`, `README.md`, `images`, `skills` only) | ALL-RIGHTS-RESERVED | paraphrased; short attributed phrases only |
+| S11 | taste-skill `minimalist-skill` | MIT, © 2026 Leonxlnx (same repo as S1) | PERMISSIVE | verbatim quotes kept, cited |
+| S12 | github.com/pbakaus/impeccable | Apache-2.0, © 2025 Paul Bakaus (`LICENSE` fetched; **no NOTICE file** — 404 checked, so §4(d) adds nothing) | PERMISSIVE | verbatim quotes kept, cited |
+| S13 | github.com/slb2248/ai-ux-skills `design-critique` | MIT, © 2025 AI/UX Playground (`LICENSE` fetched) | PERMISSIVE | verbatim quotes kept, cited |
+| S14 | github.com/Kaidera-AI/skills `kaidera-sdlc` | **CC-BY-4.0 © 2026 EnGenAI at repo root**; skill frontmatter declares Apache-2.0 (precedence hold unresolved in CONTRIBUTING.md) | OURS + CONDITIONAL | `sdlc.md` carries attribution, licence link and a changes-made note; quotes retained under CC-BY-4.0 |
+
+## Secondary authorities used in REVALIDATION
+
+| Authority | Licence | Handling |
+|---|---|---|
+| WCAG 2.2 (w3.org/WAI/WCAG22) | W3C Software and Document License (2015) — copying/quotation with copyright notice and attribution permitted | short SC quotes kept with citation |
+| Apple HIG *Materials* / *Design Tips* | Apple site terms: all rights reserved | **paraphrased** in `apple-hig.md` + digest §APPLE; only short attributed directives quoted ("Don't use Liquid Glass in the content layer", "Use Liquid Glass effects sparingly.") |
+| Material Design 3 (m3.material.io) | Apache-2.0 or CC-BY-4.0 unless otherwise noted | facts (dp ladder, tonal elevation) cited |
+| MDN Web Docs | CC-BY-SA 2.5 or later (Mozilla Contributors) | paraphrased with attribution (`prefers-reduced-transparency` experimental status); no verbatim reuse |
+
+## Verbatim audit — what is retained verbatim, and why it is allowed
+
+- **MIT sources (S1, S4, S5, S6, S9, S11, S13)**: quoted sentences retained in `minimalism.md`,
+  `typography.md`, `glass-neo.md`, `impeccable.md`, `design-critique.md`, `apple-hig.md` (S9/S10
+  parts), `SKILL.md`. MIT requires only that the copyright notice and permission notice accompany
+  the material; each reference names its source and this file carries the copyright lines below.
+- **Apache-2.0 sources (S2, S12)**: quoted sentences retained with citation; modified/derived
+  documents state their source. Impeccable ships no NOTICE file, so §4(d) imposes no extra text.
+- **CC-BY-4.0 (S14)**: `sdlc.md` quotes the SDLC loop, non-negotiables and gate schema; attribution
+  ("Kaidera-AI/skills, kaidera-sdlc v1.1.0"), licence link (creativecommons.org/licenses/by/4.0/)
+  and a changes-made note (condensed to design-relevant content) are present in `sdlc.md` header.
+- **CC-BY-NC-ND (S7)**: **no verbatim sentence anywhere**. Paraphrased passages: the ten law
+  statements + takeaways in `ux-laws.md` (Hick, Fitts, Jakob, Miller, Prägnanz, Common Region,
+  Proximity, Peak-End, Von Restorff, Zeigarnik, Doherty) and digest line S7 + the Hick dashboard row.
+  Facts and law names are not copyrightable; the site's phrasing is, and ND bars derivatives.
+- **All-rights-reserved (S8, S10, Apple HIG)**: paraphrased passages: all nine trend blocks in
+  `trends-2026.md`, digest S8/S9-adjacent lines, the Apple material-level bullets and vibrancy
+  paragraph in `apple-hig.md`, digest §APPLE line. Retained quotations are short attributed
+  directives or coined phrases (≤ one sentence each), listed where they appear.
+- **CC-BY-SA (MDN)**: paraphrased; attribution named in `apple-hig.md` and `glass-neo.md`.
+
+## Notices retained (required by the licences above)
+
+- MIT License © 2026 Leonxlnx — taste-skill, minimalist-skill (S1, S11)
+- MIT License © 2025 Wondel.ai sp. z o.o. — web-typography, ux-heuristics (S4, S6)
+- MIT License © 2026 iart.ai — kinetic-typography-skills (S5)
+- MIT License © 2025 James Rochabrun — apple-hig-designer (S9)
+- MIT License © 2025 AI/UX Playground — design-critique (S13)
+- Apache License 2.0 © Anthropic — frontend-design (S2)
+- Apache License 2.0 © 2025 Paul Bakaus — impeccable (S12)
+- CC-BY-4.0 © 2026 EnGenAI (engenai.app) — Kaidera-AI/skills incl. kaidera-sdlc (S14)
+- CC-BY-NC-ND 4.0 © Jon Yablonski — lawsofux.com (S7; paraphrased only)
+- All rights reserved — Joe Smiley / UX Collective (S8); heyman333/atelier-ui (S10, no licence
+  file); Apple Inc. HIG page text (paraphrased, short quotes only)
+- CC-BY-SA 2.5 © Mozilla Contributors — MDN Web Docs (paraphrased with attribution)
+- W3C Software and Document License — WCAG 2.2 (short quotes with citation)
+
+## Licence of this skill
+
+`adaptech-uiux-design` is published under **Apache-2.0** per the Kaidera-AI/skills per-skill
+convention (catalogue row + frontmatter). **Open hold for maintainers:** the Kaidera-AI/skills repo
+root is CC-BY-4.0 while skill frontmatter declares Apache-2.0; CONTRIBUTING.md records that no
+ratified precedence rule exists. Until maintainers resolve it, treat the stricter reading
+(CC-BY-4.0 attribution obligations) as binding for redistribution of this entry. Third-party
+material inside this skill remains under the licences listed above; the notices block is the
+attribution for all of it.
+```
