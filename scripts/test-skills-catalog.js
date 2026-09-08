@@ -37,6 +37,7 @@ const posturePolicy = new Map([
     'open-code-review',
     'research-brief',
       'kaidera-sdlc',
+      'folder-organisation',
     'unlazy',
 ])],
   ['reference-only', new Set([
@@ -113,6 +114,7 @@ const currentSourceSkills = new Set([
     'human-voice',
     'infra-naming-gate',
     'kaidera-sdlc',
+    'folder-organisation',
     'route-handoff-gate',
     'scope-work-gate',
     'unlazy',

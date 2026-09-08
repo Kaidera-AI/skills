@@ -4,7 +4,7 @@ Status: **canonical human-facing catalogue; source candidate; runtime and trust 
 
 Catalogue date: **2026-08-25**
 
-Total skills: **36**
+Total skills: **37**
 
 Source binding: consume this guide only from the same Git commit as its skill
 manifests, marketplace, and catalogue test. The enclosing commit/tree is the
@@ -25,7 +25,7 @@ a release blocker; do not silently choose one side.
 
 ## Current release boundary
 
-- All 36 skills are `unvetted`.
+- All 37 skills are `unvetted`.
 - Catalogue presence, a body hash, static validation, or a local commit is not
   approval to inject a skill into an agent.
 - Gate 1 strict manifest checks and a bounded Gate 2 pattern scan exist.
@@ -43,7 +43,7 @@ a release blocker; do not silently choose one side.
 | Category | Skills |
 |---|---:|
 | Context | 8 |
-| Development | 13 |
+| Development | 14 |
 | DevOps | 8 |
 | Documentation | 1 |
 | Research | 1 |
@@ -51,18 +51,18 @@ a release blocker; do not silently choose one side.
 
 | Declared trust tier | Skills |
 |---|---:|
-| `unvetted` | 36 |
+| `unvetted` | 37 |
 
 | Operating posture | Skills |
 |---|---:|
-| Bounded candidate | 5 |
+| Bounded candidate | 6 |
 | Reference-only | 12 |
 | Manual-only | 9 |
 | Rework before use | 10 |
 
 Legacy entries: **22**
 
-Current-source entries: **14**
+Current-source entries: **15**
 
 `Legacy` is a documentation classification, not a trust or compatibility
 guarantee.
@@ -183,6 +183,7 @@ Use the narrowest matching skill:
 | Development | `ultrareview` | `1.1.1` | Whole-codebase, multi-dimension health audit with optional fix mode | Rework before use | low / none declared |
 | Development | `assert-fact-gate` | `1.0.0` | Requires a fresh source check before reporting repository, build, test, | Manual-only | low / file read |
 | Development | `kaidera-sdlc` | `1.1.0` | The Kaidera AI-native SDLC: the operating loop every lead runs for an epic, feature, fix, | Bounded candidate | medium / file read, file write |
+| Development | `folder-organisation` | `1.0.0` | One root, one home per kind of thing, one owner per fact. Where every file of a project | Bounded candidate | medium / file read, file write |
 | Development | `unlazy` | `1.0.0` | Completion discipline for substantial autonomous work. Write acceptance gates | Bounded candidate | medium / file read, file write |
 | DevOps | `container-build` | `1.0.1` | Legacy hardening-oriented multi-stage image and CI build examples | Reference-only, legacy | low / none |
 | DevOps | `deploy-to-dev` | `3.0.2` | Legacy sprint-branch GitOps deployment runbook | Manual-only, legacy | medium / none declared |
@@ -240,6 +241,7 @@ precedence issue remains a release hold.
 | `scope-work-gate` | `Kaidera` | `Apache-2.0` | None | — |
 | `assert-fact-gate` | `Kaidera` | `Apache-2.0` | None | — |
 | `kaidera-sdlc` | `Kaidera-AI` | `Apache-2.0` | `github.com`, `claude.com` | — |
+| `folder-organisation` | `Kaidera-AI` | `Apache-2.0` | `github.com`, `git-scm.com` | — |
 | `unlazy` | `kaidera-ai` | `MIT` | `github.com` | [Leonxlnx](https://github.com/Leonxlnx/unlazy) |
 | `cloud-agnostic-policy` | `Kaidera` | `Apache-2.0` | None | — |
 | `deploy-gate` | `Kaidera` | `Apache-2.0` | None | — |
@@ -507,6 +509,30 @@ compare it with the current repository and Cortex source of truth.
   transaction policy, crash recovery, and exact schema receipts. Do not carry
   forward blanket claims that every migration is reversible or that a generic
   example is safe for a particular live database.
+
+### `folder-organisation`
+
+<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:file_write"],"category":"development","legacy":false,"name":"folder-organisation","path":"skills/development/folder-organisation.SKILL.md","posture":"bounded-candidate","review_fingerprint":"385c039676a79bb604acfdece65cc12a4653b399566f006d797e90e8e0dcd6c9","risk_level":"medium","trust_tier":"unvetted","version":"1.0.0"} -->
+
+- **Manifest:** [folder-organisation.SKILL.md](../skills/development/folder-organisation.SKILL.md)
+- **Function:** One root per project, one home per kind of thing, two kinds of
+  dot-folder, temporary worktrees with a date, and the consolidation loop for an
+  estate that has already scattered (inventory, disposition table, preserve, fold
+  by content, operator-run deletion, record) plus the folder gate contract.
+- **Use when:** Creating a document, diagram, plan, proof, pack or worktree;
+  adding a top-level or dot folder; finding work scattered across sibling folders
+  or checkouts; before deleting any folder.
+- **Do not use when:** The folder is another project's root or a deployment
+  instance (report, never move); a deletion is wanted without the bundle and the
+  approved disposition table; a secret or a customer-specific file needs a home
+  (neither belongs in the project tree).
+- **Inputs and output:** No parameters; the project's own structure SOP names the
+  exact table. Output is placed files, a disposition table and an inventory record.
+- **Authority and effects:** Advisory. Deletions are a one-path-per-line script the
+  human operator runs; packaging boundaries change only with a recorded decision.
+- **Kaidera action:** Bounded candidate from the Kaidera OS source skill
+  (`.agents/skills/folder-organisation`, rides every worker boot); pair with a
+  per-project SOP and a tracked-paths gate before binding.
 
 ### `git-workflow`
 
