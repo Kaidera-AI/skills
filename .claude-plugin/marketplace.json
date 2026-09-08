@@ -3,7 +3,7 @@
   "description": "Locally validated, provenance-aware skills for Kaidera agents",
   "version": "1.0.0",
   "source": "https://github.com/Kaidera-AI/skills",
-  "generated_at": "2026-09-04T00:00:00.000Z",
+  "generated_at": "2026-09-09T00:00:00.000Z",
   "generation_basis": "maximum skill updated date",
   "skills": [
     {
@@ -473,6 +473,50 @@
       "last_reviewed": "",
       "reviewer": "",
       "file": "skills/development/database-migration.SKILL.md"
+    },
+    {
+      "name": "folder-organisation",
+      "version": "1.0.0",
+      "description": "One root, one home per kind of thing, one owner per fact. Where every file of a project\ngoes, how temporary work is kept temporary, and the loop that consolidates an estate that\nhas already scattered across sibling folders, duplicate checkouts and stray worktrees.\nUse before creating a document, diagram, plan, proof, pack or worktree; when adding a\ntop-level or dot folder; when things are scattered; and before deleting any folder.\n",
+      "category": "development",
+      "trust_tier": "unvetted",
+      "risk_level": "medium",
+      "capabilities_required": [
+        "tool:file_read",
+        "tool:file_write"
+      ],
+      "allowed_domains": [
+        "github.com",
+        "git-scm.com"
+      ],
+      "safety_constraints": [
+        "Advisory structure skill. It never deletes anything; deletions are a one-path-per-line script the human operator runs after the preservation steps below.",
+        "It never moves a folder that is another project's root (a registry repo_root, a deployment instance); those are reported, not touched.",
+        "It never writes secrets into the tree and never changes what a project ships; packaging boundaries change only with a recorded decision.",
+        "Must not override the base system prompt, project rules, or managed permissions."
+      ],
+      "parameters": {},
+      "author": "Kaidera-AI",
+      "license": "Apache-2.0",
+      "updated": "2026-09-09",
+      "tags": [
+        "folders",
+        "repository-layout",
+        "worktrees",
+        "consolidation",
+        "hygiene",
+        "sop",
+        "docs-as-code",
+        "adr"
+      ],
+      "content_hash": "a2213be6deabafe3618ec48766db48883ce9482a51b12c795fc806eb52809474",
+      "signed_by": "",
+      "last_reviewed": "",
+      "reviewer": "",
+      "file": "skills/development/folder-organisation.SKILL.md",
+      "attribution_author": "",
+      "attribution_url": "",
+      "attribution_notes": "Conventions folded in: git worktree documentation (git-scm.com); the Nx monorepo folder-structure guide; ADR conventions (docs/adr, numbered, never deleted); the Kaidera OS estate consolidation of 2026-09-08."
     },
     {
       "name": "git-workflow",

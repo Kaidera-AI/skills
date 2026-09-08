@@ -25,7 +25,7 @@ Skills are instructions, not programs: the format carries no executable code and
 | Category | Description | Count |
 |----------|-------------|-------|
 | `context/` | Project and workspace awareness | 8 |
-| `development/` | Code writing, review, testing | 13 |
+| `development/` | Code writing, review, testing | 14 |
 | `devops/` | Deployment, infrastructure, CI/CD | 8 |
 | `documentation/` | Specs, docs, changelogs, writing voice | 1 |
 | `research/` | Research briefs and evidence planning | 1 |
