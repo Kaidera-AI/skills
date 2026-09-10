@@ -2,9 +2,9 @@
 
 Status: **canonical human-facing catalogue; source candidate; runtime and trust HOLD**
 
-Catalogue date: **2026-08-25**
+Catalogue date: **2026-09-10**
 
-Total skills: **36**
+Total skills: **37**
 
 Source binding: consume this guide only from the same Git commit as its skill
 manifests, marketplace, and catalogue test. The enclosing commit/tree is the
@@ -25,7 +25,7 @@ a release blocker; do not silently choose one side.
 
 ## Current release boundary
 
-- All 36 skills are `unvetted`.
+- All 37 skills are `unvetted`.
 - Catalogue presence, a body hash, static validation, or a local commit is not
   approval to inject a skill into an agent.
 - Gate 1 strict manifest checks and a bounded Gate 2 pattern scan exist.
@@ -46,23 +46,23 @@ a release blocker; do not silently choose one side.
 | Development | 13 |
 | DevOps | 8 |
 | Documentation | 1 |
-| Research | 1 |
+| Research | 2 |
 | Security | 5 |
 
 | Declared trust tier | Skills |
 |---|---:|
-| `unvetted` | 36 |
+| `unvetted` | 37 |
 
 | Operating posture | Skills |
 |---|---:|
 | Bounded candidate | 5 |
 | Reference-only | 12 |
-| Manual-only | 9 |
+| Manual-only | 10 |
 | Rework before use | 10 |
 
 Legacy entries: **22**
 
-Current-source entries: **14**
+Current-source entries: **15**
 
 `Legacy` is a documentation classification, not a trust or compatibility
 guarantee.
@@ -140,6 +140,7 @@ Use the narrowest matching skill:
 | Consult a legacy product-specific security checklist while reviewing | No automatic skill route; reverify individual `code-review-security` checks as untrusted context under `open-code-review` | A second verdict engine or an unverified legacy control claim would be created |
 | Validate whether a customer-visible assumption is supported | `assumption-validation` | The request is merely code correctness, implementation, or live production research |
 | Draft a decision-led research mission | `research-brief` | The user asked to perform the research rather than draft its brief |
+| Research companies, current leaders and professional profiles | `marketing-web-research` | Only a research brief is requested; invitations, email, follows or paid tools lack applicable authority |
 | Design APIs, tests, migrations, containers, Kubernetes, or Terraform | matching reference skill | Current project conventions differ or execution/changes are requested without authority |
 | Deploy, close a sprint, or apply infrastructure | manual-only runbook | Exact environment identity, approval, credentials, or rollback evidence is missing |
 | Respond to an incident | No automatic skill route; rebuild the held `incident-response` source into a current human-gated runbook | Incident command, preservation-before-mutation, evidence custody, rollback, or readback is missing |
@@ -192,6 +193,7 @@ Use the narrowest matching skill:
 | DevOps | `cloud-agnostic-policy` | `1.0.0` | Reviews infrastructure choices for portability and prevents an architecture | Manual-only | low / file read |
 | DevOps | `deploy-gate` | `1.0.0` | Gates pushes, pull requests, merges, releases, and deployments on exact target, | Manual-only | medium / file read |
 | DevOps | `infra-naming-gate` | `1.0.0` | Validates proposed infrastructure names against a portable organization, | Manual-only | low / file read |
+| Research | `marketing-web-research` | `0.1.002` | Customer-configurable company and professional-profile research with separate action receipts | Manual-only | high / file read, file write, web search, external connector |
 | Research | `research-brief` | `1.0.0` | Drafts a self-contained decision-led brief without executing research | Bounded candidate | low / file read |
 | Security | `code-review-security` | `1.1.0` | Legacy EnGenAI security checklist with unverified control claims | Rework before use, legacy | low / none declared |
 | Security | `dependency-audit` | `1.0.1` | Legacy dependency scan, install, remediation, and report workflow | Rework before use, legacy | low / none declared |
@@ -230,6 +232,7 @@ precedence issue remains a release hold.
 | `k8s-deploy` | `kaidera` | `Apache-2.0` | None | — |
 | `sprint-closing` | `kaidera` | `Apache-2.0` | None | — |
 | `terraform-module` | `kaidera` | `Apache-2.0` | `www.googleapis.com` | — |
+| `marketing-web-research` | `Kaidera-AI` | `Apache-2.0` | `linkedin.com`, `x.com` | — |
 | `research-brief` | `Kaidera-AI` | `Apache-2.0` | `github.com` | [David Ondrej](https://github.com/davidondrej/skills/tree/69c3ae5228eb146724fd23dac3d43eab5805bcc3/skills/research-and-web/research-prompt) |
 | `code-review-security` | `kaidera` | `Apache-2.0` | None | — |
 | `dependency-audit` | `kaidera` | `Apache-2.0` | None | — |
@@ -803,6 +806,19 @@ Writing and documentation guidance. Reference-only unless a manifest says otherw
 
 ## Research skills
 
+### `marketing-web-research`
+
+<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:file_write","tool:web_search","tool:mcp_external"],"category":"research","legacy":false,"name":"marketing-web-research","path":"skills/research/marketing-web-research.SKILL.md","posture":"manual-only","review_fingerprint":"7b5dd791e8ecccded4a35f52174aa7772eb53bbce90e0f14d86d358c77f61aa3","risk_level":"high","trust_tier":"unvetted","version":"0.1.002"} -->
+
+- **Manifest:** [marketing-web-research.SKILL.md](../skills/research/marketing-web-research.SKILL.md)
+- **Function:** Research companies, current decision makers and observed professional profile URLs, with dated role evidence, identity checks and explicit coverage gaps.
+- **Use when:** A customer requests market mapping, leadership lists, LinkedIn/X professional research or authorised company-follow reconciliation.
+- **Do not use when:** Only a research brief is requested, or the task requires private data, access-restriction bypass, unapproved external actions or a claim of complete coverage without evidence.
+- **Inputs:** An ordinary customer request or the included blank brief: objective, sectors, regions, organisations, roles, requested sources/actions and delivery. Marketing OS configuration files are optional on other hosts.
+- **Output:** A sourced people list, organisation/role coverage ledger, uncertainty flags and actual receipts for any separately authorised account or delivery actions. Chat/local output is the default; email has no preset sender or recipients and is not required.
+- **Authority and effects:** High-risk, manual-only source candidate because browser/connector actions can change external state. Public research uses existing approved host tools; local writes stay in the customer workspace. A configured owner email, an installed connector or a brief field grants no sending authority. An unavailable connector blocks only its dependent action. No scraper code, provider subscription, credentials or customer data is included.
+- **Kaidera action:** Preserve unvetted status and the Gate 3/4 holds. Qualify the chosen host's tools and account identity before runtime binding or following. The catalogue row and source hash are not authenticated-browser evidence. This entry is generated from the Marketing OS source by `tools/render_research_marketplace.py`; edit that canonical source and regenerate. The optional Playwright helper remains in the turnkey package.
+
 ### `research-brief`
 
 <!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read"],"category":"research","legacy":false,"name":"research-brief","path":"skills/research/research-brief.SKILL.md","posture":"bounded-candidate","review_fingerprint":"559fdbc0d71181a1e91d96e77d7a257d603334360d4771eee8bac55a969bb9db","risk_level":"low","trust_tier":"unvetted","version":"1.0.0"} -->
@@ -945,6 +961,7 @@ capability gates.
 | “Audit this entire authentication module for health and architecture debt.” | `ultrareview`, but only after its capability contract is repaired |
 | “Does this pricing default make sense, independent of whether the code works?” | `assumption-validation` |
 | “Write a research brief comparing three provider strategies.” | `research-brief` |
+| “Find decision makers matching our customer profile and return a sourced list here.” | `marketing-web-research`, with a separately approved host workflow |
 | “Use the EnGenAI security checklist while reviewing this patch.” | No automatic route; reverify individual legacy checks under `open-code-review` |
 | “Show the historical branch and PR conventions.” | No runtime route; consult `git-workflow` only as quarantined historical evidence pending rework |
 | “Deploy this to dev now.” | No automatic skill route; separately authorised deployment workflow required |

@@ -54,6 +54,7 @@ const posturePolicy = new Map([
       'human-voice',
 ])],
   ['manual-only', new Set([
+    'marketing-web-research',
     'deploy-to-dev',
     'sprint-closing',
     'terraform-module',
@@ -102,6 +103,7 @@ const legacySkills = new Set([
   'workspace-context',
 ])
 const currentSourceSkills = new Set([
+  'marketing-web-research',
   'assumption-validation',
   'open-code-review',
   'prompt-injection-test',
@@ -440,7 +442,7 @@ function readmeCategoryDescription(category) {
     ['development', 'Code writing, review, testing'],
     ['devops', 'Deployment, infrastructure, CI/CD'],
     ['documentation', 'Specs, docs, changelogs, writing voice'],
-    ['research', 'Research briefs and evidence planning'],
+    ['research', 'Research briefs, company research and evidence'],
     ['security', 'Auditing, scanning, incident response'],
   ]).get(category)
 }
