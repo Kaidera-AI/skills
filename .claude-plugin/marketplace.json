@@ -3,7 +3,7 @@
   "description": "Locally validated, provenance-aware skills for Kaidera agents",
   "version": "1.0.0",
   "source": "https://github.com/Kaidera-AI/skills",
-  "generated_at": "2026-09-17T00:00:00.000Z",
+  "generated_at": "2026-09-18T00:00:00.000Z",
   "generation_basis": "maximum skill updated date",
   "skills": [
     {
@@ -476,7 +476,7 @@
     },
     {
       "name": "gavel",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "description": "Gavel - typed judgments for a project lead's decisions. Before you rule on a worker's\nreturn, send a handoff, or order a backlog, ask a fixed set of narrow questions and get\ntyped answers with probabilities: disposition, evidence quality, silent gaps, scope creep,\nirreversibility, next owner, urgency; whether a draft handoff carries a receipt contract;\nhow gate-blocking and risky each backlog item is. Powered by TypeSafe's System One model\n(Jev) through a bundled stdlib helper. Use when triaging a return, handback or consult;\nbefore sending any handoff; when prioritising a checklist. Works in any project, any\nharness, any model. Judgments are inputs, never the decision.\n",
       "category": "development",
       "trust_tier": "unvetted",
@@ -510,7 +510,7 @@
       },
       "author": "Kaidera-AI",
       "license": "Apache-2.0",
-      "updated": "2026-09-17",
+      "updated": "2026-09-18",
       "tags": [
         "gavel",
         "lead",
@@ -522,7 +522,7 @@
         "typesafe",
         "system-one"
       ],
-      "content_hash": "780ea04d454f5aa3d5757e517165f83ee3381aea3a2e56c4476799fe7c6882b3",
+      "content_hash": "bf1220a6528e001dc5471f3001be914426ca933c827798cf78ded2bd11b7e028",
       "signed_by": "",
       "last_reviewed": "",
       "reviewer": "",
@@ -557,7 +557,7 @@
     },
     {
       "name": "kaidera-sdlc",
-      "version": "1.1.0",
+      "version": "1.2.0",
       "description": "The Kaidera AI-native SDLC: the operating loop every lead runs for an epic, feature, fix,\nincident, review or plan. Capture intent, grill it one question at a time, spec with\npolicy applied, plan before any code, build inside a feedback loop, verify with output\nthat can fail, review adversarially, ship through deterministic gates, close the loop from\nproduction. Use when starting or scoping any work, when a handoff or incident arrives,\nwhen asked to plan, spec, grill, interview, stress-test, review, retro or ship, and when\ndeciding what done means.\n",
       "category": "development",
       "trust_tier": "unvetted",
@@ -578,7 +578,7 @@
       "parameters": {},
       "author": "Kaidera-AI",
       "license": "Apache-2.0",
-      "updated": "2026-09-04",
+      "updated": "2026-09-18",
       "tags": [
         "sdlc",
         "planning",
@@ -592,14 +592,14 @@
         "governance",
         "lead"
       ],
-      "content_hash": "c9f8d0bb56d60d6eeb1d7305dff3c2f00584e6a693e75534d02899f91d2ad7cc",
+      "content_hash": "4e02f2f78dc27ed56bcc013a5218309c823ae5b621ded6dd0b0f62fbc9d1854e",
       "signed_by": "",
       "last_reviewed": "",
       "reviewer": "",
       "file": "skills/development/kaidera-sdlc.SKILL.md",
       "attribution_author": "",
       "attribution_url": "",
-      "attribution_notes": "Sources folded into the method: Anthropic, The AI-Native SDLC playbook (2026-08-21); grill-me (Matt Pocock lineage, MIT); molten-os-core molten-validate (Switch Dimension, MIT); gstack plan reviews and ship (Garry Tan, MIT); unlazy (Leonxlnx, MIT); Kaidera THE_WAY_OF_DEVELOPMENT"
+      "attribution_notes": "Sources folded into the method: Anthropic, The AI-Native SDLC playbook (2026-08-21); grill-me (Matt Pocock lineage, MIT); molten-os-core molten-validate (Switch Dimension, MIT); gstack plan reviews and ship (Garry Tan, MIT); unlazy (Leonxlnx, MIT); Kaidera THE_WAY_OF_DEVELOPMENT; 1.2.0 ideas from michaelshimeles/skills, unslop (L. Tan, MIT), greploop (Greptile, MIT), before-and-after (vercel-labs): see references/attribution.md"
     },
     {
       "name": "open-code-review",

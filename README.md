@@ -55,7 +55,7 @@ Also implemented: deterministic catalogue generation (`npm run generate` writes 
 
 Copy the `.SKILL.md` file into the place your harness reads skills from. The body below the frontmatter is the instruction text; the frontmatter says what the skill needs and what it promises not to do. Read the [catalogue](docs/KAIDERA-SKILLS-CATALOG.md) entry first: it records each skill's operating posture (bounded candidate, reference-only, manual-only, rework before use).
 
-`gavel` also ships in directory form for the harness-agnostic skills CLI: `npx skills add Kaidera-AI/skills --skill gavel -a universal -y --copy` installs `SKILL.md`, the stdlib helper and its references into `.agents/skills/gavel/`.
+`kaidera-sdlc` and `gavel` also ship in directory form for the harness-agnostic skills CLI (replace the skill name as needed): `npx skills add Kaidera-AI/skills --skill gavel -a universal -y --copy` installs `SKILL.md`, the stdlib helper and its references into `.agents/skills/gavel/`.
 
 ## Skill Format
 

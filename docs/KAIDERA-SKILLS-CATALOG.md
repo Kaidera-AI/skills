@@ -183,8 +183,8 @@ Use the narrowest matching skill:
 | Development | `tdd-workflow` | `2.0.1` | Legacy red-green-refactor and five-step verification workflow | Rework before use, legacy | low / none declared |
 | Development | `ultrareview` | `1.1.1` | Whole-codebase, multi-dimension health audit with optional fix mode | Rework before use | low / none declared |
 | Development | `assert-fact-gate` | `1.0.0` | Requires a fresh source check before reporting repository, build, test, | Manual-only | low / file read |
-| Development | `kaidera-sdlc` | `1.1.0` | The Kaidera AI-native SDLC: the operating loop every lead runs for an epic, feature, fix, | Bounded candidate | medium / file read, file write |
-| Development | `gavel` | `1.0.0` | Typed judgments for a project lead: triage returns, check handoffs, rank work (TypeSafe System One) | Bounded candidate | medium / file read, interpreter |
+| Development | `kaidera-sdlc` | `1.2.0` | The Kaidera AI-native SDLC: the operating loop every lead runs for an epic, feature, fix, | Bounded candidate | medium / file read, file write |
+| Development | `gavel` | `1.0.1` | Typed judgments for a project lead: triage returns, check handoffs, rank work (TypeSafe System One) | Bounded candidate | medium / file read, interpreter |
 | Development | `unlazy` | `1.0.0` | Completion discipline for substantial autonomous work. Write acceptance gates | Bounded candidate | medium / file read, file write |
 | DevOps | `container-build` | `1.0.1` | Legacy hardening-oriented multi-stage image and CI build examples | Reference-only, legacy | low / none |
 | DevOps | `deploy-to-dev` | `3.0.2` | Legacy sprint-branch GitOps deployment runbook | Manual-only, legacy | medium / none declared |
@@ -515,7 +515,7 @@ compare it with the current repository and Cortex source of truth.
 
 ### `gavel`
 
-<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:code_interpreter"],"category":"development","legacy":false,"name":"gavel","path":"skills/development/gavel.SKILL.md","posture":"bounded-candidate","review_fingerprint":"59d21a3c49931d0cc63051af3a058525408a72fe27a2e41710b9c33233798613","risk_level":"medium","trust_tier":"unvetted","version":"1.0.0"} -->
+<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:code_interpreter"],"category":"development","legacy":false,"name":"gavel","path":"skills/development/gavel.SKILL.md","posture":"bounded-candidate","review_fingerprint":"350cd20d78e6620629211e3c03c22cb40348167d33793eaa83f99afa936a633a","risk_level":"medium","trust_tier":"unvetted","version":"1.0.1"} -->
 
 - **Manifest:** [gavel.SKILL.md](../skills/development/gavel.SKILL.md)
 - **Function:** Gavel: typed judgments for a project lead who plans, adjudicates and coordinates while workers execute: triage a worker return (disposition, evidence quality, silent gaps, scope creep, irreversibility, next owner, urgency), check a draft handoff for its receipt contract, and score backlog items for gate-blocking and risk, using TypeSafe's System One model through a bundled stdlib helper.
@@ -544,7 +544,7 @@ compare it with the current repository and Cortex source of truth.
 
 ### `kaidera-sdlc`
 
-<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:file_write"],"category":"development","legacy":false,"name":"kaidera-sdlc","path":"skills/development/kaidera-sdlc.SKILL.md","posture":"bounded-candidate","review_fingerprint":"77cfabb2d2da5fca69a8def2174466b89fa1015189d34a1f9d731215e8be3547","risk_level":"medium","trust_tier":"unvetted","version":"1.1.0"} -->
+<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:file_write"],"category":"development","legacy":false,"name":"kaidera-sdlc","path":"skills/development/kaidera-sdlc.SKILL.md","posture":"bounded-candidate","review_fingerprint":"48a41ae45fdbbd7ef6759d567d1748bbc0d391d361fbca3514cdf0f94aba6e28","risk_level":"medium","trust_tier":"unvetted","version":"1.2.0"} -->
 
 - **Manifest:** [kaidera-sdlc.SKILL.md](../skills/development/kaidera-sdlc.SKILL.md)
 - **Function:** The AI-native SDLC loop every lead is born with: intent, grill, spec, plan before code, build inside a feedback loop, verify with output that can fail, adversarial review, ship through gates, close the loop.
@@ -552,6 +552,7 @@ compare it with the current repository and Cortex source of truth.
 - **Do not use when:** As an authorisation for a merge, deploy, publish or release; those wait for the release authority's go (a human). Do not skip the full grill where risk forces it: incidents, destructive work, security, money, customer data, migrations, removals or folds, cross-project change.
 - **Inputs and output:** No parameters; file read/write for the intent, spec and plan artifacts it produces; process reference otherwise.
 - **Authority and effects:** Advisory method. It never authorises a gate; facts are looked up and decisions are put to the human and awaited.
+- **Agnostic install:** the directory form `skills/development/kaidera-sdlc/` (SKILL.md, references, templates) installs with `npx skills add Kaidera-AI/skills --skill kaidera-sdlc -a universal -y --copy`; 1.2.0 adds the team, code-quality, evidence, writing and attribution references and review in bounded rounds.
 - **Kaidera action:** Bounded candidate: the canonical source is Kaidera OS `.agents/skills/kaidera-sdlc/` (references, templates, evals); this file is its marketplace projection, rendered by the source's `tools/render-public.py` (its `--check`, run from a Kaidera OS checkout, proves the projection matches; marketplace CI cannot see that source, so `kaidera.source.content_sha256` names the rendered bytes and a stale projection is a review finding, not a CI failure). Never edited here.
 
 ### `open-code-review`
