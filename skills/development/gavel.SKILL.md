@@ -1,6 +1,6 @@
 ---
 name: gavel
-version: 1.0.0
+version: 1.0.1
 description: |
   Gavel - typed judgments for a project lead's decisions. Before you rule on a worker's
   return, send a handoff, or order a backlog, ask a fixed set of narrow questions and get
@@ -29,11 +29,11 @@ kaidera:
   source:
     repo: Kaidera-AI/kaideraos
     path: .agents/skills/gavel
-    content_sha256: 21a2228047ed7a0e8511e1e3474f7acec21b7ea2cc1fec85cdff8f5174712fef
+    content_sha256: f9d1387afceae9b8093985248bbd848c50857f17fdc42fa07da17824d7e0424c
 
 author: Kaidera-AI
 license: Apache-2.0
-updated: 2026-09-17
+updated: 2026-09-18
 tags: [gavel, lead, decision-making, adjudication, handoff, triage, prioritisation, typesafe, system-one]
 attribution_notes: "Builds on the TypeSafe skill (typesafe-ai/skills, MIT) and docs.typesafe.ai (System One primitives Choice, Noul, Score). Requires a TypeSafe API key supplied by the user as JEV_API_KEY."
 
@@ -154,6 +154,10 @@ Cost: ~1,000 input / ~190 output tokens per triage; ~900/146 per dispatch check;
 ## 2026-09-17 - gavel reviews its own release (1.0.0)
 
 The author triaged the pull request that publishes this skill as if it were a worker's return. Verdict: `rework` (0.90), evidence 2.83, scope_creep 0.66, against the author's instinct to accept. Policy line 1 applied - the disagreement was written down and examined, and it was right twice: the return admitted an unfinished step (a stale registration under the old name), and the option names still carried one project's vocabulary (`consult_cto`, `kai`, `cto`). Both were fixed before merge: the stale registration was removed, the options became `consult_owner`, `lead`, `accountable_human`, and the four labelled evals were rerun (4/4 agree; the consult case's next owner moved from 1.00 to 0.90 `lead` after the wording change). The scope_creep signal was a false positive: the marketplace's own tests require the catalogue, policy and manifest updates. Lesson: state repository-mandated side work in the dispatch, or the model reads it as creep.
+
+## 2026-09-18 - rulings mixed with work score low on the receipt contract
+
+Instrument: `gavel.py dispatch --json`, answer `has_receipt_contract` (probability of yes), model jev-1.13.0. Inputs: eleven handoff drafts written by the lead on 2026-09-18 for four workers (four mixed, the same four rewritten, three later ones). Four drafts combined rulings on earlier returns with new work: 0.40, 0.34, 0.38, 0.40. The same four rewritten as work-only handoffs with a labelled receipt per step: 0.89, 0.69, 0.85, 0.83. Two later work-only handoffs: 0.70 and 0.84; one rework handoff: 0.81. n is small and the drafts were written by one author, so this supports a working rule (send rulings and work separately), not a threshold. The draft texts are not committed because they name internal hosts; the rule reopens if split handoffs start scoring below 0.5.
 ````
 
 

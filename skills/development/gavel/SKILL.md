@@ -3,7 +3,7 @@ name: gavel
 description: "Gavel - typed judgments for a project lead's decisions. Before you rule on a worker's return, send a handoff, or order a backlog, ask a fixed set of narrow questions and get typed answers with probabilities: disposition (accept / rework / withdraw / consult owner / answer questions), evidence quality, silent gaps, scope creep, irreversibility, next owner, urgency; whether a draft handoff carries a receipt contract; how gate-blocking and risky each backlog item is. Powered by TypeSafe's System One model (Jev) through a bundled stdlib helper. Use when triaging a return, handback or consult; before sending any handoff; when prioritising a checklist; whenever a lead decision should be checked against calibrated common sense. Works in any project, any harness, any model."
 license: Apache-2.0
 metadata:
-  version: 1.0.0
+  version: 1.0.1
   authority: "CTO 2026-09-17: a reusable decision instrument for every project lead in KOS; docs/SOP_PLAN_AND_EXECUTE.md (the lead plans and adjudicates, workers execute); design 41 (harness-agnostic tools only)"
   sources: "typesafe-ai/skills (MIT) and docs.typesafe.ai - System One primitives Choice, Noul, Score; confidence; HTTP API v1"
   applies_to: [lead, cpo, pm, orchestrator]

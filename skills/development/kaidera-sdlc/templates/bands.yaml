@@ -1,0 +1,18 @@
+# Control bands: deterministic detection, tiered response.
+# The detection script is version-controlled and unit-tested; no model is involved in
+# detection. The agent is invoked only when a band is breached, at the tier allowed here.
+metric: ci_test_failure_rate          # one metric, one owner, one stable baseline
+owner: <service owner>
+baseline: rolling_30d
+rules: western_electric               # catches slow drift and spikes
+tiers:
+  1sigma: { action: log }
+  2sigma: { action: diagnose, tools: "Read,Grep,Bash(gh run view *)" }   # read-only
+  3sigma: { action: propose, routes: [pull_request, runbook:rollback-deploy] }
+outputs:
+  intent: Program/<release>/<epic>/intent/<metric>-<date>.md   # the diagnosis re-enters at stage 1
+  lesson: cortex-log <agent> lesson "..."
+  eval: evals/<metric>-<date>.json                              # the fix ships with its eval
+triage:
+  decisions: [fix_now, schedule, dismiss]
+  dismissals_tune_bands: true

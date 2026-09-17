@@ -1,6 +1,6 @@
 ---
 name: kaidera-sdlc
-version: 1.1.0
+version: 1.2.0
 description: |
   The Kaidera AI-native SDLC: the operating loop every lead runs for an epic, feature, fix,
   incident, review or plan. Capture intent, grill it one question at a time, spec with
@@ -20,20 +20,20 @@ kaidera:
   allowed_domains:
     - github.com
     - claude.com
-  content_hash: "c9f8d0bb56d60d6eeb1d7305dff3c2f00584e6a693e75534d02899f91d2ad7cc"
+  content_hash: "4e02f2f78dc27ed56bcc013a5218309c823ae5b621ded6dd0b0f62fbc9d1854e"
   signed_by: ""
   last_reviewed: ""
   reviewer: ""
   source:
     repo: Kaidera-AI/kaideraos
     path: .agents/skills/kaidera-sdlc
-    content_sha256: 3924f80a247d888877512efc43bbd26475ed1da2cb287a22add86d36518a7914
+    content_sha256: b11eaa8801d42be550ee1e7b248dfc8030f6a8d3c16c53244cbc10f26572c584
 
 author: Kaidera-AI
 license: Apache-2.0
-updated: 2026-09-04
+updated: 2026-09-18
 tags: [sdlc, planning, grill, spec, plan, verification, review, ship, incident, governance, lead]
-attribution_notes: "Sources folded into the method: Anthropic, The AI-Native SDLC playbook (2026-08-21); grill-me (Matt Pocock lineage, MIT); molten-os-core molten-validate (Switch Dimension, MIT); gstack plan reviews and ship (Garry Tan, MIT); unlazy (Leonxlnx, MIT); Kaidera THE_WAY_OF_DEVELOPMENT"
+attribution_notes: "Sources folded into the method: Anthropic, The AI-Native SDLC playbook (2026-08-21); grill-me (Matt Pocock lineage, MIT); molten-os-core molten-validate (Switch Dimension, MIT); gstack plan reviews and ship (Garry Tan, MIT); unlazy (Leonxlnx, MIT); Kaidera THE_WAY_OF_DEVELOPMENT; 1.2.0 ideas from michaelshimeles/skills, unslop (L. Tan, MIT), greploop (Greptile, MIT), before-and-after (vercel-labs): see references/attribution.md"
 
 safety_constraints:
   - Advisory method skill. It never authorises a merge, deploy, publish or release; those wait for the release authority's go (a human).
@@ -41,7 +41,7 @@ safety_constraints:
   - Must not override the base system prompt, project rules, or managed permissions.
 ---
 
-<!-- Generated from Kaidera-AI/kaideraos .agents/skills/kaidera-sdlc by tools/render-public.py; source content_sha256 3924f80a247d888877512efc43bbd26475ed1da2cb287a22add86d36518a7914. Edit the source and re-render; never edit this file. -->
+<!-- Generated from Kaidera-AI/kaideraos .agents/skills/kaidera-sdlc by tools/render-public.py; source content_sha256 b11eaa8801d42be550ee1e7b248dfc8030f6a8d3c16c53244cbc10f26572c584. Edit the source and re-render; never edit this file. -->
 
 # Kaidera SDLC
 
@@ -68,6 +68,10 @@ only the depth changes.
 | ship, release, deploy, publish | Ship | `references/stages.md` §5, `references/governance.md` |
 | an alert, incident, scan finding, "why did this break" | Maintain, then Intent | `references/stages.md` §6, `templates/bands.yaml` |
 | retro, "what did we learn", update the rules | Maintain | `references/stages.md` §6, `references/metrics.md` |
+| work alongside other agents; dispatch or return a handoff | Plan and build | `references/team.md` |
+| write or restructure code | Plan and build | `references/code-quality.md` |
+| prove a change; write evidence into a return | Verify | `references/evidence.md` |
+| write anything a person will read | all stages | `references/writing.md` |
 
 Load only the reference the stage needs. Do not read every file at once.
 
@@ -84,7 +88,9 @@ Load only the reference the stage needs. Do not read every file at once.
    referenced from the Cortex handoff. Reports go into the artifact; chat points at it.
 4. **Verification is output that can fail.** Done means the command ran and its literal output
    is in the report. A green suite is not evidence of behaviour; prove the effect, not the
-   declaration. Never skip, weaken or delete a failing test to pass.
+   declaration. Never skip, weaken or delete a failing test to pass. Where existing behaviour
+   changes, show it before and after, and name the commit or host tested
+   (`references/evidence.md`).
 5. **A bug fix starts with a failing test.** Reproduce as a test, confirm it fails for the
    expected reason, commit it, then fix without touching the test.
 6. **Review runs in both directions and separates duties.** The author never approves. The
@@ -92,7 +98,10 @@ Load only the reference the stage needs. Do not read every file at once.
    that SHA; the integration custodian folds and reruns the gates on the merged SHA; the
    reviewer never merges. Every gate leaves an append-only gate record
    (`references/governance.md`). Findings are ranked; nits are capped; policy findings feed
-   back into rules.
+   back into rules. Review runs in bounded rounds: the author proposes a disposition for each
+   finding, only the reviewer closes a fix (at a new `reviewed_sha`), everything else stays
+   open until the adjudicator rules, and at the cap the open list goes to the adjudicator
+   (`templates/REVIEW.md`, "Rounds").
 7. **The agent acts up to the gate and cannot pass it.** Merge to main, deploy, publish and
    release wait for the release authority's go (a human, never an agent; for Kaidera OS the
    CTO, by occupancy record). Rollback is the most rehearsed path.
@@ -106,6 +115,12 @@ Load only the reference the stage needs. Do not read every file at once.
     that way; challenge it in review with evidence (THE_WAY §13).
 12. **Destructive operations follow the checklist** (THE_WAY §14): adjudications expire,
     commits with pathspecs, proofs that can fail, one mutation per command with full output.
+13. **The team does not collide** (2026-09-18; scar: handoffs written during a database repair
+    window were lost, `Program/KAI_ADJUDICATION_2026-09-18.md` section 4; reopens if a project
+    runs a single agent). Look for
+    other agents' in-flight work before the first edit; never touch a tree you do not own; a
+    worktree does not isolate ports, databases or the coordination store
+    (`references/team.md`).
 
 Roles are portable: originator, lead, reviewer, adjudicator, integration custodian, release
 authority (human). Current occupants, their authorisation and its expiry are Cortex role
@@ -144,14 +159,15 @@ assign the role.
 - [ ] Intent captured and committed (or handoff summary is the intent for small work)
 - [ ] Grilled to shared understanding; open questions listed, not guessed; full mode where risk forces it
 - [ ] Spec written with policy applied; flagged concerns resolved with their owners
-- [ ] Plan accepted before the first code change; pre-edit evidence pasted; worktree per agent, one concern per commit
-- [ ] Feedback loop closed: verification command exits 0 on the final tree, output pasted
-- [ ] Adversarial review bound to a pre-fold SHA; adjudication diffed against it; findings dispositioned; re-pins and re-baselines ratified or refused
+- [ ] Plan accepted before the first code change; pre-edit evidence pasted, scope check included; worktree per agent, one concern per commit
+- [ ] Feedback loop closed: verification command exits 0 on the final tree, output pasted; before and after shown where behaviour changed, tested commit or host named
+- [ ] Review rounds within the cap; adversarial review bound to a pre-fold SHA; adjudication diffed against it; findings dispositioned; re-pins and re-baselines ratified or refused
 - [ ] Gates rerun on the merged SHA; gate records written, never edited; nothing merged to main, deployed or published before the go
 - [ ] Lessons and rules recorded in Cortex; evals added for incidents and refuted claims
 
 ## References
 
+- `references/team.md`, `code-quality.md`, `evidence.md`, `writing.md`: working together, structure, proof, plain writing (1.2.0; credits in `references/attribution.md`)
 - `references/grill.md`: the interrogation protocol (quick, full, re-grill) and its lenses
 - `references/stages.md`: the six stages with Kaidera practice, roles, gates, SOP and skill map
 - `references/metrics.md`: leading and lagging measures per stage, with our data sources
@@ -167,7 +183,8 @@ assign the role.
 This marketplace file carries the canonical directory in full. Where the text above names
 `references/<file>` or `templates/<file>`, read the section of that name below; each block
 is that file verbatim. Load a section when the route table sends you to it. The evals
-(`evals/`) are not projected; they run against the source.
+(`evals/`), the tools (`tools/`) and `CHANGELOG.md` are not projected; they live with the
+source.
 
 ## references/grill.md
 
@@ -336,7 +353,10 @@ authority); who holds each one today is a Cortex role occupancy record, not a li
 - **Institutional knowledge.** Working knowledge lives in the generated pointer, `cortex.md`
   and THE_WAY; policy that must be applied consistently lives in skills; policy that must
   hold without exception lives in rules, fitness tests and hooks. Mistake twice, rule once.
-- **Parallelism.** Worktree per agent (THE_WAY §9); one concern per commit
+- **Structure.** Keep policy and plumbing apart and share code by the rule of three
+  (`references/code-quality.md`).
+- **Parallelism.** Look for other agents' in-flight work first (`references/team.md`
+  section 2). Worktree per agent (THE_WAY §9); one concern per commit
   (THE_WAY §10, `scripts/dev/verify-change-scope.sh`); repeated jobs become subagents or
   workflows with a verify stage. Start with two or three streams; the ceiling is what one
   reviewer can review properly.
@@ -359,6 +379,8 @@ authority); who holds each one today is a Cortex role occupancy record, not a li
   without editing the test. For UI: close the loop with a screenshot or browser check, two
   or three rounds. Verification is part of done; the literal output is pasted into the
   return.
+- **Before and after.** Where behaviour changes, record it before the change and after it on
+  the final tree, and name what was tested (`references/evidence.md`).
 - **What counts as evidence here.** Exit codes captured to files, never piped through a
   filter that swallows them. A green suite proves structure, not behaviour: the real-engine
   gate on a fresh host is what proves an appliance. Verify the effect, never the declaration
@@ -378,13 +400,16 @@ authority); who holds each one today is a Cortex role occupancy record, not a li
 ## 5. Review and ship: "review runs in both directions; governance is enforced as the agent acts"
 
 - **Review.** Every change gets the same passes (`templates/REVIEW.md`): bugs, security,
-  compliance against spec, plan and rulings. Important is reserved for behaviour, data or
+  compliance against spec, plan and rulings, and structure. Important is reserved for behaviour, data or
   policy breaks; nits are capped at five. Only generated noise with no policy or behavioural
   consequence goes unreported; projection drift, re-pins and re-baselines are ratified or
   refused item by item. The author never approves. The reviewer's adversarial review is
   bound to a pre-fold `reviewed_sha` and returns verdicts with evidence; "no findings"
   carries the receipt of what was attempted (THE_WAY §11.1 step 2). Findings that cite
-  policy feed the rule or the skill that should have caught them.
+  policy feed the rule or the skill that should have caught them. Review runs in rounds with a
+  cap (`templates/REVIEW.md`, "Rounds"): each round is a new review record at a new
+  `reviewed_sha`; the author proposes dispositions and the adjudicator rules on whatever the
+  reviewer has not closed.
 - **Adjudication.** The adjudicator diffs `reviewed_sha..adjudicated_sha` first and answers
   every finding against the tip that was reviewed (THE_WAY §11.1 step 3). Anything committed
   after `reviewed_sha` is unreviewed: it goes back to review or is named, hunk by hunk, in
@@ -450,6 +475,335 @@ authority); who holds each one today is a Cortex role occupancy record, not a li
 Rate review findings and cap the nits; update skills and hooks and prove them with evals;
 move repeated mistakes into rules; tune bands from dismissals; add the month's incidents as
 evals; challenge one standing rule with evidence (THE_WAY §13).
+```
+
+## references/team.md
+
+````markdown
+# Working as a team
+
+`SKILL.md` describes what happens to one piece of work. This file describes how several agents
+work at once without damaging each other's work. The project's own operating procedure owns
+the exact contract (for Kaidera OS: `docs/SOP_PLAN_AND_EXECUTE.md`, which wins wherever this
+summary differs); the rules below are the portable part. Credits are in `references/attribution.md`.
+
+## 1. Roles come from the occupancy record
+
+Originator, lead, worker, reviewer, adjudicator, integration custodian and release authority
+are roles, and who holds each is a Cortex role occupancy record, never a line in this file
+(`governance.md`, "Separation of duties"). Where the record in force says the lead also holds
+adjudication and custody (Kaidera OS today, THE_WAY §16), the lead plans, rules on returns and
+folds accepted work; where it does not, those are three identities. In every case:
+
+- the lead plans and dispatches and does not execute delivery steps;
+- workers execute inside their roster lane and hand back receipts; they do not fold their own
+  work, rule on it, or pass a gate;
+- gates are requested by agents and passed by the release authority, a human.
+
+## 2. Before the first edit: find out who else is there
+
+Run this and paste the output, with each exit code, into the plan's pre-edit evidence
+(`templates/plan.md`). `SINCE` is the date of the integration commit you branched from, or
+fourteen days ago, whichever is earlier. Never shorten the listing: count it, then read all of it
+(THE_WAY §14.2b).
+
+```
+set -o pipefail
+SCRATCH=$(mktemp -d)          # outside the repository
+git worktree list
+git for-each-ref --format='%(committerdate:short) %(refname:short)' refs/heads refs/remotes \
+  | awk -v since="$SINCE" '$1 >= since' | sort -r > "$SCRATCH/refs.txt"; echo "rc=$?"
+wc -l < "$SCRATCH/refs.txt"
+while read -r _ ref; do
+  out=$(git diff --name-only "<integration-branch>...$ref" -- <your declared pathspecs> 2>&1) \
+    || { echo "UNCHECKED: $ref ($out)"; continue; }
+  [ -n "$out" ] && echo "$out" | sed "s|^|$ref: |"
+done < "$SCRATCH/refs.txt"
+git -C <shared checkout> status --porcelain; echo "rc=$?"
+```
+
+The loop prints every recently touched branch that changes a path you declared, and marks as
+`UNCHECKED` any ref git could not compare (no merge base, for example); an unchecked ref is
+looked at by hand. Local and remote copies of one branch both appear, which is expected. In the
+plan, paste the worktree list, the count, and the loop output; cite `refs.txt` by its sha256
+instead of pasting a long list. The last line is run for any
+checkout more than one agent can write to. A forge listing (`gh pr list`, `glab mr list`) is an
+optional extra where the project uses one. Pending handoffs in other lanes are invisible to a
+worker, so the lead checks those at dispatch. If someone else's in-flight work touches your declared paths,
+stop and send the lead a consult that names the overlap. Do not negotiate it between workers.
+
+## 3. Keeping out of each other's way
+
+1. **A tree has one owner** (THE_WAY §9). Do not edit, clean, reset, restore or commit in a
+   tree you do not own. File times you did not cause mean someone else is there: stop.
+2. **A worktree separates files and nothing else.** Listening ports, databases, the container
+   engine, the coordination store and package caches are shared by every tree on the machine.
+   Before believing what a port serves, find the process behind it and read its command line.
+   Reloading or resetting a shared database is its owner's job alone, with the API stopped, a
+   backup taken first and a human line (SOP section 7). Kaidera OS learned this on 2026-09-17:
+   handoffs written during the repair window were lost
+   (`Program/KAI_ADJUDICATION_2026-09-18.md` section 4).
+3. **Build the environment inside the tree.** Virtualenvs and `node_modules` are per tree.
+   Record the runtime version you ran with in the pre-edit evidence.
+4. **One mutation per command, output shown** (non-negotiable 12, THE_WAY §14.2). Stage by
+   pathspec, run `scripts/dev/verify-change-scope.sh`, commit with pathspecs, each as its own
+   command with its exit code. Never hide a git command's errors.
+5. **Pushing follows the register** (THE_WAY §11, §13.2). A worker pushes only their own task
+   branch, and only where the project allows workers to push. The integration branch is pushed
+   by the custodian inside the ship loop and its history is never rewritten. Rewriting your own
+   pushed task branch uses `--force-with-lease`; a bare `--force` is never used.
+6. **Conflicting lockfiles** are rebuilt by the package manager, not edited by hand.
+7. **After the fold**, delete the task branch with `git branch -d`. Use `-D` only after showing
+   that the tip is an ancestor of, or tree-equal to, the integration tip.
+
+## 4. Dispatches and returns (portable summary; the project's SOP owns the contract)
+
+A dispatch states, in this order: the goal in one sentence and the gate it feeds; the receipt
+that proves each step; the order and what it waits on; what is not in scope; what to do when
+blocked. It obeys the channel's form limits (for Cortex: ASCII, 4,000 code points, long
+material in a committed file cited by path and SHA). One open dispatch per worker per lane.
+
+Rulings and new work travel separately. A note that carries rulings asks for nothing; a work
+dispatch carries a receipt per step. The measurement behind this is recorded in
+`.agents/skills/gavel/references/calibration.md` (entry of 2026-09-18).
+
+A return is a completion handback naming the tip that was worked on, with each receipt pasted
+or cited by path and SHA, and a plain statement of what was not done and why. A step a worker
+declines for a stated reason belongs in that statement, inside a completion that still carries
+receipts for the steps that were done. If nothing could be done, the return is a consult with
+options. An empty completion is a defect signal (THE_WAY §14.2b).
+
+## 5. Instruments
+
+Where the `gavel` skill is installed and a key is configured, the lead runs its dispatch check
+before sending and its triage before ruling, and writes any disagreement, or any confidence
+under 0.6, into the adjudication record. It sends the text it is given to a third-party
+service, so nothing secret or customer-owned goes into it. Workers do not grade themselves
+with it. Without it, the same checks are done by reading section 4 against the draft.
+
+## 6. When the coordination channel is down
+
+SOP section 7 owns this. In short: dispatches are written to files and filed when the channel
+is healthy again; the person who must repair the channel gets their instructions through the
+release authority; nobody repairs another lane's system to be helpful; writes made during a
+repair window are checked by id before anyone relies on them.
+
+## 7. Review in rounds
+
+`templates/REVIEW.md`, "Rounds", owns the rule. For a team the point is tempo: a review that
+never ends blocks a lane as surely as no review. Each round re-binds to a new SHA; the author
+proposes dispositions and closes nothing; the reviewer closes fixes; the adjudicator rules on
+the rest; at the cap the open list goes up instead of around again.
+````
+
+## references/code-quality.md
+
+```markdown
+# Code quality: keep policy and plumbing apart
+
+Read this in the Build stage. It is about shape; linters own style. It applies THE_WAY's
+architecture vocabulary (domain, ports, adapters, §2 and §3) to everyday code. Credits are in
+`references/attribution.md`.
+
+## 1. Policy and plumbing
+
+- **Policy** is what a flow means to the product: the business rule, who may do it, which
+  state follows which, how a failure is classified, what the person is told. It lives in the
+  domain and in the routes, commands and handlers that drive it.
+- **Plumbing** is how an operation is carried out dependably: talking to a provider or an SDK,
+  running a command, waiting for readiness, parsing, reading and writing. It lives behind a
+  port, in an adapter or a shared helper.
+
+Policy calls plumbing. Plumbing never decides policy and never writes domain state on its own.
+When a bug fix has to be made in three places, plumbing was copied instead of shared, or
+policy leaked into it.
+
+## 2. What good plumbing looks like
+
+- Small functions that each do one operation, so a caller can combine them and choose how
+  strict to be. Not one call that does the whole flow.
+- Everything it needs comes in as arguments. It does not read global state, query the
+  database for context, or discover configuration on its own. The one exception is looking up
+  a credential by name at the adapter's edge (design 41).
+- It returns a result the caller can branch on, with the facts in it (what is ready, where,
+  which identifier), and it reports failure instead of absorbing it. The caller decides what
+  the failure means.
+- One convention for arguments and errors across a module.
+
+## 3. When to share code
+
+THE_WAY principle 5 governs: rule of three, and duplicate rather than adopt a wrong
+abstraction. Share plumbing when a third caller appears, or sooner only when two copies have
+already drifted and caused a defect. Declared ports are exempt from the "one implementation"
+smell: a port exists where a swap is genuinely expected (THE_WAY §3).
+
+When you do share: write the flow where it is used first; mark what is operational and free
+of policy; move that one piece; switch a single call site and prove it; then switch the
+others. Policy stays where it was. Finish with the type check, the linter and the tests of
+every flow you touched.
+
+## 4. Smells to name in review
+
+| Smell | What goes wrong |
+|---|---|
+| Everything-function | the whole flow in one call; nothing can be reused and every caller inherits every side effect |
+| Plumbing that writes policy state | a shared helper updates domain tables or status; a change for one flow breaks another |
+| Every call its own dialect | argument order, naming and error reporting differ function to function; callers guess |
+| Abstraction ahead of need | a helper or interface with a single user, outside the declared ports |
+| Second implementation | one fact computed in two places; fix by deleting one (one owner per fact) |
+| Baked value | a model id constant in an execution path: configuration decides, and when nothing is configured KOS passes no model so the provider's default applies (design 38). Hosts, paths, buckets and keys have no default at all: fail closed |
+| Silent default | configuration that is declared but never read, losing to a constant; prove the effect, not the declaration |
+| Swallowed failure | an exit code or exception dropped, so the next stage reports success with nothing delivered |
+
+## 5. The smallest change that works
+
+Use what exists before adding: the standard library, a platform feature, a dependency already
+installed. No scaffolding for later. Logic with a branch, a loop or a parser leaves one
+runnable check behind that fails when it breaks. None of this licenses dropping input
+validation at a trust boundary, error handling that prevents data loss, a security measure, or
+anything that was asked for.
+
+## 6. Questions for the plan and for the structure pass in review
+
+1. For each changed file: is it policy or plumbing, and does any call run from plumbing up
+   into policy?
+2. Is operational logic now present in more than one place? Is anything shared that has fewer
+   than three users and is not a declared port?
+3. Does each new piece of plumbing take its inputs as arguments and return a result a caller
+   can branch on?
+4. Is a model id baked, or does any host, path, bucket or key have a default?
+5. Where does a failure surface, and which layer gives it meaning?
+```
+
+## references/evidence.md
+
+```markdown
+# Evidence
+
+Read this in the Verify stage and whenever you write a return. It extends non-negotiable 4
+("verification is output that can fail") with what Kaidera has learned about receipts.
+Credits are in `references/attribution.md`.
+
+## 1. A receipt has an identity
+
+A receipt names the thing it is about: the commit, the host, the deployment, the object. "The
+suite passed" is a claim; "5,141 passed on 590ea2ca77, exit 0" is a receipt. For anything that
+moves or publishes bytes, the receipt is read at the destination: the object's size and
+digest, the registry's version, the version string the installed program prints. The mover's
+exit code proves nothing. Kaidera has seen an upload exit 0 with no object at the other end
+(2026-09-17).
+
+Read a receipt before you send it. A SHA, a count or an id that was computed into a variable
+by a command that failed is still a value, and it is wrong.
+
+## 2. Reproduce first, then change
+
+Where existing behaviour changes, record the old behaviour while you are reproducing it and
+before you touch the code. For a defect that record is the failing test of non-negotiable 5;
+for something a person sees or measures, it is a capture or a number. Record the new behaviour
+the same way on the final tree, and put the two side by side in the return. Where nothing
+existed before (a new surface, a document, a pure addition) write "no before: new surface"
+and give the after alone.
+
+## 3. What proves what
+
+| Kind of change | What to show |
+|---|---|
+| Something a person sees | the real session, captured before and after; repeat the check two or three times |
+| An API or a performance change | a small script that measures (counts, latency, size) with its output kept in a file, run before and after |
+| Rendering, document processing, extraction | the produced artifact and an assertion on its content, not a statement that it rendered |
+| Agent behaviour | the part of the transcript where the tool is called and answered |
+| Moving, publishing or installing bytes | identity at the destination (section 1) |
+| A defect fix | the failing test committed first, then the same unedited test passing |
+
+## 4. Limits
+
+- Evidence is added to the repository's own checks (type check, build, tests, fitness gates).
+  It does not stand in for them.
+- Make sure the process, port, host and database you measured are the ones you meant. On a
+  shared machine they often are not.
+- A scripted, synthetic or assembled run is labelled as such. If a live run is not possible,
+  say so and show what could be run.
+- Secrets, tokens, customer data and payment details are kept out of captures. A flow that
+  cannot be shown without them is reported as untested, with the reason and the name of who
+  can test it.
+- An emulated environment is not a gate surface. On 2026-09-17 two emulated probe runs failed
+  and one passed on the same day (`Program/KAI_ADJUDICATION_2026-09-18.md` section 7); the
+  difference was the emulation. Probe on the real target class, or in CI on a native runner.
+
+## 5. In the return
+
+Give the command and its literal output, or the file by path and SHA. Say what was not
+verified and why. A step declined for a stated reason is a judgement the lead can work with;
+"done" without a receipt is a defect.
+```
+
+## references/writing.md
+
+```markdown
+# Writing for the people who read our work
+
+Commit messages, pull-request text, handoffs, returns, records, docs, code comments and
+replies are all read by someone deciding what to do next. Go over what you wrote or changed
+before it leaves your hands; text you did not touch is not yours to restyle. The idea of a
+"tells" checklist comes from the unslop skill (MIT); see `references/attribution.md`. The rules below are
+Kaidera's, written for operational text.
+
+## 1. Remove what carries no information
+
+- Praise and promotion for the work itself: "robust", "seamless", "powerful", "comprehensive".
+- Warm-up and hedging: "it is worth noting", "in order to", stacked maybes. Say the thing, or
+  say exactly what is unknown.
+- Inflated verbs where "is", "has" or "use" would do.
+- Authority without a source: "best practice", "industry standard". Cite the rule, the
+  document or the measurement, or drop it.
+- Shape for its own sake: lists padded to three, a bold label repeating its own sentence,
+  headings on a five-line note, emoji as decoration.
+- Conversation left in a document: greetings, thanks, closing offers.
+- Dash-joined clauses, colons in mid-sentence and arrows in prose. Write two sentences.
+
+## 2. Say what happened
+
+- Put the number where the adjective was: "p95 went from 2.1 s to 0.4 s", not "much faster".
+- Name who did it: "the API validates the query", not "the query is validated". The reader of
+  a return needs the actor, and the passive voice removes it.
+- One idea to a sentence. One name for one thing, repeated.
+- Outcome first. The opening line of a return or a commit says what changed or what was
+  found; background follows.
+
+## 3. Operational text is not an essay
+
+Advice written for essays asks for opinion, rhythm and a little disorder. A receipt, a handoff
+or a record wants the reverse: exact identifiers, literal output, and uncertainty stated as
+"not verified: X, because Y". Add nothing for colour. Where a decision is being asked for, do
+give a recommendation; options without one hand your work to the reader.
+
+## 4. Commits and handoffs
+
+- Commit subject: what changed, imperative mood. Body: why, and the proof.
+- Handoff: `references/team.md` section 4 gives the order. Keep to the channel's limits and
+  put long material in a committed file cited by path and SHA.
+```
+
+## references/attribution.md
+
+```markdown
+# Attribution
+
+`kaidera-sdlc` is Apache-2.0. Version 1.2.0 (2026-09-18) adopted ideas from a third-party
+skills pack, `michaelshimeles/skills` at commit 4b72f46 (2026-09-17). No text from that pack is
+reproduced here. The first draft of 1.2.0 tracked several of its sentences too closely; it was
+pushed to a private review branch, an independent review caught it, and the references were
+rewritten and the branch replaced before anything was merged or published.
+
+| Component in the pack | Author and licence | What Kaidera took |
+|---|---|---|
+| `AGENTS.md`, `new-feature`, `code-structure`, `evidence-driven-testing` | Michael Shimeles; no licence file (all rights reserved) | ideas only: look for other agents' in-flight work before starting; a worktree does not isolate shared resources; keep orchestration and operational mechanics apart; record the old behaviour before fixing |
+| `unslop` | Lauren Tan, via `cursor/plugins` (pstack); MIT | the idea of a checklist of machine-writing tells; Kaidera's list and wording are its own |
+| `greploop`, `greploop-apps` | Greptile; MIT | the idea that a review-and-fix loop has a cap and an exit report |
+| `before-and-after` | James Clements, via vercel-labs; PolyForm Shield 1.0.0 | idea only: a change is presented with its before and after side by side. No code, CLI or text used |
+
+Earlier sources are credited in `SKILL.md` metadata (`sources`).
 ```
 
 ## references/metrics.md
@@ -814,6 +1168,10 @@ release authority as authorizer.
   `scripts/fitness/check-worktree-ownership.sh` output with `rc=`.
 - Clean tree: `git status --porcelain` output (empty) with `rc=`.
 - Declared scope: the pathspecs this change may touch, listed here before the first edit.
+- Scope check: the commands of `references/team.md` section 2, in full (worktree list, the
+  counted and untruncated list of recent refs, the per-branch `git diff --name-only` loop over
+  your declared paths, status of shared checkouts), output and `rc=` pasted; an overlap means
+  stop and consult the lead.
 - Scope receipt, per commit: `scripts/dev/verify-change-scope.sh <declared paths>` run after
   staging and before committing, output and `rc=` pasted; exit 2 is not a pass.
 - Live siblings, before any restore, clean or reset: `find <tree> -newermt '-2 hours' -type f`
@@ -882,12 +1240,33 @@ and the instance is regenerated (projection drift, "Report and ratify").
     receipt (`references/governance.md`, "Role occupancy records").
 
 ## Passes
-Run three passes and tag each finding with its pass:
+Run four passes and tag each finding with its pass:
 - **Bugs**: logic errors, broken edge cases, subtle regressions, silent failure paths.
 - **Security**: injection, auth gaps, secrets in diffs or logs, PII exposure, trust boundaries.
 - **Compliance**: the change matches the spec, the plan, the rulings in force (architecture
   rule, editions, one owner per fact) and the SOPs (change isolation, immutable migrations,
   destructive-op checklist, separation of duties).
+- **Structure**: policy reached from plumbing, operational logic duplicated, sharing ahead of
+  the rule of three, a baked model id or a defaulted host, path or key, a failure dropped
+  (`references/code-quality.md` section 6).
+
+## Rounds
+A review is a loop with a cap, not an open conversation. The cap is a dated decision recorded in
+the plan (default three rounds, 2026-09-18; the adjudicator may set another number for a change
+and says why). Rules:
+- Each round is a new review record bound to the new `reviewed_sha` (`references/governance.md`,
+  "Gate records": a correction is a new record pointing at the one it supersedes). Commits
+  made after a `reviewed_sha` are unreviewed until the next round covers them.
+- For every finding the author **proposes** a disposition: fixed, disputed (with the reason),
+  informational, or deferral proposed (with an owner). A proposal closes nothing.
+- Only the reviewer closes a finding as fixed, by re-reviewing at the new SHA. Disputed,
+  informational and deferred findings stay open until the adjudicator rules at gate 5.
+- At the cap the author stops pushing fixes. The open findings go to the adjudicator as a list
+  with `file:line`; fixes made in the final round are named hunk by hunk in the adjudication.
+- The closing report is one table: rounds run, findings closed by the reviewer, findings ruled
+  by the adjudicator (accepted, reworked, withdrawn), findings still open.
+The reviewer's verdict words (CONFIRMED, REFUTED, REWORK) and the adjudicator's are unchanged;
+rounds change the tempo of review, not who decides.
 
 ## Verdicts
 Every finding carries a verdict with evidence: CONFIRMED (reproduced, command and output),
