@@ -3,7 +3,7 @@
   "description": "Locally validated, provenance-aware skills for Kaidera agents",
   "version": "1.0.0",
   "source": "https://github.com/Kaidera-AI/skills",
-  "generated_at": "2026-09-10T00:00:00.000Z",
+  "generated_at": "2026-09-17T00:00:00.000Z",
   "generation_basis": "maximum skill updated date",
   "skills": [
     {
@@ -473,6 +473,63 @@
       "last_reviewed": "",
       "reviewer": "",
       "file": "skills/development/database-migration.SKILL.md"
+    },
+    {
+      "name": "gavel",
+      "version": "1.0.0",
+      "description": "Gavel - typed judgments for a project lead's decisions. Before you rule on a worker's\nreturn, send a handoff, or order a backlog, ask a fixed set of narrow questions and get\ntyped answers with probabilities: disposition, evidence quality, silent gaps, scope creep,\nirreversibility, next owner, urgency; whether a draft handoff carries a receipt contract;\nhow gate-blocking and risky each backlog item is. Powered by TypeSafe's System One model\n(Jev) through a bundled stdlib helper. Use when triaging a return, handback or consult;\nbefore sending any handoff; when prioritising a checklist. Works in any project, any\nharness, any model. Judgments are inputs, never the decision.\n",
+      "category": "development",
+      "trust_tier": "unvetted",
+      "risk_level": "medium",
+      "capabilities_required": [
+        "tool:file_read",
+        "tool:code_interpreter"
+      ],
+      "allowed_domains": [
+        "api.typesafe.ai",
+        "docs.typesafe.ai",
+        "github.com"
+      ],
+      "safety_constraints": [
+        "Judgments are inputs to a human or lead decision, never the decision; the skill authorises no merge, deploy, publish, deletion or spend.",
+        "Sends the text you pass (returns, handoffs, backlog items) to api.typesafe.ai. Never pass secrets, credentials, customer data or private keys; the built-in redactor is a backstop, not a permission.",
+        "The API key is read by name from the environment or a local .env and is never printed, logged or committed.",
+        "Harness-agnostic by construction - plain files and a stdlib Python helper; no vendor plugin or harness-only feature is required."
+      ],
+      "parameters": {
+        "mode": {
+          "type": "string",
+          "required": true,
+          "description": "One of triage, dispatch, rank, selftest."
+        },
+        "input": {
+          "type": "string",
+          "required": false,
+          "description": "Path to the packet, handoff text or items JSON, or \"-\" for stdin (not used by selftest)."
+        }
+      },
+      "author": "Kaidera-AI",
+      "license": "Apache-2.0",
+      "updated": "2026-09-17",
+      "tags": [
+        "gavel",
+        "lead",
+        "decision-making",
+        "adjudication",
+        "handoff",
+        "triage",
+        "prioritisation",
+        "typesafe",
+        "system-one"
+      ],
+      "content_hash": "780ea04d454f5aa3d5757e517165f83ee3381aea3a2e56c4476799fe7c6882b3",
+      "signed_by": "",
+      "last_reviewed": "",
+      "reviewer": "",
+      "file": "skills/development/gavel.SKILL.md",
+      "attribution_author": "",
+      "attribution_url": "",
+      "attribution_notes": "Builds on the TypeSafe skill (typesafe-ai/skills, MIT) and docs.typesafe.ai (System One primitives Choice, Noul, Score). Requires a TypeSafe API key supplied by the user as JEV_API_KEY."
     },
     {
       "name": "git-workflow",
