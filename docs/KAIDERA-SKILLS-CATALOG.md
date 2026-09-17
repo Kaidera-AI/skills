@@ -184,7 +184,7 @@ Use the narrowest matching skill:
 | Development | `ultrareview` | `1.1.1` | Whole-codebase, multi-dimension health audit with optional fix mode | Rework before use | low / none declared |
 | Development | `assert-fact-gate` | `1.0.0` | Requires a fresh source check before reporting repository, build, test, | Manual-only | low / file read |
 | Development | `kaidera-sdlc` | `1.1.0` | The Kaidera AI-native SDLC: the operating loop every lead runs for an epic, feature, fix, | Bounded candidate | medium / file read, file write |
-| Development | `kaidera-lead-judgment` | `0.1.0` | Typed judgments for a project lead: triage returns, check handoffs, rank work (TypeSafe System One) | Bounded candidate | medium / file read, interpreter |
+| Development | `gavel` | `1.0.0` | Typed judgments for a project lead: triage returns, check handoffs, rank work (TypeSafe System One) | Bounded candidate | medium / file read, interpreter |
 | Development | `unlazy` | `1.0.0` | Completion discipline for substantial autonomous work. Write acceptance gates | Bounded candidate | medium / file read, file write |
 | DevOps | `container-build` | `1.0.1` | Legacy hardening-oriented multi-stage image and CI build examples | Reference-only, legacy | low / none |
 | DevOps | `deploy-to-dev` | `3.0.2` | Legacy sprint-branch GitOps deployment runbook | Manual-only, legacy | medium / none declared |
@@ -244,7 +244,7 @@ precedence issue remains a release hold.
 | `scope-work-gate` | `Kaidera` | `Apache-2.0` | None | — |
 | `assert-fact-gate` | `Kaidera` | `Apache-2.0` | None | — |
 | `kaidera-sdlc` | `Kaidera-AI` | `Apache-2.0` | `github.com`, `claude.com` | — |
-| `kaidera-lead-judgment` | `Kaidera-AI` | `Apache-2.0` | `api.typesafe.ai`, `docs.typesafe.ai`, `github.com` | — |
+| `gavel` | `Kaidera-AI` | `Apache-2.0` | `api.typesafe.ai`, `docs.typesafe.ai`, `github.com` | — |
 | `unlazy` | `kaidera-ai` | `MIT` | `github.com` | [Leonxlnx](https://github.com/Leonxlnx/unlazy) |
 | `cloud-agnostic-policy` | `Kaidera` | `Apache-2.0` | None | — |
 | `deploy-gate` | `Kaidera` | `Apache-2.0` | None | — |
@@ -513,6 +513,18 @@ compare it with the current repository and Cortex source of truth.
   forward blanket claims that every migration is reversible or that a generic
   example is safe for a particular live database.
 
+### `gavel`
+
+<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:code_interpreter"],"category":"development","legacy":false,"name":"gavel","path":"skills/development/gavel.SKILL.md","posture":"bounded-candidate","review_fingerprint":"59d21a3c49931d0cc63051af3a058525408a72fe27a2e41710b9c33233798613","risk_level":"medium","trust_tier":"unvetted","version":"1.0.0"} -->
+
+- **Manifest:** [gavel.SKILL.md](../skills/development/gavel.SKILL.md)
+- **Function:** Gavel: typed judgments for a project lead who plans, adjudicates and coordinates while workers execute: triage a worker return (disposition, evidence quality, silent gaps, scope creep, irreversibility, next owner, urgency), check a draft handoff for its receipt contract, and score backlog items for gate-blocking and risk, using TypeSafe's System One model through a bundled stdlib helper.
+- **Use when:** A return, handback or consult lands; before sending a handoff; when ordering a checklist or backlog.
+- **Do not use when:** As the decision itself, as a code reviewer, or with secrets, credentials, customer data or private keys in the text; it sends what you pass to `api.typesafe.ai`.
+- **Inputs and output:** A JSON packet or plain text on stdin; typed answers with probabilities and confidence on stdout. Requires a user-supplied `JEV_API_KEY`.
+- **Authority and effects:** Advisory. It authorises no merge, deploy, publish, deletion or spend; thresholds and policy live in the skill text and the caller's code.
+- **Kaidera action:** Bounded candidate: the canonical source is Kaidera OS `.agents/skills/gavel/` (helper, question catalogue, calibration log, evals); this file is its marketplace projection, rendered by the source's `tools/render-public.py`, which also emits the directory form `skills/development/gavel/` for the agnostic skills CLI. Harness-agnostic by construction; project-agnostic wording.
+
 ### `git-workflow`
 
 <!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"development","legacy":true,"name":"git-workflow","path":"skills/development/git-workflow.SKILL.md","posture":"rework-before-use","review_fingerprint":"bc53b022c5bf3fbfa4a94e254a3d112eb96884c6f15f0522f0b578a9b1b7147a","risk_level":"low","trust_tier":"unvetted","version":"1.0.1"} -->
@@ -529,18 +541,6 @@ compare it with the current repository and Cortex source of truth.
 - **Kaidera action:** Rework before use: prefer current repository rules and
   Cortex handoff policy, correct the malformed `--no-verify` warning, and split
   descriptive conventions from Git mutation.
-
-### `kaidera-lead-judgment`
-
-<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:code_interpreter"],"category":"development","legacy":false,"name":"kaidera-lead-judgment","path":"skills/development/kaidera-lead-judgment.SKILL.md","posture":"bounded-candidate","review_fingerprint":"bd23155a8371d492a36ce4e079c09ea5dfecbe469f6b35ebe478a4928dcc5027","risk_level":"medium","trust_tier":"unvetted","version":"0.1.0"} -->
-
-- **Manifest:** [kaidera-lead-judgment.SKILL.md](../skills/development/kaidera-lead-judgment.SKILL.md)
-- **Function:** Typed judgments for a project lead who plans, adjudicates and coordinates while workers execute: triage a worker return (disposition, evidence quality, silent gaps, scope creep, irreversibility, next owner, urgency), check a draft handoff for its receipt contract, and score backlog items for gate-blocking and risk, using TypeSafe's System One model through a bundled stdlib helper.
-- **Use when:** A return, handback or consult lands; before sending a handoff; when ordering a checklist or backlog.
-- **Do not use when:** As the decision itself, as a code reviewer, or with secrets, credentials, customer data or private keys in the text; it sends what you pass to `api.typesafe.ai`.
-- **Inputs and output:** A JSON packet or plain text on stdin; typed answers with probabilities and confidence on stdout. Requires a user-supplied `JEV_API_KEY`.
-- **Authority and effects:** Advisory. It authorises no merge, deploy, publish, deletion or spend; thresholds and policy live in the skill text and the caller's code.
-- **Kaidera action:** Bounded candidate: the canonical source is Kaidera OS `.agents/skills/kaidera-lead-judgment/` (helper, question catalogue, calibration log, evals); this file is its marketplace projection, rendered by the source's `tools/render-public.py`. Harness-agnostic by construction.
 
 ### `kaidera-sdlc`
 
