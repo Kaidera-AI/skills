@@ -16,6 +16,9 @@
 
 ## The gates, in the order a change meets them
 
+What a human decides at a gate, what reaches them and how they answer is
+`references/human-gates.md`; the gate packet defined there is the input to every human line below.
+
 Every gate leaves an append-only gate record (below); the record, not the prose in an
 artifact, is what "accepted", "reviewed" or "merged" means.
 

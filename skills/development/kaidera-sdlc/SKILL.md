@@ -5,7 +5,7 @@ license: Apache-2.0
 # policy skill (K2 R1, 2026-09-04): rides every worker boot regardless of ranking
 always_load: true
 metadata:
-  version: 1.2.0
+  version: 1.3.0
   authority: "CTO standing order 2026-09-03; design docs/design/31-ai-native-sdlc-skill.md; THE_WAY sections 9-14; rework after adversarial review 2026-09-04 (gate records, portable roles, risk beats urgency)"
   sources: "Anthropic, The AI-Native SDLC playbook (2026-08-21); grill-me (Matt Pocock lineage, MIT); molten-os-core molten-validate (Switch Dimension, MIT); gstack plan reviews and ship (Garry Tan, MIT); unlazy (Leonxlnx, MIT); Kaidera THE_WAY_OF_DEVELOPMENT; 1.2.0 ideas from michaelshimeles/skills, unslop (L. Tan, MIT), greploop (Greptile, MIT), before-and-after (vercel-labs): see references/attribution.md"
   applies_to: [lead, cpo, pm, orchestrator, full-stack-developer, knowledge-keeper]
@@ -42,6 +42,9 @@ only the depth changes.
 | write or restructure code | Plan and build | `references/code-quality.md` |
 | prove a change; write evidence into a return | Verify | `references/evidence.md` |
 | write anything a person will read | all stages | `references/writing.md` |
+| review a change, set up review, act as the reviewer | Review | `references/code-review.md` |
+| a human must decide: plan approval, merge to main, deploy, publish, release, an irreversible step | Ship | `references/human-gates.md` |
+| explain the method to a person, set up a project, expectations of the team | all stages | `references/human-guide.md` |
 
 Load only the reference the stage needs. Do not read every file at once.
 
@@ -74,7 +77,9 @@ Load only the reference the stage needs. Do not read every file at once.
    (`templates/REVIEW.md`, "Rounds").
 7. **The agent acts up to the gate and cannot pass it.** Merge to main, deploy, publish and
    release wait for the release authority's go (a human, never an agent; for Kaidera OS the
-   CTO, by occupancy record). Rollback is the most rehearsed path.
+   CTO, by occupancy record). Rollback is the most rehearsed path. The human tests the running
+   thing at `merged_sha` and decides on the gate packet (evidence pair, review verdict, record);
+   reading the diff is the reviewer's and the adjudicator's job (2026-09-18; `references/human-gates.md`).
 8. **Humans own judgement.** Policy acceptance, approval, release authorisation, incident
    triage, taste. Agents own diagnosis, implementation, self-verification, uniform review.
 9. **Mistake twice, rule once.** A repeated mistake becomes a dated rule (Cortex rule,
@@ -138,6 +143,7 @@ assign the role.
 ## References
 
 - `references/team.md`, `code-quality.md`, `evidence.md`, `writing.md`: working together, structure, proof, plain writing (1.2.0; credits in `references/attribution.md`)
+- `references/code-review.md`, `human-gates.md`, `human-guide.md`: two reviewers and one report; what a human decides and what reaches them; the guide for the people on the project (1.3.0)
 - `references/grill.md`: the interrogation protocol (quick, full, re-grill) and its lenses
 - `references/stages.md`: the six stages with Kaidera practice, roles, gates, SOP and skill map
 - `references/metrics.md`: leading and lagging measures per stage, with our data sources

@@ -183,7 +183,7 @@ Use the narrowest matching skill:
 | Development | `tdd-workflow` | `2.0.1` | Legacy red-green-refactor and five-step verification workflow | Rework before use, legacy | low / none declared |
 | Development | `ultrareview` | `1.1.1` | Whole-codebase, multi-dimension health audit with optional fix mode | Rework before use | low / none declared |
 | Development | `assert-fact-gate` | `1.0.0` | Requires a fresh source check before reporting repository, build, test, | Manual-only | low / file read |
-| Development | `kaidera-sdlc` | `1.2.0` | The Kaidera AI-native SDLC: the operating loop every lead runs for an epic, feature, fix, | Bounded candidate | medium / file read, file write |
+| Development | `kaidera-sdlc` | `1.3.0` | The Kaidera AI-native SDLC: the operating loop every lead runs for an epic, feature, fix, | Bounded candidate | medium / file read, file write |
 | Development | `gavel` | `1.0.1` | Typed judgments for a project lead: triage returns, check handoffs, rank work (TypeSafe System One) | Bounded candidate | medium / file read, interpreter |
 | Development | `unlazy` | `1.0.0` | Completion discipline for substantial autonomous work. Write acceptance gates | Bounded candidate | medium / file read, file write |
 | DevOps | `container-build` | `1.0.1` | Legacy hardening-oriented multi-stage image and CI build examples | Reference-only, legacy | low / none |
@@ -544,7 +544,7 @@ compare it with the current repository and Cortex source of truth.
 
 ### `kaidera-sdlc`
 
-<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:file_write"],"category":"development","legacy":false,"name":"kaidera-sdlc","path":"skills/development/kaidera-sdlc.SKILL.md","posture":"bounded-candidate","review_fingerprint":"48a41ae45fdbbd7ef6759d567d1748bbc0d391d361fbca3514cdf0f94aba6e28","risk_level":"medium","trust_tier":"unvetted","version":"1.2.0"} -->
+<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:file_write"],"category":"development","legacy":false,"name":"kaidera-sdlc","path":"skills/development/kaidera-sdlc.SKILL.md","posture":"bounded-candidate","review_fingerprint":"55e82ab326aec535789d8180b63afa1c8bbef8d1260255977ed863e14c97b6e9","risk_level":"medium","trust_tier":"unvetted","version":"1.3.0"} -->
 
 - **Manifest:** [kaidera-sdlc.SKILL.md](../skills/development/kaidera-sdlc.SKILL.md)
 - **Function:** The AI-native SDLC loop every lead is born with: intent, grill, spec, plan before code, build inside a feedback loop, verify with output that can fail, adversarial review, ship through gates, close the loop.
@@ -552,7 +552,7 @@ compare it with the current repository and Cortex source of truth.
 - **Do not use when:** As an authorisation for a merge, deploy, publish or release; those wait for the release authority's go (a human). Do not skip the full grill where risk forces it: incidents, destructive work, security, money, customer data, migrations, removals or folds, cross-project change.
 - **Inputs and output:** No parameters; file read/write for the intent, spec and plan artifacts it produces; process reference otherwise.
 - **Authority and effects:** Advisory method. It never authorises a gate; facts are looked up and decisions are put to the human and awaited.
-- **Agnostic install:** the directory form `skills/development/kaidera-sdlc/` (SKILL.md, references, templates) installs with `npx skills add Kaidera-AI/skills --skill kaidera-sdlc -a universal -y --copy`; 1.2.0 adds the team, code-quality, evidence, writing and attribution references and review in bounded rounds.
+- **Agnostic install:** the directory form `skills/development/kaidera-sdlc/` (SKILL.md, references, templates) installs with `npx skills add Kaidera-AI/skills --skill kaidera-sdlc -a universal -y --copy`; 1.3.0 adds `code-review.md`, `human-gates.md` and `human-guide.md` (two reviewers merging into one report, what a human decides at the gate, and why/how the process works) on top of 1.2.0's team, code-quality, evidence, writing and attribution references and review in bounded rounds.
 - **Kaidera action:** Bounded candidate: the canonical source is Kaidera OS `.agents/skills/kaidera-sdlc/` (references, templates, evals); this file is its marketplace projection, rendered by the source's `tools/render-public.py` (its `--check`, run from a Kaidera OS checkout, proves the projection matches; marketplace CI cannot see that source, so `kaidera.source.content_sha256` names the rendered bytes and a stale projection is a review finding, not a CI failure). Never edited here.
 
 ### `open-code-review`
