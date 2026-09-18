@@ -108,7 +108,10 @@ authority); who holds each one today is a Cortex role occupancy record, not a li
   policy feed the rule or the skill that should have caught them. Review runs in rounds with a
   cap (`templates/REVIEW.md`, "Rounds"): each round is a new review record at a new
   `reviewed_sha`; the author proposes dispositions and the adjudicator rules on whatever the
-  reviewer has not closed.
+  reviewer has not closed. The whole process with two reviewers and one report is
+  `references/code-review.md`; the human's part of the gate is `references/human-gates.md`: the
+  human tests the running thing at `merged_sha` and decides on the gate packet; the diff is the
+  reviewer's and the adjudicator's.
 - **Adjudication.** The adjudicator diffs `reviewed_sha..adjudicated_sha` first and answers
   every finding against the tip that was reviewed (THE_WAY §11.1 step 3). Anything committed
   after `reviewed_sha` is unreviewed: it goes back to review or is named, hunk by hunk, in

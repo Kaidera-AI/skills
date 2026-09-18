@@ -108,7 +108,8 @@ repair window are checked by id before anyone relies on them.
 
 ## 7. Review in rounds
 
-`templates/REVIEW.md`, "Rounds", owns the rule. For a team the point is tempo: a review that
+`templates/REVIEW.md`, "Rounds", owns the rule; the whole process with two reviewers is
+`references/code-review.md`. For a team the point is tempo: a review that
 never ends blocks a lane as surely as no review. Each round re-binds to a new SHA; the author
 proposes dispositions and closes nothing; the reviewer closes fixes; the adjudicator rules on
 the rest; at the cap the open list goes up instead of around again.

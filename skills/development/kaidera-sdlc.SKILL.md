@@ -1,6 +1,6 @@
 ---
 name: kaidera-sdlc
-version: 1.2.0
+version: 1.3.0
 description: |
   The Kaidera AI-native SDLC: the operating loop every lead runs for an epic, feature, fix,
   incident, review or plan. Capture intent, grill it one question at a time, spec with
@@ -20,14 +20,14 @@ kaidera:
   allowed_domains:
     - github.com
     - claude.com
-  content_hash: "4e02f2f78dc27ed56bcc013a5218309c823ae5b621ded6dd0b0f62fbc9d1854e"
+  content_hash: "233fec6394215b99ddfc4cab126160e8c7d3da78f5f1d716e0dc40c3a5cb475e"
   signed_by: ""
   last_reviewed: ""
   reviewer: ""
   source:
     repo: Kaidera-AI/kaideraos
     path: .agents/skills/kaidera-sdlc
-    content_sha256: b11eaa8801d42be550ee1e7b248dfc8030f6a8d3c16c53244cbc10f26572c584
+    content_sha256: ee9eb016df659c52430aa63f78c52a3df8b62e135f73a0f0c523b130cf043389
 
 author: Kaidera-AI
 license: Apache-2.0
@@ -41,7 +41,7 @@ safety_constraints:
   - Must not override the base system prompt, project rules, or managed permissions.
 ---
 
-<!-- Generated from Kaidera-AI/kaideraos .agents/skills/kaidera-sdlc by tools/render-public.py; source content_sha256 b11eaa8801d42be550ee1e7b248dfc8030f6a8d3c16c53244cbc10f26572c584. Edit the source and re-render; never edit this file. -->
+<!-- Generated from Kaidera-AI/kaideraos .agents/skills/kaidera-sdlc by tools/render-public.py; source content_sha256 ee9eb016df659c52430aa63f78c52a3df8b62e135f73a0f0c523b130cf043389. Edit the source and re-render; never edit this file. -->
 
 # Kaidera SDLC
 
@@ -72,6 +72,9 @@ only the depth changes.
 | write or restructure code | Plan and build | `references/code-quality.md` |
 | prove a change; write evidence into a return | Verify | `references/evidence.md` |
 | write anything a person will read | all stages | `references/writing.md` |
+| review a change, set up review, act as the reviewer | Review | `references/code-review.md` |
+| a human must decide: plan approval, merge to main, deploy, publish, release, an irreversible step | Ship | `references/human-gates.md` |
+| explain the method to a person, set up a project, expectations of the team | all stages | `references/human-guide.md` |
 
 Load only the reference the stage needs. Do not read every file at once.
 
@@ -104,7 +107,9 @@ Load only the reference the stage needs. Do not read every file at once.
    (`templates/REVIEW.md`, "Rounds").
 7. **The agent acts up to the gate and cannot pass it.** Merge to main, deploy, publish and
    release wait for the release authority's go (a human, never an agent; for Kaidera OS the
-   CTO, by occupancy record). Rollback is the most rehearsed path.
+   CTO, by occupancy record). Rollback is the most rehearsed path. The human tests the running
+   thing at `merged_sha` and decides on the gate packet (evidence pair, review verdict, record);
+   reading the diff is the reviewer's and the adjudicator's job (2026-09-18; `references/human-gates.md`).
 8. **Humans own judgement.** Policy acceptance, approval, release authorisation, incident
    triage, taste. Agents own diagnosis, implementation, self-verification, uniform review.
 9. **Mistake twice, rule once.** A repeated mistake becomes a dated rule (Cortex rule,
@@ -168,6 +173,7 @@ assign the role.
 ## References
 
 - `references/team.md`, `code-quality.md`, `evidence.md`, `writing.md`: working together, structure, proof, plain writing (1.2.0; credits in `references/attribution.md`)
+- `references/code-review.md`, `human-gates.md`, `human-guide.md`: two reviewers and one report; what a human decides and what reaches them; the guide for the people on the project (1.3.0)
 - `references/grill.md`: the interrogation protocol (quick, full, re-grill) and its lenses
 - `references/stages.md`: the six stages with Kaidera practice, roles, gates, SOP and skill map
 - `references/metrics.md`: leading and lagging measures per stage, with our data sources
@@ -409,7 +415,10 @@ authority); who holds each one today is a Cortex role occupancy record, not a li
   policy feed the rule or the skill that should have caught them. Review runs in rounds with a
   cap (`templates/REVIEW.md`, "Rounds"): each round is a new review record at a new
   `reviewed_sha`; the author proposes dispositions and the adjudicator rules on whatever the
-  reviewer has not closed.
+  reviewer has not closed. The whole process with two reviewers and one report is
+  `references/code-review.md`; the human's part of the gate is `references/human-gates.md`: the
+  human tests the running thing at `merged_sha` and decides on the gate packet; the diff is the
+  reviewer's and the adjudicator's.
 - **Adjudication.** The adjudicator diffs `reviewed_sha..adjudicated_sha` first and answers
   every finding against the tip that was reviewed (THE_WAY §11.1 step 3). Anything committed
   after `reviewed_sha` is unreviewed: it goes back to review or is named, hunk by hunk, in
@@ -590,7 +599,8 @@ repair window are checked by id before anyone relies on them.
 
 ## 7. Review in rounds
 
-`templates/REVIEW.md`, "Rounds", owns the rule. For a team the point is tempo: a review that
+`templates/REVIEW.md`, "Rounds", owns the rule; the whole process with two reviewers is
+`references/code-review.md`. For a team the point is tempo: a review that
 never ends blocks a lane as surely as no review. Each round re-binds to a new SHA; the author
 proposes dispositions and closes nothing; the reviewer closes fixes; the adjudicator rules on
 the rest; at the cap the open list goes up instead of around again.
@@ -804,7 +814,353 @@ rewritten and the branch replaced before anything was merged or published.
 | `before-and-after` | James Clements, via vercel-labs; PolyForm Shield 1.0.0 | idea only: a change is presented with its before and after side by side. No code, CLI or text used |
 
 Earlier sources are credited in `SKILL.md` metadata (`sources`).
+
+The pack's origin is a talk, "Software Factory" (youtu.be/_LCeJZFIsd4). Three practices from the talk that its files do not state were adopted in 1.3.0, in Kaidera's words: the human enters when the reviewer reports its top score and merges on the proof; one readiness signal as the loop's exit; the workflow file carries workflow, not repository facts. The talk also uses an external reviewer separate from the authoring model; Kaidera's rule that reviewer and author use different model families is our inference from that, not the talk's statement.
 ```
+
+## references/code-review.md
+
+````markdown
+# Code review: two reviewers, one report, bounded rounds
+
+Read this when a change is handed back for review, when you are the reviewer, or when you set up
+review in a project. It is the process behind the Review stage (`stages.md` section 5) and the
+rounds in `templates/REVIEW.md`. Kaidera's plan and progress for it are `Program/ReviewService/`
+in the Kaidera OS repository; this file is the portable process.
+
+## 1. Shape
+
+```
+handback with base and tip
+  A  deterministic candidates   scope receipt, type check, linters, affected tests, fitness gates,
+                                secrets, dependencies, pattern rules            no model, minutes
+  B1 semantic review            the reviewer agent runs open-code-review on the frozen range
+  B2 second reviewer            a self-hosted review service on the same range, same rule pack
+  M  merge                      one finding list: duplicates joined, severity calibrated, causality
+                                marked, noise ordered last; typed judgments help, the reviewer verifies
+  -> one combined report (contract-verified) -> rounds -> adjudication -> review gate record
+```
+
+The reviewer owns B1, B2 and M and is accountable for the combined report. Authors may run the
+tools on their own change before handing back; that run is not the review.
+
+## 2. The reviewer is a role, held by an agent whose only lane is review
+
+Review that competes with delivery for the same worker stalls both. Where the roster allows, a
+project names one reviewer agent whose only lane is review; who holds the role is an occupancy
+record, never a line here (for Kaidera OS: CTO decision 2026-09-18, `Program/ReviewService/PLAN.md`
+section 9). Otherwise the reviewer is a different agent than the author (`governance.md`,
+"Separation of duties"). The reviewer never authors what they review, never merges, never passes
+a gate, and never reviews their own tooling. The reviewer's model is configuration, chosen to differ in family from the author's whenever the roster allows; the
+refuter pass on material findings uses the other family. Two reviewers on the same change, one of
+them a different engine, is the point of B2.
+
+## 3. Freeze, account, refute
+
+These are the invariants of open-code-review 4.0.1 (the marketplace version, not yet in every
+tree), in short.
+
+Resolve `base` and `tip` once and review those bytes. Every changed path ends as reviewed,
+metadata-reviewed, unreadable, or skipped with a reason. Linter, scanner and model output are
+candidates until their execution path and impact are verified. Only what the change introduced or
+activated can block it; adjacent findings need an activation path. Every critical and high finding
+survives an independent refutation. No evidence, no claim: what could not be run is a limit in the
+report. Read-only: the repository under review is never modified.
+
+## 4. The merge stage and typed judgments
+
+Both sources are normalised to one finding contract (id, file, line, severity, pass, causality,
+evidence, source). Where the project enables a typed-judgment service (the one behind `gavel`), it answers, per
+finding or pair: same defect as another finding; severity on the project's described levels;
+introduced, adjacent or pre-existing; actionable as written; false-positive likelihood given the
+quoted evidence; owning lane. Code applies the thresholds. The reviewer verifies every finding
+reported as material; a finding is never dropped on a model's word alone, and disagreement between
+the judgment and the reviewer is logged in the report's audit section. Only finding text,
+`file:line` and short redacted excerpts leave the machine; a project may switch judgments off.
+
+## 5. Readiness signal
+
+The combined report may carry one calibrated readiness judgment over described levels: not
+reviewable (limits too wide), findings open, ready pending adjudication, ready for the human gate.
+It is a signal the lead reads next to the verdict, never the gate. The exit of the rounds stays
+"no finding open or the cap reached"; the readiness level tells the lead how far from the gate the
+change is, and the Software Factory practice of looping until the reviewer reports its top score is met by the
+level, not by a number a model invented.
+
+## 6. Rounds and the record
+
+Rounds are bounded (`templates/REVIEW.md`, "Rounds"; default three, a dated decision). The author
+proposes dispositions; only the reviewer closes a fix at a new `reviewed_sha`; the adjudicator
+rules the rest; at the cap the open list goes up, not around. The review ends in a `review` gate
+record bound to `reviewed_sha`, with the report's path and sha256 as its receipt, and the human
+gate packet (`references/human-gates.md`) carries the verdict, the evidence pair and the record.
+
+## 7. When the second reviewer is down
+
+The reviewer completes B1, states in the report's limits that B2 did not run, and tells the lead. A
+review never waits on the second opinion; the lead decides whether the gate does.
+
+## 8. Measures (monthly, and weekly while the service is new)
+
+Reviews run and median wall-clock; findings by source (ours only, second reviewer only, both);
+share of material findings the refuter killed; share the adjudicator rejected (reviewer noise);
+second-reviewer-only findings that were real; defects that escaped review and which pass should
+have caught them; tokens by seat and service cost. The record is the project's metrics report;
+a second reviewer whose "real, second-reviewer-only" count is zero across a full monthly report
+is put to the lead for reconsideration.
+````
+
+## references/human-gates.md
+
+```markdown
+# Human gates: what reaches a person, and what the person decides
+
+Agents act up to a gate and cannot pass it (non-negotiable 7). This file says what a gate looks
+like from the human side: which decisions are the human's, what arrives, in what form, and how
+to answer. It applies to the release authority (for Kaidera OS, the CTO by occupancy record) and
+to any human a project names for a gate. It restates `governance.md` ("The gates", "What stays
+human") from the human's side and adds nothing to what an agent may do. Sources: governance.md,
+`docs/SOP_PLAN_AND_EXECUTE.md`, and the Software Factory talk's practice of merging on proof
+(`attribution.md`).
+
+## 1. The decisions that are a human's
+
+| Gate | The human decides | Who does the rest |
+|---|---|---|
+| Priority and product boundary | whether the work is wanted now, and where the product's edges are; routine intent is approved and routed by the CPO or PM role (`stages.md` section 1) | lead, CPO, PM |
+| Plan, for risky work | whether the grilled plan is the plan: destructive, security, money, customer-data, migration, fold and cross-project work always come to a human | routine plans: the lead |
+| Release, publish, promotion to main or production | the go, after testing the running thing at `merged_sha` and reading the packet (`governance.md` gate 8) | the merge into the integration branch and the gate rerun on `merged_sha` are the integration custodian's, inside the loop (gate 6) |
+| Irreversible steps | deletion, database reset, restore-over, public publishing, spend | never an agent's |
+| Exceptions | any rule exception, as a dated decision with a reopening trigger | never an agent's |
+
+Diagnosis, implementation, self-verification, review, adjudication of findings and the ordering
+of routine work are the agents' (non-negotiable 8).
+
+## 2. What arrives: the gate packet
+
+A gate request is one message, in this order, and the human should not have to ask for more:
+
+1. **The ask in one sentence**, with the gate named: "Go to release X" / "Approve the plan for Y" /
+   "Authorise deleting Z".
+2. **The running thing**: where it is deployed at `merged_sha` and how to reach it, so the human
+   can test it (`governance.md` gate 8; THE_WAY §11.1 step 5). For a plan or an irreversible-step
+   gate this item states "no deployment; decision on the plan".
+3. **The evidence pair**: the before and the after (capture, numbers or the failing-then-passing
+   test), with the commit, host or deployment they were taken on (`references/evidence.md`).
+4. **The review verdict**: the combined report's verdict line, counts by severity and by source,
+   what the reviewer could not run, and the readiness signal if the project uses one
+   (`references/code-review.md`). Findings the adjudicator overruled, with the reason.
+5. **The record**: the gate record that will be written, with the SHAs it binds
+   (`governance.md`, "Gate records"), as the gate requires: `reviewed_sha` and `adjudicated_sha`
+   for a change, `merged_sha` for release and go, none for a plan or an irreversible step.
+6. **The rollback**: what happens and how long it takes if the human says yes and it is wrong.
+7. **What the human is not being asked**: the scope boundary, so a yes cannot be stretched.
+
+A packet missing any of these goes back to the lead; the human does not fill the gaps.
+
+## 3. How the human answers
+
+- **Go**: a yes with the date. The lead files the gate record with the human as its authorizer
+  (`governance.md`; the checker requires a human authorizer on release and go).
+- **Go with conditions**: named conditions become receipts the lead must return before the
+  next gate.
+- **No, or not yet**: with the reason; the reason becomes a finding or a rule.
+- **Question**: one question at a time, answered by the lead with evidence, not prose.
+The answer is recorded as a dated decision. Silence is not a go, and an agent never infers one.
+
+## 4. Expectations in both directions
+
+- The team sends a packet only when it is complete, and batches gate requests so a human sees a
+  short queue, not a stream. The lead states the turnaround the work needs; "urgent" carries the
+  reason.
+- The human answers within the stated turnaround or says when they will; an unanswered gate
+  stalls a lane, and the lead lists stalled gates in the project's next gate summary (for Kaidera
+  OS the weekly review-service report, CTO 2026-09-18; a team cadence is design 43 decision 5).
+- The human decides on the running thing and the packet. Reading the code is the reviewer's job
+  and the adjudicator's; a human who wants to read a diff may, and the loop does not depend on
+  it (dated 2026-09-18, PLAN section 10 item 1; reopens if a gate is passed on a packet whose
+  evidence later proves wrong). If the packet is not enough to decide, that is a defect in the
+  packet, and the lead fixes the packet, not the human.
+- A human may also be a worker in the same project: then they follow the worker rules
+  (`references/team.md`) and never gate their own work.
+
+## 5. The human gate at the review stage, precisely
+
+When the reviewer's rounds end, the adjudicator rules on what the reviewer left open, the
+custodian folds and reruns the gates on `merged_sha`, and the lead requests the human gate with
+the packet above. The human tests the running thing at that commit and reads the verdict, the
+evidence pair, the overruled findings and the record; then says go or not. In the Software
+Factory talk the human enters when the reviewer reports its top score and merges on the proof;
+here the same moment has a record around it and a running thing to test.
+```
+
+## references/human-guide.md
+
+````markdown
+# The human's guide to kaidera-sdlc
+
+For the people on a Kaidera project: founders, developers, product owners, and anyone who will
+receive work from the agents or work beside them in the same repository. It says why the skill
+exists, what the standard process is, what is expected of the team, what will land on your desk
+and when, how to set up a project, and how humans and agents share a repository. The skill files
+carry the depth; this guide carries the why and the how-to.
+
+## 1. Why this skill exists
+
+Models write code faster than people can read it. Without a method, that speed produces work
+that nobody can verify, review or roll back, and the humans end up reading every diff at
+midnight. The skill fixes the method, not the model: every piece of work, from a two-line fix to a
+six-wave epic, walks the same loop, leaves the same artifacts, and stops at the same gates.
+
+```
+INTENT -> GRILL -> SPEC -> PLAN -> BUILD <-> VERIFY -> REVIEW -> SHIP -> MAINTAIN
+```
+
+Three beliefs behind it: verification is output that can fail, not a sentence that says "tested";
+review is a separate agent's job and the author never approves; a human owns every judgement that
+cannot be undone. The loop is the same for any harness and any model; the skill is plain files.
+
+## 2. The standard process, in one page
+
+1. **Intent.** Someone states what should be different and why. One paragraph is enough. It
+   lives next to the work, not in chat (`templates/intent.md`).
+2. **Grill.** The lead asks one question at a time until there is shared understanding. Risky
+   work (destructive, security, money, customer data, migrations, folds, cross-project) gets the
+   full grill and a human's plan approval.
+3. **Spec and plan.** What "done" means, then the files that change, the order of work, the risks
+   and the proof, written so someone unfamiliar could execute it. Nothing is built before the plan
+   is accepted.
+4. **Build.** In a worktree of its own, to the code-quality rules, one concern per commit, the
+   plan updated in the same commit if the work departs from it.
+5. **Verify.** A command that exits non-zero on failure; before-and-after evidence where behaviour
+   changed; the literal output in the return.
+6. **Review.** A reviewer agent who did not write it checks the change at one fixed commit:
+   the automated checks first, then a reading of the code, then a second reviewer where the
+   project has one. The results go into one report, and the author and reviewer settle the
+   findings in a bounded number of rounds. The lead rules on whatever stays open.
+7. **Ship.** The integration custodian (the agent that owns the shared branch) folds the change
+   into it and reruns the checks on the merged commit. Then the human tests the running thing at
+   that commit, reads the gate packet, and gives or withholds the go. The go is written down as
+   a gate record, bound to the commit it covers.
+8. **Maintain.** Incidents become intent and evals; a repeated mistake becomes a dated rule.
+
+## 3. What is expected of the team
+
+**Of every agent and every human doing work**
+- Claim before you start; look for other people's in-flight work before the first edit; build in
+  your own worktree and never touch anyone else's (`references/team.md`).
+- Paste receipts, not adjectives: the command and its output, the artifact's identity at its
+  destination, the before and the after (`references/evidence.md`).
+- Say plainly what you did not do and why. A named refusal with a reason is welcome; a silent
+  skip is a defect.
+- Write for the reader: outcome first, exact identifiers, no filler (`references/writing.md`).
+- When blocked, send options; never a self-granted workaround.
+
+**Of the lead**
+- Plan, grill, dispatch with a receipt per step, adjudicate every return, integrate accepted
+  work, keep the records. Do not execute delivery steps.
+- Keep the human's queue short and complete: only finished gate packets reach a person.
+
+**Of the reviewer**
+- Freeze the target, account for every path, refute your own material findings, close fixes at a
+  new commit, never merge (`references/code-review.md`).
+
+**Of the human at the gate**
+- Test the running thing, read the packet, decide; answer within the stated turnaround or say
+  when; the decision is recorded with the date.
+
+## 4. What lands on your desk, and when
+
+You will receive a **gate packet** (`references/human-gates.md`): one sentence asking for one
+decision; where the running thing is deployed so you can try it; the before-and-after evidence;
+the review verdict with counts and limits; the record that will be written; the rollback; and
+what you are not being asked. Expect one at these moments: a priority or product-boundary call;
+a risky plan needs approval; a change is ready for release, publishing or promotion to main; an
+irreversible step is proposed; a rule exception is asked for. Routine intent is approved and
+routed by the lead's product role, and the fold into the shared branch is the custodian's; those
+do not come to you. What else you receive on a schedule (a weekly gate summary, review-service
+numbers) is a project decision, recorded where the project keeps its cadence; the agents handle
+everything that is not a gate.
+
+## 5. Setting up a project
+
+1. **The repository.** Keep the workflow, not repository facts, in the pointer the agents read on
+   boot (`AGENTS.md` and its per-harness symlinks). Facts belong in the code and the docs.
+2. **The skills.** Install the harness-agnostic way, never a vendor plugin: the `skills` CLI with
+   the universal agent target and a copy into the tree, pinned in the lockfile (the exact command
+   is in `references/distribution.md`). Install `gavel` for the lead and the review skill for the
+   reviewer the same way. Register them in the coordination store and bind them to roles.
+3. **The roster.** One lead; workers per lane; where the roster allows, one reviewer agent whose
+   only lane is review. Who holds a role is a dated decision, never a line in a file.
+4. **The rules.** Ingest the project's standing rules as boot rules: no baked model, the cloud and
+   credential rules your organisation has adopted, plan-and-execute, harness-agnostic tools.
+5. **Credentials.** By name from the environment or a `.env` that never enters git; agents reach
+   cloud APIs with keys, never a human sign-in session.
+6. **The review.** At minimum, a reviewer who is not the author and the fixed-commit rounds in
+   `references/code-review.md`. A shared review service (automated first stage, second reviewer,
+   merged report) is added when the project has one; until then the reviewer does the reading and
+   says what it could not run.
+7. **The first loop.** Run one small change through all eight steps before parallel work starts.
+   The first gate packet you receive tells you whether the setup is right.
+
+## 6. Working day to day with the skill
+
+- Start work with a claim and a plan, not a prompt. If you are the human doing the work, you
+  follow the same rules as an agent and your work is reviewed the same way.
+- Ask the lead for a ruling when a plan needs one; do not negotiate rulings between workers.
+- Return work as a completion handback: the tip you worked on, the receipts, what is not done.
+- Answer each of your reviewer's findings with a disposition (fixed, disputed with evidence, or
+  deferred with a reason), not with an argument in chat; at the round cap the lead rules.
+- When something recurs, propose the rule, the test or the pattern rule that would have caught
+  it. Mistake twice, rule once.
+
+## 7. Humans and agents in the same repository
+
+- Each task gets its own branch and its own working copy, for people as for agents. Editing,
+  resetting or cleaning somebody else's working copy is off limits.
+- The scope check before the first edit is the same for people (`references/team.md` section 2).
+- A worktree does not isolate ports, databases, container engines or the coordination store.
+  Confirm the process behind a port is yours; never reset a shared database; stop the API before
+  a reload and announce it.
+- Push only your own task branch; the integration branch is pushed by the custodian inside the
+  loop; `--force-with-lease` on your branch only; never rewrite the integration branch.
+- Lockfile conflicts are regenerated, not hand-merged.
+- If your team uses pull requests, the review packet and the gate record are attached to the
+  pull request; if it uses handoffs, they travel in the handback. The loop is the same.
+
+## 8. Questions people ask
+
+- *Do I have to read the diff?* No. Test the running thing and read the packet. If those are not
+  enough to decide, the packet is wrong, and the lead fixes it. You may read the diff if you want
+  to; the process does not depend on it.
+- *Can I skip the grill for something small?* The quick grill is a minute. Risk, not size, decides
+  when the full grill applies.
+- *What if the agents disagree with each other?* The author answers each finding with evidence,
+  the lead adjudicates what stays open, and you see only what the lead could not settle.
+- *What if I want a change the rules forbid?* Ask for an exception as a dated decision with a
+  reopening trigger. Rules are dated decisions, not dogma.
+- *Where do I see progress?* The project's progress file carries an exact checklist of what is
+  done and what is not; gate records say what was released and when.
+
+## 9. Words the agents use
+
+- **Claim**: taking a task in the coordination store before touching it, so two workers never do
+  the same thing.
+- **Handback**: the return of finished work, with the commit it was done on and the receipts.
+- **Lane**: one area of the product that one worker owns at a time.
+- **Working copy, worktree**: a separate checkout of the repository for one task.
+- **Frozen change**: the exact commit the reviewer looks at; a fix means a new commit and a new
+  look.
+- **Automated checks**: the tests, linters and type checks that run without judgement and
+  exit non-zero when something is wrong.
+- **Fold**: merging an accepted change into the shared integration branch.
+- **Integration custodian**: the agent that owns the shared branch and does the folds.
+- **Gate**: a checkpoint that leaves a record; the human gates are release, publishing and
+  promotion to main, irreversible steps, risky plans and rule exceptions. **Gate record**: the
+  written decision, bound to a commit.
+- **Boot rules**: the standing rules every agent reads when it starts.
+- **Lockfile**: the file that pins exact versions of what the project installs.
+````
 
 ## references/metrics.md
 
@@ -850,6 +1206,9 @@ never moves is replaced. Report a measure with its source line, never as prose.
   drafting lessons, evals and rule updates; preparing the release up to the gate.
 
 ## The gates, in the order a change meets them
+
+What a human decides at a gate, what reaches them and how they answer is
+`references/human-gates.md`; the gate packet defined there is the input to every human line below.
 
 Every gate leaves an append-only gate record (below); the record, not the prose in an
 artifact, is what "accepted", "reviewed" or "merged" means.
@@ -1029,7 +1388,7 @@ Occupants of the roles in the last column are Cortex role occupancy records
 |---|---|---|
 | Kaidera OS (every project on a KOS Cortex) | `cortex-skill install .agents/skills/kaidera-sdlc --scope global` registers it under the shared channel; `cortex-skill bind kaidera-sdlc --to <role> --kind role` for every role in the roster; new projects created from a team template inherit the global skill and the role bindings | the canonical owner (the integration custodian for the KOS source) |
 | Kaidera skills marketplace (`github.com/Kaidera-AI/skills`) | `skills/development/kaidera-sdlc.SKILL.md` (flat marketplace format with the `kaidera:` manifest); validated, scanned, published to `.claude-plugin/marketplace.json` | the canonical owner regenerates; the reviewer reviews the projection; the release authority publishes |
-| Kaidera platform and client projects | Skills Management adds the marketplace repo, approves `kaidera-sdlc`, and binds it by default to every lead persona in every project template; client repos may also `npx skills add Kaidera-AI/skills --skill kaidera-sdlc` | the platform skills owner; each project lead |
+| Kaidera platform and client projects | Skills Management adds the marketplace repo, approves `kaidera-sdlc`, and binds it by default to every lead persona in every project template; client repos install it the harness-agnostic way: `npx skills add Kaidera-AI/skills --skill kaidera-sdlc -a universal -y --copy`, which pins it in `skills-lock.json` (design 41 rule 2); this row owns that command | the platform skills owner; each project lead |
 | Other harnesses (OpenKai, omp, claude-code, codex) | the same directory is a standard agent skill; the generated pointer (`AGENTS.md`, `CLAUDE.md`) names it so a fresh session knows it exists before Cortex boot | the harness lane owner |
 
 ## The always-on part

@@ -14,3 +14,5 @@ rewritten and the branch replaced before anything was merged or published.
 | `before-and-after` | James Clements, via vercel-labs; PolyForm Shield 1.0.0 | idea only: a change is presented with its before and after side by side. No code, CLI or text used |
 
 Earlier sources are credited in `SKILL.md` metadata (`sources`).
+
+The pack's origin is a talk, "Software Factory" (youtu.be/_LCeJZFIsd4). Three practices from the talk that its files do not state were adopted in 1.3.0, in Kaidera's words: the human enters when the reviewer reports its top score and merges on the proof; one readiness signal as the loop's exit; the workflow file carries workflow, not repository facts. The talk also uses an external reviewer separate from the authoring model; Kaidera's rule that reviewer and author use different model families is our inference from that, not the talk's statement.
