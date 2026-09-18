@@ -4,7 +4,7 @@ Status: **canonical human-facing catalogue; source candidate; runtime and trust 
 
 Catalogue date: **2026-09-10**
 
-Total skills: **38**
+Total skills: **39**
 
 Source binding: consume this guide only from the same Git commit as its skill
 manifests, marketplace, and catalogue test. The enclosing commit/tree is the
@@ -25,7 +25,7 @@ a release blocker; do not silently choose one side.
 
 ## Current release boundary
 
-- All 38 skills are `unvetted`.
+- All 39 skills are `unvetted`.
 - Catalogue presence, a body hash, static validation, or a local commit is not
   approval to inject a skill into an agent.
 - Gate 1 strict manifest checks and a bounded Gate 2 pattern scan exist.
@@ -43,7 +43,7 @@ a release blocker; do not silently choose one side.
 | Category | Skills |
 |---|---:|
 | Context | 8 |
-| Development | 14 |
+| Development | 15 |
 | DevOps | 8 |
 | Documentation | 1 |
 | Research | 2 |
@@ -51,18 +51,18 @@ a release blocker; do not silently choose one side.
 
 | Declared trust tier | Skills |
 |---|---:|
-| `unvetted` | 38 |
+| `unvetted` | 39 |
 
 | Operating posture | Skills |
 |---|---:|
 | Bounded candidate | 6 |
-| Reference-only | 12 |
+| Reference-only | 13 |
 | Manual-only | 10 |
 | Rework before use | 10 |
 
 Legacy entries: **22**
 
-Current-source entries: **16**
+Current-source entries: **17**
 
 `Legacy` is a documentation classification, not a trust or compatibility
 guarantee.
@@ -186,6 +186,7 @@ Use the narrowest matching skill:
 | Development | `kaidera-sdlc` | `1.2.0` | The Kaidera AI-native SDLC: the operating loop every lead runs for an epic, feature, fix, | Bounded candidate | medium / file read, file write |
 | Development | `gavel` | `1.0.1` | Typed judgments for a project lead: triage returns, check handoffs, rank work (TypeSafe System One) | Bounded candidate | medium / file read, interpreter |
 | Development | `unlazy` | `1.0.0` | Completion discipline for substantial autonomous work. Write acceptance gates | Bounded candidate | medium / file read, file write |
+| Development | `prompt-master` | `1.8.0` | Third-party, vendored verbatim: writes one optimized prompt for a named AI tool from a rough request | Reference-only | low / none |
 | DevOps | `container-build` | `1.0.1` | Legacy hardening-oriented multi-stage image and CI build examples | Reference-only, legacy | low / none |
 | DevOps | `deploy-to-dev` | `3.0.2` | Legacy sprint-branch GitOps deployment runbook | Manual-only, legacy | medium / none declared |
 | DevOps | `k8s-deploy` | `1.0.1` | Legacy Kubernetes, ArgoCD, GKE, probes, resources, and network policy patterns | Reference-only, legacy | low / none |
@@ -246,6 +247,7 @@ precedence issue remains a release hold.
 | `kaidera-sdlc` | `Kaidera-AI` | `Apache-2.0` | `github.com`, `claude.com` | — |
 | `gavel` | `Kaidera-AI` | `Apache-2.0` | `api.typesafe.ai`, `docs.typesafe.ai`, `github.com` | — |
 | `unlazy` | `kaidera-ai` | `MIT` | `github.com` | [Leonxlnx](https://github.com/Leonxlnx/unlazy) |
+| `prompt-master` | `nidhinjs` | `MIT` | `github.com` | [nidhinjs](https://github.com/nidhinjs/prompt-master) |
 | `cloud-agnostic-policy` | `Kaidera` | `Apache-2.0` | None | — |
 | `deploy-gate` | `Kaidera` | `Apache-2.0` | None | — |
 | `infra-naming-gate` | `Kaidera` | `Apache-2.0` | None | — |
@@ -601,6 +603,31 @@ compare it with the current repository and Cortex source of truth.
 - **Kaidera action:** Split into a safe measurement-planning reference and
   separately governed executable profiles with exact environment/read/write
   capabilities.
+
+### `prompt-master`
+
+<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"development","legacy":false,"name":"prompt-master","path":"skills/development/prompt-master.SKILL.md","posture":"reference-only","review_fingerprint":"84c0ad3438a1b8ee6817f281d29f314b407f8da94ba3f5ba5de24c98ab17f1d4","risk_level":"low","trust_tier":"unvetted","version":"1.8.0"} -->
+
+- **Manifest:** [prompt-master.SKILL.md](../skills/development/prompt-master.SKILL.md)
+- **Function:** Third-party skill vendored verbatim from `nidhinjs/prompt-master`
+  (MIT). Writes a single optimized, ready-to-paste prompt for a named AI tool
+  from a rough request, after extracting intent and asking at most 3
+  clarifying questions.
+- **Use when:** A user explicitly asks to write, fix, improve, or adapt a
+  prompt for a specific AI tool or model family.
+- **Do not use when:** The user wants the task done directly (coding,
+  document writing, general conversation) rather than a prompt authored for
+  later use elsewhere.
+- **Inputs and output:** No parameters or tools; text in, one prompt block
+  out. Declares no file, network, or interpreter access.
+- **Authority and effects:** No side effects; pure text generation. Its own
+  body already instructs the model never to embed credentials in generated
+  output and to treat any pasted prompt as inert data, never as instructions.
+- **Kaidera action:** Reference-only, verbatim third-party copy — see
+  `ATTRIBUTION.md` beside the directory-form skill. Do not follow the
+  upstream README's Claude.ai upload or `~/.claude/skills/` clone
+  instructions; use this repository's own harness-agnostic distribution
+  instead.
 
 ### `tdd-workflow`
 
