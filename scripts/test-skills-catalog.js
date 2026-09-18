@@ -53,6 +53,7 @@ const posturePolicy = new Map([
     'security-context',
     'workspace-context',
       'human-voice',
+      'prompt-master',
 ])],
   ['manual-only', new Set([
     'marketing-web-research',
@@ -120,6 +121,7 @@ const currentSourceSkills = new Set([
     'route-handoff-gate',
     'scope-work-gate',
     'unlazy',
+    'prompt-master',
 ])
 const categoryLabels = new Map([
   ['context', 'Context'],
