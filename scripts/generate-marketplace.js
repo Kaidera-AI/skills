@@ -140,7 +140,12 @@ function main(argv = process.argv.slice(2)) {
   return 0
 }
 
-if (require.main === module) process.exit(main())
+// `process.exit()` here truncated stdout: Node's writes to a pipe are async, so
+// exiting immediately after `console.log(output)` discarded whatever had not yet
+// drained — silently cutting --dry-run output at the 64 KiB pipe buffer once the
+// catalogue grew past it. Setting exitCode lets the event loop flush and exit
+// naturally with the same status.
+if (require.main === module) process.exitCode = main()
 
 module.exports = {
   assertUniqueSkillNames,

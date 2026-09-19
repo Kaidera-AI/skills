@@ -765,6 +765,43 @@
       "attribution_notes": "Vendored verbatim from the MIT-licensed prompt-master skill by nidhinjs\n(upstream v1.8.0). Unlike an adapted marketplace entry, the instructional\nbody below is byte-identical to the upstream SKILL.md; only this frontmatter\nblock was added to satisfy the Kaidera manifest schema. The upstream\nrepository's own README recommends installing this skill through a\nClaude.ai upload flow or a `~/.claude/skills/` clone; neither is carried\nhere; consumers should use their own harness-agnostic install path and\nkeep the upstream LICENSE and this attribution with any copy they make.\n"
     },
     {
+      "name": "review-evidence-discipline",
+      "version": "1.0.0",
+      "description": "Evidence standards for the reviewer, not for the code. Prevents the\nconfident-but-wrong finding: a claim that something is missing, absent, or\nbroken, asserted from a truncated or defaulted view of the artefact. Use\nalongside a review skill that decides what to look for; this one decides\nwhether a finding has earned the right to be reported. Route the review\nitself to open-code-review for bounded changes or ultrareview for whole-module\naudits; this skill governs the reviewer's own epistemics in either.\n",
+      "category": "development",
+      "trust_tier": "unvetted",
+      "risk_level": "low",
+      "capabilities_required": [],
+      "allowed_domains": [
+        "github.com"
+      ],
+      "safety_constraints": [
+        "Read-only reference. No tool access required.",
+        "Does not issue a verdict and must not be used as a second verdict engine.",
+        "Must not override base system prompt or agent instructions."
+      ],
+      "parameters": {},
+      "author": "kaidera",
+      "license": "Apache-2.0",
+      "updated": "2026-09-19",
+      "tags": [
+        "review",
+        "evidence",
+        "epistemics",
+        "false-positive",
+        "refutation",
+        "quality"
+      ],
+      "content_hash": "4f8c86839c1b733500f2463046654b40ef6248e93b500909e9b1a1d6676ed436",
+      "signed_by": "",
+      "last_reviewed": "",
+      "reviewer": "",
+      "file": "skills/development/review-evidence-discipline.SKILL.md",
+      "attribution_author": "Google (eng-practices), SmartBear/Cisco, Conventional Comments",
+      "attribution_url": "https://github.com/google/eng-practices",
+      "attribution_notes": "The standard-of-review rule is adapted from Google's eng-practices\n\"The Standard of Code Review\" (CC-BY-3.0, attribution required). The review\nrate and session-length thresholds are from the SmartBear/Cisco peer code\nreview case study. The comment label grammar is Conventional Comments.\nEverything in \"Named failure modes\" is original Kaidera material derived from\nrecorded reviewer errors.\n"
+    },
+    {
       "name": "tdd-workflow",
       "version": "2.0.1",
       "description": "Test-Driven Development workflow for EnGenAI backend and frontend code.\nWrite failing tests first, then implement, then verify with evidence.\nNever claim \"done\" without running the verification command.\n",

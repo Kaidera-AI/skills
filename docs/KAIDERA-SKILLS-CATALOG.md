@@ -629,6 +629,36 @@ compare it with the current repository and Cortex source of truth.
   instructions; use this repository's own harness-agnostic distribution
   instead.
 
+### `review-evidence-discipline`
+
+<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"development","legacy":false,"name":"review-evidence-discipline","path":"skills/development/review-evidence-discipline.SKILL.md","posture":"bounded-candidate","review_fingerprint":"4f8c86839c1b733500f2463046654b40ef6248e93b500909e9b1a1d6676ed436","risk_level":"low","trust_tier":"unvetted","version":"1.0.0"} -->
+
+- **Manifest:** [review-evidence-discipline.SKILL.md](../skills/development/review-evidence-discipline.SKILL.md)
+- **Function:** Evidence standard for the reviewer rather than for the code.
+  Names the failure modes that produce a confident-but-wrong finding —
+  truncated views, collided range delimiters, silently defaulted tool targets,
+  inference past a rule's stated subject, and structure-over-behaviour
+  reasoning — and sets a per-finding gate: name the evidence, check the bound,
+  state reachability as demonstrated or latent, argue the author's side, and
+  refute blocking findings independently before the handback rather than after.
+  Carries the review-budget thresholds and a withdrawal protocol.
+- **Use when:** A review is already in progress under another skill and a
+  finding is about to be reported, escalated to blocking, or withdrawn.
+- **Do not use when:** A verdict, a list of what to inspect, or the review
+  itself is wanted. Route bounded changes to `open-code-review` and
+  repository/module audits to `ultrareview`; this skill inspects no code.
+- **Inputs and output:** No parameters or tools; prose guidance only. Declares
+  no file, network, or interpreter access. `allowed_domains` names
+  `github.com` solely because the attribution cites a source there; it is
+  validation metadata, not a network grant.
+- **Authority and effects:** No side effects and no verdict. It cannot approve,
+  block, merge, or log, and must never be used as a second verdict engine
+  beside `open-code-review`.
+- **Kaidera action:** Bounded candidate. Derived from recorded reviewer errors
+  in the Kaidera review lane; the standard-of-review rule is adapted from
+  Google `eng-practices` under CC-BY-3.0, which makes the attribution a licence
+  condition rather than a courtesy.
+
 ### `tdd-workflow`
 
 <!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"development","legacy":true,"name":"tdd-workflow","path":"skills/development/tdd-workflow.SKILL.md","posture":"rework-before-use","review_fingerprint":"b6f01de9d21fd311efee5e43753f535c20f6c8201b258d08eebe16ed6869d082","risk_level":"low","trust_tier":"unvetted","version":"2.0.1"} -->
