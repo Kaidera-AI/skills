@@ -2,9 +2,9 @@
 
 Status: **canonical human-facing catalogue; source candidate; runtime and trust HOLD**
 
-Catalogue date: **2026-09-10**
+Catalogue date: **2026-09-23**
 
-Total skills: **39**
+Total skills: **40**
 
 Source binding: consume this guide only from the same Git commit as its skill
 manifests, marketplace, and catalogue test. The enclosing commit/tree is the
@@ -25,7 +25,7 @@ a release blocker; do not silently choose one side.
 
 ## Current release boundary
 
-- All 39 skills are `unvetted`.
+- All 40 skills are `unvetted`.
 - Catalogue presence, a body hash, static validation, or a local commit is not
   approval to inject a skill into an agent.
 - Gate 1 strict manifest checks and a bounded Gate 2 pattern scan exist.
@@ -46,23 +46,23 @@ a release blocker; do not silently choose one side.
 | Development | 15 |
 | DevOps | 8 |
 | Documentation | 1 |
-| Research | 2 |
+| Research | 3 |
 | Security | 5 |
 
 | Declared trust tier | Skills |
 |---|---:|
-| `unvetted` | 39 |
+| `unvetted` | 40 |
 
 | Operating posture | Skills |
 |---|---:|
 | Bounded candidate | 6 |
 | Reference-only | 13 |
-| Manual-only | 10 |
+| Manual-only | 11 |
 | Rework before use | 10 |
 
 Legacy entries: **22**
 
-Current-source entries: **17**
+Current-source entries: **18**
 
 `Legacy` is a documentation classification, not a trust or compatibility
 guarantee.
@@ -141,6 +141,7 @@ Use the narrowest matching skill:
 | Validate whether a customer-visible assumption is supported | `assumption-validation` | The request is merely code correctness, implementation, or live production research |
 | Draft a decision-led research mission | `research-brief` | The user asked to perform the research rather than draft its brief |
 | Research companies, current leaders and professional profiles | `marketing-web-research` | Only a research brief is requested; invitations, email, follows or paid tools lack applicable authority |
+| Research public social content and conversations | `social-channel-research` | The route requires login, an unapproved scope, restricted data, credential handling, or an external account action |
 | Design APIs, tests, migrations, containers, Kubernetes, or Terraform | matching reference skill | Current project conventions differ or execution/changes are requested without authority |
 | Deploy, close a sprint, or apply infrastructure | manual-only runbook | Exact environment identity, approval, credentials, or rollback evidence is missing |
 | Respond to an incident | No automatic skill route; rebuild the held `incident-response` source into a current human-gated runbook | Incident command, preservation-before-mutation, evidence custody, rollback, or readback is missing |
@@ -197,6 +198,7 @@ Use the narrowest matching skill:
 | DevOps | `infra-naming-gate` | `1.0.0` | Validates proposed infrastructure names against a portable organization, | Manual-only | low / file read |
 | Research | `marketing-web-research` | `0.1.002` | Customer-configurable company and professional-profile research with separate action receipts | Manual-only | high / file read, file write, web search, external connector |
 | Research | `research-brief` | `1.0.0` | Drafts a self-contained decision-led brief without executing research | Bounded candidate | low / file read |
+| Research | `social-channel-research` | `1.0.0` | Source-linked research on public LinkedIn, X and Instagram content using authorised read channels only | Manual-only | high / file read, web search, external connector |
 | Security | `code-review-security` | `1.1.0` | Legacy EnGenAI security checklist with unverified control claims | Rework before use, legacy | low / none declared |
 | Security | `dependency-audit` | `1.0.1` | Legacy dependency scan, install, remediation, and report workflow | Rework before use, legacy | low / none declared |
 | Security | `incident-response` | `1.0.2` | Legacy containment/evidence runbook with unsafe preservation ordering | Rework before use, legacy | low / none declared |
@@ -236,6 +238,7 @@ precedence issue remains a release hold.
 | `terraform-module` | `kaidera` | `Apache-2.0` | `www.googleapis.com` | — |
 | `marketing-web-research` | `Kaidera-AI` | `Apache-2.0` | `linkedin.com`, `x.com` | — |
 | `research-brief` | `Kaidera-AI` | `Apache-2.0` | `github.com` | [David Ondrej](https://github.com/davidondrej/skills/tree/69c3ae5228eb146724fd23dac3d43eab5805bcc3/skills/research-and-web/research-prompt) |
+| `social-channel-research` | `Kaidera-AI` | `Apache-2.0` | `github.com`, `instagram.com`, `linkedin.com`, `x.com` | — |
 | `code-review-security` | `kaidera` | `Apache-2.0` | None | — |
 | `dependency-audit` | `kaidera` | `Apache-2.0` | None | — |
 | `incident-response` | `kaidera` | `Apache-2.0` | `api.engenai.app` | — |
@@ -885,6 +888,19 @@ Writing and documentation guidance. Reference-only unless a manifest says otherw
   `github.com` allowed-domain declaration is currently inert and unnecessary:
   the skill forbids browsing and declares no network-capable tool.
 
+### `social-channel-research`
+
+<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:web_search","tool:mcp_external"],"category":"research","legacy":false,"name":"social-channel-research","path":"skills/research/social-channel-research.SKILL.md","posture":"manual-only","review_fingerprint":"a766aa6f3e6e93c3c6b85f5f4efaf9d0e1541534e8a10ce98b0ea13f7436e991","risk_level":"high","trust_tier":"unvetted","version":"1.0.0"} -->
+
+- **Manifest:** [social-channel-research.SKILL.md](../skills/research/social-channel-research.SKILL.md)
+- **Function:** Researches public LinkedIn, X and Instagram content using only authorised host read channels, with dated source evidence and explicit access gaps.
+- **Use when:** A human requests bounded research of public social content, company communications or market conversations.
+- **Do not use when:** The request requires posting, engagement, account login, credential handling, restricted content, unapproved scopes, or bypassing platform controls.
+- **Inputs:** Research question, platforms, time period and any privacy or source constraints supplied by the user or workspace.
+- **Output:** A dated, source-linked report separating direct observations, source claims, inference, unknowns and access limitations.
+- **Authority and effects:** High-risk, manual-only because web and external connectors can access account data. The skill is read-only by contract, declares no local writes, and grants no credentials, scopes, account actions or runtime authority.
+- **Kaidera action:** Keep `unvetted` and manual-only. Re-check upstream channel capabilities before use; do not infer posting support from Agent-Reach's inconsistent X documentation. Runtime binding remains subject to Gate 3/4, least-capability review and the owning project's approval rules.
+
 ## Security skills
 
 ### `code-review-security`
@@ -1018,6 +1034,14 @@ The six context skills explain historical architecture and conventions. A
 development, DevOps, or security skill may consult them as evidence, but context
 never grants execution authority and never outranks current source/runtime
 facts.
+### Public social research versus professional-profile research
+
+`social-channel-research` collects source-linked public content and conversation
+signals only. `marketing-web-research` verifies organisations, current roles,
+professional profiles and separately authorised company-follow state. Do not
+route profile verification, follow actions or outreach through the social
+content skill; neither skill grants permission to contact a person.
+
 
 ### Design versus implementation
 
@@ -1047,7 +1071,7 @@ the verdict. This prevents `code-review`, `open-code-review`, `ultrareview`, and
 
 | Stage | Required evidence | Current state |
 |---|---|---|
-| Source candidate | Exact file, author, licence, attribution, version, manifest | Present for 27 skills |
+| Source candidate | Exact file, author, licence, attribution, version, manifest | Present for 28 skills |
 | Gate 1 | Strict YAML/frontmatter/path/category/capability/domain validation | Implemented subset |
 | Gate 2 | Bounded injection/credential pattern scan | Implemented subset |
 | Static contract evaluation | Deterministic routing/collision/ceiling fixtures | Implemented for 3 skills only |

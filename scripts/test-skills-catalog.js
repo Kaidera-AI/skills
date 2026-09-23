@@ -57,6 +57,7 @@ const posturePolicy = new Map([
 ])],
   ['manual-only', new Set([
     'marketing-web-research',
+    'social-channel-research',
     'deploy-to-dev',
     'sprint-closing',
     'terraform-module',
@@ -120,6 +121,7 @@ const currentSourceSkills = new Set([
     'kaidera-sdlc',
     'route-handoff-gate',
     'scope-work-gate',
+    'social-channel-research',
     'unlazy',
     'prompt-master',
 ])

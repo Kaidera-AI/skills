@@ -1703,9 +1703,26 @@ try {
 }
 const marketplace = JSON.parse(fs.readFileSync(marketplacePath, 'utf8'))
 const entry = marketplace.skills.find(item => item.name === 'open-code-review')
-const dryRunOutput = execFileSync(process.execPath, [generatorPath, '--dry-run'], {
-  encoding: 'utf8',
-})
+const dryRunRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'skills-marketplace-dry-run-'))
+let dryRunOutput
+try {
+  const dryRunPath = path.join(dryRunRoot, 'marketplace.json')
+  const dryRunFd = fs.openSync(dryRunPath, 'w')
+  let dryRunResult
+  try {
+    dryRunResult = spawnSync(process.execPath, [generatorPath, '--dry-run'], {
+      cwd: root,
+      encoding: 'utf8',
+      stdio: ['ignore', dryRunFd, 'pipe'],
+    })
+  } finally {
+    fs.closeSync(dryRunFd)
+  }
+  assert.equal(dryRunResult.status, 0, dryRunResult.stderr)
+  dryRunOutput = fs.readFileSync(dryRunPath, 'utf8')
+} finally {
+  fs.rmSync(dryRunRoot, { recursive: true, force: true })
+}
 const dryRunMarker = '\n\nDry run:'
 assert(dryRunOutput.includes(dryRunMarker), 'marketplace dry run must include its summary marker')
 const dryRunMarketplace = JSON.parse(dryRunOutput.slice(0, dryRunOutput.lastIndexOf(dryRunMarker)))
