@@ -3,7 +3,7 @@
   "description": "Locally validated, provenance-aware skills for Kaidera agents",
   "version": "1.0.0",
   "source": "https://github.com/Kaidera-AI/skills",
-  "generated_at": "2026-09-19T00:00:00.000Z",
+  "generated_at": "2026-09-23T00:00:00.000Z",
   "generation_basis": "maximum skill updated date",
   "skills": [
     {
@@ -473,6 +473,52 @@
       "last_reviewed": "",
       "reviewer": "",
       "file": "skills/development/database-migration.SKILL.md"
+    },
+    {
+      "name": "development-workflow",
+      "version": "1.0.0",
+      "description": "Plan and deliver software with AI and human workers, using bounded tasks, independent code review, risk-based QA, and recorded human decisions. Use for development projects and their service operations; do not bind to non-development projects.",
+      "category": "development",
+      "trust_tier": "unvetted",
+      "risk_level": "medium",
+      "capabilities_required": [
+        "tool:file_read",
+        "tool:file_write",
+        "tool:code_interpreter",
+        "tool:web_search"
+      ],
+      "allowed_domains": [
+        "github.com",
+        "c4model.com",
+        "csrc.nist.gov",
+        "google.github.io",
+        "www.peoplecert.org"
+      ],
+      "safety_constraints": [
+        "Development projects only. Repository-off mode prohibits Git probes and repository operations.",
+        "No self-approval, fabricated human review, implicit release authority, or runtime trust promotion.",
+        "External review applications require separate human authorization for source access, data, permissions and cost."
+      ],
+      "parameters": {},
+      "author": "Kaidera-AI",
+      "license": "Apache-2.0",
+      "updated": "2026-09-23",
+      "tags": [
+        "development",
+        "sdlc",
+        "ai-human",
+        "review",
+        "devsecops",
+        "service-management"
+      ],
+      "content_hash": "1cf9973d4114aaab9fea910cd2c308a61631e892a7332eb6aa5d575637e299af",
+      "signed_by": "",
+      "last_reviewed": "",
+      "reviewer": "",
+      "file": "skills/development/development-workflow.SKILL.md",
+      "attribution_author": "",
+      "attribution_url": "",
+      "attribution_notes": "Original generic process text from the Kaidera-AI operating model and the kaidera-sdlc lifecycle. External standards are cited as references, not reproduced."
     },
     {
       "name": "gavel",

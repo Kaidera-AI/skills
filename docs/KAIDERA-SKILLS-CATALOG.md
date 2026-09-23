@@ -2,9 +2,9 @@
 
 Status: **canonical human-facing catalogue; source candidate; runtime and trust HOLD**
 
-Catalogue date: **2026-09-10**
+Catalogue date: **2026-09-23**
 
-Total skills: **39**
+Total skills: **40**
 
 Source binding: consume this guide only from the same Git commit as its skill
 manifests, marketplace, and catalogue test. The enclosing commit/tree is the
@@ -25,7 +25,7 @@ a release blocker; do not silently choose one side.
 
 ## Current release boundary
 
-- All 39 skills are `unvetted`.
+- All 40 skills are `unvetted`.
 - Catalogue presence, a body hash, static validation, or a local commit is not
   approval to inject a skill into an agent.
 - Gate 1 strict manifest checks and a bounded Gate 2 pattern scan exist.
@@ -43,7 +43,7 @@ a release blocker; do not silently choose one side.
 | Category | Skills |
 |---|---:|
 | Context | 8 |
-| Development | 15 |
+| Development | 16 |
 | DevOps | 8 |
 | Documentation | 1 |
 | Research | 2 |
@@ -51,18 +51,18 @@ a release blocker; do not silently choose one side.
 
 | Declared trust tier | Skills |
 |---|---:|
-| `unvetted` | 39 |
+| `unvetted` | 40 |
 
 | Operating posture | Skills |
 |---|---:|
-| Bounded candidate | 6 |
+| Bounded candidate | 7 |
 | Reference-only | 13 |
 | Manual-only | 10 |
 | Rework before use | 10 |
 
 Legacy entries: **22**
 
-Current-source entries: **17**
+Current-source entries: **18**
 
 `Legacy` is a documentation classification, not a trust or compatibility
 guarantee.
@@ -133,6 +133,7 @@ Use the narrowest matching skill:
 
 | Need | Primary skill | Route away when |
 |---|---|---|
+| Configure or run a portable AI+human development lifecycle | `development-workflow` | Non-development project, or another lifecycle is already authoritative; resolve ownership first |
 | Understand legacy workspace, backend, frontend, infrastructure, sprint, or agent-platform conventions | matching `*-context` skill | Current repository/Cortex evidence disagrees, or implementation is requested rather than context |
 | Review a bounded worktree, staged change, commit, range, path set, or supplied patch | `open-code-review` | The target is a whole repository/module health audit |
 | Consult the legacy lightweight completed-change checklist | No automatic skill route; `code-review` is held for authority and capability rework | A merge/log/acceptance verdict or current Kaidera control is implied |
@@ -164,6 +165,7 @@ Use the narrowest matching skill:
 
 | Category | Skill | Version | Function | Posture | Risk / declared capabilities |
 |---|---|---:|---|---|---|
+| Development | `development-workflow` | `1.0.0` | Portable AI+human SDLC, review, risk-based QA and service operations | Bounded candidate | medium / file read, file write, interpreter, web search |
 | Context | `agent-platform-context` | `1.0.1` | Legacy agent executor, team, mailbox, Redis memory, and lifecycle reference | Reference-only, legacy | low / none |
 | Context | `backend-context` | `1.0.1` | Legacy FastAPI, service, DB, auth, middleware, and security conventions | Reference-only, legacy | low / none |
 | Context | `frontend-context` | `1.0.1` | Legacy Next.js, React Flow, Tailwind, Zustand, and TypeScript conventions | Reference-only, legacy | low / none |
@@ -213,6 +215,7 @@ precedence issue remains a release hold.
 
 | Skill | Declared author | Declared licence | Allowed domains | Donor attribution |
 |---|---|---|---|---|
+| `development-workflow` | `Kaidera-AI` | `Apache-2.0` | `github.com`, `c4model.com`, `csrc.nist.gov`, `google.github.io`, `www.peoplecert.org` | — |
 | `agent-platform-context` | `kaidera` | `Apache-2.0` | None | — |
 | `backend-context` | `kaidera` | `Apache-2.0` | None | — |
 | `frontend-context` | `kaidera` | `Apache-2.0` | None | — |
@@ -514,6 +517,18 @@ compare it with the current repository and Cortex source of truth.
   transaction policy, crash recovery, and exact schema receipts. Do not carry
   forward blanket claims that every migration is reversible or that a generic
   example is safe for a particular live database.
+
+### `development-workflow`
+
+<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:file_write","tool:code_interpreter","tool:web_search"],"category":"development","legacy":false,"name":"development-workflow","path":"skills/development/development-workflow.SKILL.md","posture":"bounded-candidate","review_fingerprint":"906134356d5967050d8de574cf0ee6bab04d0fb282d3410d80216597da381c81","risk_level":"medium","trust_tier":"unvetted","version":"1.0.0"} -->
+
+- **Manifest:** [development-workflow.SKILL.md](../skills/development/development-workflow.SKILL.md)
+- **Function:** Generic distribution profile of the kaidera-sdlc lifecycle for AI and human software teams, with independent code review, risk-based QA, recorded human file review and ITIL-aligned operations.
+- **Use when:** A development project is adopting or executing a portable delivery process, architecture/plan, bounded task, review, or service change.
+- **Do not use when:** The project is non-development. Do not co-load a conflicting lifecycle owner. Repository-off mode forbids Git probes and repository requirements.
+- **Inputs and output:** Resolved project type/capabilities, accepted scope/policy and task; produces bounded task/evidence/decision records using the bundled templates. Tool setup persists incomplete and declined choices to avoid repeated boot prompts.
+- **Authority and effects:** File read/write, local computation and current public-source research inside existing authorization. Application connections, source-data transfer, reserved actions and human verdicts require their separate scoped authority. No runtime binding or trusted-tier promotion.
+- **Kaidera action:** Bounded candidate, unvetted. Canonical source is the directory in this repository; scripts/render-development-workflow.js generates the flat manifest and checks its source digest. Dev-OS carries identical pinned bytes and named role adapters. Legacy behavioural skills and their unresolved donor material are excluded from this public skill. Root/per-skill licensing precedence and Gate 3/4 holds remain.
 
 ### `gavel`
 
