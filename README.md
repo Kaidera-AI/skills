@@ -28,7 +28,7 @@ Skills are instructions, not programs: the format carries no executable code and
 | `development/` | Code writing, review, testing | 15 |
 | `devops/` | Deployment, infrastructure, CI/CD | 8 |
 | `documentation/` | Specs, docs, changelogs, writing voice | 1 |
-| `research/` | Research briefs, company research and evidence | 2 |
+| `research/` | Research briefs, company research and evidence | 3 |
 | `security/` | Auditing, scanning, incident response | 5 |
 
 ## What is implemented, and what is not
