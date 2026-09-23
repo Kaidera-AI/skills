@@ -38,3 +38,42 @@ prints and records this digest. It is integrity evidence, not a signature.
 
 Astra xhigh review and final verification receipts will be appended here against
 the frozen source candidate. Human file-review status remains unclaimed.
+
+## Final independent review receipt
+
+Independent reviewer: GPT-6 Astra, reasoning effort xhigh.
+Verdict: **PASS FOR SOURCE MERGE**; no remaining blocking findings within the
+user-authorized source-merge/upload scope.
+
+- Skills candidate: c85f9a1b2c686372f59e9d2cfc73de56f29128cd.
+- Dev-OS candidate: 7028b05eea6661e6ab2340c24f7e863f46faee6f.
+- Canonical directory: 11 Markdown files.
+- Source digest: 0da2487ee0a048c32b99b519435dff588668fbe4ccaea2b46fe105508e44cd6f.
+
+Astra closed the prior emergency, onboarding-state, review-independence, verdict,
+repository-off, handback-acceptance, portability, compatibility, permission and
+record-recursion findings. Provenance/trust findings are closed only for source
+merge: the existing redistribution/licensing and runtime Gate 3/4 holds remain.
+
+Six reasoned instruction walkthroughs passed: unrelated routine app with no
+automatic extra QA; high-risk authentication/migration with required QA; CONSULT
+awaiting an explicit answer; non-development NOT APPLICABLE; repository-off without
+Git; and deferred tool preference without repeated boot intake. These are instruction
+walkthroughs, not installed-runtime tests. Interrupted prompt delivery and concurrent
+boots still require host qualification.
+
+The reviewer independently checked projection identity/digest, identical vendored
+bytes, strict manifest validation, catalogue consistency (40 skills), marketplace
+dry-run, pack manifest and whitespace checks. The author additionally ran the full
+skills repository contract tests, all 40 strict manifest checks and bounded security
+scans, and the skill-creator format validator; all passed.
+
+The Dev-OS self-sufficiency heuristic returned 16 origin-name matches, all the
+requested Scribe persona or Lux job-description provenance. It returned no dangling
+links or escaping paths. Its name heuristic is not reported as a passing check.
+
+This appended receipt changes review metadata only. The frozen candidate contents
+remain identified above. It records an independent AI verdict and the user's source
+action authorization; personal human file review is still unclaimed. No source
+receipt constitutes installation, live tool execution, signing, or trusted-tier
+approval.
