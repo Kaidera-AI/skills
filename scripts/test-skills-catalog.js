@@ -33,6 +33,7 @@ const postureLabels = new Map([
 ])
 const posturePolicy = new Map([
   ['bounded-candidate', new Set([
+    'development-workflow',
     'assumption-validation',
     'open-code-review',
     'research-brief',
@@ -105,6 +106,7 @@ const legacySkills = new Set([
   'workspace-context',
 ])
 const currentSourceSkills = new Set([
+  'development-workflow',
   'marketing-web-research',
   'assumption-validation',
   'open-code-review',

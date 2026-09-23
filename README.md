@@ -25,7 +25,7 @@ Skills are instructions, not programs: the format carries no executable code and
 | Category | Description | Count |
 |----------|-------------|-------|
 | `context/` | Project and workspace awareness | 8 |
-| `development/` | Code writing, review, testing | 15 |
+| `development/` | Code writing, review, testing | 16 |
 | `devops/` | Deployment, infrastructure, CI/CD | 8 |
 | `documentation/` | Specs, docs, changelogs, writing voice | 1 |
 | `research/` | Research briefs, company research and evidence | 2 |
@@ -58,6 +58,13 @@ Copy the `.SKILL.md` file into the place your harness reads skills from. The bod
 `kaidera-sdlc` and `gavel` also ship in directory form for the harness-agnostic skills CLI (replace the skill name as needed): `npx skills add Kaidera-AI/skills --skill gavel -a universal -y --copy` installs `SKILL.md`, the stdlib helper and its references into `.agents/skills/gavel/`.
 
 ## Skill Format
+
+`development-workflow` is the generic AI+human profile of the SDLC framework:
+development-only routing, repository-off support, bounded tasks, independent code
+review, risk-based QA, recorded human decisions, and service operations. Its canonical
+directory is [development-workflow](skills/development/development-workflow/SKILL.md);
+the flat manifest is generated from it. Select one lifecycle owner per project.
+Source availability does not lift the runtime or redistribution holds described above.
 
 Every skill follows the [SKILL_FORMAT.md](spec/SKILL_FORMAT.md) specification. A minimal valid skill:
 

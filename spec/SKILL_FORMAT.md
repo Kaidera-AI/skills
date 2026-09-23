@@ -66,8 +66,8 @@ kaidera:
   reviewer: ""                     # GitHub username of approving reviewer
 
   # ── Source provenance (optional; written by a projection generator) ─────────
-  # Present only when the skill is rendered from a canonical directory in another
-  # repository. The validator checks the shape; the generator's own check verifies
+  # Present only when the skill is rendered from a canonical directory in this or
+  # another repository. The validator checks shape; the generator's check verifies
   # the hash against the source.
   # source:
   #   repo: owner/name               # the canonical repository
