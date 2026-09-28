@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "toolkit_version": "0.1.0",
+  "canonical_repository": "Kaidera-AI/kaideraos",
+  "canonical_directory": ".agents/skills/jev",
+  "base_commit": "9ccc6cc27e4448a551d533a938bfef962cf34a4f",
+  "incoming_gavel": {
+    "path": ".agents/skills/gavel/tools/gavel.py",
+    "commit": "9ccc6cc27e4448a551d533a938bfef962cf34a4f",
+    "git_blob": "40a69aabeb61cac84203539706f3ba62d86c306f",
+    "sha256": "b13177b3ad90fb67f445d6126861b66b79244cd5496ad496a06c0a51ffc06cc8"
+  },
+  "upstream_design_sources": [
+    {"repository": "typesafe-ai/skills", "commit": "65a39f393687675ce170e6094757de20370365b9"},
+    {"repository": "jkudish/jev-mcp", "commit": "108d61ec0442aef3d212dcc6a18a5f3cf3ce4fda"},
+    {"repository": "jkudish/jev-agent-tools", "commit": "97b8212eddba9459a9e885f0960f06cd7f21394a"}
+  ],
+  "published_projections": []
+}

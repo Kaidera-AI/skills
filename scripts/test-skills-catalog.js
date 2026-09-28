@@ -40,8 +40,13 @@ const posturePolicy = new Map([
       'gavel',
       'kaidera-sdlc',
     'unlazy',
+    'jev-backlog-rank',
+    'jev-handoff-check',
+    'jev-option-decision',
+    'jev-return-triage',
 ])],
   ['reference-only', new Set([
+    'jev',
     'agent-platform-context',
     'api-design',
     'api-test',
@@ -106,6 +111,11 @@ const legacySkills = new Set([
   'workspace-context',
 ])
 const currentSourceSkills = new Set([
+  'jev-backlog-rank',
+  'jev-handoff-check',
+  'jev-option-decision',
+  'jev-return-triage',
+  'jev',
   'development-workflow',
   'marketing-web-research',
   'assumption-validation',

@@ -3,7 +3,7 @@
   "description": "Locally validated, provenance-aware skills for Kaidera agents",
   "version": "1.0.0",
   "source": "https://github.com/Kaidera-AI/skills",
-  "generated_at": "2026-09-23T00:00:00.000Z",
+  "generated_at": "2026-09-28T00:00:00.000Z",
   "generation_basis": "maximum skill updated date",
   "skills": [
     {
@@ -600,6 +600,238 @@
       "last_reviewed": "",
       "reviewer": "",
       "file": "skills/development/git-workflow.SKILL.md"
+    },
+    {
+      "name": "jev-backlog-rank",
+      "version": "0.1.0",
+      "description": "Check an accountable lead's backlog ordering against explicit dependencies and delay risk; the human retains priority authority.",
+      "category": "development",
+      "trust_tier": "unvetted",
+      "risk_level": "medium",
+      "capabilities_required": [
+        "tool:file_read",
+        "tool:code_interpreter"
+      ],
+      "allowed_domains": [
+        "api.typesafe.ai",
+        "github.com"
+      ],
+      "safety_constraints": [
+        "Model judgments are advisory evidence, never permission to accept, send, merge, deploy, publish, delete or spend.",
+        "Use only a separately approved project transfer policy; never publish that policy, raw transcripts, customer data, code, credentials or receipt files.",
+        "The process TYPESAFE_API_KEY is read by name, not printed, and never sourced from .env; lack of core, policy or grant stops the call.",
+        "Install the compatible jev core in this same project separately; the skill installer does not install sibling dependencies."
+      ],
+      "parameters": {
+        "input": {
+          "type": "string",
+          "required": true,
+          "description": "Sanitized input path or stdin marker, when invoking the separately installed core."
+        }
+      },
+      "author": "Kaidera-AI",
+      "license": "Apache-2.0",
+      "updated": "2026-09-28",
+      "tags": [
+        "jev",
+        "gavel",
+        "backlog",
+        "prioritisation"
+      ],
+      "content_hash": "3a8e6ae8c0875aa635cacc6347a46ac4a312972b0ec470c5d65282da0c1c3f15",
+      "signed_by": "",
+      "last_reviewed": "",
+      "reviewer": "",
+      "file": "skills/development/jev-backlog-rank.SKILL.md",
+      "attribution_author": "TypeSafe AI and Joey Kudish",
+      "attribution_url": "https://github.com/jkudish/jev-mcp",
+      "attribution_notes": "Retain the core ATTRIBUTION.md MIT donor notices and this skill Apache-2.0 LICENSE; root CC-BY-4.0 precedence remains unratified."
+    },
+    {
+      "name": "jev-handoff-check",
+      "version": "0.1.0",
+      "description": "Check a drafted worker handoff's receipt contract and blocked protocol before the accountable lead sends it.",
+      "category": "development",
+      "trust_tier": "unvetted",
+      "risk_level": "medium",
+      "capabilities_required": [
+        "tool:file_read",
+        "tool:code_interpreter"
+      ],
+      "allowed_domains": [
+        "api.typesafe.ai",
+        "github.com"
+      ],
+      "safety_constraints": [
+        "Model judgments are advisory evidence, never permission to accept, send, merge, deploy, publish, delete or spend.",
+        "Use only a separately approved project transfer policy; never publish that policy, raw transcripts, customer data, code, credentials or receipt files.",
+        "The process TYPESAFE_API_KEY is read by name, not printed, and never sourced from .env; lack of core, policy or grant stops the call.",
+        "Install the compatible jev core in this same project separately; the skill installer does not install sibling dependencies."
+      ],
+      "parameters": {
+        "input": {
+          "type": "string",
+          "required": true,
+          "description": "Sanitized input path or stdin marker, when invoking the separately installed core."
+        }
+      },
+      "author": "Kaidera-AI",
+      "license": "Apache-2.0",
+      "updated": "2026-09-28",
+      "tags": [
+        "jev",
+        "gavel",
+        "handoff",
+        "receipts"
+      ],
+      "content_hash": "db3ae39bfc85ecb2fac9ef326074e0f38dfc199deca2243a697ddab8aa22d5e3",
+      "signed_by": "",
+      "last_reviewed": "",
+      "reviewer": "",
+      "file": "skills/development/jev-handoff-check.SKILL.md",
+      "attribution_author": "TypeSafe AI and Joey Kudish",
+      "attribution_url": "https://github.com/jkudish/jev-mcp",
+      "attribution_notes": "Retain the core ATTRIBUTION.md MIT donor notices and this skill Apache-2.0 LICENSE; root CC-BY-4.0 precedence remains unratified."
+    },
+    {
+      "name": "jev-option-decision",
+      "version": "0.1.0",
+      "description": "Examine one bounded implementation or architecture choice with named candidates, evidence and requirements; the human decides.",
+      "category": "development",
+      "trust_tier": "unvetted",
+      "risk_level": "medium",
+      "capabilities_required": [
+        "tool:file_read",
+        "tool:code_interpreter"
+      ],
+      "allowed_domains": [
+        "api.typesafe.ai",
+        "github.com"
+      ],
+      "safety_constraints": [
+        "Model judgments are advisory evidence, never permission to accept, send, merge, deploy, publish, delete or spend.",
+        "Use only a separately approved project transfer policy; never publish that policy, raw transcripts, customer data, code, credentials or receipt files.",
+        "The process TYPESAFE_API_KEY is read by name, not printed, and never sourced from .env; lack of core, policy or grant stops the call.",
+        "Install the compatible jev core in this same project separately; the skill installer does not install sibling dependencies."
+      ],
+      "parameters": {
+        "input": {
+          "type": "string",
+          "required": true,
+          "description": "Sanitized input path or stdin marker, when invoking the separately installed core."
+        }
+      },
+      "author": "Kaidera-AI",
+      "license": "Apache-2.0",
+      "updated": "2026-09-28",
+      "tags": [
+        "jev",
+        "options",
+        "architecture",
+        "decision-support"
+      ],
+      "content_hash": "fbaead112c835f8661ca0692c2dc6507d46c1b606305d2862446fde24fa7c8e4",
+      "signed_by": "",
+      "last_reviewed": "",
+      "reviewer": "",
+      "file": "skills/development/jev-option-decision.SKILL.md",
+      "attribution_author": "TypeSafe AI and Joey Kudish",
+      "attribution_url": "https://github.com/jkudish/jev-mcp",
+      "attribution_notes": "Retain the core ATTRIBUTION.md MIT donor notices and this skill Apache-2.0 LICENSE; root CC-BY-4.0 precedence remains unratified."
+    },
+    {
+      "name": "jev-return-triage",
+      "version": "0.1.0",
+      "description": "Advisory receipt-based triage of an arrived worker return, handback or consult by its accountable lead.",
+      "category": "development",
+      "trust_tier": "unvetted",
+      "risk_level": "medium",
+      "capabilities_required": [
+        "tool:file_read",
+        "tool:code_interpreter"
+      ],
+      "allowed_domains": [
+        "api.typesafe.ai",
+        "github.com"
+      ],
+      "safety_constraints": [
+        "Model judgments are advisory evidence, never permission to accept, send, merge, deploy, publish, delete or spend.",
+        "Use only a separately approved project transfer policy; never publish that policy, raw transcripts, customer data, code, credentials or receipt files.",
+        "The process TYPESAFE_API_KEY is read by name, not printed, and never sourced from .env; lack of core, policy or grant stops the call.",
+        "Install the compatible jev core in this same project separately; the skill installer does not install sibling dependencies."
+      ],
+      "parameters": {
+        "input": {
+          "type": "string",
+          "required": true,
+          "description": "Sanitized input path or stdin marker, when invoking the separately installed core."
+        }
+      },
+      "author": "Kaidera-AI",
+      "license": "Apache-2.0",
+      "updated": "2026-09-28",
+      "tags": [
+        "jev",
+        "gavel",
+        "return",
+        "triage"
+      ],
+      "content_hash": "f3ac14515320a4ab6e5b654975d3b78237aeb3dd7ce7faee31d77ec9d3a2f3be",
+      "signed_by": "",
+      "last_reviewed": "",
+      "reviewer": "",
+      "file": "skills/development/jev-return-triage.SKILL.md",
+      "attribution_author": "TypeSafe AI and Joey Kudish",
+      "attribution_url": "https://github.com/jkudish/jev-mcp",
+      "attribution_notes": "Retain the core ATTRIBUTION.md MIT donor notices and this skill Apache-2.0 LICENSE; root CC-BY-4.0 precedence remains unratified."
+    },
+    {
+      "name": "jev",
+      "version": "0.1.0",
+      "description": "Reference for the shared Jev core, project-owned transfer policy, CLI, result statuses and four separate decision-moment wrappers; not an automatic moment router.",
+      "category": "development",
+      "trust_tier": "unvetted",
+      "risk_level": "medium",
+      "capabilities_required": [
+        "tool:file_read",
+        "tool:code_interpreter",
+        "tool:file_write"
+      ],
+      "allowed_domains": [
+        "api.typesafe.ai",
+        "docs.typesafe.ai",
+        "github.com"
+      ],
+      "safety_constraints": [
+        "Model judgments are advisory evidence, never permission to accept, send, merge, deploy, publish, delete or spend.",
+        "Use only a separately approved project transfer policy; never publish that policy, raw transcripts, customer data, code, credentials or receipt files.",
+        "The process TYPESAFE_API_KEY is read by name, not printed, and never sourced from .env; lack of core, policy or grant stops the call.",
+        "Receipts are off by default; --receipt explicitly writes to a private git-ignored runs directory."
+      ],
+      "parameters": {
+        "input": {
+          "type": "string",
+          "required": false,
+          "description": "Sanitized input path or stdin marker, when invoking the separately installed core."
+        }
+      },
+      "author": "Kaidera-AI",
+      "license": "Apache-2.0",
+      "updated": "2026-09-28",
+      "tags": [
+        "jev",
+        "typesafe",
+        "system-one",
+        "decision-support"
+      ],
+      "content_hash": "4ab5886bb91096c572e317b05471690dbb0be513ec0e5ebe7809745347395000",
+      "signed_by": "",
+      "last_reviewed": "",
+      "reviewer": "",
+      "file": "skills/development/jev.SKILL.md",
+      "attribution_author": "TypeSafe AI and Joey Kudish",
+      "attribution_url": "https://github.com/jkudish/jev-mcp",
+      "attribution_notes": "Retain the core ATTRIBUTION.md MIT donor notices and this skill Apache-2.0 LICENSE; root CC-BY-4.0 precedence remains unratified."
     },
     {
       "name": "kaidera-sdlc",

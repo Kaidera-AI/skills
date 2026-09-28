@@ -2,9 +2,9 @@
 
 Status: **canonical human-facing catalogue; source candidate; runtime and trust HOLD**
 
-Catalogue date: **2026-09-23**
+Catalogue date: **2026-09-28**
 
-Total skills: **40**
+Total skills: **45**
 
 Source binding: consume this guide only from the same Git commit as its skill
 manifests, marketplace, and catalogue test. The enclosing commit/tree is the
@@ -25,7 +25,7 @@ a release blocker; do not silently choose one side.
 
 ## Current release boundary
 
-- All 40 skills are `unvetted`.
+- All 45 skills are `unvetted`.
 - Catalogue presence, a body hash, static validation, or a local commit is not
   approval to inject a skill into an agent.
 - Gate 1 strict manifest checks and a bounded Gate 2 pattern scan exist.
@@ -43,7 +43,7 @@ a release blocker; do not silently choose one side.
 | Category | Skills |
 |---|---:|
 | Context | 8 |
-| Development | 16 |
+| Development | 21 |
 | DevOps | 8 |
 | Documentation | 1 |
 | Research | 2 |
@@ -51,18 +51,18 @@ a release blocker; do not silently choose one side.
 
 | Declared trust tier | Skills |
 |---|---:|
-| `unvetted` | 40 |
+| `unvetted` | 45 |
 
 | Operating posture | Skills |
 |---|---:|
-| Bounded candidate | 7 |
-| Reference-only | 13 |
+| Bounded candidate | 11 |
+| Reference-only | 14 |
 | Manual-only | 10 |
 | Rework before use | 10 |
 
 Legacy entries: **22**
 
-Current-source entries: **18**
+Current-source entries: **23**
 
 `Legacy` is a documentation classification, not a trust or compatibility
 guarantee.
@@ -187,6 +187,11 @@ Use the narrowest matching skill:
 | Development | `assert-fact-gate` | `1.0.0` | Requires a fresh source check before reporting repository, build, test, | Manual-only | low / file read |
 | Development | `kaidera-sdlc` | `1.3.0` | The Kaidera AI-native SDLC: the operating loop every lead runs for an epic, feature, fix, | Bounded candidate | medium / file read, file write |
 | Development | `gavel` | `1.0.1` | Typed judgments for a project lead: triage returns, check handoffs, rank work (TypeSafe System One) | Bounded candidate | medium / file read, interpreter |
+| Development | `jev-backlog-rank` | `0.1.0` | Check an accountable lead's backlog ordering against explicit dependencies and delay risk; the human retains priority authority. | Bounded candidate | medium / file read, interpreter |
+| Development | `jev-handoff-check` | `0.1.0` | Check a drafted worker handoff's receipt contract and blocked protocol before the accountable lead sends it. | Bounded candidate | medium / file read, interpreter |
+| Development | `jev-option-decision` | `0.1.0` | Examine one bounded implementation or architecture choice with named candidates, evidence and requirements; the human decides. | Bounded candidate | medium / file read, interpreter |
+| Development | `jev-return-triage` | `0.1.0` | Advisory receipt-based triage of an arrived worker return, handback or consult by its accountable lead. | Bounded candidate | medium / file read, interpreter |
+| Development | `jev` | `0.1.0` | Jev core: common fail-closed policy reader, sanitizer and typed model transport. | Reference-only | medium / file read, interpreter, file write |
 | Development | `unlazy` | `1.0.0` | Completion discipline for substantial autonomous work. Write acceptance gates | Bounded candidate | medium / file read, file write |
 | Development | `prompt-master` | `1.8.0` | Third-party, vendored verbatim: writes one optimized prompt for a named AI tool from a rough request | Reference-only | low / none |
 | DevOps | `container-build` | `1.0.1` | Legacy hardening-oriented multi-stage image and CI build examples | Reference-only, legacy | low / none |
@@ -249,6 +254,11 @@ precedence issue remains a release hold.
 | `assert-fact-gate` | `Kaidera` | `Apache-2.0` | None | — |
 | `kaidera-sdlc` | `Kaidera-AI` | `Apache-2.0` | `github.com`, `claude.com` | — |
 | `gavel` | `Kaidera-AI` | `Apache-2.0` | `api.typesafe.ai`, `docs.typesafe.ai`, `github.com` | — |
+| `jev-backlog-rank` | `Kaidera-AI` | `Apache-2.0` | `api.typesafe.ai`, `github.com` | [TypeSafe AI and Joey Kudish](https://github.com/jkudish/jev-mcp) |
+| `jev-handoff-check` | `Kaidera-AI` | `Apache-2.0` | `api.typesafe.ai`, `github.com` | [TypeSafe AI and Joey Kudish](https://github.com/jkudish/jev-mcp) |
+| `jev-option-decision` | `Kaidera-AI` | `Apache-2.0` | `api.typesafe.ai`, `github.com` | [TypeSafe AI and Joey Kudish](https://github.com/jkudish/jev-mcp) |
+| `jev-return-triage` | `Kaidera-AI` | `Apache-2.0` | `api.typesafe.ai`, `github.com` | [TypeSafe AI and Joey Kudish](https://github.com/jkudish/jev-mcp) |
+| `jev` | `Kaidera-AI` | `Apache-2.0` | `api.typesafe.ai`, `docs.typesafe.ai`, `github.com` | [TypeSafe AI and Joey Kudish](https://github.com/jkudish/jev-mcp) |
 | `unlazy` | `kaidera-ai` | `MIT` | `github.com` | [Leonxlnx](https://github.com/Leonxlnx/unlazy) |
 | `prompt-master` | `nidhinjs` | `MIT` | `github.com` | [nidhinjs](https://github.com/nidhinjs/prompt-master) |
 | `cloud-agnostic-policy` | `Kaidera` | `Apache-2.0` | None | — |
@@ -558,6 +568,71 @@ compare it with the current repository and Cortex source of truth.
 - **Kaidera action:** Rework before use: prefer current repository rules and
   Cortex handoff policy, correct the malformed `--no-verify` warning, and split
   descriptive conventions from Git mutation.
+
+### `jev-backlog-rank`
+
+<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:code_interpreter"],"category":"development","legacy":false,"name":"jev-backlog-rank","path":"skills/development/jev-backlog-rank.SKILL.md","posture":"bounded-candidate","review_fingerprint":"5c8709dc221909fa81b266fb5076fc1ffbfc6031639b1be2c99241d82b3c8e09","risk_level":"medium","trust_tier":"unvetted","version":"0.1.0"} -->
+
+- **Manifest:** [jev-backlog-rank.SKILL.md](../skills/development/jev-backlog-rank.SKILL.md)
+- **Function:** Check an accountable lead's backlog ordering against explicit dependencies and delay risk; the human retains priority authority.
+- **Use when:** Check an accountable lead's backlog ordering against explicit dependencies and delay risk; the human retains priority authority.
+- **Do not use when:** As an automatic decision, policy grant or installation action; do not send unclassified data. Do not co-install it with Gavel for the same lead moment.
+- **Inputs and output:** Classified minimum summaries or a reference query; typed advisory evidence with returned model identity, not human authority.
+- **Authority and effects:** The core reads only process `TYPESAFE_API_KEY`; project-owned `.agents/config/transfer-policy.<project>.json` must be separately approved and installed. No outbound call when the policy or allowed category is missing; receipts off by default.
+- **Kaidera action:** Bounded candidate, unvetted. Canonical source is Kaidera OS `.agents/skills/jev-backlog-rank/` at `86edd8eeb4ed37bb0aa646de42b3fc6c8af32c56`; published flat manifest and directory form are separate projections. Wrappers require `jev` installed in the same project. The three lead wrappers replace Gavel's corresponding moments, not supplement them. Gate 3/4 and root CC-BY-4.0 versus per-skill Apache-2.0 licence precedence remain HOLD.
+
+
+### `jev-handoff-check`
+
+<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:code_interpreter"],"category":"development","legacy":false,"name":"jev-handoff-check","path":"skills/development/jev-handoff-check.SKILL.md","posture":"bounded-candidate","review_fingerprint":"04d442579100929faa813983325d91b5620df8f911c68166918af29984fcb043","risk_level":"medium","trust_tier":"unvetted","version":"0.1.0"} -->
+
+- **Manifest:** [jev-handoff-check.SKILL.md](../skills/development/jev-handoff-check.SKILL.md)
+- **Function:** Check a drafted worker handoff's receipt contract and blocked protocol before the accountable lead sends it.
+- **Use when:** Check a drafted worker handoff's receipt contract and blocked protocol before the accountable lead sends it.
+- **Do not use when:** As an automatic decision, policy grant or installation action; do not send unclassified data. Do not co-install it with Gavel for the same lead moment.
+- **Inputs and output:** Classified minimum summaries or a reference query; typed advisory evidence with returned model identity, not human authority.
+- **Authority and effects:** The core reads only process `TYPESAFE_API_KEY`; project-owned `.agents/config/transfer-policy.<project>.json` must be separately approved and installed. No outbound call when the policy or allowed category is missing; receipts off by default.
+- **Kaidera action:** Bounded candidate, unvetted. Canonical source is Kaidera OS `.agents/skills/jev-handoff-check/` at `86edd8eeb4ed37bb0aa646de42b3fc6c8af32c56`; published flat manifest and directory form are separate projections. Wrappers require `jev` installed in the same project. The three lead wrappers replace Gavel's corresponding moments, not supplement them. Gate 3/4 and root CC-BY-4.0 versus per-skill Apache-2.0 licence precedence remain HOLD.
+
+
+### `jev-option-decision`
+
+<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:code_interpreter"],"category":"development","legacy":false,"name":"jev-option-decision","path":"skills/development/jev-option-decision.SKILL.md","posture":"bounded-candidate","review_fingerprint":"07ad912df5c0f489a09db83067b553b3c4c15df841592fc59b631845ff10809a","risk_level":"medium","trust_tier":"unvetted","version":"0.1.0"} -->
+
+- **Manifest:** [jev-option-decision.SKILL.md](../skills/development/jev-option-decision.SKILL.md)
+- **Function:** Examine one bounded implementation or architecture choice with named candidates, evidence and requirements; the human decides.
+- **Use when:** Examine one bounded implementation or architecture choice with named candidates, evidence and requirements; the human decides.
+- **Do not use when:** As an automatic decision, policy grant or installation action; do not send unclassified data.
+- **Inputs and output:** Classified minimum summaries or a reference query; typed advisory evidence with returned model identity, not human authority.
+- **Authority and effects:** The core reads only process `TYPESAFE_API_KEY`; project-owned `.agents/config/transfer-policy.<project>.json` must be separately approved and installed. No outbound call when the policy or allowed category is missing; receipts off by default.
+- **Kaidera action:** Bounded candidate, unvetted. Canonical source is Kaidera OS `.agents/skills/jev-option-decision/` at `86edd8eeb4ed37bb0aa646de42b3fc6c8af32c56`; published flat manifest and directory form are separate projections. Wrappers require `jev` installed in the same project. The three lead wrappers replace Gavel's corresponding moments, not supplement them. Gate 3/4 and root CC-BY-4.0 versus per-skill Apache-2.0 licence precedence remain HOLD.
+
+
+### `jev-return-triage`
+
+<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:code_interpreter"],"category":"development","legacy":false,"name":"jev-return-triage","path":"skills/development/jev-return-triage.SKILL.md","posture":"bounded-candidate","review_fingerprint":"10cb9eaadc4bd62be42371c96274c140415388364a4dc80b78754bb32f0885c3","risk_level":"medium","trust_tier":"unvetted","version":"0.1.0"} -->
+
+- **Manifest:** [jev-return-triage.SKILL.md](../skills/development/jev-return-triage.SKILL.md)
+- **Function:** Advisory receipt-based triage of an arrived worker return, handback or consult by its accountable lead.
+- **Use when:** Advisory receipt-based triage of an arrived worker return, handback or consult by its accountable lead.
+- **Do not use when:** As an automatic decision, policy grant or installation action; do not send unclassified data. Do not co-install it with Gavel for the same lead moment.
+- **Inputs and output:** Classified minimum summaries or a reference query; typed advisory evidence with returned model identity, not human authority.
+- **Authority and effects:** The core reads only process `TYPESAFE_API_KEY`; project-owned `.agents/config/transfer-policy.<project>.json` must be separately approved and installed. No outbound call when the policy or allowed category is missing; receipts off by default.
+- **Kaidera action:** Bounded candidate, unvetted. Canonical source is Kaidera OS `.agents/skills/jev-return-triage/` at `86edd8eeb4ed37bb0aa646de42b3fc6c8af32c56`; published flat manifest and directory form are separate projections. Wrappers require `jev` installed in the same project. The three lead wrappers replace Gavel's corresponding moments, not supplement them. Gate 3/4 and root CC-BY-4.0 versus per-skill Apache-2.0 licence precedence remain HOLD.
+
+
+### `jev`
+
+<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:code_interpreter","tool:file_write"],"category":"development","legacy":false,"name":"jev","path":"skills/development/jev.SKILL.md","posture":"reference-only","review_fingerprint":"e79bd1262eb33aa65059f6e05f17e2cdf808e06119b87853b27c4f0054cc3c15","risk_level":"medium","trust_tier":"unvetted","version":"0.1.0"} -->
+
+- **Manifest:** [jev.SKILL.md](../skills/development/jev.SKILL.md)
+- **Function:** Jev core: common fail-closed policy reader, sanitizer and typed model transport.
+- **Use when:** Reference for the shared Jev core, project-owned transfer policy, CLI, result statuses and four separate decision-moment wrappers; not an automatic moment router.
+- **Do not use when:** As an automatic decision, policy grant or installation action; do not send unclassified data.
+- **Inputs and output:** Classified minimum summaries or a reference query; typed advisory evidence with returned model identity, not human authority.
+- **Authority and effects:** The core reads only process `TYPESAFE_API_KEY`; project-owned `.agents/config/transfer-policy.<project>.json` must be separately approved and installed. No outbound call when the policy or allowed category is missing; receipts off by default.
+- **Kaidera action:** Reference-only, unvetted. Canonical source is Kaidera OS `.agents/skills/jev/` at `86edd8eeb4ed37bb0aa646de42b3fc6c8af32c56`; published flat manifest and directory form are separate projections. Wrappers require `jev` installed in the same project. The three lead wrappers replace Gavel's corresponding moments, not supplement them. Gate 3/4 and root CC-BY-4.0 versus per-skill Apache-2.0 licence precedence remain HOLD.
+
 
 ### `kaidera-sdlc`
 
@@ -1026,6 +1101,10 @@ capability gates.
 | “Design a test for whether this loader rejects injected policy text.” | `prompt-injection-test` for non-executing design; separate controlled harness for execution |
 
 ## Portfolio overlaps and collision rules
+
+### Gavel and Jev lead moments
+
+Install either Gavel or the Jev lead wrappers `jev-return-triage`, `jev-handoff-check` and `jev-backlog-rank` for a project, not both. Jev wrappers require the `jev` core installed into the same project; `npx skills add --skill <wrapper>` does not install it transitively. Gavel uses `JEV_API_KEY` and its own helper; Jev uses only process `TYPESAFE_API_KEY` and its project-owned transfer policy. Merely copying either does not grant runtime binding or resolve the open CC-BY/Apache licence precedence hold.
 
 ### Context versus execution
 
