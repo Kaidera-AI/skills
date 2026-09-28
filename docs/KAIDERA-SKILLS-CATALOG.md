@@ -2,9 +2,9 @@
 
 Status: **canonical human-facing catalogue; source candidate; runtime and trust HOLD**
 
-Catalogue date: **2026-09-23**
+Catalogue date: **2026-09-25**
 
-Total skills: **40**
+Total skills: **42**
 
 Source binding: consume this guide only from the same Git commit as its skill
 manifests, marketplace, and catalogue test. The enclosing commit/tree is the
@@ -25,7 +25,7 @@ a release blocker; do not silently choose one side.
 
 ## Current release boundary
 
-- All 40 skills are `unvetted`.
+- All 42 skills are `unvetted`.
 - Catalogue presence, a body hash, static validation, or a local commit is not
   approval to inject a skill into an agent.
 - Gate 1 strict manifest checks and a bounded Gate 2 pattern scan exist.
@@ -43,6 +43,7 @@ a release blocker; do not silently choose one side.
 | Category | Skills |
 |---|---:|
 | Context | 8 |
+| Design | 2 |
 | Development | 16 |
 | DevOps | 8 |
 | Documentation | 1 |
@@ -51,18 +52,18 @@ a release blocker; do not silently choose one side.
 
 | Declared trust tier | Skills |
 |---|---:|
-| `unvetted` | 40 |
+| `unvetted` | 42 |
 
 | Operating posture | Skills |
 |---|---:|
-| Bounded candidate | 7 |
+| Bounded candidate | 9 |
 | Reference-only | 13 |
 | Manual-only | 10 |
 | Rework before use | 10 |
 
 Legacy entries: **22**
 
-Current-source entries: **18**
+Current-source entries: **20**
 
 `Legacy` is a documentation classification, not a trust or compatibility
 guarantee.
@@ -146,6 +147,8 @@ Use the narrowest matching skill:
 | Deploy, close a sprint, or apply infrastructure | manual-only runbook | Exact environment identity, approval, credentials, or rollback evidence is missing |
 | Respond to an incident | No automatic skill route; rebuild the held `incident-response` source into a current human-gated runbook | Incident command, preservation-before-mutation, evidence custody, rollback, or readback is missing |
 | Design or review a prompt-injection boundary test | `prompt-injection-test` | Execution, corpus access, runtime access, or literal payload injection is requested |
+| Design, build, restyle or review an Adaptech AI, Kaidera or TAM presentation deck | `kaidera-deck-design` | Copy alone (`human-voice`), product interface design, a brand-package change, or distribution of the finished deck |
+| Put an approved deck online at an unlisted address and email its PDF on request | `gated-deck-web-page` | The deck is unapproved, the material must stay private, or deployment or sending is requested; those belong to the site owner |
 
 ### Review-skill separation
 
@@ -174,6 +177,8 @@ Use the narrowest matching skill:
 | Context | `workspace-context` | `1.0.1` | Legacy workspace identity, stack, structure, terminology, and principles | Reference-only, legacy | low / none |
 | Context | `route-handoff-gate` | `1.0.0` | Verifies project, lane, layer, role, and dependency boundaries before creating | Manual-only | low / file read |
 | Context | `scope-work-gate` | `1.0.0` | Confirms that proposed work belongs to the current project, role, lane, and | Manual-only | low / file read |
+| Design | `gated-deck-web-page` | `1.0.0` | Unlisted web page from an approved deck, with an emailed-PDF request form and an owner handoff | Bounded candidate | medium / file read, file write, interpreter |
+| Design | `kaidera-deck-design` | `1.0.0` | House-style deck design, script-first build and QA for Adaptech AI, Kaidera and TAM decks | Bounded candidate | medium / file read, file write, interpreter |
 | Development | `api-design` | `1.0.1` | Legacy FastAPI URL, schema, auth, error, pagination, and OpenAPI patterns | Reference-only, legacy | low / none |
 | Development | `api-test` | `1.0.1` | Legacy FastAPI contract/integration testing and async mock patterns | Reference-only, legacy | low / none |
 | Development | `assumption-validation` | `1.0.0` | Evidence-gates costly or customer-visible product assumptions | Bounded candidate | medium / file read, interpreter |
@@ -255,6 +260,8 @@ precedence issue remains a release hold.
 | `deploy-gate` | `Kaidera` | `Apache-2.0` | None | — |
 | `infra-naming-gate` | `Kaidera` | `Apache-2.0` | None | — |
 | `human-voice` | `Kaidera` | `Apache-2.0` | `aclanthology.org`, `arxiv.org`, `en.wikipedia.org`, `www.economist.com`, `www.nytimes.com`, `www.pnas.org`, `www.science.org`, `www.washingtonpost.com` | — |
+| `gated-deck-web-page` | `Kaidera-AI` | `Apache-2.0` | None | — |
+| `kaidera-deck-design` | `Kaidera-AI` | `Apache-2.0` | None | — |
 
 ## Context skills
 
@@ -398,6 +405,74 @@ compare it with the current repository and Cortex source of truth.
 - **Authority and effects:** No side effects and no ownership authority.
 - **Kaidera action:** Treat as migration evidence. Replace it with a current,
   repository-bound workspace context rather than a blanket name substitution.
+
+## Design skills
+
+Design skills apply the Kaidera Neomorphic Rounded brand system to presentation
+decks and to web pages built from them. They write local files and run local
+builds only; sending, uploading and publishing stay with separately authorised
+owners.
+
+### `gated-deck-web-page`
+
+<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:file_write","tool:code_interpreter"],"category":"design","legacy":false,"name":"gated-deck-web-page","path":"skills/design/gated-deck-web-page.SKILL.md","posture":"bounded-candidate","review_fingerprint":"208e71f5e20e7502db72c5782e16a880b34c705923a7f7492b30f79c2dde0742","risk_level":"medium","trust_tier":"unvetted","version":"1.0.0"} -->
+
+- **Manifest:** [gated-deck-web-page.SKILL.md](../skills/design/gated-deck-web-page.SKILL.md)
+- **Function:** Turns an approved deck into an unlisted static web page in the
+  house style, with a name, job title and email form whose endpoint emails the
+  PDF. It packages the site, the PDF kept outside it as an attachment,
+  checksums and a handoff for the site owner.
+- **Use when:** An approved deck needs a web version at an unlisted address and
+  its PDF should reach only people who identify themselves.
+- **Do not use when:** The page must rank in search, the material must stay
+  private (use access-controlled hosting), the deck is not approved, or the
+  request is to deploy, publish or send.
+- **Inputs:** Required `deck`, `pdf` and `publish_path`; optional `endpoint`,
+  `owner` and `approved_uses`.
+- **Output:** `site/` (page, no-JavaScript confirmation page and self-hosted
+  assets), `email-attachment/` with the PDF, a zip of the site, `SHA256SUMS`,
+  and a handoff with the endpoint contract, email text, publishing rules and
+  seven acceptance checks.
+- **Authority and effects:** Medium risk: local file writes, local builds and a
+  local mock-endpoint test only. It never deploys, builds the live endpoint or
+  sends email; the site owner does those under their own approval. The privacy
+  line states only approved uses, and consent to anything more must be optional
+  and unticked.
+- **Kaidera action:** Keep `unvetted` and the Gate 3/4 holds. Before runtime
+  binding, confirm the host confines writes to the package folder and keeps the
+  mock server local. Distilled from the September 2026 investor-teaser web
+  package; its tokens mirror `kaidera-deck-design`.
+
+### `kaidera-deck-design`
+
+<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:file_write","tool:code_interpreter"],"category":"design","legacy":false,"name":"kaidera-deck-design","path":"skills/design/kaidera-deck-design.SKILL.md","posture":"bounded-candidate","review_fingerprint":"a5a347c4e0fc4c0e142a44879934cebdd77a72c0464dd10c8971df51977189f7","risk_level":"medium","trust_tier":"unvetted","version":"1.0.0"} -->
+
+- **Manifest:** [kaidera-deck-design.SKILL.md](../skills/design/kaidera-deck-design.SKILL.md)
+- **Function:** Designs, builds and checks presentation decks in the Adaptech
+  AI, Kaidera and TAM house style. It covers:
+  - tokens with measured contrast, the grid and the type scale;
+  - components, slide rhythm, and logo and imagery rules;
+  - copy and speaker-note rules;
+  - a script-first build procedure, an officecli mapping and a QA checklist.
+- **Use when:** Creating, rebuilding, restyling or reviewing an investor teaser,
+  partner introduction or programme deck for Adaptech AI, Kaidera or TAM.
+- **Do not use when:** The task is copy alone (`human-voice`), product interface
+  design, a change to the brand package itself, or distribution of a finished
+  deck.
+- **Inputs:** Required `brief`; optional `copy_source`, `brand_package`,
+  `design_reference` and `output_path`.
+- **Output:** A script-built PPTX, its PDF export, the build script and asset
+  manifest, and a QA record with SHA-256 values for the delivered files.
+- **Authority and effects:** Medium risk: local file writes and local build,
+  render and export runs only.
+  - The approver's hand edits override the skill defaults and must be ported into
+    the build script before any rebuild.
+  - It never overwrites an open or hand-edited deck, never generates or alters a
+    logo, and never sends, uploads or publishes.
+- **Kaidera action:** Keep `unvetted` and the Gate 3/4 holds. Re-sync the token
+  and contrast tables whenever the brand package version changes. Distilled
+  from the September 2026 partner-deck and investor-teaser builds. Small text
+  moves from steel to steel deep or dim, because steel measures 3.1:1 on paper.
 
 ## Development skills
 
@@ -1024,6 +1099,8 @@ capability gates.
 | “Deploy this to dev now.” | No automatic skill route; separately authorised deployment workflow required |
 | “Shut down the compromised worker fleet.” | No automatic skill route; current incident commander and controlled runbook required |
 | “Design a test for whether this loader rejects injected policy text.” | `prompt-injection-test` for non-executing design; separate controlled harness for execution |
+| “Build a ten-slide partner deck for the airport programme in our house style.” | `kaidera-deck-design` |
+| “Put the approved teaser online and email the PDF to anyone who asks for it.” | `gated-deck-web-page` for the package and handoff; the site owner deploys and sends |
 
 ## Portfolio overlaps and collision rules
 
@@ -1057,6 +1134,15 @@ Supporting security context can raise questions and propose candidate checks,
 but the selected primary reviewer owns evidence, deduplication, coverage, and
 the verdict. This prevents `code-review`, `open-code-review`, `ultrareview`, and
 `code-review-security` from issuing irreconcilable conclusions for one target.
+
+### Presentation design versus copy and product interfaces
+
+`kaidera-deck-design` owns deck layout, brand application and deck QA. The words
+come from the approved copy source, and `human-voice` may shape them before they
+reach the deck. `gated-deck-web-page` reuses the deck tokens and components for
+an unlisted web version; it does not restyle the deck. Neither skill designs
+product interfaces or changes the brand package: product interfaces follow the
+brand package directly, and the package itself stays under its owner.
 
 ## Lifecycle from source to runtime
 
@@ -1135,6 +1221,13 @@ Several skills share vocabulary such as review, security, tests, deployment,
 and research. Runtime selection needs positive, abstention, collision, and
 safety-boundary evaluations. Same-name skills from different repositories need
 source-qualified IDs, not first-match filename resolution.
+
+### Brand values carried by design skills
+
+`kaidera-deck-design` and `gated-deck-web-page` carry copies of the Kaidera
+Neomorphic Rounded token values and measured contrast ratios. They are not
+generated from the brand package, so a change of brand-package version must
+update both skills in the same commit.
 
 ## Recommended portfolio roadmap
 
