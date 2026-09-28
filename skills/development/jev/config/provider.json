@@ -1,0 +1,14 @@
+{
+  "endpoint": "https://api.typesafe.ai/v1/systemone",
+  "credential_env": "TYPESAFE_API_KEY",
+  "legacy_credential_env": "JEV_API_KEY",
+  "model_default": "jev-latest",
+  "model_pin": "jev-1.13.0",
+  "request_timeout_s": 60,
+  "max_retries": 2,
+  "backoff_initial_s": 0.5,
+  "backoff_max_s": 5.0,
+  "backoff_jitter": 0.25,
+  "retry_statuses": [408, 429, 500, 502, 503, 504, 529],
+  "total_deadline_s": 90
+}

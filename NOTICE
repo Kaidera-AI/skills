@@ -26,3 +26,8 @@ Research donors added 2026-08-24:
   69c3ae5228eb146724fd23dac3d43eab5805bcc3 (MIT, Copyright 2026 David
   Ondrej). The independently written assumption-validation and research-brief
   skills preserve exact source links in their frontmatter.
+
+Jev family source attribution (projected 2026-09-28):
+- TypeSafe AI skills, Copyright (c) 2026 TypeSafe AI (MIT).
+- Joey Kudish, jkudish/jev-mcp and jkudish/jev-agent-tools, Copyright (c) 2026 Joey Kudish (MIT).
+- Each Jev directory carries its Apache-2.0 LICENSE; the core ATTRIBUTION.md preserves the upstream MIT permissions and warranty notice. Root/per-skill CC-BY/Apache precedence remains unratified.

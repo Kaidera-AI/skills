@@ -1,0 +1,8 @@
+{
+  "version": 1,
+  "project": "fixture",
+  "categories": ["process_receipt_summaries", "public_external_content"],
+  "roles": {
+    "lead": {"allowed_categories": ["process_receipt_summaries"]}
+  }
+}

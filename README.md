@@ -25,7 +25,7 @@ Skills are instructions, not programs: the format carries no executable code and
 | Category | Description | Count |
 |----------|-------------|-------|
 | `context/` | Project and workspace awareness | 8 |
-| `development/` | Code writing, review, testing | 16 |
+| `development/` | Code writing, review, testing | 21 |
 | `devops/` | Deployment, infrastructure, CI/CD | 8 |
 | `documentation/` | Specs, docs, changelogs, writing voice | 1 |
 | `research/` | Research briefs, company research and evidence | 2 |
@@ -55,7 +55,10 @@ Also implemented: deterministic catalogue generation (`npm run generate` writes 
 
 Copy the `.SKILL.md` file into the place your harness reads skills from. The body below the frontmatter is the instruction text; the frontmatter says what the skill needs and what it promises not to do. Read the [catalogue](docs/KAIDERA-SKILLS-CATALOG.md) entry first: it records each skill's operating posture (bounded candidate, reference-only, manual-only, rework before use).
 
-`kaidera-sdlc` and `gavel` also ship in directory form for the harness-agnostic skills CLI (replace the skill name as needed): `npx skills add Kaidera-AI/skills --skill gavel -a universal -y --copy` installs `SKILL.md`, the stdlib helper and its references into `.agents/skills/gavel/`.
+`kaidera-sdlc`, `gavel`, and the five Jev-family skills also ship in directory form for the harness-agnostic skills CLI (replace the skill name as needed): `npx skills add Kaidera-AI/skills --skill gavel -a universal -y --copy` installs `SKILL.md`, the stdlib helper and its references into `.agents/skills/gavel/`.
+
+For Jev, install `jev` and a wrapper into the same project separately: `npx skills add Kaidera-AI/skills --skill jev -a universal -y --copy`, then `npx skills add Kaidera-AI/skills --skill jev-return-triage -a universal -y --copy`. Each wrapper calls `.agents/skills/jev/tools/jev.py`; installing it alone does not install the core or the project's transfer policy. Use either Gavel or the three Jev lead wrappers (triage, handoff, backlog), not both. The Jev core uses `TYPESAFE_API_KEY` from the process environment. All remain unvetted; the CC-BY-4.0 root versus Apache-2.0 per-skill licensing precedence remains an explicit external-redistribution hold.
+
 
 ## Skill Format
 

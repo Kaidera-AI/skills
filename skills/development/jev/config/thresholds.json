@@ -1,0 +1,17 @@
+{
+  "calibrated": false,
+  "verify": {
+    "confident_at": 0.8,
+    "source": "jkudish/jev-mcp@108d61ec0442aef3d212dcc6a18a5f3cf3ce4fda src/index.ts:153-158 (jev_verify)"
+  },
+  "screen": {
+    "block_at": 0.75,
+    "review_at": 0.25,
+    "source": "jkudish/jev-mcp@108d61ec0442aef3d212dcc6a18a5f3cf3ce4fda src/index.ts:273-274 (jev_screen)",
+    "local_heuristic_flags": ["(?i)ignore (?:all )?(?:previous|prior) instructions", "(?i)reveal (?:your |the )?(?:system|developer) prompt", "(?i)exfiltrat(?:e|ion)"]
+  },
+  "decide": {
+    "contradiction_warn_at": 0.5,
+    "source": "Uncalibrated advisory starting point: warn on selected candidate contradiction at confidence >= 0.5; no automatic veto"
+  }
+}
