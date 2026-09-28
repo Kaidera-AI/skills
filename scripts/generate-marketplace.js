@@ -140,7 +140,9 @@ function main(argv = process.argv.slice(2)) {
   return 0
 }
 
-if (require.main === module) process.exit(main())
+// exitCode, not process.exit(): a piped stdout on macOS is asynchronous, and exiting
+// immediately truncates a dry run longer than the 64 KiB pipe buffer.
+if (require.main === module) process.exitCode = main()
 
 module.exports = {
   assertUniqueSkillNames,

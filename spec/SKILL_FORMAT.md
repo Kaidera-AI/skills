@@ -116,6 +116,7 @@ the agent's base system prompt.
 | `research` | Analysis, synthesis, competitive research |
 | `integrations` | External API patterns, webhook handling, OAuth |
 | `context` | Workspace/project context skills (read-only reference) |
+| `design` | Presentation decks, brand application and branded web pages |
 
 ---
 

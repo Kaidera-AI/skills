@@ -3,7 +3,7 @@
   "description": "Locally validated, provenance-aware skills for Kaidera agents",
   "version": "1.0.0",
   "source": "https://github.com/Kaidera-AI/skills",
-  "generated_at": "2026-09-23T00:00:00.000Z",
+  "generated_at": "2026-09-28T00:00:00.000Z",
   "generation_basis": "maximum skill updated date",
   "skills": [
     {
@@ -268,6 +268,146 @@
       "last_reviewed": "",
       "reviewer": "",
       "file": "skills/context/workspace-context.SKILL.md"
+    },
+    {
+      "name": "gated-deck-web-page",
+      "version": "1.0.0",
+      "description": "Turn an approved presentation deck into an unlisted static web page in the same\nhouse style, with a form that has the site email the deck PDF after a visitor\ngives a name, job title and email address. Produces the site folder, the PDF\nkept outside it as an email attachment, checksums, and a handoff carrying the\nendpoint contract and acceptance checks. It does not deploy the page, build the\nlive endpoint or send email.\n",
+      "category": "design",
+      "trust_tier": "unvetted",
+      "risk_level": "medium",
+      "capabilities_required": [
+        "tool:file_read",
+        "tool:file_write",
+        "tool:code_interpreter"
+      ],
+      "allowed_domains": [],
+      "safety_constraints": [
+        "Produce a local package and a written handoff only. Do not deploy or publish, change hosting or DNS, build the live endpoint, or send email.",
+        "Never place the PDF in the publishable site folder or link to it; it exists only as an email attachment.",
+        "The page makes no third-party request. Self-host the font and images; add no analytics, trackers, embeds or remote scripts.",
+        "State only the approved uses of visitor details. Never pre-tick consent or imply follow-up the data owner has not approved.",
+        "Put on the page only content the owner accepts being readable by anyone with the link; an unlisted page is not private."
+      ],
+      "parameters": {
+        "deck": {
+          "type": "string",
+          "required": true,
+          "description": "Path to the approved deck, or its copy source, whose content the page repeats."
+        },
+        "pdf": {
+          "type": "string",
+          "required": true,
+          "description": "Path to the approved PDF that the endpoint will email."
+        },
+        "publish_path": {
+          "type": "string",
+          "required": true,
+          "description": "Site path the page will live at, for example /finance/teaser/. Every asset URL is built under it."
+        },
+        "endpoint": {
+          "type": "string",
+          "required": false,
+          "description": "Same-origin form endpoint, for example /api/teaser. Defaults to /api/ followed by the page slug."
+        },
+        "owner": {
+          "type": "string",
+          "required": false,
+          "description": "Site owner who builds the endpoint and deploys the page, and the contact who receives request notifications."
+        },
+        "approved_uses": {
+          "type": "string",
+          "required": false,
+          "description": "Uses of visitor details the data owner has approved. Defaults to sending the PDF and nothing else."
+        }
+      },
+      "author": "Kaidera-AI",
+      "license": "Apache-2.0",
+      "updated": "2026-09-28",
+      "tags": [
+        "design",
+        "web",
+        "html",
+        "css",
+        "deck",
+        "pdf",
+        "form",
+        "lead-capture",
+        "static-site",
+        "kaidera"
+      ],
+      "content_hash": "8f3677e0db2aadfb06f8ec41fea43e66efa3f3bec3d558d03fac14b6fac2000e",
+      "signed_by": "",
+      "last_reviewed": "",
+      "reviewer": "",
+      "file": "skills/design/gated-deck-web-page.SKILL.md"
+    },
+    {
+      "name": "kaidera-deck-design",
+      "version": "1.0.0",
+      "description": "Design, build and check presentation decks in the house style Adaptech AI Ltd\nuses for Kaidera and TAM investor teasers and partner decks: graphite and paper\nslides, Space Grotesk, rounded cards, one accent family, exact logo files, and a\nscript-built PPTX with a PDF export and a recorded QA pass. Use when asked to\ncreate, rebuild, restyle or review such a deck. It writes local files only; it\nnever sends, uploads or publishes a deck.\n",
+      "category": "design",
+      "trust_tier": "unvetted",
+      "risk_level": "medium",
+      "capabilities_required": [
+        "tool:file_read",
+        "tool:file_write",
+        "tool:code_interpreter"
+      ],
+      "allowed_domains": [],
+      "safety_constraints": [
+        "Write only inside the output folder the user names or approves. Never overwrite a deck that is open in a presentation application or that was edited by hand after the last build; port the hand edits into the build script first.",
+        "Use only the supplied brand files for logos, marks and fonts. Never generate, redraw, recolour, stretch or outline a logo or mark, or add effects to it.",
+        "Every figure, name, status and quote must trace to the approved copy source. Do not invent customers, endorsements, metrics or partner logos, and never upgrade a pipeline status.",
+        "Do not send, upload, share or publish the deck. Distribution is a separate, human-approved action.",
+        "Keep internal review directives, credentials and private file paths out of slides, speaker notes and document metadata."
+      ],
+      "parameters": {
+        "brief": {
+          "type": "string",
+          "required": true,
+          "description": "Audience, purpose, length, delivery format (PPTX, PDF or both) and deadline."
+        },
+        "copy_source": {
+          "type": "string",
+          "required": false,
+          "description": "Path to the approved copy spec, claim ledger or source deck that owns every word, number and status."
+        },
+        "brand_package": {
+          "type": "string",
+          "required": false,
+          "description": "Path to the brand package with tokens, logos, marks and fonts. Defaults to the package the workspace already uses."
+        },
+        "design_reference": {
+          "type": "string",
+          "required": false,
+          "description": "Path to an approved or hand-edited deck whose as-built layout overrides the defaults in this skill."
+        },
+        "output_path": {
+          "type": "string",
+          "required": false,
+          "description": "Folder for the PPTX, PDF, build script and asset manifest. Defaults to a new folder beside the copy source."
+        }
+      },
+      "author": "Kaidera-AI",
+      "license": "Apache-2.0",
+      "updated": "2026-09-28",
+      "tags": [
+        "design",
+        "presentation",
+        "deck",
+        "pptx",
+        "pdf",
+        "brand",
+        "space-grotesk",
+        "kaidera",
+        "tam"
+      ],
+      "content_hash": "03e202f0e4494d77280748e5477f0cbdcdfe03b44e1fe5f0b82bccc110b1a472",
+      "signed_by": "",
+      "last_reviewed": "",
+      "reviewer": "",
+      "file": "skills/design/kaidera-deck-design.SKILL.md"
     },
     {
       "name": "api-design",
