@@ -40,6 +40,8 @@ const posturePolicy = new Map([
       'gavel',
       'kaidera-sdlc',
     'unlazy',
+    'gated-deck-web-page',
+    'kaidera-deck-design',
 ])],
   ['reference-only', new Set([
     'agent-platform-context',
@@ -124,9 +126,12 @@ const currentSourceSkills = new Set([
     'scope-work-gate',
     'unlazy',
     'prompt-master',
+    'gated-deck-web-page',
+    'kaidera-deck-design',
 ])
 const categoryLabels = new Map([
   ['context', 'Context'],
+  ['design', 'Design'],
   ['development', 'Development'],
   ['devops', 'DevOps'],
   ['documentation', 'Documentation'],
@@ -145,6 +150,7 @@ const requiredHeadings = [
   '## Catalogue at a glance',
   '## Ownership, licensing, attribution, and domain metadata',
   '## Context skills',
+  '## Design skills',
   '## Development skills',
   '## DevOps skills',
   '## Documentation skills',
@@ -445,6 +451,7 @@ function validateReadme(readme, marketplace) {
 function readmeCategoryDescription(category) {
   return new Map([
     ['context', 'Project and workspace awareness'],
+    ['design', 'Presentation decks and branded web pages'],
     ['development', 'Code writing, review, testing'],
     ['devops', 'Deployment, infrastructure, CI/CD'],
     ['documentation', 'Specs, docs, changelogs, writing voice'],
