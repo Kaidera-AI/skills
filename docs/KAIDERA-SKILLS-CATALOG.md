@@ -4,7 +4,7 @@ Status: **canonical human-facing catalogue; source candidate; runtime and trust 
 
 Catalogue date: **2026-09-28**
 
-Total skills: **45**
+Total skills: **47**
 
 Source binding: consume this guide only from the same Git commit as its skill
 manifests, marketplace, and catalogue test. The enclosing commit/tree is the
@@ -25,7 +25,7 @@ a release blocker; do not silently choose one side.
 
 ## Current release boundary
 
-- All 45 skills are `unvetted`.
+- All 47 skills are `unvetted`.
 - Catalogue presence, a body hash, static validation, or a local commit is not
   approval to inject a skill into an agent.
 - Gate 1 strict manifest checks and a bounded Gate 2 pattern scan exist.
@@ -46,23 +46,23 @@ a release blocker; do not silently choose one side.
 | Development | 21 |
 | DevOps | 8 |
 | Documentation | 1 |
-| Research | 2 |
+| Research | 4 |
 | Security | 5 |
 
 | Declared trust tier | Skills |
 |---|---:|
-| `unvetted` | 45 |
+| `unvetted` | 47 |
 
 | Operating posture | Skills |
 |---|---:|
 | Bounded candidate | 11 |
 | Reference-only | 14 |
-| Manual-only | 10 |
+| Manual-only | 12 |
 | Rework before use | 10 |
 
 Legacy entries: **22**
 
-Current-source entries: **23**
+Current-source entries: **25**
 
 `Legacy` is a documentation classification, not a trust or compatibility
 guarantee.
@@ -142,6 +142,8 @@ Use the narrowest matching skill:
 | Validate whether a customer-visible assumption is supported | `assumption-validation` | The request is merely code correctness, implementation, or live production research |
 | Draft a decision-led research mission | `research-brief` | The user asked to perform the research rather than draft its brief |
 | Research companies, current leaders and professional profiles | `marketing-web-research` | Only a research brief is requested; invitations, email, follows or paid tools lack applicable authority |
+| Find, qualify and verify prospects and queue a sourced batch for approval | `marketing-lead-generation` | Only a research brief is wanted, or sending, campaign membership, live CRM writes or paid enrichment lack the owner's approval |
+| Run a daily one-to-one sales email routine with scheduled follow-ups and reply hand-off | `marketing-one-to-one-outreach`, used with `marketing-lead-generation` | The audience is a newsletter or bulk list, no verified mailbox connector exists, or the owner has not approved the campaign brief and each day's batch |
 | Design APIs, tests, migrations, containers, Kubernetes, or Terraform | matching reference skill | Current project conventions differ or execution/changes are requested without authority |
 | Deploy, close a sprint, or apply infrastructure | manual-only runbook | Exact environment identity, approval, credentials, or rollback evidence is missing |
 | Respond to an incident | No automatic skill route; rebuild the held `incident-response` source into a current human-gated runbook | Incident command, preservation-before-mutation, evidence custody, rollback, or readback is missing |
@@ -202,6 +204,8 @@ Use the narrowest matching skill:
 | DevOps | `cloud-agnostic-policy` | `1.0.0` | Reviews infrastructure choices for portability and prevents an architecture | Manual-only | low / file read |
 | DevOps | `deploy-gate` | `1.0.0` | Gates pushes, pull requests, merges, releases, and deployments on exact target, | Manual-only | medium / file read |
 | DevOps | `infra-naming-gate` | `1.0.0` | Validates proposed infrastructure names against a portable organization, | Manual-only | low / file read |
+| Research | `marketing-lead-generation` | `0.1.0` | Unattended prospect research, qualification and address verification that stops at an owner review queue | Manual-only | high / file read, file write, web search, external connector |
+| Research | `marketing-one-to-one-outreach` | `0.1.0` | Daily CRM-driven one-to-one sales email with owner-approved batches, scheduled follow-ups, a send ledger and reply hand-off to a human | Manual-only | high / file read, file write, web search, external connector |
 | Research | `marketing-web-research` | `0.1.002` | Customer-configurable company and professional-profile research with separate action receipts | Manual-only | high / file read, file write, web search, external connector |
 | Research | `research-brief` | `1.0.0` | Drafts a self-contained decision-led brief without executing research | Bounded candidate | low / file read |
 | Security | `code-review-security` | `1.1.0` | Legacy EnGenAI security checklist with unverified control claims | Rework before use, legacy | low / none declared |
@@ -242,6 +246,8 @@ precedence issue remains a release hold.
 | `k8s-deploy` | `kaidera` | `Apache-2.0` | None | — |
 | `sprint-closing` | `kaidera` | `Apache-2.0` | None | — |
 | `terraform-module` | `kaidera` | `Apache-2.0` | `www.googleapis.com` | — |
+| `marketing-lead-generation` | `Kaidera-AI` | `Apache-2.0` | `github.com`, `apollo.io`, `clay.com` | — |
+| `marketing-one-to-one-outreach` | `Kaidera-AI` | `Apache-2.0` | `instantly.ai`, `boomerangapp.com`, `gong.io`, `apollo.io`, `samsalesconsulting.com`, `joshbraun.com`, `hubspot.com`, `twenty.com`, `ico.org.uk`, `law.cornell.edu`, `support.google.com`, `rfc-editor.org` | — |
 | `marketing-web-research` | `Kaidera-AI` | `Apache-2.0` | `linkedin.com`, `x.com` | — |
 | `research-brief` | `Kaidera-AI` | `Apache-2.0` | `github.com` | [David Ondrej](https://github.com/davidondrej/skills/tree/69c3ae5228eb146724fd23dac3d43eab5805bcc3/skills/research-and-web/research-prompt) |
 | `code-review-security` | `kaidera` | `Apache-2.0` | None | — |
@@ -938,6 +944,32 @@ Writing and documentation guidance. Reference-only unless a manifest says otherw
 
 ## Research skills
 
+### `marketing-lead-generation`
+
+<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:file_write","tool:web_search","tool:mcp_external"],"category":"research","legacy":false,"name":"marketing-lead-generation","path":"skills/research/marketing-lead-generation.SKILL.md","posture":"manual-only","review_fingerprint":"1bd5ec3fcf8cddf55f0b3ac03b67e5bfe828faf31f2299ebb1842d8d63c7d001","risk_level":"high","trust_tier":"unvetted","version":"0.1.0"} -->
+
+- **Manifest:** [marketing-lead-generation.SKILL.md](../skills/research/marketing-lead-generation.SKILL.md)
+- **Function:** Research, qualify and verify prospective customers as one unattended batch, using cited evidence, stable lead IDs, owner keep, maybe and reject feedback, and verification of addresses observed on a source. The batch stops at an owner review queue.
+- **Use when:** A campaign owner wants sourced, qualified prospects with reasons, proposed CRM changes and outreach drafts, and will review before anything is sent.
+- **Do not use when:** The task is only editorial research, or it asks the skill to send, add people to a campaign, write live CRM records, spend on enrichment, guess or generate addresses, or act on a reply. Contacting the people is `marketing-one-to-one-outreach`.
+- **Inputs:** An ordinary request or the campaign brief: offer, ideal customer, geography, exclusions, batch cap and success measure. Marketing OS configuration files are optional on other hosts.
+- **Output:** A batch with counts that reconcile, evidence per prospect labelled observed, provider-asserted or inferred, address verification results, duplicate and suppression status, proposed CRM changes and drafts. Local output is the default.
+- **Authority and effects:** High-risk, manual-only source candidate because enrichment, CRM and mailbox connectors can change external state. Research uses existing approved host tools. A public address, a provider label, a score or an approved batch grants no contact permission. No scraper code, provider subscription or credentials are included. The bundled sources file lists reference projects with their licences and pinned commits; two are copyleft or dual-licensed and are method references only.
+- **Kaidera action:** Preserve unvetted status and the Gate 3/4 holds. Qualify the host's CRM connector, suppression source and account identity before runtime binding. The catalogue row and body hash are not evidence that any connector works. This entry is a marketplace projection of the Marketing OS pack skill of the same name; edit the pack source and regenerate. It is published together with `marketing-one-to-one-outreach`, and both are meant to be installed together.
+
+### `marketing-one-to-one-outreach`
+
+<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:file_write","tool:web_search","tool:mcp_external"],"category":"research","legacy":false,"name":"marketing-one-to-one-outreach","path":"skills/research/marketing-one-to-one-outreach.SKILL.md","posture":"manual-only","review_fingerprint":"3b2561a5e7465a81affb01c1077e9f4c6301f7134403cacbca6e917d918f1b42","risk_level":"high","trust_tier":"unvetted","version":"0.1.0"} -->
+
+- **Manifest:** [marketing-one-to-one-outreach.SKILL.md](../skills/research/marketing-one-to-one-outreach.SKILL.md)
+- **Function:** Run a daily, CRM-driven, one-to-one sales email routine: build the due list, draft short personalised emails from cited evidence, queue one owner review digest, deliver only approved bytes, record every touch in a send ledger, follow up on a business-day schedule, stop on any real reply and forward it to a named human sales lead.
+- **Use when:** Qualified leads with verified, observed addresses and contact permission need to be contacted one to one, and an owner will approve each day's batch.
+- **Do not use when:** The audience is a newsletter or bulk list, no authenticated mailbox connector or suppression source is available, the owner has not approved the campaign brief and the day's batch, or the request is to answer prospects automatically, guess addresses, buy lists or evade filters.
+- **Inputs:** An ordinary request or the campaign brief: offer, ideal customer, sender identity and postal address, human sales lead, sequence, caps, timezone and the region policy record.
+- **Output:** A review digest, delivery receipts with provider read-back, a per-touch and per-enrolment ledger, forwarded replies with thread, history, evidence and a suggested reply, and reply-rate reporting by class with denominators. Local output is the default.
+- **Authority and effects:** High-risk, manual-only source candidate because sending mail and writing CRM records change external state. Approval of a brief permits drafting, never sending. Each send needs the owner's approval of the exact recipients, sender, text and timing, and a standing approval is not assumed. The first real reply ends the sequence and goes to a human; the skill never answers a prospect. Contact rules and deliverability guidance cover only the UK, the US and Gmail senders as sourced; other regions are held. It is operating guidance, not legal advice. Benchmarks are vendor or practitioner data, labelled by strength in the bundled sources file.
+- **Kaidera action:** Preserve unvetted status and the Gate 3/4 holds. Qualify the host's mailbox connector, thread and reply detection, CRM connector and suppression source, and run a harmless local-only task before binding. The catalogue row and body hash are not evidence that a scheduler or connector exists. This entry is a marketplace projection of the Marketing OS pack skill of the same name; edit the pack source and regenerate. It is published together with `marketing-lead-generation`, and both are meant to be installed together.
+
 ### `marketing-web-research`
 
 <!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:file_write","tool:web_search","tool:mcp_external"],"category":"research","legacy":false,"name":"marketing-web-research","path":"skills/research/marketing-web-research.SKILL.md","posture":"manual-only","review_fingerprint":"7b5dd791e8ecccded4a35f52174aa7772eb53bbce90e0f14d86d358c77f61aa3","risk_level":"high","trust_tier":"unvetted","version":"0.1.002"} -->
@@ -1094,6 +1126,8 @@ capability gates.
 | “Does this pricing default make sense, independent of whether the code works?” | `assumption-validation` |
 | “Write a research brief comparing three provider strategies.” | `research-brief` |
 | “Find decision makers matching our customer profile and return a sourced list here.” | `marketing-web-research`, with a separately approved host workflow |
+| “Find ten qualified prospects for this offer and queue them for my review.” | `marketing-lead-generation`, with a separately approved host workflow |
+| “Email today's due prospects one to one, follow up on the schedule, and send me every reply.” | `marketing-one-to-one-outreach`, with `marketing-lead-generation` and an owner-approved daily batch |
 | “Use the EnGenAI security checklist while reviewing this patch.” | No automatic route; reverify individual legacy checks under `open-code-review` |
 | “Show the historical branch and PR conventions.” | No runtime route; consult `git-workflow` only as quarantined historical evidence pending rework |
 | “Deploy this to dev now.” | No automatic skill route; separately authorised deployment workflow required |
