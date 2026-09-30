@@ -63,6 +63,7 @@ const posturePolicy = new Map([
 ])],
   ['manual-only', new Set([
     'marketing-web-research',
+    'lead-generation-outreach',
     'deploy-to-dev',
     'sprint-closing',
     'terraform-module',
@@ -118,6 +119,7 @@ const currentSourceSkills = new Set([
   'jev',
   'development-workflow',
   'marketing-web-research',
+  'lead-generation-outreach',
   'assumption-validation',
   'open-code-review',
   'prompt-injection-test',
