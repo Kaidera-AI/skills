@@ -151,10 +151,11 @@ Use the narrowest matching skill:
 
 - `evidence-code-review` is the portfolio-designated evidence contract for bounded
   changes; it is not runtime authority until Gate 3/4 and loader binding pass.
-- `code-review` is a smaller legacy checklist whose merge/log postconditions
-  exceed its no-tool declaration; it is held pending rework.
-- `codebase-audit` is for whole-codebase/module health and currently needs
-  capability-contract rework before runtime use.
+- `code-review` is a smaller advisory checklist. Its source candidate proposes
+  records and readiness; current product controls and loader separation still
+  need qualification before runtime use.
+- `codebase-audit` is a strictly read-only whole-codebase/module audit candidate;
+  independent acceptance, routing and runtime qualification remain open.
 - `code-review-security` contains a legacy product checklist that must be
   reverified before individual checks are used; it does not issue a competing
   bounded-change verdict.
@@ -177,11 +178,11 @@ Use the narrowest matching skill:
 | Development | `api-design` | `1.0.2` | Legacy FastAPI URL, schema, auth, error, pagination, and OpenAPI patterns | Reference-only, legacy | low / none |
 | Development | `api-test` | `1.0.2` | Legacy FastAPI contract/integration testing and async mock patterns | Reference-only, legacy | low / none |
 | Development | `assumption-validation` | `1.0.0` | Evidence-gates costly or customer-visible product assumptions | Bounded candidate | medium / file read, interpreter |
-| Development | `code-review` | `2.1.2` | Legacy lightweight checklist with unauthorised merge/log postconditions | Rework before use, legacy | low / none declared |
+| Development | `code-review` | `2.1.2` | Advisory lightweight checklist with proposed records and readiness | Rework before use, legacy | low / none declared |
 | Development | `database-migration` | `1.0.2` | Legacy Alembic/PostgreSQL migration and rollback patterns | Rework before use, legacy | low / none declared |
-| Development | `git-workflow` | `1.0.2` | Legacy branch, commit, PR, and sprint Git conventions | Rework before use, legacy | low / none declared |
+| Development | `git-workflow` | `1.0.2` | Project-configured branch, commit, PR and delivery reference | Rework before use, legacy | low / none declared |
 | Development | `evidence-code-review` | `4.0.2` | Exact-target, evidence-gated, adversarial bounded-change review | Bounded candidate | medium / file read, interpreter |
-| Development | `performance-profiling` | `1.0.3` | Legacy live API/Kubernetes/DB/Redis profiling workflow | Rework before use, legacy | low / none declared |
+| Development | `performance-profiling` | `1.0.3` | Scoped measurement, diagnosis and proposed-remediation reference | Rework before use, legacy | low / none declared |
 | Development | `tdd-workflow` | `2.0.2` | Legacy red-green-refactor and five-step verification workflow | Rework before use, legacy | low / none declared |
 | Development | `codebase-audit` | `1.1.2` | Whole-codebase health audit with read-only findings and explicit coverage | Rework before use | medium / file read, interpreter |
 | Development | `assert-fact-gate` | `1.0.1` | Requires a fresh source check before reporting repository, build, test, | Manual-only | low / file read |
@@ -498,12 +499,12 @@ compare it with the current repository and Cortex source of truth.
   `evidence-code-review`; use `codebase-audit` for a whole repository.
 - **Inputs and output:** No declared parameters/tools; produces a checklist-style
   review only from already supplied context.
-- **Authority and effects:** Its declared no-tool/read-only contract conflicts
-  with `APPROVED → Merge`, sprint-log recording, and merged-or-ready
-  postconditions. It also embeds legacy kill-switch, organisation-scope, CTO,
-  frontend, and backend assumptions.
-- **Kaidera action:** Rework before use. Make every verdict advisory, remove
-  merge/log postconditions and stale controls, then prove loader separation from
+- **Authority and effects:** Advisory checklist only. Records and readiness are
+  proposed outputs; the source grants no merge, log-write or notice authority.
+  Legacy kill-switch, organisation-scope, CTO, frontend and backend assumptions
+  require current project evidence before individual checks apply.
+- **Kaidera action:** Keep the source candidate held before use. Qualify its
+  current product controls, independent acceptance and loader separation from
   the evidence-gated reviewer.
 
 ### `codebase-audit`
@@ -612,8 +613,8 @@ compare it with the current repository and Cortex source of truth.
 <!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"development","legacy":true,"name":"git-workflow","path":"skills/development/git-workflow.SKILL.md","posture":"rework-before-use","review_fingerprint":"e72bae1d747a3cd7e7bbde6a9b3aaa12aff780eb1dfc269acf57d68a60a42bab","risk_level":"low","trust_tier":"unvetted","version":"1.0.2"} -->
 
 - **Manifest:** [git-workflow.SKILL.md](../skills/development/git-workflow.SKILL.md)
-- **Function:** Describes legacy branch strategy, sprint naming, conventional
-  commits, sprint flow, multi-line commit format, and PR template.
+- **Function:** Describes project-configured branches, scoped commits, pull
+  requests, review ownership and evidence for integration and delivery.
 - **Use when:** A repository explicitly adopts this exact workflow.
 - **Do not use when:** Committing, pushing, merging, creating PRs, rewriting
   history, or overriding repository-specific instructions without user
@@ -1145,8 +1146,10 @@ forbids source edits, URLs without a separate fetch scope and implicit installat
 code-review returns proposed records/readiness rather than ordering merges or notices.
 Historical context/deployment/security runbooks are explicitly non-operational.
 
-These source corrections remove the listed contradictory operational recipes. They
-are not proof of installation, tool qualification, execution containment or acceptance.
+These source corrections remove or explicitly scope and qualify contradictory
+instructions. Remaining illustrative commands and records require adoption by the
+owning workflow. They are not proof of installation, tool qualification, execution
+containment or acceptance.
 Keep each reviewed posture and the Gate 3/4 holds. Externally canonical Gavel/Jev/SDLC
 projections remain frozen; their reviewed source migration and licence-owner ruling
 are separate gates. A real executable workflow must have its own exact scope,
@@ -1171,12 +1174,14 @@ source-qualified IDs, not first-match filename resolution.
 
 1. Keep `evidence-code-review`, `assumption-validation`, and `research-brief` as the
    first bounded candidates; do not promote them until Gate 3/4.
-2. Repair `codebase-audit` as a strictly read-only whole-codebase audit and move
-   all fix behaviour to a separate implementation skill.
-3. Rebuild `dependency-audit` as distinct inventory, offline evidence,
-   licence-review, and remediation workflows with pinned tools and schemas.
-4. Replace `incident-response` with a minimal human-gated index and controlled
-   runbooks that preserve evidence before containment mutations.
+2. Independently accept and qualify the repaired read-only `codebase-audit`
+   source, its coverage accounting and router separation; implementation remains
+   a separately scoped workflow.
+3. Qualify the repaired `dependency-audit` reference against distinct inventory,
+   offline evidence, licence-review and remediation workflows with pinned tools
+   and schemas.
+4. Accept the repaired `incident-response` reference only through current
+   human-governed runbooks and qualified evidence-preservation/containment rules.
 5. Replace legacy context files with current repository-bound Kaidera context,
    preserving historical compatibility notes separately.
 6. Create one `systematic-diagnosis` skill after proving it does not collide
