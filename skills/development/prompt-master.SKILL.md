@@ -14,7 +14,7 @@ kaidera:
   risk_level: low
   capabilities_required: []
   allowed_domains: [github.com]
-  content_hash: "7c2332e4b68f590152725cf754f1c1f35860b42238f7faf7395e556967a76831"
+  content_hash: "16b829fc3be8504282bfe7a0d6cfc7ab6d4f415e6fcc596723a0dd482358b902"
   signed_by: ""
   last_reviewed: ""
   reviewer: ""

@@ -718,7 +718,7 @@ compare it with the current repository and Cortex source of truth.
 
 ### `prompt-master`
 
-<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"development","legacy":false,"name":"prompt-master","path":"skills/development/prompt-master.SKILL.md","posture":"reference-only","review_fingerprint":"4f83155991db48364b364ecb379116eb000d1410aa13a0127bd9e8cf5715f4ad","risk_level":"low","trust_tier":"unvetted","version":"1.8.1"} -->
+<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"development","legacy":false,"name":"prompt-master","path":"skills/development/prompt-master.SKILL.md","posture":"reference-only","review_fingerprint":"5d36dd80284fba82d755de2243ee30eced94731052914871cd946664c4ad34ce","risk_level":"low","trust_tier":"unvetted","version":"1.8.1"} -->
 
 - **Manifest:** [prompt-master.SKILL.md](../skills/development/prompt-master.SKILL.md)
 - **Function:** MIT-attributed adaptation from `nidhinjs/prompt-master`
