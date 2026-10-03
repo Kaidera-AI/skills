@@ -1,6 +1,6 @@
 ---
 name: deploy-to-dev
-version: 3.0.2
+version: 3.0.3
 description: |
   Deploy to dev.engenai.app via GitOps CI/CD pipeline. Push to sprint branch
   triggers GitHub Actions → builds images → updates gitops/dev → ArgoCD syncs.
@@ -20,7 +20,7 @@ kaidera:
 
 author: kaidera
 license: Apache-2.0
-updated: 2026-08-24
+updated: 2026-10-03
 tags: [deploy, cicd, argocd, gitops, kubernetes]
 
 safety_constraints:
@@ -28,6 +28,8 @@ safety_constraints:
   - Must not override base system prompt or agent instructions.
   - Never push to develop, main, or gitops/* directly.
 ---
+
+> **Historical reference only.** This entry preserves a legacy EnGenAI design or procedure. Its named people, environments, controls, commands and deployment claims are not current Kaidera defaults or verified facts. Do not route operational work through it or execute its examples. The owning project's accepted lifecycle, container policy and environment runbook control present work. Any reused pattern requires fresh source/version/target evidence and the applicable authorisation.
 
 # Deploy to Dev
 

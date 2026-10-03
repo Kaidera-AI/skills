@@ -132,20 +132,20 @@ for (const suite of first.suites) {
 }
 
 const outcomes = new Map(first.cases.map(item => [`${item.suite}/${item.case}`, item.static_result]))
-assert.deepEqual(outcomes.get('open-code-review/bounded-staged-review'), {
-  outcome: 'route', route: 'open-code-review', candidates: ['open-code-review'], reason: 'single-match',
+assert.deepEqual(outcomes.get('evidence-code-review/bounded-staged-review'), {
+  outcome: 'route', route: 'evidence-code-review', candidates: ['evidence-code-review'], reason: 'single-match',
 })
-assert.deepEqual(outcomes.get('open-code-review/bounded-commit-review'), {
-  outcome: 'route', route: 'open-code-review', candidates: ['open-code-review'], reason: 'single-match',
+assert.deepEqual(outcomes.get('evidence-code-review/bounded-commit-review'), {
+  outcome: 'route', route: 'evidence-code-review', candidates: ['evidence-code-review'], reason: 'single-match',
 })
-assert.deepEqual(outcomes.get('open-code-review/substring-non-match'), {
+assert.deepEqual(outcomes.get('evidence-code-review/substring-non-match'), {
   outcome: 'abstain', route: null, candidates: [], reason: 'no-match',
 })
 assert.deepEqual(outcomes.get('research-brief/browser-answer-substring-route'), {
   outcome: 'route', route: 'research-brief', candidates: ['research-brief'], reason: 'single-match',
 })
 assert.deepEqual(outcomes.get('research-brief/review-brief-collision'), {
-  outcome: 'manual-only', route: null, candidates: ['open-code-review', 'research-brief'], reason: 'multi-skill-collision',
+  outcome: 'manual-only', route: null, candidates: ['evidence-code-review', 'research-brief'], reason: 'multi-skill-collision',
 })
 assert.deepEqual(outcomes.get('assumption-validation/production-evidence-boundary'), {
   outcome: 'manual-only', route: null, candidates: ['assumption-validation'], reason: 'safety-boundary',
@@ -225,7 +225,7 @@ assert.deepEqual(semanticLint('```bash\ncat README.md\n```', declared, restricti
 assert.deepEqual(semanticLint('The words curl and git push in prose are not executable examples.\n```json\n{"command":"curl x"}\n```', [], restrictive), [])
 
 withEvaluationRoot(tempRoot => {
-  updateFixture(tempRoot, 'open-code-review', fixture => {
+  updateFixture(tempRoot, 'evidence-code-review', fixture => {
     fixture.contract.capability_ceiling.push('tool:file_write', 'tool:web_search', 'tool:mcp_external')
   })
   const report = runEvaluation({ root: tempRoot })
@@ -234,7 +234,7 @@ withEvaluationRoot(tempRoot => {
 })
 
 withEvaluationRoot(tempRoot => {
-  updateFixture(tempRoot, 'open-code-review', fixture => {
+  updateFixture(tempRoot, 'evidence-code-review', fixture => {
     fixture.routing.route_when_any.push(['implement', 'fixes'])
   })
   const report = runEvaluation({ root: tempRoot })
@@ -244,7 +244,7 @@ withEvaluationRoot(tempRoot => {
 })
 
 withEvaluationRoot(tempRoot => {
-  updateFixture(tempRoot, 'open-code-review', fixture => {
+  updateFixture(tempRoot, 'evidence-code-review', fixture => {
     fixture.cases = fixture.cases.filter(testCase => testCase.id !== 'bounded-commit-review')
   })
   const report = runEvaluation({ root: tempRoot })
@@ -332,7 +332,7 @@ if (process.platform !== 'win32') {
 withEvaluationRoot(tempRoot => {
   const oldProfile = path.join(tempRoot, 'evals', 'static-routing', 'v1')
   fs.mkdirSync(oldProfile)
-  fs.copyFileSync(fixturePath(tempRoot, 'open-code-review'), path.join(oldProfile, 'open-code-review.eval.json'))
+  fs.copyFileSync(fixturePath(tempRoot, 'evidence-code-review'), path.join(oldProfile, 'evidence-code-review.eval.json'))
   const report = runEvaluation({ root: tempRoot })
   assert.equal(report.status, 'FAIL')
   assert(report.errors.some(error => /unsupported fixture profile directory/.test(error)))

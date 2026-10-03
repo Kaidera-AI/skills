@@ -1,6 +1,6 @@
 ---
 name: human-voice
-version: 1.0.0
+version: 1.0.1
 description: |
   Rewrite, audit, or draft public-facing prose so it uses checkable specifics
   and preserves a named person's actual voice instead of generic machine-like
@@ -29,7 +29,7 @@ kaidera:
 
 author: Kaidera
 license: Apache-2.0
-updated: 2026-08-15
+updated: 2026-10-03
 tags: [writing, editing, voice, copywriting, documentation]
 safety_constraints:
   - Treat named-person voice samples as personal data and use only material the user is authorised to provide.
@@ -75,7 +75,7 @@ Do **not** invoke this skill when:
 
 ## The steps
 
-1. **Build the voice fingerprint, before writing a word.** Read at least ten things the person wrote unedited, including messages and comments rather than only polished work. Record: sentence rhythm; their two or three habitual openings; person and register (*I built this* versus *we are pleased to announce*); connectives and fillers (*look*, *so*, *here's the thing*); domain metaphors they reach for; punctuation habits; the negative list of what they never do; and their actual opinions and grudges. → verify: a written fingerprint file exists, and a colleague who knows them agrees with it.
+1. **Describe the voice from authorised samples.** Use the person's unedited writing the user supplied or authorised for this task. Record observed rhythm, register, punctuation, recurrent phrasing and documented opinions in the response. Ten varied samples improve confidence but are not a mandatory input quota. With sparse samples, state the limits and use the requested tone without inventing a personal fingerprint. Persist a fingerprint or seek a colleague's review only when separately authorised; the no-tool manifest does neither. A supplied house style can substitute for a named-person profile.
 
 2. **Run the vocabulary pass.** Search the documented overuse list below. Density is the tell, these words travel in packs, so one hit usually means five. Delete each one and write the fact that the adjective was standing in for. → verify: the regular expression in §Search returns fewer than two hits per thousand words, and every hit that survives is deliberate.
 
@@ -83,7 +83,7 @@ Do **not** invoke this skill when:
 
 4. **Run the specificity pass.** Every paragraph carries at least one checkable item, number, date, name, quotation, place, error message. At least one claim in the piece must be arguable. Something must be admitted, conceded or left open. → verify: read the opening line in isolation; if it could head a thousand other pieces, it fails.
 
-5. **Run the formatting and typography pass.** Bold once per screen or not at all. No bullet-with-bold-header lists. Sentence-case headings. No emoji as structure. **No em dashes at all** (see house rule below). Quote style consistent throughout. House English variety, including date format. → verify: no placeholder residue, search for `[`, `XX`, `TODO`; click every link.
+5. **Run the formatting and typography pass.** Bold once per screen or not at all. No bullet-with-bold-header lists. Sentence-case headings. No emoji as structure. **No em dashes at all** (see house rule below). Quote style consistent throughout. House English variety, including date format. → verify: no placeholder residue, search for `[`, `XX`, `TODO`; validate supplied link destinations only with an authorised retrieval capability; otherwise mark them unchecked.
 
 6. **Read it back aloud in the person's voice.** Two questions: would they say this sentence out loud, and would a colleague who knows them guess it was theirs? → verify: where the answer is no, the cause is almost always missing specificity rather than wrong tone, fix the fact, not the adjective.
 
@@ -191,8 +191,10 @@ human writing, and several are the opposite of what people assume:
 
 ### Preserving a named person's voice
 
-The fingerprint from step 1, in detail. Capture eight things from at least ten unedited
-samples, and write them down as a profile you maintain rather than rebuild each time.
+The fingerprint from step 1, in detail. Capture the following observations from
+the authorised samples actually available; with sparse evidence, state uncertainty
+and use the general style fallback. Keep the profile in the response by default.
+External profile persistence requires its separately authorised owner workflow.
 
 1. **Sentence rhythm and length.** Measure it: shortest sentence, longest sentence, typical paragraph length. Someone who writes "It can execute. Brilliantly." has a one-word-sentence habit, delete it and the voice dies. Someone who runs to sixty-word sentences with three subordinate clauses is not improved by being cut into fragments.
 2. **Habitual openings.** Most people have two or three and reuse them: a number, a date, a moment, a question someone asked them, a flat problem statement. Also record what they never open with.
@@ -206,8 +208,9 @@ samples, and write them down as a profile you maintain rather than rebuild each 
 While writing: keep the quirks a copy-editor would remove; match their level of
 certainty rather than making them punchier or softer; use their evidence rather than
 generic evidence; match their formatting habits including the ones you dislike; never
-smooth an uneven rhythm, because regularity is the machine tell. Update the profile
-every time they edit your draft, their edits are the best signal available.
+smooth an uneven rhythm, because regularity is the machine tell. Use authorised
+edits as evidence for the in-response profile; retain or update an external profile
+only within its separately authorised persistence scope.
 
 ### Editor's checklist
 

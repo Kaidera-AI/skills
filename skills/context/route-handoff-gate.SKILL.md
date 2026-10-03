@@ -1,6 +1,6 @@
 ---
 name: route-handoff-gate
-version: 1.0.0
+version: 1.0.1
 description: |
   Verifies project, lane, layer, role, and dependency boundaries before creating
   or rerouting work to another agent or team.
@@ -19,7 +19,7 @@ kaidera:
 
 author: Kaidera
 license: Apache-2.0
-updated: 2026-07-29
+updated: 2026-10-03
 tags: [handoff, routing, orchestration, ownership, multi-agent]
 
 parameters:
@@ -49,7 +49,7 @@ Verify the destination from the current project roster or registry. Do not infer
 ownership from a tool name, a broad label such as "platform," or a remembered
 team shape.
 
-Create a bounded handoff with:
+Prepare and return a bounded handoff draft with:
 
 - project and intended role
 - concise outcome
@@ -59,6 +59,5 @@ Create a bounded handoff with:
 - retry and escalation boundary
 - return or review owner
 
-After creation, read the queue or API record back and confirm that the handoff
-landed on the intended project and role. If project, role, or authority remains
+This file-reading reference does not create queue records or call external APIs. The authorised operator creates the handoff and supplies queue/API readback; inspect that receipt to confirm the intended project and role. If readback is unavailable, report the delivery check as unverified. If project, role, or authority remains
 ambiguous, stop and ask for the smallest clarification needed.

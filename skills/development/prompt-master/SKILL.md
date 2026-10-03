@@ -1,6 +1,6 @@
 ---
 name: prompt-master
-version: 1.8.0
+version: 1.8.1
 description: Generates optimized prompts for AI tools. Activates only when the user explicitly asks to write, fix, improve, or adapt a prompt for a specific AI tool (LLM, Cursor, Midjourney, image AI, video AI, coding agents, etc.). Does not activate for general conversation, coding tasks, document writing, or other non-prompt-engineering work.
 ---
 
@@ -16,6 +16,8 @@ Build prompts one at a time, ready to paste.
 ---
 
 **Hard rules — NEVER violate these**
+
+- Before prescribing a model identifier, endpoint, reference syntax or numeric setting, verify it against the target tool's current official capabilities. Templates are illustrative; when verification is unavailable, write a tool-neutral prompt and label the unsupported setup details instead of inventing them.
 
 - Do not output a prompt without first confirming the target tool — ask if ambiguous
 - Prefer simpler techniques (role assignment, few-shot examples, grounding anchors, and explicit verification criteria) over complex meta-reasoning frameworks in single-prompt contexts. The following techniques carry higher fabrication risk when used in a single prompt and should only be applied when the user explicitly requests them and the target tool supports them:
@@ -309,7 +311,7 @@ First detect: generation from scratch or editing an existing image?
 
 **Image AI — Reference Editing** (when user has an existing image to modify)
 Detect when: user mentions "change", "edit", "modify", "adjust" anything in an existing image, or uploads a reference.
-Always instruct the user to attach the reference image to the tool first. Build the prompt around the delta ONLY — what changes, what stays the same.
+Use the reference already available to the target tool; request attachment only when it is missing. Build the prompt around the delta ONLY — what changes, what stays the same.
 Read references/templates.md Template J for the full reference editing template.
 
 ---

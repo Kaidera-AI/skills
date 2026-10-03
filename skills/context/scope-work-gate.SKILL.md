@@ -1,6 +1,6 @@
 ---
 name: scope-work-gate
-version: 1.0.0
+version: 1.0.1
 description: |
   Confirms that proposed work belongs to the current project, role, lane, and
   approved objective before execution or assignment.
@@ -19,7 +19,7 @@ kaidera:
 
 author: Kaidera
 license: Apache-2.0
-updated: 2026-07-29
+updated: 2026-10-03
 tags: [scope, ownership, roles, orchestration, delivery]
 
 parameters:
@@ -44,7 +44,7 @@ Before taking on or assigning a new piece of work:
 4. Map it to the active objective, epic, or increment.
 5. Separate the smallest required adjacent change from unrelated cleanup.
 
-Proceed when all four boundaries align:
+Return an advisory scope assessment when all four boundaries align:
 
 - project
 - lane and layer
@@ -52,6 +52,6 @@ Proceed when all four boundaries align:
 - approved objective
 
 When work belongs elsewhere, retain any transferable learning but route the
-execution to the owning role through the handoff gate. When scope is ambiguous,
+execution to the owning role through an authorised operator using the handoff gate. This file-reading reference does not execute or assign work. When scope is ambiguous,
 stop and request the smallest decision that resolves ownership. Do not absorb
 another role's work merely because it is nearby or convenient.

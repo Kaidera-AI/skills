@@ -1,12 +1,12 @@
 ---
 name: code-review
-version: 2.1.1
+version: 2.1.2
 description: |
   Lightweight, no-tool, two-stage checklist for an already completed change
   when the user explicitly wants specification compliance to gate a subsequent
   code-quality pass. It does not construct immutable diff receipts or perform
-  adversarial evidence review; use open-code-review for those bounded-change
-  guarantees and ultrareview for whole-codebase health audits.
+  adversarial evidence review; use evidence-code-review for those bounded-change
+  guarantees and codebase-audit for whole-codebase health audits.
 
 kaidera:
   category: development
@@ -21,7 +21,7 @@ kaidera:
 
 author: kaidera
 license: Apache-2.0
-updated: 2026-08-24
+updated: 2026-10-03
 tags: [review, quality, spec-compliance, code-quality]
 
 safety_constraints:
@@ -34,8 +34,8 @@ safety_constraints:
 Two-stage review gate. Stage 2 cannot begin until Stage 1 passes.
 
 Use this only for an explicitly requested lightweight spec-first checklist.
-Route evidence-gated workspace/commit/range/PR review to `open-code-review`, and
-route repository/module health or architecture audit to `ultrareview`.
+Route evidence-gated workspace/commit/range/PR review to `evidence-code-review`, and
+route repository/module health or architecture audit to `codebase-audit`.
 
 ## Pre-Conditions
 
@@ -86,13 +86,13 @@ Is the code well-built?
 
 | Verdict | Meaning | Action |
 |---------|---------|--------|
-| APPROVED | Both stages pass | Merge |
+| CHECKLIST_SATISFIED | Both stages pass | Report review readiness and outstanding project gates |
 | CHANGES_NEEDED | Issues found | Return with specific feedback |
 | BLOCKED | Architectural concern | Escalate to CTO |
 
 ## Post-Conditions
 
-- Review recorded in sprint log
-- If APPROVED: code merged or ready for merge
-- If CHANGES_NEEDED: specific actionable feedback provided
-- If BLOCKED: CTO notified with context
+- Return a proposed checklist record; any sprint-log write belongs to its authorised owner.
+- If CHECKLIST_SATISFIED: report checklist readiness and the remaining project gates.
+- If CHANGES_NEEDED: provide specific actionable feedback.
+- If BLOCKED: provide escalation context to the accountable owner; notification or merge is a separately authorised action.

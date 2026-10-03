@@ -1,6 +1,6 @@
 ---
 name: terraform-module
-version: 1.0.2
+version: 1.0.3
 description: |
   Terraform IaC patterns for EnGenAI: GCP module structure, state management,
   workspace conventions, variable patterns, and safe apply workflow.
@@ -12,6 +12,7 @@ kaidera:
   capabilities_required: []
   allowed_domains:
     - www.googleapis.com
+    - developer.hashicorp.com
   content_hash: ""
   signed_by: ""
   last_reviewed: ""
@@ -19,7 +20,7 @@ kaidera:
 
 author: kaidera
 license: Apache-2.0
-updated: 2026-08-24
+updated: 2026-10-03
 tags: []
 safety_constraints:
   - Read-only reference. No tool access required.
@@ -141,22 +142,27 @@ terraform {
 - One state bucket per environment (dev / prod)
 - State bucket has versioning + object retention enabled
 
-## Safe Apply Workflow
+## Plan and apply evidence
 
-```bash
-# 1. Always plan first — review output carefully
-terraform plan -out=tfplan
+This manifest is a read-only reference; an authorised operator owns execution.
+Resolve the exact provider account, region, workspace, backend/state lineage,
+source revision, provider lockfile and proposed resource changes first. GCP
+examples above are historical illustrations, not a default provider choice.
 
-# 2. Check for unexpected destroys BEFORE applying
-terraform show tfplan | grep -E "destroy|replace"
-# If any resource shows "destroy" — STOP and escalate to Amad
+Create a saved plan through the owning workflow and review the structured
+resource changes, replacements, deletions, drift and relevant outputs. A grep
+for "destroy" does not establish safety. Bind the approval to the exact
+saved-plan digest, target and source, with required recovery, state custody,
+spend and post-change checks. Plans and state may contain sensitive data; keep
+them in approved restricted custody, never public reports or synced scratch.
 
-# 3. Apply only if plan is clean
-terraform apply tfplan
+Apply that exact saved plan only within its existing authorisation and while
+its target assumptions remain valid. A clean plan is not permission. Verify
+configuration, resource identity, access and the relevant user journey through
+fresh readback, then record the remaining risks and recovery status.
 
-# 4. Verify resources after apply
-terraform show | grep -E "name|id|status"
-```
+Command behavior reference: [Terraform plan](https://developer.hashicorp.com/terraform/cli/commands/plan)
+and [Terraform show](https://developer.hashicorp.com/terraform/cli/commands/show).
 
 ## Variable Conventions
 

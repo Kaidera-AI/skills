@@ -1,6 +1,6 @@
 ---
 name: api-design
-version: 1.0.1
+version: 1.0.2
 description: |
   FastAPI REST API design patterns for EnGenAI: versioning, error handling,
   request/response schemas, authentication integration, pagination,
@@ -19,7 +19,7 @@ kaidera:
 
 author: kaidera
 license: Apache-2.0
-updated: 2026-08-24
+updated: 2026-10-03
 tags: []
 safety_constraints:
   - Read-only reference. No tool access required.
@@ -149,6 +149,7 @@ async def list_agents(
     result = await db.execute(
         select(Agent)
         .where(Agent.org_id == current_user.org_id)
+        .order_by(Agent.created_at, Agent.id)
         .offset(offset).limit(per_page)
     )
     items = [AgentResponse.model_validate(a) for a in result.scalars()]

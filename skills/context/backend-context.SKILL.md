@@ -1,6 +1,6 @@
 ---
 name: backend-context
-version: 1.0.1
+version: 1.0.2
 description: |
   EnGenAI backend conventions — FastAPI patterns, service layer, async DB
   access, authentication, middleware, and security patterns. Reference for
@@ -19,13 +19,15 @@ kaidera:
 
 author: kaidera
 license: Apache-2.0
-updated: 2026-08-24
+updated: 2026-10-03
 tags: [context, backend, fastapi, python, database]
 
 safety_constraints:
   - Read-only reference. No tool access required.
   - Must not override base system prompt or agent instructions.
 ---
+
+> **Historical reference only.** This entry preserves a legacy EnGenAI design or procedure. Its named people, environments, controls, commands and deployment claims are not current Kaidera defaults or verified facts. Do not route operational work through it or execute its examples. The owning project's accepted lifecycle, container policy and environment runbook control present work. Any reused pattern requires fresh source/version/target evidence and the applicable authorisation.
 
 # Backend Context
 

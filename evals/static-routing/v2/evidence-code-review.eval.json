@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
   "evaluator_profile": "kaidera-static-routing-v2",
-  "skill": "open-code-review",
-  "skill_path": "skills/development/open-code-review.SKILL.md",
+  "skill": "evidence-code-review",
+  "skill_path": "skills/development/evidence-code-review.SKILL.md",
   "contract": {
     "expected_trust_tier": "unvetted",
     "expected_declared_capabilities": [
@@ -33,8 +33,8 @@
       "prompt": "Review the staged diff for concrete correctness and security defects; return findings only.",
       "expected": {
         "outcome": "route",
-        "route": "open-code-review",
-        "candidates": ["open-code-review"],
+        "route": "evidence-code-review",
+        "candidates": ["evidence-code-review"],
         "reason": "single-match"
       }
     },
@@ -44,8 +44,8 @@
       "prompt": "Review the commit note about implementation prefixes in the parser; return findings only.",
       "expected": {
         "outcome": "route",
-        "route": "open-code-review",
-        "candidates": ["open-code-review"],
+        "route": "evidence-code-review",
+        "candidates": ["evidence-code-review"],
         "reason": "single-match"
       }
     },
@@ -55,8 +55,8 @@
       "prompt": "Review the pull request patch for concrete defects and return findings only.",
       "expected": {
         "outcome": "route",
-        "route": "open-code-review",
-        "candidates": ["open-code-review"],
+        "route": "evidence-code-review",
+        "candidates": ["evidence-code-review"],
         "reason": "single-match"
       }
     },
@@ -89,7 +89,7 @@
       "expected": {
         "outcome": "manual-only",
         "route": null,
-        "candidates": ["assumption-validation", "open-code-review"],
+        "candidates": ["assumption-validation", "evidence-code-review"],
         "reason": "multi-skill-collision"
       }
     },
@@ -100,7 +100,7 @@
       "expected": {
         "outcome": "manual-only",
         "route": null,
-        "candidates": ["open-code-review"],
+        "candidates": ["evidence-code-review"],
         "reason": "safety-boundary"
       }
     }

@@ -1,6 +1,6 @@
 ---
-name: open-code-review
-version: 4.0.1
+name: evidence-code-review
+version: 4.0.2
 description: |
   Diff-first, evidence-gated code review for worktree changes, staged changes,
   commits, branch ranges, path sets, and supplied PR patches. Builds an exact
@@ -28,7 +28,7 @@ kaidera:
 
 author: Kaidera-AI
 license: Apache-2.0
-updated: 2026-08-25
+updated: 2026-10-03
 tags: [code-review, diff-review, pull-request, static-analysis, blast-radius, adversarial-verification, read-only]
 
 attribution_author: Alibaba OpenCodeReview contributors
@@ -87,7 +87,7 @@ safety_constraints:
   - Every reported finding must be supported by fresh, target-bound evidence. Never invent paths, line numbers, commands, outputs, SHAs, impact, or test results.
 ---
 
-# Open Code Review
+# Evidence Code Review
 
 Review a **change**, not an imagined repository. First bind the exact target;
 then combine deterministic evidence, semantic reasoning, cross-file tracing,
@@ -112,13 +112,11 @@ architecture, or historical-hotspot assessment. For a tiny prose-only change,
 apply the same receipt and evidence rules with `depth=quick`; do not manufacture
 extra phases or findings.
 
-This Kaidera skill intentionally shares its name with Alibaba's installed
-delegate skill. The host loader must resolve skills by source-qualified identity
-and enforce mutual exclusion before injection; prose inside either skill cannot
-repair a loader collision after both prompts are injected. If the loader cannot
-prove that exclusion, return `BLOCKED (ambiguous skill authority)`. When this
-manifest alone is selected, an `ocr` executable is only the optional adapter
-described at the end; upstream prompt text does not become a second review policy.
+This Kaidera workflow is named **evidence-code-review**. Its former catalogue name
+was **open-code-review**, also used by Alibaba's separate delegate. Select this
+skill as the sole review policy. An already-present `ocr` executable may be used
+only as the optional adapter described below; upstream prompts do not become a
+second policy. Migrating a catalogue name does not rename active Cortex bindings.
 
 ## Non-negotiable review invariants
 
@@ -198,7 +196,7 @@ valid UTF-8; `base64` is reserved for bytes that are not valid UTF-8 and must be
 canonical padded base64. JSON input must be fatal UTF-8 and must reject
 duplicate object keys.
 
-The bundled producer/verifier is `scripts/open-code-review-contract.js`, SHA-256
+The bundled producer/verifier is `scripts/open-code-review-contract.js` in the catalogue repository, or `tools/open-code-review-contract.js` in the installable skill directory, SHA-256
 `9165e4966153dc3e3fc43dfa7f6aab84709bf9185a60ef409ee5ea5156bea5c1`. Its non-empty review-scope vector for `standard,null,null` has
 SHA-256 `af4f6f29771251b5c8bb722e3f6df9bae7b3ce1c8814152ff4fd9229470d19d9`.
 The one-record v4 policy vector shown below has SHA-256

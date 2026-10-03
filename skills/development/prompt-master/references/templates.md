@@ -280,12 +280,12 @@ Style Reference: [artist / film / aesthetic reference if applicable]
 
 *Use when the user has an existing image they want to modify. Completely different from generation — never describe the whole scene from scratch, only describe the change.*
 
-**Before writing the prompt, always tell the user:**
+**When the reference is not already available to the target tool, tell the user:**
 "Attach your reference image to [tool name] before sending this prompt."
 
 **Detect the tool's editing capability:**
 - Midjourney: use `--cref [image URL]` for character reference or `--sref` for style reference
-- DALL-E 3: use the Edit endpoint, not the Generate endpoint. User must be in ChatGPT with image editing enabled
+- Image editing: select a currently available editing-capable model or surface from its official documentation. DALL-E 3 does not support the Edit endpoint; do not generate an edit request for it. In a supported conversation tool, attach the supplied reference through that tool's documented editing interface.
 - Stable Diffusion: use img2img mode, not txt2img. Set denoising strength 0.3-0.6 to preserve the original
 
 ```

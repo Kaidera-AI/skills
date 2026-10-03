@@ -1,6 +1,6 @@
 ---
 name: database-migration
-version: 1.0.1
+version: 1.0.2
 description: |
   Alembic database migration patterns for EnGenAI: naming conventions,
   safe migration practices, rollback requirements, data migrations,
@@ -19,7 +19,7 @@ kaidera:
 
 author: kaidera
 license: Apache-2.0
-updated: 2026-08-24
+updated: 2026-10-03
 tags: []
 safety_constraints:
   - Read-only reference. No tool access required.
@@ -71,17 +71,17 @@ def upgrade() -> None:
 
 
 def downgrade() -> None:
-    # Must be reversible — drop in reverse order of creation
+    # Classify as reversible or explicitly irreversible; verify recovery before use
     pass
 ```
 
 ## Safe Column Additions
 
 ```python
-# SAFE: Adding nullable column (no table lock on large tables)
+# Usually avoids a table rewrite, but still takes a lock; bound lock wait and rehearse
 op.add_column("agents", sa.Column("description", sa.Text, nullable=True))
 
-# SAFE: Adding NOT NULL with server_default (backfills existing rows)
+# Check PostgreSQL version, default volatility, existing rows and lock/rewrite behavior
 op.add_column(
     "skills",
     sa.Column(
@@ -228,4 +228,4 @@ alembic history --verbose
 - `DROP COLUMN` without confirming zero references in codebase
 - Long-running `UPDATE` without batching (locks table in production)
 - `NOT NULL` constraint without `server_default` on non-empty table
-- No `downgrade()` implementation — every migration must be reversible
+- Missing recovery classification — implement a meaningful downgrade where possible, or explicitly document an irreversible change and verified recovery

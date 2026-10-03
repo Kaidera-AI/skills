@@ -2,7 +2,7 @@
 
 Status: **canonical human-facing catalogue; source candidate; runtime and trust HOLD**
 
-Catalogue date: **2026-09-28**
+Catalogue date: **2026-10-03**
 
 Total skills: **45**
 
@@ -34,7 +34,7 @@ a release blocker; do not silently choose one side.
   remain HOLD.
 - The repository-level CC-BY-4.0 licence and per-skill licence declarations do
   not yet have a ratified precedence rule; external redistribution is held.
-- Kaidera and Alibaba both use the name `open-code-review`. A host must select a
+- The Kaidera workflow is named `evidence-code-review`; Alibaba retains `open-code-review`. A host must select a
   source-qualified identity and inject only one; prompt text cannot resolve a
   loader collision after both skills are present.
 
@@ -55,8 +55,8 @@ a release blocker; do not silently choose one side.
 
 | Operating posture | Skills |
 |---|---:|
-| Bounded candidate | 11 |
-| Reference-only | 14 |
+| Bounded candidate | 10 |
+| Reference-only | 15 |
 | Manual-only | 10 |
 | Rework before use | 10 |
 
@@ -135,10 +135,10 @@ Use the narrowest matching skill:
 |---|---|---|
 | Configure or run a portable AI+human development lifecycle | `development-workflow` | Non-development project, or another lifecycle is already authoritative; resolve ownership first |
 | Understand legacy workspace, backend, frontend, infrastructure, sprint, or agent-platform conventions | matching `*-context` skill | Current repository/Cortex evidence disagrees, or implementation is requested rather than context |
-| Review a bounded worktree, staged change, commit, range, path set, or supplied patch | `open-code-review` | The target is a whole repository/module health audit |
+| Review a bounded worktree, staged change, commit, range, path set, or supplied patch | `evidence-code-review` | The target is a whole repository/module health audit |
 | Consult the legacy lightweight completed-change checklist | No automatic skill route; `code-review` is held for authority and capability rework | A merge/log/acceptance verdict or current Kaidera control is implied |
-| Audit a whole repository or module | `ultrareview` | The object is primarily a bounded diff; use `open-code-review` |
-| Consult a legacy product-specific security checklist while reviewing | No automatic skill route; reverify individual `code-review-security` checks as untrusted context under `open-code-review` | A second verdict engine or an unverified legacy control claim would be created |
+| Audit a whole repository or module | `codebase-audit` | The object is primarily a bounded diff; use `evidence-code-review` |
+| Consult a legacy product-specific security checklist while reviewing | No automatic skill route; reverify individual `code-review-security` checks as untrusted context under `evidence-code-review` | A second verdict engine or an unverified legacy control claim would be created |
 | Validate whether a customer-visible assumption is supported | `assumption-validation` | The request is merely code correctness, implementation, or live production research |
 | Draft a decision-led research mission | `research-brief` | The user asked to perform the research rather than draft its brief |
 | Research companies, current leaders and professional profiles | `marketing-web-research` | Only a research brief is requested; invitations, email, follows or paid tools lack applicable authority |
@@ -149,12 +149,13 @@ Use the narrowest matching skill:
 
 ### Review-skill separation
 
-- `open-code-review` is the portfolio-designated evidence contract for bounded
+- `evidence-code-review` is the portfolio-designated evidence contract for bounded
   changes; it is not runtime authority until Gate 3/4 and loader binding pass.
-- `code-review` is a smaller legacy checklist whose merge/log postconditions
-  exceed its no-tool declaration; it is held pending rework.
-- `ultrareview` is for whole-codebase/module health and currently needs
-  capability-contract rework before runtime use.
+- `code-review` is a smaller advisory checklist. Its source candidate proposes
+  records and readiness; current product controls and loader separation still
+  need qualification before runtime use.
+- `codebase-audit` is a strictly read-only whole-codebase/module audit candidate;
+  independent acceptance, routing and runtime qualification remain open.
 - `code-review-security` contains a legacy product checklist that must be
   reverified before individual checks are used; it does not issue a competing
   bounded-change verdict.
@@ -166,50 +167,50 @@ Use the narrowest matching skill:
 | Category | Skill | Version | Function | Posture | Risk / declared capabilities |
 |---|---|---:|---|---|---|
 | Development | `development-workflow` | `1.0.0` | Portable AI+human SDLC, review, risk-based QA and service operations | Bounded candidate | medium / file read, file write, interpreter, web search |
-| Context | `agent-platform-context` | `1.0.1` | Legacy agent executor, team, mailbox, Redis memory, and lifecycle reference | Reference-only, legacy | low / none |
-| Context | `backend-context` | `1.0.1` | Legacy FastAPI, service, DB, auth, middleware, and security conventions | Reference-only, legacy | low / none |
-| Context | `frontend-context` | `1.0.1` | Legacy Next.js, React Flow, Tailwind, Zustand, and TypeScript conventions | Reference-only, legacy | low / none |
-| Context | `infrastructure-context` | `1.0.2` | Legacy GKE, ArgoCD, Terraform, Helm, CI/CD, and hardening overview | Reference-only, legacy | low / none |
-| Context | `sprint-context` | `1.0.1` | Legacy sprint files, status protocol, quality gates, and commit conventions | Rework before use, legacy | low / none declared |
-| Context | `workspace-context` | `1.0.1` | Legacy workspace identity, stack, structure, terminology, and principles | Reference-only, legacy | low / none |
-| Context | `route-handoff-gate` | `1.0.0` | Verifies project, lane, layer, role, and dependency boundaries before creating | Manual-only | low / file read |
-| Context | `scope-work-gate` | `1.0.0` | Confirms that proposed work belongs to the current project, role, lane, and | Manual-only | low / file read |
-| Development | `api-design` | `1.0.1` | Legacy FastAPI URL, schema, auth, error, pagination, and OpenAPI patterns | Reference-only, legacy | low / none |
-| Development | `api-test` | `1.0.1` | Legacy FastAPI contract/integration testing and async mock patterns | Reference-only, legacy | low / none |
+| Context | `agent-platform-context` | `1.0.2` | Legacy agent executor, team, mailbox, Redis memory, and lifecycle reference | Reference-only, legacy | low / none |
+| Context | `backend-context` | `1.0.2` | Legacy FastAPI, service, DB, auth, middleware, and security conventions | Reference-only, legacy | low / none |
+| Context | `frontend-context` | `1.0.2` | Legacy Next.js, React Flow, Tailwind, Zustand, and TypeScript conventions | Reference-only, legacy | low / none |
+| Context | `infrastructure-context` | `1.0.3` | Legacy GKE, ArgoCD, Terraform, Helm, CI/CD, and hardening overview | Reference-only, legacy | low / none |
+| Context | `sprint-context` | `1.0.2` | Legacy sprint files, status protocol, quality gates, and commit conventions | Rework before use, legacy | low / none declared |
+| Context | `workspace-context` | `1.0.2` | Legacy workspace identity, stack, structure, terminology, and principles | Reference-only, legacy | low / none |
+| Context | `route-handoff-gate` | `1.0.1` | Verifies project, lane, layer, role, and dependency boundaries before creating | Manual-only | low / file read |
+| Context | `scope-work-gate` | `1.0.1` | Confirms that proposed work belongs to the current project, role, lane, and | Manual-only | low / file read |
+| Development | `api-design` | `1.0.2` | Legacy FastAPI URL, schema, auth, error, pagination, and OpenAPI patterns | Reference-only, legacy | low / none |
+| Development | `api-test` | `1.0.2` | Legacy FastAPI contract/integration testing and async mock patterns | Reference-only, legacy | low / none |
 | Development | `assumption-validation` | `1.0.0` | Evidence-gates costly or customer-visible product assumptions | Bounded candidate | medium / file read, interpreter |
-| Development | `code-review` | `2.1.1` | Legacy lightweight checklist with unauthorised merge/log postconditions | Rework before use, legacy | low / none declared |
-| Development | `database-migration` | `1.0.1` | Legacy Alembic/PostgreSQL migration and rollback patterns | Rework before use, legacy | low / none declared |
-| Development | `git-workflow` | `1.0.1` | Legacy branch, commit, PR, and sprint Git conventions | Rework before use, legacy | low / none declared |
-| Development | `open-code-review` | `4.0.1` | Exact-target, evidence-gated, adversarial bounded-change review | Bounded candidate | medium / file read, interpreter |
-| Development | `performance-profiling` | `1.0.2` | Legacy live API/Kubernetes/DB/Redis profiling workflow | Rework before use, legacy | low / none declared |
-| Development | `tdd-workflow` | `2.0.1` | Legacy red-green-refactor and five-step verification workflow | Rework before use, legacy | low / none declared |
-| Development | `ultrareview` | `1.1.1` | Whole-codebase, multi-dimension health audit with optional fix mode | Rework before use | low / none declared |
-| Development | `assert-fact-gate` | `1.0.0` | Requires a fresh source check before reporting repository, build, test, | Manual-only | low / file read |
+| Development | `code-review` | `2.1.2` | Advisory lightweight checklist with proposed records and readiness | Rework before use, legacy | low / none declared |
+| Development | `database-migration` | `1.0.2` | Legacy Alembic/PostgreSQL migration and rollback patterns | Rework before use, legacy | low / none declared |
+| Development | `git-workflow` | `1.0.2` | Project-configured branch, commit, PR and delivery reference | Rework before use, legacy | low / none declared |
+| Development | `evidence-code-review` | `4.0.2` | Exact-target, evidence-gated, adversarial bounded-change review | Bounded candidate | medium / file read, interpreter |
+| Development | `performance-profiling` | `1.0.3` | Scoped measurement, diagnosis and proposed-remediation reference | Rework before use, legacy | low / none declared |
+| Development | `tdd-workflow` | `2.0.2` | Legacy red-green-refactor and five-step verification workflow | Rework before use, legacy | low / none declared |
+| Development | `codebase-audit` | `1.1.2` | Whole-codebase health audit with read-only findings and explicit coverage | Rework before use | medium / file read, interpreter |
+| Development | `assert-fact-gate` | `1.0.1` | Requires a fresh source check before reporting repository, build, test, | Manual-only | low / file read |
 | Development | `kaidera-sdlc` | `1.3.0` | The Kaidera AI-native SDLC: the operating loop every lead runs for an epic, feature, fix, | Bounded candidate | medium / file read, file write |
-| Development | `gavel` | `1.0.1` | Typed judgments for a project lead: triage returns, check handoffs, rank work (TypeSafe System One) | Bounded candidate | medium / file read, interpreter |
+| Development | `gavel` | `1.0.1` | Typed judgments for a project lead: triage returns, check handoffs, rank work (TypeSafe System One) | Reference-only | medium / file read, interpreter |
 | Development | `jev-backlog-rank` | `0.1.0` | Check an accountable lead's backlog ordering against explicit dependencies and delay risk; the human retains priority authority. | Bounded candidate | medium / file read, interpreter |
 | Development | `jev-handoff-check` | `0.1.0` | Check a drafted worker handoff's receipt contract and blocked protocol before the accountable lead sends it. | Bounded candidate | medium / file read, interpreter |
 | Development | `jev-option-decision` | `0.1.0` | Examine one bounded implementation or architecture choice with named candidates, evidence and requirements; the human decides. | Bounded candidate | medium / file read, interpreter |
 | Development | `jev-return-triage` | `0.1.0` | Advisory receipt-based triage of an arrived worker return, handback or consult by its accountable lead. | Bounded candidate | medium / file read, interpreter |
 | Development | `jev` | `0.1.0` | Jev core: common fail-closed policy reader, sanitizer and typed model transport. | Reference-only | medium / file read, interpreter, file write |
-| Development | `unlazy` | `1.0.0` | Completion discipline for substantial autonomous work. Write acceptance gates | Bounded candidate | medium / file read, file write |
-| Development | `prompt-master` | `1.8.0` | Third-party, vendored verbatim: writes one optimized prompt for a named AI tool from a rough request | Reference-only | low / none |
-| DevOps | `container-build` | `1.0.1` | Legacy hardening-oriented multi-stage image and CI build examples | Reference-only, legacy | low / none |
-| DevOps | `deploy-to-dev` | `3.0.2` | Legacy sprint-branch GitOps deployment runbook | Manual-only, legacy | medium / none declared |
-| DevOps | `k8s-deploy` | `1.0.1` | Legacy Kubernetes, ArgoCD, GKE, probes, resources, and network policy patterns | Reference-only, legacy | low / none |
-| DevOps | `sprint-closing` | `2.0.1` | Legacy six-phase sprint closure, commit, push, and PR procedure | Manual-only, legacy | low / none declared |
-| DevOps | `terraform-module` | `1.0.2` | Legacy GCP Terraform module, state, plan, apply, and identity patterns | Manual-only, legacy | low / none declared |
+| Development | `completion-evidence` | `1.0.1` | Completion discipline for substantial autonomous work. Write acceptance gates | Bounded candidate | medium / file read, file write |
+| Development | `prompt-master` | `1.8.1` | MIT-attributed Kaidera adaptation: writes one optimized prompt for a named AI tool from a rough request | Reference-only | low / none |
+| DevOps | `container-build` | `1.0.2` | Legacy hardening-oriented multi-stage image and CI build examples | Reference-only, legacy | low / none |
+| DevOps | `deploy-to-dev` | `3.0.3` | Legacy sprint-branch GitOps deployment runbook | Manual-only, legacy | medium / none declared |
+| DevOps | `k8s-deploy` | `1.0.2` | Legacy Kubernetes, ArgoCD, GKE, probes, resources, and network policy patterns | Reference-only, legacy | low / none |
+| DevOps | `sprint-closing` | `2.0.2` | Legacy six-phase sprint closure, commit, push, and PR procedure | Manual-only, legacy | low / none declared |
+| DevOps | `terraform-module` | `1.0.3` | Legacy GCP Terraform module, state, plan, apply, and identity patterns | Manual-only, legacy | low / none declared |
 | DevOps | `cloud-agnostic-policy` | `1.0.0` | Reviews infrastructure choices for portability and prevents an architecture | Manual-only | low / file read |
-| DevOps | `deploy-gate` | `1.0.0` | Gates pushes, pull requests, merges, releases, and deployments on exact target, | Manual-only | medium / file read |
+| DevOps | `deploy-gate` | `1.0.1` | Gates pushes, pull requests, merges, releases, and deployments on exact target, | Manual-only | medium / file read |
 | DevOps | `infra-naming-gate` | `1.0.0` | Validates proposed infrastructure names against a portable organization, | Manual-only | low / file read |
 | Research | `marketing-web-research` | `0.1.002` | Customer-configurable company and professional-profile research with separate action receipts | Manual-only | high / file read, file write, web search, external connector |
 | Research | `research-brief` | `1.0.0` | Drafts a self-contained decision-led brief without executing research | Bounded candidate | low / file read |
-| Security | `code-review-security` | `1.1.0` | Legacy EnGenAI security checklist with unverified control claims | Rework before use, legacy | low / none declared |
-| Security | `dependency-audit` | `1.0.1` | Legacy dependency scan, install, remediation, and report workflow | Rework before use, legacy | low / none declared |
-| Security | `incident-response` | `1.0.2` | Legacy containment/evidence runbook with unsafe preservation ordering | Rework before use, legacy | low / none declared |
+| Security | `code-review-security` | `1.1.2` | Legacy EnGenAI security checklist with unverified control claims | Rework before use, legacy | low / none declared |
+| Security | `dependency-audit` | `1.0.2` | Legacy dependency scan, install, remediation, and report workflow | Rework before use, legacy | low / none declared |
+| Security | `incident-response` | `1.0.3` | Legacy containment/evidence runbook with unsafe preservation ordering | Rework before use, legacy | low / none declared |
 | Security | `prompt-injection-test` | `2.0.0` | Read-only design for controlled prompt-injection boundary testing | Reference-only | low / none |
-| Security | `security-context` | `1.0.1` | Legacy threat model, OWASP, forbidden patterns, SIEM, and trust rules | Reference-only, legacy | low / none |
-| Documentation | `human-voice` | `1.0.0` | Rewrite, audit, or draft public-facing prose so it uses checkable specifics | Reference-only | low / none |
+| Security | `security-context` | `1.0.2` | Legacy threat model, OWASP, forbidden patterns, SIEM, and trust rules | Reference-only, legacy | low / none |
+| Documentation | `human-voice` | `1.0.1` | Rewrite, audit, or draft public-facing prose so it uses checkable specifics | Reference-only | low / none |
 
 ## Ownership, licensing, attribution, and domain metadata
 
@@ -233,20 +234,20 @@ precedence issue remains a release hold.
 | `code-review` | `kaidera` | `Apache-2.0` | None | — |
 | `database-migration` | `kaidera` | `Apache-2.0` | None | — |
 | `git-workflow` | `kaidera` | `Apache-2.0` | None | — |
-| `open-code-review` | `Kaidera-AI` | `Apache-2.0` | `github.com`, `research.google`, `semgrep.dev` | [Alibaba OpenCodeReview contributors](https://github.com/alibaba/open-code-review/tree/0c44f1049e054b062b8900b93a4828f7b0baf77b) |
-| `performance-profiling` | `kaidera` | `Apache-2.0` | `dev.engenai.app` | — |
+| `evidence-code-review` | `Kaidera-AI` | `Apache-2.0` | `github.com`, `research.google`, `semgrep.dev` | [Alibaba OpenCodeReview contributors](https://github.com/alibaba/open-code-review/tree/0c44f1049e054b062b8900b93a4828f7b0baf77b) |
+| `performance-profiling` | `kaidera` | `Apache-2.0` | None | — |
 | `tdd-workflow` | `kaidera` | `Apache-2.0` | None | — |
-| `ultrareview` | `Kaidera` | `Apache-2.0` | None | — |
+| `codebase-audit` | `Kaidera` | `Apache-2.0` | None | — |
 | `container-build` | `kaidera` | `Apache-2.0` | None | — |
 | `deploy-to-dev` | `kaidera` | `Apache-2.0` | `dev.engenai.app` | — |
 | `k8s-deploy` | `kaidera` | `Apache-2.0` | None | — |
 | `sprint-closing` | `kaidera` | `Apache-2.0` | None | — |
-| `terraform-module` | `kaidera` | `Apache-2.0` | `www.googleapis.com` | — |
+| `terraform-module` | `kaidera` | `Apache-2.0` | `www.googleapis.com`, `developer.hashicorp.com` | — |
 | `marketing-web-research` | `Kaidera-AI` | `Apache-2.0` | `linkedin.com`, `x.com` | — |
 | `research-brief` | `Kaidera-AI` | `Apache-2.0` | `github.com` | [David Ondrej](https://github.com/davidondrej/skills/tree/69c3ae5228eb146724fd23dac3d43eab5805bcc3/skills/research-and-web/research-prompt) |
 | `code-review-security` | `kaidera` | `Apache-2.0` | None | — |
 | `dependency-audit` | `kaidera` | `Apache-2.0` | None | — |
-| `incident-response` | `kaidera` | `Apache-2.0` | `api.engenai.app` | — |
+| `incident-response` | `kaidera` | `Apache-2.0` | None | — |
 | `prompt-injection-test` | `kaidera` | `Apache-2.0` | None | — |
 | `security-context` | `kaidera` | `Apache-2.0` | None | — |
 | `route-handoff-gate` | `Kaidera` | `Apache-2.0` | None | — |
@@ -259,7 +260,7 @@ precedence issue remains a release hold.
 | `jev-option-decision` | `Kaidera-AI` | `Apache-2.0` | `api.typesafe.ai`, `github.com` | [TypeSafe AI and Joey Kudish](https://github.com/jkudish/jev-mcp) |
 | `jev-return-triage` | `Kaidera-AI` | `Apache-2.0` | `api.typesafe.ai`, `github.com` | [TypeSafe AI and Joey Kudish](https://github.com/jkudish/jev-mcp) |
 | `jev` | `Kaidera-AI` | `Apache-2.0` | `api.typesafe.ai`, `docs.typesafe.ai`, `github.com` | [TypeSafe AI and Joey Kudish](https://github.com/jkudish/jev-mcp) |
-| `unlazy` | `kaidera-ai` | `MIT` | `github.com` | [Leonxlnx](https://github.com/Leonxlnx/unlazy) |
+| `completion-evidence` | `kaidera-ai` | `MIT` | `github.com` | [Leonxlnx](https://github.com/Leonxlnx/unlazy) |
 | `prompt-master` | `nidhinjs` | `MIT` | `github.com` | [nidhinjs](https://github.com/nidhinjs/prompt-master) |
 | `cloud-agnostic-policy` | `Kaidera` | `Apache-2.0` | None | — |
 | `deploy-gate` | `Kaidera` | `Apache-2.0` | None | — |
@@ -275,7 +276,7 @@ compare it with the current repository and Cortex source of truth.
 
 ### `agent-platform-context`
 
-<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"context","legacy":true,"name":"agent-platform-context","path":"skills/context/agent-platform-context.SKILL.md","posture":"reference-only","review_fingerprint":"e966b96cbeb4c8f9a329673f40563a8db2699b30498356a8fa067cee92095375","risk_level":"low","trust_tier":"unvetted","version":"1.0.1"} -->
+<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"context","legacy":true,"name":"agent-platform-context","path":"skills/context/agent-platform-context.SKILL.md","posture":"reference-only","review_fingerprint":"326ec163c15c046d6bef0cd535453cf412efae81b0b3998d8a9ddf56e141ca39","risk_level":"low","trust_tier":"unvetted","version":"1.0.2"} -->
 
 - **Manifest:** [agent-platform-context.SKILL.md](../skills/context/agent-platform-context.SKILL.md)
 - **Function:** Explains the legacy AgentExecutor, execution lifecycle, steering
@@ -295,7 +296,7 @@ compare it with the current repository and Cortex source of truth.
 
 ### `backend-context`
 
-<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"context","legacy":true,"name":"backend-context","path":"skills/context/backend-context.SKILL.md","posture":"reference-only","review_fingerprint":"9eeeea72c575bb61c33434ea7b9254136634b6441ca0363c67a3de5bf299138c","risk_level":"low","trust_tier":"unvetted","version":"1.0.1"} -->
+<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"context","legacy":true,"name":"backend-context","path":"skills/context/backend-context.SKILL.md","posture":"reference-only","review_fingerprint":"17ce43e60733a9256f6b70d1db207d4d3cf3611d7c16a19168082a72a62b5384","risk_level":"low","trust_tier":"unvetted","version":"1.0.2"} -->
 
 - **Manifest:** [backend-context.SKILL.md](../skills/context/backend-context.SKILL.md)
 - **Function:** Summarises the legacy FastAPI layout, service layer, async DB
@@ -314,7 +315,7 @@ compare it with the current repository and Cortex source of truth.
 
 ### `frontend-context`
 
-<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"context","legacy":true,"name":"frontend-context","path":"skills/context/frontend-context.SKILL.md","posture":"reference-only","review_fingerprint":"9bf3202eee2a9ba85769e1e43faf8b885582ae98af2b038a33fd04f9f71bf2b8","risk_level":"low","trust_tier":"unvetted","version":"1.0.1"} -->
+<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"context","legacy":true,"name":"frontend-context","path":"skills/context/frontend-context.SKILL.md","posture":"reference-only","review_fingerprint":"831fcbee76baac60c99c03b9989a41a64dbef2a02e6e7bf2994bd677f9643446","risk_level":"low","trust_tier":"unvetted","version":"1.0.2"} -->
 
 - **Manifest:** [frontend-context.SKILL.md](../skills/context/frontend-context.SKILL.md)
 - **Function:** Describes legacy Next.js App Router, TypeScript, Tailwind,
@@ -332,7 +333,7 @@ compare it with the current repository and Cortex source of truth.
 
 ### `infrastructure-context`
 
-<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"context","legacy":true,"name":"infrastructure-context","path":"skills/context/infrastructure-context.SKILL.md","posture":"reference-only","review_fingerprint":"166f434bd66d0fb833b4a77aba1ab5bb9b69f4c5f253ef45b4c0ca9c5edd60f3","risk_level":"low","trust_tier":"unvetted","version":"1.0.2"} -->
+<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"context","legacy":true,"name":"infrastructure-context","path":"skills/context/infrastructure-context.SKILL.md","posture":"reference-only","review_fingerprint":"1f132dd832f16754f0565e9b12ae985fa45acc061f186403f94bf2c68a827fce","risk_level":"low","trust_tier":"unvetted","version":"1.0.3"} -->
 
 - **Manifest:** [infrastructure-context.SKILL.md](../skills/context/infrastructure-context.SKILL.md)
 - **Function:** Summarises legacy GKE, ArgoCD GitOps, branch, image, Kubernetes,
@@ -350,31 +351,31 @@ compare it with the current repository and Cortex source of truth.
 
 ### `route-handoff-gate`
 
-<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read"],"category":"context","legacy":false,"name":"route-handoff-gate","path":"skills/context/route-handoff-gate.SKILL.md","posture":"manual-only","review_fingerprint":"19a18cb0eb52c03ff905e2244518b229538147d62f00441ce4abbde150c66067","risk_level":"low","trust_tier":"unvetted","version":"1.0.0"} -->
+<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read"],"category":"context","legacy":false,"name":"route-handoff-gate","path":"skills/context/route-handoff-gate.SKILL.md","posture":"manual-only","review_fingerprint":"1d3814b601dbf257fc0b88e36fb2419f4acda978278658a7550bdea6cc753b89","risk_level":"low","trust_tier":"unvetted","version":"1.0.1"} -->
 
 - **Manifest:** [route-handoff-gate.SKILL.md](../skills/context/route-handoff-gate.SKILL.md)
 - **Function:** Portable execution gate: a handoff is routed to exactly one owner and lane before any work starts, with the receiving project and role verified.
 - **Use when:** Creating, claiming or relaying a handoff, especially across projects or lanes.
 - **Do not use when:** As a substitute for the tracking system's own claim; do not route on a guess when the roster is readable.
-- **Inputs and output:** No parameters or tools; gate text only.
-- **Authority and effects:** Manual-only: the routing decision is recorded by the human or the tracking system, not by this skill.
-- **Kaidera action:** Manual-only: pair with Cortex handoff claims; a 409 on claim is a live-sibling alarm.
+- **Inputs and output:** Required `work`; file reading produces a bounded handoff draft and ownership assessment.
+- **Authority and effects:** No queue/API write capability. The authorised operator creates and supplies readback; unavailable delivery evidence stays unverified.
+- **Kaidera action:** Check current response details for any claim conflict; a bare HTTP status does not establish who owns a handoff.
 
 ### `scope-work-gate`
 
-<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read"],"category":"context","legacy":false,"name":"scope-work-gate","path":"skills/context/scope-work-gate.SKILL.md","posture":"manual-only","review_fingerprint":"a8f712c0349c0deda5d0d02b9dd9ea8eacaabe65267e2e919297cf23f3b316f8","risk_level":"low","trust_tier":"unvetted","version":"1.0.0"} -->
+<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read"],"category":"context","legacy":false,"name":"scope-work-gate","path":"skills/context/scope-work-gate.SKILL.md","posture":"manual-only","review_fingerprint":"1f338958771343dd6feba7c99544369c3d7d00214531eced00e9ecbb58bf996b","risk_level":"low","trust_tier":"unvetted","version":"1.0.1"} -->
 
 - **Manifest:** [scope-work-gate.SKILL.md](../skills/context/scope-work-gate.SKILL.md)
 - **Function:** Portable execution gate: work is scoped (what changes, what does not, the proof) before the first edit.
 - **Use when:** Before starting any implementation, fix or migration.
 - **Do not use when:** For pure reading or investigation tasks with no mutation.
-- **Inputs and output:** No parameters or tools; gate text only.
-- **Authority and effects:** Manual-only: the scope is accepted by the lead; the gate does not grant write authority.
-- **Kaidera action:** Manual-only: the kaidera-sdlc plan template is the fuller form of this gate.
+- **Inputs and output:** Required `work`; file reading produces an advisory project, role, lane and objective assessment.
+- **Authority and effects:** No assignment or execution capability. Existing valid authority controls the operator's next step.
+- **Kaidera action:** Keep scope and ownership explicit; route external execution through its authorised owner.
 
 ### `sprint-context`
 
-<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"context","legacy":true,"name":"sprint-context","path":"skills/context/sprint-context.SKILL.md","posture":"rework-before-use","review_fingerprint":"0f7b5e071dd8a85ff464122510c7b48123ba79e67581352f2d60356f0710f6be","risk_level":"low","trust_tier":"unvetted","version":"1.0.1"} -->
+<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"context","legacy":true,"name":"sprint-context","path":"skills/context/sprint-context.SKILL.md","posture":"rework-before-use","review_fingerprint":"fffccf9524cd64d02c5c6292470507f6f5db6c1c698bad8b512eb6dc291ff417","risk_level":"low","trust_tier":"unvetted","version":"1.0.2"} -->
 
 - **Manifest:** [sprint-context.SKILL.md](../skills/context/sprint-context.SKILL.md)
 - **Function:** Documents the legacy three-file sprint pattern, task-status
@@ -394,7 +395,7 @@ compare it with the current repository and Cortex source of truth.
 
 ### `workspace-context`
 
-<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"context","legacy":true,"name":"workspace-context","path":"skills/context/workspace-context.SKILL.md","posture":"reference-only","review_fingerprint":"9e73d5872415c6f395eb1b1809c0e72ee3421bbf784fc9e270d29937352d0a14","risk_level":"low","trust_tier":"unvetted","version":"1.0.1"} -->
+<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"context","legacy":true,"name":"workspace-context","path":"skills/context/workspace-context.SKILL.md","posture":"reference-only","review_fingerprint":"3993edfa47f3475e38cd2782800cb2a3f8a28f5a76e7bf5ae3cdffb86f071c55","risk_level":"low","trust_tier":"unvetted","version":"1.0.2"} -->
 
 - **Manifest:** [workspace-context.SKILL.md](../skills/context/workspace-context.SKILL.md)
 - **Function:** Describes legacy product identity, stack, repository structure,
@@ -413,7 +414,7 @@ compare it with the current repository and Cortex source of truth.
 
 ### `api-design`
 
-<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"development","legacy":true,"name":"api-design","path":"skills/development/api-design.SKILL.md","posture":"reference-only","review_fingerprint":"c05a3a1dac1600a8675688838d53b4ee09d60990148daed9b36c3306757c1a41","risk_level":"low","trust_tier":"unvetted","version":"1.0.1"} -->
+<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"development","legacy":true,"name":"api-design","path":"skills/development/api-design.SKILL.md","posture":"reference-only","review_fingerprint":"20fa22cd8fd734decded43a42490b604d1568cbba675ef152e87e9e2a58da7ac","risk_level":"low","trust_tier":"unvetted","version":"1.0.2"} -->
 
 - **Manifest:** [api-design.SKILL.md](../skills/development/api-design.SKILL.md)
 - **Function:** Provides legacy FastAPI conventions for URLs, Pydantic request
@@ -432,7 +433,7 @@ compare it with the current repository and Cortex source of truth.
 
 ### `api-test`
 
-<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"development","legacy":true,"name":"api-test","path":"skills/development/api-test.SKILL.md","posture":"reference-only","review_fingerprint":"9868f046b0fc2d3662777725afd343c984ab1f3a2897eb65e5e7f0009044a5f2","risk_level":"low","trust_tier":"unvetted","version":"1.0.1"} -->
+<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"development","legacy":true,"name":"api-test","path":"skills/development/api-test.SKILL.md","posture":"reference-only","review_fingerprint":"05d4ebc92f55d201c92212b7ada5dd9c31631bbf59eb75c79a4933f67062402d","risk_level":"low","trust_tier":"unvetted","version":"1.0.2"} -->
 
 - **Manifest:** [api-test.SKILL.md](../skills/development/api-test.SKILL.md)
 - **Function:** Provides legacy FastAPI service/unit/integration test structure,
@@ -449,15 +450,15 @@ compare it with the current repository and Cortex source of truth.
 
 ### `assert-fact-gate`
 
-<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read"],"category":"development","legacy":false,"name":"assert-fact-gate","path":"skills/development/assert-fact-gate.SKILL.md","posture":"manual-only","review_fingerprint":"1d517b0295c857f6facfda79330d7a79583942674945cd500391d51de1ea80ee","risk_level":"low","trust_tier":"unvetted","version":"1.0.0"} -->
+<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read"],"category":"development","legacy":false,"name":"assert-fact-gate","path":"skills/development/assert-fact-gate.SKILL.md","posture":"manual-only","review_fingerprint":"4d43914baeae4ee71092aaee2e8a49b4d804d30f56b9e1c7c0c97158d0e00263","risk_level":"low","trust_tier":"unvetted","version":"1.0.1"} -->
 
 - **Manifest:** [assert-fact-gate.SKILL.md](../skills/development/assert-fact-gate.SKILL.md)
 - **Function:** Portable execution gate: a fact is asserted only with its source and a check that could have failed.
 - **Use when:** Any report, review verdict or decision that states a fact about code, runtime or data.
 - **Do not use when:** For opinions or recommendations, which are labelled as such.
-- **Inputs and output:** No parameters or tools; gate text only.
-- **Authority and effects:** Manual-only: evidence is produced by commands the operator authorised; the gate only demands it.
-- **Kaidera action:** Manual-only: matches THE_WAY "verify the effect, never the declaration".
+- **Inputs and output:** Required `claim`; fresh file evidence or an explicit `UNVERIFIED` result.
+- **Authority and effects:** File reading only; remote/API verification requires separately authorised host capabilities.
+- **Kaidera action:** Bind evidence to the exact claim and target, including local source when that is the claim.
 
 ### `assumption-validation`
 
@@ -471,7 +472,7 @@ compare it with the current repository and Cortex source of truth.
   pricing, quotas, migrations, provider transforms, or irreversible workflows.
 - **Do not use when:** The task is solely code correctness, implementation, live
   production research, customer contact, or an attempt to outsource the product
-  decision. `open-code-review` covers bounded implementation defects.
+  decision. `evidence-code-review` covers bounded implementation defects.
 - **Inputs:** `change_summary` plus optional `decision_stage`, `evidence_scope`,
   and `decision_owner`.
 - **Output:** A decision boundary, assumption ledger, measurement design,
@@ -486,7 +487,7 @@ compare it with the current repository and Cortex source of truth.
 
 ### `code-review`
 
-<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"development","legacy":true,"name":"code-review","path":"skills/development/code-review.SKILL.md","posture":"rework-before-use","review_fingerprint":"b160f4a166045612ddc92b2920465d70b03b17ae766ae2b43b2709376e6203a7","risk_level":"low","trust_tier":"unvetted","version":"2.1.1"} -->
+<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"development","legacy":true,"name":"code-review","path":"skills/development/code-review.SKILL.md","posture":"rework-before-use","review_fingerprint":"e85ac15462bb9e0d4abdf8656be6e8cc9adcb385c4e52699d4630ebf3329b2c9","risk_level":"low","trust_tier":"unvetted","version":"2.1.2"} -->
 
 - **Manifest:** [code-review.SKILL.md](../skills/development/code-review.SKILL.md)
 - **Function:** Applies a legacy two-stage checklist: specification compliance
@@ -495,20 +496,48 @@ compare it with the current repository and Cortex source of truth.
   selected product/control assumption against current source.
 - **Do not use when:** The target needs immutable receipts, exact layer handling,
   coverage accounting, adversarial verification, or machine JSON. Use
-  `open-code-review`; use `ultrareview` for a whole repository.
+  `evidence-code-review`; use `codebase-audit` for a whole repository.
 - **Inputs and output:** No declared parameters/tools; produces a checklist-style
   review only from already supplied context.
-- **Authority and effects:** Its declared no-tool/read-only contract conflicts
-  with `APPROVED → Merge`, sprint-log recording, and merged-or-ready
-  postconditions. It also embeds legacy kill-switch, organisation-scope, CTO,
-  frontend, and backend assumptions.
-- **Kaidera action:** Rework before use. Make every verdict advisory, remove
-  merge/log postconditions and stale controls, then prove loader separation from
+- **Authority and effects:** Advisory checklist only. Records and readiness are
+  proposed outputs; the source grants no merge, log-write or notice authority.
+  Legacy kill-switch, organisation-scope, CTO, frontend and backend assumptions
+  require current project evidence before individual checks apply.
+- **Kaidera action:** Keep the source candidate held before use. Qualify its
+  current product controls, independent acceptance and loader separation from
   the evidence-gated reviewer.
+
+### `codebase-audit`
+
+<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:code_interpreter"],"category":"development","legacy":false,"name":"codebase-audit","path":"skills/development/codebase-audit.SKILL.md","posture":"rework-before-use","review_fingerprint":"a5c79c9ba009c03ae54af3f211a8888f94b06b8a87cdbb73f0ae544a23fd13ca","risk_level":"medium","trust_tier":"unvetted","version":"1.1.2"} -->
+
+- **Manifest:** [codebase-audit.SKILL.md](../skills/development/codebase-audit.SKILL.md)
+- **Function:** Performs whole-repository or module review across correctness,
+  security, change risk, maintainability, blast radius, tests, performance, and
+  contract compliance, then challenges material findings.
+- **Use when:** A broad health/architecture audit is the primary request and the
+  scope, file set, evidence, and review-only boundary are explicit.
+- **Do not use when:** Reviewing a bounded diff (`evidence-code-review`), retrieving a remote repository without its authorised workflow, or implementing fixes.
+- **Inputs:** Local `repo_path`, optional `scope`, `focus` and `depth`.
+- **Output:** Ranked confirmed/refuted/unverified findings, dimension summaries, frozen-target coverage and `PASS`, `CHANGES_NEEDED`, `INCOMPLETE` or `BLOCKED`.
+- **Authority and effects:** Read-only local file inspection and trusted bounded computation. Missing coverage or unresolved material evidence prevents PASS; uncertainty is unverified, never refuted by default.
+- **Kaidera action:** Source candidate repaired and renamed; keep rework-before-use until independent routing and audit qualification are accepted. Active bindings are a separate migration.
+
+### `completion-evidence`
+
+<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:file_write"],"category":"development","legacy":false,"name":"completion-evidence","path":"skills/development/completion-evidence.SKILL.md","posture":"bounded-candidate","review_fingerprint":"bf3e398d864fc4a44034f57dfe359bce3d61ec555422a2664316e8c7391da5a8","risk_level":"medium","trust_tier":"unvetted","version":"1.0.1"} -->
+
+- **Manifest:** [completion-evidence.SKILL.md](../skills/development/completion-evidence.SKILL.md)
+- **Function:** Completion discipline for substantial autonomous work: gates written before the work, gates that can fail, nothing dropped silently, every claim re-measured before it is reported.
+- **Use when:** Long or multi-part tasks, work that came back half-done, or any return whose failure mode is quiet incompleteness.
+- **Do not use when:** Trivial one-step edits, or as a substitute for the repository's own verification commands.
+- **Inputs and output:** No parameters; read-only process reference; its optional checker and Stop hook are separate opt-in tooling.
+- **Authority and effects:** Advisory. Its gates describe evidence; they do not execute commands or grant authority.
+- **Kaidera action:** Bounded candidate: vendored from Leonxlnx/unlazy (MIT) at a pinned version; keep upstream attribution and version in the manifest.
 
 ### `database-migration`
 
-<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"development","legacy":true,"name":"database-migration","path":"skills/development/database-migration.SKILL.md","posture":"rework-before-use","review_fingerprint":"719ec101ea8655a98544061050bea9faa70316fdacb257103520dad9c104d575","risk_level":"low","trust_tier":"unvetted","version":"1.0.1"} -->
+<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"development","legacy":true,"name":"database-migration","path":"skills/development/database-migration.SKILL.md","posture":"rework-before-use","review_fingerprint":"8ba89d571fcd461f0c3798d677f6cc9fd9470ea64d7110b8b44ad99d90bbbdd5","risk_level":"low","trust_tier":"unvetted","version":"1.0.2"} -->
 
 - **Manifest:** [database-migration.SKILL.md](../skills/development/database-migration.SKILL.md)
 - **Function:** Provides legacy Alembic/PostgreSQL patterns for filenames,
@@ -530,7 +559,7 @@ compare it with the current repository and Cortex source of truth.
 
 ### `development-workflow`
 
-<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:file_write","tool:code_interpreter","tool:web_search"],"category":"development","legacy":false,"name":"development-workflow","path":"skills/development/development-workflow.SKILL.md","posture":"bounded-candidate","review_fingerprint":"906134356d5967050d8de574cf0ee6bab04d0fb282d3410d80216597da381c81","risk_level":"medium","trust_tier":"unvetted","version":"1.0.0"} -->
+<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:file_write","tool:code_interpreter","tool:web_search"],"category":"development","legacy":false,"name":"development-workflow","path":"skills/development/development-workflow.SKILL.md","posture":"bounded-candidate","review_fingerprint":"c2939c4b8019b40fa17bba29c000f091f3bb1f29112a8fcbc827659ec5b8a7ec","risk_level":"medium","trust_tier":"unvetted","version":"1.0.0"} -->
 
 - **Manifest:** [development-workflow.SKILL.md](../skills/development/development-workflow.SKILL.md)
 - **Function:** Generic distribution profile of the kaidera-sdlc lifecycle for AI and human software teams, with independent code review, risk-based QA, recorded human file review and ITIL-aligned operations.
@@ -540,25 +569,52 @@ compare it with the current repository and Cortex source of truth.
 - **Authority and effects:** File read/write, local computation and current public-source research inside existing authorization. Application connections, source-data transfer, reserved actions and human verdicts require their separate scoped authority. No runtime binding or trusted-tier promotion.
 - **Kaidera action:** Bounded candidate, unvetted. Canonical source is the directory in this repository; scripts/render-development-workflow.js generates the flat manifest and checks its source digest. Dev-OS carries identical pinned bytes and named role adapters. Legacy behavioural skills and their unresolved donor material are excluded from this public skill. Root/per-skill licensing precedence and Gate 3/4 holds remain.
 
+### `evidence-code-review`
+
+<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:code_interpreter"],"category":"development","legacy":false,"name":"evidence-code-review","path":"skills/development/evidence-code-review.SKILL.md","posture":"bounded-candidate","review_fingerprint":"676732aeb66d426fc3f3eba42899a41cc23d42fe41c9cc6cc1f63f1445c04587","risk_level":"medium","trust_tier":"unvetted","version":"4.0.2"} -->
+
+- **Manifest:** [evidence-code-review.SKILL.md](../skills/development/evidence-code-review.SKILL.md)
+- **Machine contract:** [report schema](../spec/open-code-review-report.schema.json) and
+  [semantic verifier](../scripts/open-code-review-contract.js).
+- **Function:** Reviews an exact workspace, staged index, commit, range, path
+  layer, or supplied patch using canonical target/path/policy receipts,
+  deterministic diagnostics, semantic bundles, cross-file tracing, independent
+  challenge, coverage accounting, and a final target reread.
+- **Use when:** The primary object is a bounded change and the user needs
+  evidence-cited, fail-closed review rather than general advice.
+- **Do not use when:** The target is whole-codebase health (`codebase-audit`), the
+  user requested implementation rather than review, the repository is moving
+  without an honest incomplete verdict, or two same-name skills are loaded.
+- **Inputs:** Optional `repo_path`, target selector, merge parent/range style,
+  paths/layer, intent, focus, depth, and Markdown/JSON output mode.
+- **Output:** Human findings or schema-v4 JSON. JSON is consumable only after
+  `node scripts/open-code-review-contract.js <report.json>` succeeds.
+- **Authority and effects:** Strictly read-only. It cannot install tools, use an
+  external model/service, edit, post comments, commit, push, or deploy. Optional
+  Alibaba CLI use requires a separately trusted existing installation and
+  immutable policy binding.
+- **Kaidera action:** First-wave bounded-review candidate. Preserve the explicit
+  Gate 3/4 and source-qualified loader holds.
+
 ### `gavel`
 
-<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:code_interpreter"],"category":"development","legacy":false,"name":"gavel","path":"skills/development/gavel.SKILL.md","posture":"bounded-candidate","review_fingerprint":"350cd20d78e6620629211e3c03c22cb40348167d33793eaa83f99afa936a633a","risk_level":"medium","trust_tier":"unvetted","version":"1.0.1"} -->
+<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:code_interpreter"],"category":"development","legacy":false,"name":"gavel","path":"skills/development/gavel.SKILL.md","posture":"reference-only","review_fingerprint":"350cd20d78e6620629211e3c03c22cb40348167d33793eaa83f99afa936a633a","risk_level":"medium","trust_tier":"unvetted","version":"1.0.1"} -->
 
 - **Manifest:** [gavel.SKILL.md](../skills/development/gavel.SKILL.md)
 - **Function:** Gavel: typed judgments for a project lead who plans, adjudicates and coordinates while workers execute: triage a worker return (disposition, evidence quality, silent gaps, scope creep, irreversibility, next owner, urgency), check a draft handoff for its receipt contract, and score backlog items for gate-blocking and risk, using TypeSafe's System One model through a bundled stdlib helper.
 - **Use when:** A return, handback or consult lands; before sending a handoff; when ordering a checklist or backlog.
 - **Do not use when:** As the decision itself, as a code reviewer, or with secrets, credentials, customer data or private keys in the text; it sends what you pass to `api.typesafe.ai`.
-- **Inputs and output:** A JSON packet or plain text on stdin; typed answers with probabilities and confidence on stdout. Requires a user-supplied `JEV_API_KEY`.
-- **Authority and effects:** Advisory. It authorises no merge, deploy, publish, deletion or spend; thresholds and policy live in the skill text and the caller's code.
-- **Kaidera action:** Bounded candidate: the canonical source is Kaidera OS `.agents/skills/gavel/` (helper, question catalogue, calibration log, evals); this file is its marketplace projection, rendered by the source's `tools/render-public.py`, which also emits the directory form `skills/development/gavel/` for the agnostic skills CLI. Harness-agnostic by construction; project-agnostic wording.
+- **Inputs and output:** Historical triage, handoff and backlog interface; do not run this frozen legacy transport.
+- **Authority and effects:** Reference-only pending the accepted single-core cutover. A configured key is not permission.
+- **Kaidera action:** The new canonical Gavel candidate delegates to the project Jev core. Reproject only after its independent acceptance and licence-owner ruling; preserve this legacy source as historical context until then.
 
 ### `git-workflow`
 
-<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"development","legacy":true,"name":"git-workflow","path":"skills/development/git-workflow.SKILL.md","posture":"rework-before-use","review_fingerprint":"bc53b022c5bf3fbfa4a94e254a3d112eb96884c6f15f0522f0b578a9b1b7147a","risk_level":"low","trust_tier":"unvetted","version":"1.0.1"} -->
+<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"development","legacy":true,"name":"git-workflow","path":"skills/development/git-workflow.SKILL.md","posture":"rework-before-use","review_fingerprint":"e72bae1d747a3cd7e7bbde6a9b3aaa12aff780eb1dfc269acf57d68a60a42bab","risk_level":"low","trust_tier":"unvetted","version":"1.0.2"} -->
 
 - **Manifest:** [git-workflow.SKILL.md](../skills/development/git-workflow.SKILL.md)
-- **Function:** Describes legacy branch strategy, sprint naming, conventional
-  commits, sprint flow, multi-line commit format, and PR template.
+- **Function:** Describes project-configured branches, scoped commits, pull
+  requests, review ownership and evidence for integration and delivery.
 - **Use when:** A repository explicitly adopts this exact workflow.
 - **Do not use when:** Committing, pushing, merging, creating PRs, rewriting
   history, or overriding repository-specific instructions without user
@@ -566,8 +622,8 @@ compare it with the current repository and Cortex source of truth.
 - **Inputs and output:** No parameters or tools; reference guidance only.
 - **Authority and effects:** No Git mutation is authorised by this skill.
 - **Kaidera action:** Rework before use: prefer current repository rules and
-  Cortex handoff policy, correct the malformed `--no-verify` warning, and split
-  descriptive conventions from Git mutation.
+  Cortex handoff policy and retain the corrected hook warning. Source conventions
+  remain distinct from separately authorised Git mutation.
 
 ### `jev-backlog-rank`
 
@@ -581,7 +637,6 @@ compare it with the current repository and Cortex source of truth.
 - **Authority and effects:** The core reads only process `TYPESAFE_API_KEY`; project-owned `.agents/config/transfer-policy.<project>.json` must be separately approved and installed. No outbound call when the policy or allowed category is missing; receipts off by default.
 - **Kaidera action:** Bounded candidate, unvetted. Canonical source is Kaidera OS `.agents/skills/jev-backlog-rank/` at `86edd8eeb4ed37bb0aa646de42b3fc6c8af32c56`; published flat manifest and directory form are separate projections. Wrappers require `jev` installed in the same project. The three lead wrappers replace Gavel's corresponding moments, not supplement them. Gate 3/4 and root CC-BY-4.0 versus per-skill Apache-2.0 licence precedence remain HOLD.
 
-
 ### `jev-handoff-check`
 
 <!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:code_interpreter"],"category":"development","legacy":false,"name":"jev-handoff-check","path":"skills/development/jev-handoff-check.SKILL.md","posture":"bounded-candidate","review_fingerprint":"04d442579100929faa813983325d91b5620df8f911c68166918af29984fcb043","risk_level":"medium","trust_tier":"unvetted","version":"0.1.0"} -->
@@ -593,7 +648,6 @@ compare it with the current repository and Cortex source of truth.
 - **Inputs and output:** Classified minimum summaries or a reference query; typed advisory evidence with returned model identity, not human authority.
 - **Authority and effects:** The core reads only process `TYPESAFE_API_KEY`; project-owned `.agents/config/transfer-policy.<project>.json` must be separately approved and installed. No outbound call when the policy or allowed category is missing; receipts off by default.
 - **Kaidera action:** Bounded candidate, unvetted. Canonical source is Kaidera OS `.agents/skills/jev-handoff-check/` at `86edd8eeb4ed37bb0aa646de42b3fc6c8af32c56`; published flat manifest and directory form are separate projections. Wrappers require `jev` installed in the same project. The three lead wrappers replace Gavel's corresponding moments, not supplement them. Gate 3/4 and root CC-BY-4.0 versus per-skill Apache-2.0 licence precedence remain HOLD.
-
 
 ### `jev-option-decision`
 
@@ -607,7 +661,6 @@ compare it with the current repository and Cortex source of truth.
 - **Authority and effects:** The core reads only process `TYPESAFE_API_KEY`; project-owned `.agents/config/transfer-policy.<project>.json` must be separately approved and installed. No outbound call when the policy or allowed category is missing; receipts off by default.
 - **Kaidera action:** Bounded candidate, unvetted. Canonical source is Kaidera OS `.agents/skills/jev-option-decision/` at `86edd8eeb4ed37bb0aa646de42b3fc6c8af32c56`; published flat manifest and directory form are separate projections. Wrappers require `jev` installed in the same project. The three lead wrappers replace Gavel's corresponding moments, not supplement them. Gate 3/4 and root CC-BY-4.0 versus per-skill Apache-2.0 licence precedence remain HOLD.
 
-
 ### `jev-return-triage`
 
 <!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:code_interpreter"],"category":"development","legacy":false,"name":"jev-return-triage","path":"skills/development/jev-return-triage.SKILL.md","posture":"bounded-candidate","review_fingerprint":"10cb9eaadc4bd62be42371c96274c140415388364a4dc80b78754bb32f0885c3","risk_level":"medium","trust_tier":"unvetted","version":"0.1.0"} -->
@@ -620,7 +673,6 @@ compare it with the current repository and Cortex source of truth.
 - **Authority and effects:** The core reads only process `TYPESAFE_API_KEY`; project-owned `.agents/config/transfer-policy.<project>.json` must be separately approved and installed. No outbound call when the policy or allowed category is missing; receipts off by default.
 - **Kaidera action:** Bounded candidate, unvetted. Canonical source is Kaidera OS `.agents/skills/jev-return-triage/` at `86edd8eeb4ed37bb0aa646de42b3fc6c8af32c56`; published flat manifest and directory form are separate projections. Wrappers require `jev` installed in the same project. The three lead wrappers replace Gavel's corresponding moments, not supplement them. Gate 3/4 and root CC-BY-4.0 versus per-skill Apache-2.0 licence precedence remain HOLD.
 
-
 ### `jev`
 
 <!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:code_interpreter","tool:file_write"],"category":"development","legacy":false,"name":"jev","path":"skills/development/jev.SKILL.md","posture":"reference-only","review_fingerprint":"e79bd1262eb33aa65059f6e05f17e2cdf808e06119b87853b27c4f0054cc3c15","risk_level":"medium","trust_tier":"unvetted","version":"0.1.0"} -->
@@ -632,7 +684,6 @@ compare it with the current repository and Cortex source of truth.
 - **Inputs and output:** Classified minimum summaries or a reference query; typed advisory evidence with returned model identity, not human authority.
 - **Authority and effects:** The core reads only process `TYPESAFE_API_KEY`; project-owned `.agents/config/transfer-policy.<project>.json` must be separately approved and installed. No outbound call when the policy or allowed category is missing; receipts off by default.
 - **Kaidera action:** Reference-only, unvetted. Canonical source is Kaidera OS `.agents/skills/jev/` at `86edd8eeb4ed37bb0aa646de42b3fc6c8af32c56`; published flat manifest and directory form are separate projections. Wrappers require `jev` installed in the same project. The three lead wrappers replace Gavel's corresponding moments, not supplement them. Gate 3/4 and root CC-BY-4.0 versus per-skill Apache-2.0 licence precedence remain HOLD.
-
 
 ### `kaidera-sdlc`
 
@@ -647,59 +698,31 @@ compare it with the current repository and Cortex source of truth.
 - **Agnostic install:** the directory form `skills/development/kaidera-sdlc/` (SKILL.md, references, templates) installs with `npx skills add Kaidera-AI/skills --skill kaidera-sdlc -a universal -y --copy`; 1.3.0 adds `code-review.md`, `human-gates.md` and `human-guide.md` (two reviewers merging into one report, what a human decides at the gate, and why/how the process works) on top of 1.2.0's team, code-quality, evidence, writing and attribution references and review in bounded rounds.
 - **Kaidera action:** Bounded candidate: the canonical source is Kaidera OS `.agents/skills/kaidera-sdlc/` (references, templates, evals); this file is its marketplace projection, rendered by the source's `tools/render-public.py` (its `--check`, run from a Kaidera OS checkout, proves the projection matches; marketplace CI cannot see that source, so `kaidera.source.content_sha256` names the rendered bytes and a stale projection is a review finding, not a CI failure). Never edited here.
 
-### `open-code-review`
-
-<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:code_interpreter"],"category":"development","legacy":false,"name":"open-code-review","path":"skills/development/open-code-review.SKILL.md","posture":"bounded-candidate","review_fingerprint":"3119a9cd26d311142e49d7ef93fc8f2a9abdaba93cf1022920c18fce3c2a8e08","risk_level":"medium","trust_tier":"unvetted","version":"4.0.1"} -->
-
-- **Manifest:** [open-code-review.SKILL.md](../skills/development/open-code-review.SKILL.md)
-- **Machine contract:** [report schema](../spec/open-code-review-report.schema.json) and
-  [semantic verifier](../scripts/open-code-review-contract.js).
-- **Function:** Reviews an exact workspace, staged index, commit, range, path
-  layer, or supplied patch using canonical target/path/policy receipts,
-  deterministic diagnostics, semantic bundles, cross-file tracing, independent
-  challenge, coverage accounting, and a final target reread.
-- **Use when:** The primary object is a bounded change and the user needs
-  evidence-cited, fail-closed review rather than general advice.
-- **Do not use when:** The target is whole-codebase health (`ultrareview`), the
-  user requested implementation rather than review, the repository is moving
-  without an honest incomplete verdict, or two same-name skills are loaded.
-- **Inputs:** Optional `repo_path`, target selector, merge parent/range style,
-  paths/layer, intent, focus, depth, and Markdown/JSON output mode.
-- **Output:** Human findings or schema-v4 JSON. JSON is consumable only after
-  `node scripts/open-code-review-contract.js <report.json>` succeeds.
-- **Authority and effects:** Strictly read-only. It cannot install tools, use an
-  external model/service, edit, post comments, commit, push, or deploy. Optional
-  Alibaba CLI use requires a separately trusted existing installation and
-  immutable policy binding.
-- **Kaidera action:** First-wave bounded-review candidate. Preserve the explicit
-  Gate 3/4 and source-qualified loader holds.
-
 ### `performance-profiling`
 
-<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"development","legacy":true,"name":"performance-profiling","path":"skills/development/performance-profiling.SKILL.md","posture":"rework-before-use","review_fingerprint":"ec7600bdfe1f8dbe1fd719dcb09ef2ae944c6c61ffdc3d8c2c9255c605bf434e","risk_level":"low","trust_tier":"unvetted","version":"1.0.2"} -->
+<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"development","legacy":true,"name":"performance-profiling","path":"skills/development/performance-profiling.SKILL.md","posture":"rework-before-use","review_fingerprint":"714c0471b34c9065cc9f353382314abdfe591e97fdfb926d131acc98bd03f19c","risk_level":"low","trust_tier":"unvetted","version":"1.0.3"} -->
 
 - **Manifest:** [performance-profiling.SKILL.md](../skills/development/performance-profiling.SKILL.md)
-- **Function:** Describes baseline timing, Python profiling, SQL analysis,
-  indexes, pools, Redis, and Kubernetes resource diagnosis for the legacy stack.
-- **Use when:** As historical troubleshooting reference after independently
-  establishing the target, data sensitivity, benchmark, and environment.
-- **Do not use when:** It would run bearer-token `curl`, live `kubectl`, Redis,
-  production database queries, install `py-spy`, or create an index under this
-  manifest. Those actions exceed its empty capability declaration and low risk.
-- **Inputs and output:** No declared inputs or tools despite executable examples;
-  this is the core manifest/body mismatch.
-- **Authority and effects:** Runtime use is blocked. Profiling can expose secrets,
-  load systems, attach to processes, and mutate a database.
-- **Kaidera action:** Split into a safe measurement-planning reference and
-  separately governed executable profiles with exact environment/read/write
-  capabilities.
+- **Function:** Plans a bounded performance investigation from supplied measurements,
+  workload, symptom, environment and target; separates hypotheses from verified cause.
+- **Use when:** The owner wants measurement priorities or interpretation of existing
+  qualified-operator evidence.
+- **Do not use when:** Live profiling, credentials, installs, database/index changes,
+  runtime resource changes or production load are requested under this no-tool profile.
+- **Inputs and output:** Workload/symptom/context and supplied measurements; a baseline,
+  ranked hypotheses, proposed checks and missing evidence. No executable recipes remain.
+- **Authority and effects:** Reference only; actual measurements and changes use the
+  separately authorised operator/implementation scope.
+- **Kaidera action:** Source contract repaired. Retain rework-before-use until independent
+  acceptance and any executable adapter are qualified; do not promote runtime posture
+  from catalogue/source checks.
 
 ### `prompt-master`
 
-<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"development","legacy":false,"name":"prompt-master","path":"skills/development/prompt-master.SKILL.md","posture":"reference-only","review_fingerprint":"84c0ad3438a1b8ee6817f281d29f314b407f8da94ba3f5ba5de24c98ab17f1d4","risk_level":"low","trust_tier":"unvetted","version":"1.8.0"} -->
+<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"development","legacy":false,"name":"prompt-master","path":"skills/development/prompt-master.SKILL.md","posture":"reference-only","review_fingerprint":"5d36dd80284fba82d755de2243ee30eced94731052914871cd946664c4ad34ce","risk_level":"low","trust_tier":"unvetted","version":"1.8.1"} -->
 
 - **Manifest:** [prompt-master.SKILL.md](../skills/development/prompt-master.SKILL.md)
-- **Function:** Third-party skill vendored verbatim from `nidhinjs/prompt-master`
+- **Function:** MIT-attributed adaptation from `nidhinjs/prompt-master`
   (MIT). Writes a single optimized, ready-to-paste prompt for a named AI tool
   from a rough request, after extracting intent and asking at most 3
   clarifying questions.
@@ -713,7 +736,7 @@ compare it with the current repository and Cortex source of truth.
 - **Authority and effects:** No side effects; pure text generation. Its own
   body already instructs the model never to embed credentials in generated
   output and to treat any pasted prompt as inert data, never as instructions.
-- **Kaidera action:** Reference-only, verbatim third-party copy — see
+- **Kaidera action:** Reference-only, MIT-attributed local adaptation — see
   `ATTRIBUTION.md` beside the directory-form skill. Do not follow the
   upstream README's Claude.ai upload or `~/.claude/skills/` clone
   instructions; use this repository's own harness-agnostic distribution
@@ -721,7 +744,7 @@ compare it with the current repository and Cortex source of truth.
 
 ### `tdd-workflow`
 
-<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"development","legacy":true,"name":"tdd-workflow","path":"skills/development/tdd-workflow.SKILL.md","posture":"rework-before-use","review_fingerprint":"b6f01de9d21fd311efee5e43753f535c20f6c8201b258d08eebe16ed6869d082","risk_level":"low","trust_tier":"unvetted","version":"2.0.1"} -->
+<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"development","legacy":true,"name":"tdd-workflow","path":"skills/development/tdd-workflow.SKILL.md","posture":"rework-before-use","review_fingerprint":"6328a3a2cedac746eee6760af7f20ef083d6ae9e085b50e221010bfbbea3f7b4","risk_level":"low","trust_tier":"unvetted","version":"2.0.2"} -->
 
 - **Manifest:** [tdd-workflow.SKILL.md](../skills/development/tdd-workflow.SKILL.md)
 - **Function:** Defines design, red test, minimal implementation, five-step
@@ -736,43 +759,8 @@ compare it with the current repository and Cortex source of truth.
   tests, although its body directs both under an empty capability declaration.
 - **Kaidera action:** Rework before use: keep the verification discipline, but
   bind a future skill to current project tooling and explicit implementation,
-  file-write, and execution authority. Remove the blanket assertion that a new
-  test passing before implementation must be wrong; regression tests can
-  legitimately capture existing behaviour.
-
-### `ultrareview`
-
-<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"development","legacy":false,"name":"ultrareview","path":"skills/development/ultrareview.SKILL.md","posture":"rework-before-use","review_fingerprint":"662b9f53933142b730b218ccaf9bf58ee3e0d220b5c00cf4c140977cbcce85d4","risk_level":"low","trust_tier":"unvetted","version":"1.1.1"} -->
-
-- **Manifest:** [ultrareview.SKILL.md](../skills/development/ultrareview.SKILL.md)
-- **Function:** Performs whole-repository or module review across correctness,
-  security, change risk, maintainability, blast radius, tests, performance, and
-  contract compliance, then challenges material findings.
-- **Use when:** A broad health/architecture audit is the primary request and the
-  scope, file set, evidence, and review-only boundary are explicit.
-- **Do not use when:** Reviewing a bounded diff (`open-code-review`), using a URL
-  without network authority, or enabling `fix_mode` under its current empty
-  capability declaration.
-- **Inputs:** `repo_path`, optional `scope`, `focus`, `depth`, and `fix_mode`.
-- **Output:** Ranked findings, refutations, dimension summaries, and coverage
-  limits.
-- **Authority and effects:** The declared no-tool/low-risk manifest cannot support
-  promised repository reads, Git history, subagents, tools, URLs, or writes.
-- **Kaidera action:** Split read-only audit from implementation, declare exact
-  capabilities, add frozen-target receipts, and evaluate routing against
-  `open-code-review` before use.
-### `unlazy`
-
-<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:file_write"],"category":"development","legacy":false,"name":"unlazy","path":"skills/development/unlazy.SKILL.md","posture":"bounded-candidate","review_fingerprint":"6c024e42e50b61df9c9f0a9acf62d063bcc0d2f1ca0aff25ac2ffbb580fbdb5f","risk_level":"medium","trust_tier":"unvetted","version":"1.0.0"} -->
-
-- **Manifest:** [unlazy.SKILL.md](../skills/development/unlazy.SKILL.md)
-- **Function:** Completion discipline for substantial autonomous work: gates written before the work, gates that can fail, nothing dropped silently, every claim re-measured before it is reported.
-- **Use when:** Long or multi-part tasks, work that came back half-done, or any return whose failure mode is quiet incompleteness.
-- **Do not use when:** Trivial one-step edits, or as a substitute for the repository's own verification commands.
-- **Inputs and output:** No parameters; read-only process reference; its optional checker and Stop hook are separate opt-in tooling.
-- **Authority and effects:** Advisory. Its gates describe evidence; they do not execute commands or grant authority.
-- **Kaidera action:** Bounded candidate: vendored from Leonxlnx/unlazy (MIT) at a pinned version; keep upstream attribution and version in the manifest.
-
+  file-write, and execution authority. The candidate now allows already-passing
+  regressions with an honest reason; it never manufactures a RED result.
 
 ## DevOps skills
 
@@ -790,13 +778,13 @@ scope, rollback, and post-action readback.
 - **Function:** Policy: infrastructure and deployment choices stay portable across providers; provider-specific services need a recorded exception.
 - **Use when:** Designing or reviewing infrastructure, deployment targets or managed services.
 - **Do not use when:** For a deliberately provider-bound customer engagement with a recorded ruling.
-- **Inputs and output:** No parameters or tools; policy text only.
-- **Authority and effects:** Manual-only: exceptions are human rulings, recorded and dated.
-- **Kaidera action:** Manual-only: cite the ruling that allows a provider-specific choice; otherwise stay portable.
+- **Inputs and output:** Required `proposal`; file reading returns portability concerns and recorded exceptions.
+- **Authority and effects:** Advisory assessment; no infrastructure mutation or exception approval.
+- **Kaidera action:** Cite the owning policy and any current provider-specific ruling.
 
 ### `container-build`
 
-<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"devops","legacy":true,"name":"container-build","path":"skills/devops/container-build.SKILL.md","posture":"reference-only","review_fingerprint":"d5ee6350974ac2a515a9f8ffd450a34e3de5b3e88660a1fa5d6283c322d250b0","risk_level":"low","trust_tier":"unvetted","version":"1.0.1"} -->
+<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"devops","legacy":true,"name":"container-build","path":"skills/devops/container-build.SKILL.md","posture":"reference-only","review_fingerprint":"788546d87b1ceae91f2696a95696d137106b515c651ddf8208a92670b586e15e","risk_level":"low","trust_tier":"unvetted","version":"1.0.2"} -->
 
 - **Manifest:** [container-build.SKILL.md](../skills/devops/container-build.SKILL.md)
 - **Function:** Provides legacy multi-stage container build, numeric non-root
@@ -817,24 +805,24 @@ scope, rollback, and post-action readback.
 
 ### `deploy-gate`
 
-<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read"],"category":"devops","legacy":false,"name":"deploy-gate","path":"skills/devops/deploy-gate.SKILL.md","posture":"manual-only","review_fingerprint":"9109023eaf0254a2ad1beeff90355a7a63e885766058fcb27e23db833fcaba4e","risk_level":"medium","trust_tier":"unvetted","version":"1.0.0"} -->
+<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read"],"category":"devops","legacy":false,"name":"deploy-gate","path":"skills/devops/deploy-gate.SKILL.md","posture":"manual-only","review_fingerprint":"c5748a6eeda3e3d003c4bd677378fa2dfe7250c5febcbbe97b7d2993cbcc620b","risk_level":"medium","trust_tier":"unvetted","version":"1.0.1"} -->
 
 - **Manifest:** [deploy-gate.SKILL.md](../skills/devops/deploy-gate.SKILL.md)
 - **Function:** Portable execution gate: no deployment without named authorisation, a rehearsed rollback and pasted pre-flight evidence.
 - **Use when:** Any deploy, release or environment mutation.
 - **Do not use when:** Local development runs that mutate nothing shared.
-- **Inputs and output:** No parameters or tools; gate text only.
-- **Authority and effects:** Manual-only: the named human authorises; the agent prepares and stops.
-- **Kaidera action:** Manual-only: the Kaidera production gate is the CTO's go; the agent acts up to it and cannot pass it.
+- **Inputs and output:** Required `action`; file reading inspects target, authorisation, quality, recovery and verification evidence.
+- **Authority and effects:** Advisory `READY` or `BLOCKED` only. The authorised operator performs any push, PR, merge, release or deployment.
+- **Kaidera action:** Preserve valid existing authorisation; request a new decision only for an uncovered scope or changed target.
 
 ### `deploy-to-dev`
 
-<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"devops","legacy":true,"name":"deploy-to-dev","path":"skills/devops/deploy-to-dev.SKILL.md","posture":"manual-only","review_fingerprint":"3be6444aff26183243da2edcb4323cf03680fd377e69d34703c7851491f5d6d1","risk_level":"medium","trust_tier":"unvetted","version":"3.0.2"} -->
+<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"devops","legacy":true,"name":"deploy-to-dev","path":"skills/devops/deploy-to-dev.SKILL.md","posture":"manual-only","review_fingerprint":"40b40ad1168fd74c863b6075ffe178d96457459116a76ff56b57640babddf280","risk_level":"medium","trust_tier":"unvetted","version":"3.0.3"} -->
 
 - **Manifest:** [deploy-to-dev.SKILL.md](../skills/devops/deploy-to-dev.SKILL.md)
 - **Function:** Describes a legacy sprint-branch push, GitHub Actions build,
   image publication, GitOps update, ArgoCD sync, health verification, and
-  rollback sequence for `dev.kaidera.app`.
+  rollback sequence for the historical `dev.engenai.app`.
 - **Use when:** Historical incident/release analysis only, or after a human has
   independently confirmed that every named environment and pipeline fact is
   still exact.
@@ -857,13 +845,13 @@ scope, rollback, and post-action readback.
 - **Function:** Portable execution gate: infrastructure objects follow the naming contract before they are created.
 - **Use when:** Creating resources, environments, buckets, clusters, secrets or DNS names.
 - **Do not use when:** Renaming existing production resources without a migration plan.
-- **Inputs and output:** No parameters or tools; gate text only.
-- **Authority and effects:** Manual-only: names are checked against the contract by the operator before creation.
-- **Kaidera action:** Manual-only: keep the naming contract in the owning repository; this gate points at it.
+- **Inputs and output:** Required `resource_name`; file reading compares it with the supplied naming contract.
+- **Authority and effects:** Advisory naming assessment; no resource creation or rename.
+- **Kaidera action:** Keep the naming contract and migration ownership in the owning project.
 
 ### `k8s-deploy`
 
-<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"devops","legacy":true,"name":"k8s-deploy","path":"skills/devops/k8s-deploy.SKILL.md","posture":"reference-only","review_fingerprint":"eae3f56c32f1846eb27913d8c6b560ff85cf30d161ef8bfb206c067035a930d3","risk_level":"low","trust_tier":"unvetted","version":"1.0.1"} -->
+<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"devops","legacy":true,"name":"k8s-deploy","path":"skills/devops/k8s-deploy.SKILL.md","posture":"reference-only","review_fingerprint":"548a711219aba090fb53bbcc4ef5b3fdc381bc8ac6dd1a15a9c39234a1bb6527","risk_level":"low","trust_tier":"unvetted","version":"1.0.2"} -->
 
 - **Manifest:** [k8s-deploy.SKILL.md](../skills/devops/k8s-deploy.SKILL.md)
 - **Function:** Provides legacy Kubernetes deployment and network-policy
@@ -883,7 +871,7 @@ scope, rollback, and post-action readback.
 
 ### `sprint-closing`
 
-<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"devops","legacy":true,"name":"sprint-closing","path":"skills/devops/sprint-closing.SKILL.md","posture":"manual-only","review_fingerprint":"d5c40b70f1fa449d643e5cafb01c00b2e6fc21596f9252f4e283fa62ed979eb1","risk_level":"low","trust_tier":"unvetted","version":"2.0.1"} -->
+<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"devops","legacy":true,"name":"sprint-closing","path":"skills/devops/sprint-closing.SKILL.md","posture":"manual-only","review_fingerprint":"2a400bdca502e39c9b6c684ae5645191deaa7f65d34a1a803afac1b2246787f8","risk_level":"low","trust_tier":"unvetted","version":"2.0.2"} -->
 
 - **Manifest:** [sprint-closing.SKILL.md](../skills/devops/sprint-closing.SKILL.md)
 - **Function:** Defines six legacy phases: verify work, update docs, record
@@ -902,7 +890,7 @@ scope, rollback, and post-action readback.
 
 ### `terraform-module`
 
-<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"devops","legacy":true,"name":"terraform-module","path":"skills/devops/terraform-module.SKILL.md","posture":"manual-only","review_fingerprint":"72b0563cc8e82b2e5d14cf33f37da8f233632098411a6d4da49b2086fdc45e4e","risk_level":"low","trust_tier":"unvetted","version":"1.0.2"} -->
+<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"devops","legacy":true,"name":"terraform-module","path":"skills/devops/terraform-module.SKILL.md","posture":"manual-only","review_fingerprint":"495c069bfac36391135059dd8967f872174d883ccb0bbd0ee9076060d7df50e2","risk_level":"low","trust_tier":"unvetted","version":"1.0.3"} -->
 
 - **Manifest:** [terraform-module.SKILL.md](../skills/devops/terraform-module.SKILL.md)
 - **Function:** Provides legacy GCP module layout, GCS state, plan/apply,
@@ -925,16 +913,15 @@ scope, rollback, and post-action readback.
 Writing and documentation guidance. Reference-only unless a manifest says otherwise.
 ### `human-voice`
 
-<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"documentation","legacy":false,"name":"human-voice","path":"skills/documentation/human-voice.SKILL.md","posture":"reference-only","review_fingerprint":"085a5703a7da2c2e83f768f25cee68f9c956b574ebe0ef872f30a31b7abd13fb","risk_level":"low","trust_tier":"unvetted","version":"1.0.0"} -->
+<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"documentation","legacy":false,"name":"human-voice","path":"skills/documentation/human-voice.SKILL.md","posture":"reference-only","review_fingerprint":"b217488727481ec55ec5dd060995743d907a1e2196e7c0ea5e981bd5cccd37b1","risk_level":"low","trust_tier":"unvetted","version":"1.0.1"} -->
 
 - **Manifest:** [human-voice.SKILL.md](../skills/documentation/human-voice.SKILL.md)
 - **Function:** Writing guidance for prose that reads as a person wrote it: rhythm, specificity, no filler, no machine tells.
 - **Use when:** Drafting customer-facing text, docs, changelogs, release notes or messages where tone matters.
 - **Do not use when:** Code, logs, evidence tables or any artifact whose format is fixed by a contract.
-- **Inputs and output:** No parameters or tools; reference only.
+- **Inputs and output:** Authorised samples and supplied prose; response contains an observed voice profile, limits and rewrite. No file persistence or colleague contact is performed.
 - **Authority and effects:** No side effects; style guidance only.
 - **Kaidera action:** Reference-only: fold examples from `skills/documentation/EXAMPLES.md`; keep it out of evidence artifacts.
-
 
 ## Research skills
 
@@ -979,7 +966,7 @@ Writing and documentation guidance. Reference-only unless a manifest says otherw
 
 ### `code-review-security`
 
-<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"security","legacy":true,"name":"code-review-security","path":"skills/security/code-review-security.SKILL.md","posture":"rework-before-use","review_fingerprint":"106f89f6138b9781226b289a8323794eb57c55a0cd2b2816ff453f3391d07ff8","risk_level":"low","trust_tier":"unvetted","version":"1.1.0"} -->
+<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"security","legacy":true,"name":"code-review-security","path":"skills/security/code-review-security.SKILL.md","posture":"rework-before-use","review_fingerprint":"d8820e9cbda21da60e3dd5f2c558da0e0757fbc3e1b4f3d9ce929bbc83456ac6","risk_level":"low","trust_tier":"unvetted","version":"1.1.2"} -->
 
 - **Manifest:** [code-review-security.SKILL.md](../skills/security/code-review-security.SKILL.md)
 - **Function:** Supplies an EnGenAI-specific OWASP, authentication,
@@ -998,51 +985,27 @@ Writing and documentation guidance. Reference-only unless a manifest says otherw
 
 ### `dependency-audit`
 
-<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"security","legacy":true,"name":"dependency-audit","path":"skills/security/dependency-audit.SKILL.md","posture":"rework-before-use","review_fingerprint":"f550079b886dad8d523866b89fc15d00cdcb1a6c3283588e5e6fa43db7fbc2b1","risk_level":"low","trust_tier":"unvetted","version":"1.0.1"} -->
+<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"security","legacy":true,"name":"dependency-audit","path":"skills/security/dependency-audit.SKILL.md","posture":"rework-before-use","review_fingerprint":"da0b5d45b18aa98f922956a18a4da1135c2f662b594fe4c714fff38ff41489bf","risk_level":"low","trust_tier":"unvetted","version":"1.0.2"} -->
 
 - **Manifest:** [dependency-audit.SKILL.md](../skills/security/dependency-audit.SKILL.md)
-- **Function:** Describes Python/npm vulnerability scanning, Bandit, package
-  updates, tests, pinning, supply-chain review, CI installation, licence checks,
-  and remediation decisions.
-- **Use when:** As a legacy checklist or source for a future governed dependency
-  evidence workflow.
-- **Do not use when:** It would install scanners, query registries/OSV/PyPI/npm,
-  run `npx`, write reports, edit locks/requirements, patch packages, or run tests
-  under its empty capabilities and low risk.
-- **Inputs and output:** No declared inputs/tools despite network, install,
-  execution, write, and remediation examples.
-- **Authority and effects:** Runtime use is blocked. Scanner provenance,
-  database freshness, network egress, report custody, licences, and fixes need
-  separate exact contracts.
-- **Kaidera action:** Split inventory, offline evidence collection, legal review,
-  and remediation into distinct skills/workflows with pinned tools and schemas.
-  Its blanket GPL/LGPL commercial-compatibility rule, arbitrary downloads, and
-  recency heuristics are not legal or supply-chain proof; route licence
-  conclusions to ratified legal/policy review.
+- **Function:** Separates locked dependency inventory, fresh advisory evidence, reachability, licence-owner rulings and remediation proposals.
+- **Use when:** Reviewing supplied inventory and scanner output under the project's own response policy.
+- **Do not use when:** Installing tools, querying package registries, updating dependencies or ruling on licence compatibility without its authorised workflow/owner.
+- **Inputs and output:** Supplied lockfiles and scanner/advisory receipts produce a package-by-package ledger of exposure, non-applicability, unknowns and proposed remediation.
+- **Authority and effects:** Read-only reference. Popularity and recent commits do not establish safety; legal compatibility is an owner decision.
+- **Kaidera action:** Source candidate removes unpinned automatic installs and blanket licence conclusions. Tool/runtime qualification remains open.
 
 ### `incident-response`
 
-<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"security","legacy":true,"name":"incident-response","path":"skills/security/incident-response.SKILL.md","posture":"rework-before-use","review_fingerprint":"1af7637e4b44cb9d4ef190645f8f4bc42ee97c38e83d197c97cd141b295c1a0f","risk_level":"low","trust_tier":"unvetted","version":"1.0.2"} -->
+<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"security","legacy":true,"name":"incident-response","path":"skills/security/incident-response.SKILL.md","posture":"rework-before-use","review_fingerprint":"08d695aae14ba47f6c39c8e5f8536c59ea707ce77581f7c1ff29de22ba1d55c9","risk_level":"low","trust_tier":"unvetted","version":"1.0.3"} -->
 
 - **Manifest:** [incident-response.SKILL.md](../skills/security/incident-response.SKILL.md)
-- **Function:** Defines legacy severity classification, SIEM/Kubernetes triage,
-  kill switches, pod quarantine, evidence export, root cause, skill rejection,
-  recovery, and post-incident review.
-- **Use when:** Historical runbook analysis or controlled tabletop exercises
-  after current incident command and evidence-custody policy are supplied.
-- **Do not use when:** Accessing production, using admin tokens/DB URLs, changing
-  Redis kill switches, cordoning/scaling infrastructure, exporting customer
-  evidence, rejecting skills, or clearing containment under this manifest.
-- **Inputs and output:** No declared parameters/tools; the body assumes highly
-  privileged cluster, database, Redis, admin API, file-write, and network access.
-- **Authority and effects:** Destructive and security-critical. The source
-  contains an unsafe order that scales workers to zero before capturing their
-  logs, risking loss of volatile evidence; `/tmp` exports also lack hash and
-  chain-of-custody receipts. Credentials and a human alone do not repair this.
-- **Kaidera action:** Rework before use, then keep the replacement human-gated.
-  Rebuild around current incident command, preservation before mutation,
-  evidence custody, rollback, and exact readback; never inject credentials or
-  executable containment commands as ordinary skill context.
+- **Function:** Coordinates bounded incident identification, restricted evidence custody, authorised containment, verified recovery and owned follow-up.
+- **Use when:** Preparing an incident response record or tabletop against the owning service's current incident commander and controlled runbooks.
+- **Do not use when:** Performing containment, querying production, exporting sensitive data or announcing resolution without separately authorised operators and receipts.
+- **Inputs and output:** Supplied incident context and evidence produce a coordination ledger; this no-tool reference performs no privileged commands.
+- **Authority and effects:** The incident commander owns containment decisions. Preserve evidence before destructive changes where feasible; record an authorised immediate-harm exception when containment must come first.
+- **Kaidera action:** Source candidate removes assumed Redis/Kubernetes operations and historical people. Independent runbook acceptance remains open before operational use.
 
 ### `prompt-injection-test`
 
@@ -1065,7 +1028,7 @@ Writing and documentation guidance. Reference-only unless a manifest says otherw
 
 ### `security-context`
 
-<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"security","legacy":true,"name":"security-context","path":"skills/security/security-context.SKILL.md","posture":"reference-only","review_fingerprint":"40cfdd9e79fda89d1973581dcc076654c8fec51d8a593546f16c8dee4787f2aa","risk_level":"low","trust_tier":"unvetted","version":"1.0.1"} -->
+<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"security","legacy":true,"name":"security-context","path":"skills/security/security-context.SKILL.md","posture":"reference-only","review_fingerprint":"7b549925a8195a8eba4cc17f3d458990bd6e62cab2d439ba554bf495aa97c43d","risk_level":"low","trust_tier":"unvetted","version":"1.0.2"} -->
 
 - **Manifest:** [security-context.SKILL.md](../skills/security/security-context.SKILL.md)
 - **Function:** Summarises the legacy Lethal Trifecta threat model, Sprint 22
@@ -1089,12 +1052,12 @@ capability gates.
 
 | Request | Expected route |
 |---|---|
-| “Review my staged change and give me only reproducible defects.” | `open-code-review`, target `staged` |
-| “Audit this entire authentication module for health and architecture debt.” | `ultrareview`, but only after its capability contract is repaired |
+| “Review my staged change and give me only reproducible defects.” | `evidence-code-review`, target `staged` |
+| “Audit this entire authentication module for health and architecture debt.” | `codebase-audit`, but only after its capability contract is repaired |
 | “Does this pricing default make sense, independent of whether the code works?” | `assumption-validation` |
 | “Write a research brief comparing three provider strategies.” | `research-brief` |
 | “Find decision makers matching our customer profile and return a sourced list here.” | `marketing-web-research`, with a separately approved host workflow |
-| “Use the EnGenAI security checklist while reviewing this patch.” | No automatic route; reverify individual legacy checks under `open-code-review` |
+| “Use the EnGenAI security checklist while reviewing this patch.” | No automatic route; reverify individual legacy checks under `evidence-code-review` |
 | “Show the historical branch and PR conventions.” | No runtime route; consult `git-workflow` only as quarantined historical evidence pending rework |
 | “Deploy this to dev now.” | No automatic skill route; separately authorised deployment workflow required |
 | “Shut down the compromised worker fleet.” | No automatic skill route; current incident commander and controlled runbook required |
@@ -1125,8 +1088,8 @@ silently.
 ### Review versus remediation
 
 Review and audit skills remain read-only. A review request does not imply
-permission to fix findings. `ultrareview` currently exposes `fix_mode`; that is
-one reason it is classified rework-before-use. Kaidera should use a separate
+permission to fix findings. `codebase-audit` is strictly read-only; its source contract is repaired, but
+independent acceptance and a qualified runtime remain required before use. Kaidera should use a separate
 implementation/remediation workflow with its own authority, target, tests, and
 readback.
 
@@ -1134,7 +1097,7 @@ readback.
 
 Supporting security context can raise questions and propose candidate checks,
 but the selected primary reviewer owns evidence, deduplication, coverage, and
-the verdict. This prevents `code-review`, `open-code-review`, `ultrareview`, and
+the verdict. This prevents `code-review`, `evidence-code-review`, `codebase-audit`, and
 `code-review-security` from issuing irreconcilable conclusions for one target.
 
 ## Lifecycle from source to runtime
@@ -1151,7 +1114,7 @@ the verdict. This prevents `code-review`, `open-code-review`, `ultrareview`, and
 | Runtime use | Host verifies evidence again and records invocation receipt | Not established by this repository |
 | Evolution | Versioned change, regression evaluation, reapproval, rollback | Target policy only |
 
-The three static-evaluated skills are `open-code-review`,
+The three static-evaluated skills are `evidence-code-review`,
 `assumption-validation`, and `research-brief`. Their evaluator claim is exactly
 `STATIC_CONTRACT_ONLY`; it does not exercise a model, host loader, tool, network,
 write path, or sandbox.
@@ -1173,32 +1136,24 @@ The legacy sources also disagree with one another. `container-build` and
 `027`. No combined legacy runbook or context bundle is coherent current-state
 evidence; resolve each fact against its owning source.
 
-### Capability/body mismatches
+### Capability/body reconciliation and remaining gates
 
-The current strict manifest validator checks declared fields but does not prove
-that every instruction in every body stays inside those declarations. Confirmed
-examples include:
+The strict validator checks declared fields; it does not prove runtime containment.
+This candidate converts performance-profiling, dependency-audit, database-migration,
+git-workflow, tdd-workflow, terraform-module and incident-response into scoped
+references. codebase-audit now declares file/interpreter review capability and
+forbids source edits, URLs without a separate fetch scope and implicit installations.
+code-review returns proposed records/readiness rather than ordering merges or notices.
+Historical context/deployment/security runbooks are explicitly non-operational.
 
-- `performance-profiling`: bearer-token HTTP, live Kubernetes, process
-  profiling, database queries, Redis access, installs, and index creation while
-  declaring low risk and no tools;
-- `dependency-audit`: registry-backed scanners, package installation, `npx`,
-  report writes, dependency edits, and test execution while declaring low risk
-  and no tools;
-- `ultrareview`: repository reads, Git history, potential URLs, tools/subagents,
-  and opt-in writes while declaring low risk and no tools;
-- `code-review`: merge, sprint-log, and external state postconditions plus stale
-  product controls under a no-tool/read-only manifest;
-- `sprint-context`, `database-migration`, `git-workflow`, and `tdd-workflow`:
-  Git, database, code-write, deploy, or test execution described by no-tool
-  reference manifests; and
-- `deploy-to-dev`, `sprint-closing`, `terraform-module`, and
-  `incident-response`: operational mutation described by no-tool reference
-  manifests.
-
-The posture labels in this guide prevent those gaps from being hidden, but they
-are not runtime enforcement. Complete body-to-capability reconciliation remains
-a prerequisite for binding any catalogue skill.
+These source corrections remove or explicitly scope and qualify contradictory
+instructions. Remaining illustrative commands and records require adoption by the
+owning workflow. They are not proof of installation, tool qualification, execution
+containment or acceptance.
+Keep each reviewed posture and the Gate 3/4 holds. Externally canonical Gavel/Jev/SDLC
+projections remain frozen; their reviewed source migration and licence-owner ruling
+are separate gates. A real executable workflow must have its own exact scope,
+capabilities, accepted plan and receipts before runtime binding.
 
 ### Licensing and attribution
 
@@ -1217,14 +1172,16 @@ source-qualified IDs, not first-match filename resolution.
 
 ## Recommended portfolio roadmap
 
-1. Keep `open-code-review`, `assumption-validation`, and `research-brief` as the
+1. Keep `evidence-code-review`, `assumption-validation`, and `research-brief` as the
    first bounded candidates; do not promote them until Gate 3/4.
-2. Repair `ultrareview` as a strictly read-only whole-codebase audit and move
-   all fix behaviour to a separate implementation skill.
-3. Rebuild `dependency-audit` as distinct inventory, offline evidence,
-   licence-review, and remediation workflows with pinned tools and schemas.
-4. Replace `incident-response` with a minimal human-gated index and controlled
-   runbooks that preserve evidence before containment mutations.
+2. Independently accept and qualify the repaired read-only `codebase-audit`
+   source, its coverage accounting and router separation; implementation remains
+   a separately scoped workflow.
+3. Qualify the repaired `dependency-audit` reference against distinct inventory,
+   offline evidence, licence-review and remediation workflows with pinned tools
+   and schemas.
+4. Accept the repaired `incident-response` reference only through current
+   human-governed runbooks and qualified evidence-preservation/containment rules.
 5. Replace legacy context files with current repository-bound Kaidera context,
    preserving historical compatibility notes separately.
 6. Create one `systematic-diagnosis` skill after proving it does not collide
