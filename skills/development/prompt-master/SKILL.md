@@ -311,7 +311,7 @@ First detect: generation from scratch or editing an existing image?
 
 **Image AI — Reference Editing** (when user has an existing image to modify)
 Detect when: user mentions "change", "edit", "modify", "adjust" anything in an existing image, or uploads a reference.
-Always instruct the user to attach the reference image to the tool first. Build the prompt around the delta ONLY — what changes, what stays the same.
+Use the reference already available to the target tool; request attachment only when it is missing. Build the prompt around the delta ONLY — what changes, what stays the same.
 Read references/templates.md Template J for the full reference editing template.
 
 ---

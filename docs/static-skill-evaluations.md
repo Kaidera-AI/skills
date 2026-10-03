@@ -115,8 +115,9 @@ process-memory attestation, signature, provenance, or approval evidence.
   network containment, and no model behaviour is exercised.
 - **Gate 4 HOLD:** no ratified human trust root, signing, provenance, or review
   approval is established.
-- **Loader HOLD:** same-name/source collisions such as the Alibaba and Kaidera
-  `evidence-code-review` skills still require source-qualified mutual exclusion in
-  the host loader; prompt fixtures cannot repair an injection collision.
+- **Loader HOLD:** Kaidera's candidate is named `evidence-code-review`; Alibaba's
+  separate delegate remains `open-code-review`. Existing hosts still using the old
+  Kaidera identity need an accepted source-qualified migration/mutual exclusion;
+  prompt fixtures cannot repair an already injected identity collision.
 
 All evaluated skills and all marketplace entries remain `unvetted`.

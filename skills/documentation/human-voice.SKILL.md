@@ -191,8 +191,10 @@ human writing, and several are the opposite of what people assume:
 
 ### Preserving a named person's voice
 
-The fingerprint from step 1, in detail. Capture eight things from at least ten unedited
-samples, and write them down as a profile you maintain rather than rebuild each time.
+The fingerprint from step 1, in detail. Capture the following observations from
+the authorised samples actually available; with sparse evidence, state uncertainty
+and use the general style fallback. Keep the profile in the response by default.
+External profile persistence requires its separately authorised owner workflow.
 
 1. **Sentence rhythm and length.** Measure it: shortest sentence, longest sentence, typical paragraph length. Someone who writes "It can execute. Brilliantly." has a one-word-sentence habit, delete it and the voice dies. Someone who runs to sixty-word sentences with three subordinate clauses is not improved by being cut into fragments.
 2. **Habitual openings.** Most people have two or three and reuse them: a number, a date, a moment, a question someone asked them, a flat problem statement. Also record what they never open with.
@@ -206,8 +208,9 @@ samples, and write them down as a profile you maintain rather than rebuild each 
 While writing: keep the quirks a copy-editor would remove; match their level of
 certainty rather than making them punchier or softer; use their evidence rather than
 generic evidence; match their formatting habits including the ones you dislike; never
-smooth an uneven rhythm, because regularity is the machine tell. Update the profile
-every time they edit your draft, their edits are the best signal available.
+smooth an uneven rhythm, because regularity is the machine tell. Use authorised
+edits as evidence for the in-response profile; retain or update an external profile
+only within its separately authorised persistence scope.
 
 ### Editor's checklist
 

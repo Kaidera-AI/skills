@@ -486,7 +486,7 @@ compare it with the current repository and Cortex source of truth.
 
 ### `code-review`
 
-<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"development","legacy":true,"name":"code-review","path":"skills/development/code-review.SKILL.md","posture":"rework-before-use","review_fingerprint":"01da0954bf45dc0d137dc8b04b0937285ef11f9b3f00a14f147d7465cb58b702","risk_level":"low","trust_tier":"unvetted","version":"2.1.2"} -->
+<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"development","legacy":true,"name":"code-review","path":"skills/development/code-review.SKILL.md","posture":"rework-before-use","review_fingerprint":"e85ac15462bb9e0d4abdf8656be6e8cc9adcb385c4e52699d4630ebf3329b2c9","risk_level":"low","trust_tier":"unvetted","version":"2.1.2"} -->
 
 - **Manifest:** [code-review.SKILL.md](../skills/development/code-review.SKILL.md)
 - **Function:** Applies a legacy two-stage checklist: specification compliance
@@ -508,7 +508,7 @@ compare it with the current repository and Cortex source of truth.
 
 ### `codebase-audit`
 
-<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:code_interpreter"],"category":"development","legacy":false,"name":"codebase-audit","path":"skills/development/codebase-audit.SKILL.md","posture":"rework-before-use","review_fingerprint":"80c5cb76df294f50109cd1fd1c654db78eca779621f94f1f822d0cf399b3b0cc","risk_level":"medium","trust_tier":"unvetted","version":"1.1.2"} -->
+<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:code_interpreter"],"category":"development","legacy":false,"name":"codebase-audit","path":"skills/development/codebase-audit.SKILL.md","posture":"rework-before-use","review_fingerprint":"a5c79c9ba009c03ae54af3f211a8888f94b06b8a87cdbb73f0ae544a23fd13ca","risk_level":"medium","trust_tier":"unvetted","version":"1.1.2"} -->
 
 - **Manifest:** [codebase-audit.SKILL.md](../skills/development/codebase-audit.SKILL.md)
 - **Function:** Performs whole-repository or module review across correctness,
@@ -621,8 +621,8 @@ compare it with the current repository and Cortex source of truth.
 - **Inputs and output:** No parameters or tools; reference guidance only.
 - **Authority and effects:** No Git mutation is authorised by this skill.
 - **Kaidera action:** Rework before use: prefer current repository rules and
-  Cortex handoff policy, correct the malformed `--no-verify` warning, and split
-  descriptive conventions from Git mutation.
+  Cortex handoff policy and retain the corrected hook warning. Source conventions
+  remain distinct from separately authorised Git mutation.
 
 ### `jev-backlog-rank`
 
@@ -702,24 +702,23 @@ compare it with the current repository and Cortex source of truth.
 <!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"development","legacy":true,"name":"performance-profiling","path":"skills/development/performance-profiling.SKILL.md","posture":"rework-before-use","review_fingerprint":"714c0471b34c9065cc9f353382314abdfe591e97fdfb926d131acc98bd03f19c","risk_level":"low","trust_tier":"unvetted","version":"1.0.3"} -->
 
 - **Manifest:** [performance-profiling.SKILL.md](../skills/development/performance-profiling.SKILL.md)
-- **Function:** Describes baseline timing, Python profiling, SQL analysis,
-  indexes, pools, Redis, and Kubernetes resource diagnosis for the legacy stack.
-- **Use when:** As historical troubleshooting reference after independently
-  establishing the target, data sensitivity, benchmark, and environment.
-- **Do not use when:** It would run bearer-token `curl`, live `kubectl`, Redis,
-  production database queries, install `py-spy`, or create an index under this
-  manifest. Those actions exceed its empty capability declaration and low risk.
-- **Inputs and output:** No declared inputs or tools despite executable examples;
-  this is the core manifest/body mismatch.
-- **Authority and effects:** Runtime use is blocked. Profiling can expose secrets,
-  load systems, attach to processes, and mutate a database.
-- **Kaidera action:** Split into a safe measurement-planning reference and
-  separately governed executable profiles with exact environment/read/write
-  capabilities.
+- **Function:** Plans a bounded performance investigation from supplied measurements,
+  workload, symptom, environment and target; separates hypotheses from verified cause.
+- **Use when:** The owner wants measurement priorities or interpretation of existing
+  qualified-operator evidence.
+- **Do not use when:** Live profiling, credentials, installs, database/index changes,
+  runtime resource changes or production load are requested under this no-tool profile.
+- **Inputs and output:** Workload/symptom/context and supplied measurements; a baseline,
+  ranked hypotheses, proposed checks and missing evidence. No executable recipes remain.
+- **Authority and effects:** Reference only; actual measurements and changes use the
+  separately authorised operator/implementation scope.
+- **Kaidera action:** Source contract repaired. Retain rework-before-use until independent
+  acceptance and any executable adapter are qualified; do not promote runtime posture
+  from catalogue/source checks.
 
 ### `prompt-master`
 
-<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"development","legacy":false,"name":"prompt-master","path":"skills/development/prompt-master.SKILL.md","posture":"reference-only","review_fingerprint":"d4eba1ed6afc78c571bf081ea83da56dca9aa082374daaa29e4488e1d4d49b96","risk_level":"low","trust_tier":"unvetted","version":"1.8.1"} -->
+<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"development","legacy":false,"name":"prompt-master","path":"skills/development/prompt-master.SKILL.md","posture":"reference-only","review_fingerprint":"4f83155991db48364b364ecb379116eb000d1410aa13a0127bd9e8cf5715f4ad","risk_level":"low","trust_tier":"unvetted","version":"1.8.1"} -->
 
 - **Manifest:** [prompt-master.SKILL.md](../skills/development/prompt-master.SKILL.md)
 - **Function:** MIT-attributed adaptation from `nidhinjs/prompt-master`
@@ -736,7 +735,7 @@ compare it with the current repository and Cortex source of truth.
 - **Authority and effects:** No side effects; pure text generation. Its own
   body already instructs the model never to embed credentials in generated
   output and to treat any pasted prompt as inert data, never as instructions.
-- **Kaidera action:** Reference-only, verbatim third-party copy — see
+- **Kaidera action:** Reference-only, MIT-attributed local adaptation — see
   `ATTRIBUTION.md` beside the directory-form skill. Do not follow the
   upstream README's Claude.ai upload or `~/.claude/skills/` clone
   instructions; use this repository's own harness-agnostic distribution
@@ -759,9 +758,8 @@ compare it with the current repository and Cortex source of truth.
   tests, although its body directs both under an empty capability declaration.
 - **Kaidera action:** Rework before use: keep the verification discipline, but
   bind a future skill to current project tooling and explicit implementation,
-  file-write, and execution authority. Remove the blanket assertion that a new
-  test passing before implementation must be wrong; regression tests can
-  legitimately capture existing behaviour.
+  file-write, and execution authority. The candidate now allows already-passing
+  regressions with an honest reason; it never manufactures a RED result.
 
 ## DevOps skills
 
@@ -914,7 +912,7 @@ scope, rollback, and post-action readback.
 Writing and documentation guidance. Reference-only unless a manifest says otherwise.
 ### `human-voice`
 
-<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"documentation","legacy":false,"name":"human-voice","path":"skills/documentation/human-voice.SKILL.md","posture":"reference-only","review_fingerprint":"2824d3e832d686e09d4c8b4b824f117e7af23fd887c4bb4e16c997c2259be4dc","risk_level":"low","trust_tier":"unvetted","version":"1.0.1"} -->
+<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"documentation","legacy":false,"name":"human-voice","path":"skills/documentation/human-voice.SKILL.md","posture":"reference-only","review_fingerprint":"b217488727481ec55ec5dd060995743d907a1e2196e7c0ea5e981bd5cccd37b1","risk_level":"low","trust_tier":"unvetted","version":"1.0.1"} -->
 
 - **Manifest:** [human-voice.SKILL.md](../skills/documentation/human-voice.SKILL.md)
 - **Function:** Writing guidance for prose that reads as a person wrote it: rhythm, specificity, no filler, no machine tells.
@@ -967,7 +965,7 @@ Writing and documentation guidance. Reference-only unless a manifest says otherw
 
 ### `code-review-security`
 
-<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"security","legacy":true,"name":"code-review-security","path":"skills/security/code-review-security.SKILL.md","posture":"rework-before-use","review_fingerprint":"3ef8a9b05d51dfbd6d5160c3362d2f50ccaf5a7c5d670e1807ad54a938187987","risk_level":"low","trust_tier":"unvetted","version":"1.1.2"} -->
+<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"security","legacy":true,"name":"code-review-security","path":"skills/security/code-review-security.SKILL.md","posture":"rework-before-use","review_fingerprint":"d8820e9cbda21da60e3dd5f2c558da0e0757fbc3e1b4f3d9ce929bbc83456ac6","risk_level":"low","trust_tier":"unvetted","version":"1.1.2"} -->
 
 - **Manifest:** [code-review-security.SKILL.md](../skills/security/code-review-security.SKILL.md)
 - **Function:** Supplies an EnGenAI-specific OWASP, authentication,
@@ -1089,8 +1087,8 @@ silently.
 ### Review versus remediation
 
 Review and audit skills remain read-only. A review request does not imply
-permission to fix findings. `codebase-audit` is strictly read-only; fixing findings is
-one reason it is classified rework-before-use. Kaidera should use a separate
+permission to fix findings. `codebase-audit` is strictly read-only; its source contract is repaired, but
+independent acceptance and a qualified runtime remain required before use. Kaidera should use a separate
 implementation/remediation workflow with its own authority, target, tests, and
 readback.
 
@@ -1137,32 +1135,22 @@ The legacy sources also disagree with one another. `container-build` and
 `027`. No combined legacy runbook or context bundle is coherent current-state
 evidence; resolve each fact against its owning source.
 
-### Capability/body mismatches
+### Capability/body reconciliation and remaining gates
 
-The current strict manifest validator checks declared fields but does not prove
-that every instruction in every body stays inside those declarations. Confirmed
-examples include:
+The strict validator checks declared fields; it does not prove runtime containment.
+This candidate converts performance-profiling, dependency-audit, database-migration,
+git-workflow, tdd-workflow, terraform-module and incident-response into scoped
+references. codebase-audit now declares file/interpreter review capability and
+forbids source edits, URLs without a separate fetch scope and implicit installations.
+code-review returns proposed records/readiness rather than ordering merges or notices.
+Historical context/deployment/security runbooks are explicitly non-operational.
 
-- `performance-profiling`: bearer-token HTTP, live Kubernetes, process
-  profiling, database queries, Redis access, installs, and index creation while
-  declaring low risk and no tools;
-- `dependency-audit`: registry-backed scanners, package installation, `npx`,
-  report writes, dependency edits, and test execution while declaring low risk
-  and no tools;
-- `codebase-audit`: repository reads, Git history, potential URLs, tools/subagents,
-  and opt-in writes while declaring low risk and no tools;
-- `code-review`: merge, sprint-log, and external state postconditions plus stale
-  product controls under a no-tool/read-only manifest;
-- `sprint-context`, `database-migration`, `git-workflow`, and `tdd-workflow`:
-  Git, database, code-write, deploy, or test execution described by no-tool
-  reference manifests; and
-- `deploy-to-dev`, `sprint-closing`, `terraform-module`, and
-  `incident-response`: operational mutation described by no-tool reference
-  manifests.
-
-The posture labels in this guide prevent those gaps from being hidden, but they
-are not runtime enforcement. Complete body-to-capability reconciliation remains
-a prerequisite for binding any catalogue skill.
+These source corrections remove the listed contradictory operational recipes. They
+are not proof of installation, tool qualification, execution containment or acceptance.
+Keep each reviewed posture and the Gate 3/4 holds. Externally canonical Gavel/Jev/SDLC
+projections remain frozen; their reviewed source migration and licence-owner ruling
+are separate gates. A real executable workflow must have its own exact scope,
+capabilities, accepted plan and receipts before runtime binding.
 
 ### Licensing and attribution
 

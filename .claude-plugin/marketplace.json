@@ -424,7 +424,7 @@
     {
       "name": "code-review",
       "version": "2.1.2",
-      "description": "Lightweight, no-tool, two-stage checklist for an already completed change\nwhen the user explicitly wants specification compliance to gate a subsequent\ncode-quality pass. It does not construct immutable diff receipts or perform\nadversarial evidence review; use open-code-review for those bounded-change\nguarantees and ultrareview for whole-codebase health audits.\n",
+      "description": "Lightweight, no-tool, two-stage checklist for an already completed change\nwhen the user explicitly wants specification compliance to gate a subsequent\ncode-quality pass. It does not construct immutable diff receipts or perform\nadversarial evidence review; use evidence-code-review for those bounded-change\nguarantees and codebase-audit for whole-codebase health audits.\n",
       "category": "development",
       "trust_tier": "unvetted",
       "risk_level": "low",
@@ -444,7 +444,7 @@
         "spec-compliance",
         "code-quality"
       ],
-      "content_hash": "752668364560ffd7403895d19492ac3753985a1f06a04581deced9eac928359f",
+      "content_hash": "3689c4918a02bab737e2e5d63af1f6f24c32a1ce2f00dcee9cfdbef5399c7014",
       "signed_by": "",
       "last_reviewed": "",
       "reviewer": "",
@@ -504,7 +504,7 @@
         "adversarial-verify",
         "read-only"
       ],
-      "content_hash": "3ad973f5f0796603ce32660ba47dd1809bb1838e6a49e016e6189531548d136a",
+      "content_hash": "a2337a5f78bf98de05753c39b84b6215c63f3ac632bd43c38fdee8ae6902771d",
       "signed_by": "",
       "last_reviewed": "",
       "reviewer": "",
@@ -1140,7 +1140,7 @@
       "file": "skills/development/prompt-master.SKILL.md",
       "attribution_author": "nidhinjs",
       "attribution_url": "https://github.com/nidhinjs/prompt-master",
-      "attribution_notes": "Adapted by Kaidera-AI from the MIT-licensed prompt-master skill by nidhinjs\n(upstream v1.8.0). Unlike an adapted marketplace entry, the instructional\nbody below is byte-identical to the upstream SKILL.md; only this frontmatter\nblock was added to satisfy the Kaidera manifest schema. The upstream\nrepository's own README recommends installing this skill through a\nClaude.ai upload flow or a `~/.claude/skills/` clone; neither is carried\nhere; consumers should use their own harness-agnostic install path and\nkeep the upstream LICENSE and this attribution with any copy they make.\n"
+      "attribution_notes": "Adapted by Kaidera-AI from the MIT-licensed prompt-master skill by nidhinjs\n(upstream v1.8.0 at commit 2bd92518e26bf659e21e3d9ab90573fcf3ddeccb).\nLocal adaptation v1.8.1 adds current-capability verification and corrects the\nunsupported DALL-E 3 Edit template; it is not a verbatim donor copy. The upstream\nrepository's own README recommends installing this skill through a\nClaude.ai upload flow or a `~/.claude/skills/` clone; neither is carried\nhere; consumers should use their own harness-agnostic install path and\nkeep the upstream LICENSE and this attribution with any copy they make.\n"
     },
     {
       "name": "tdd-workflow",
@@ -1462,7 +1462,7 @@
         "copywriting",
         "documentation"
       ],
-      "content_hash": "84b3fd0bde3ebbab0803c437f3ef85798b505f6da9177f080c093bc32eff5cc2",
+      "content_hash": "2516f34839053cc5538b059b6c7d4dcb1dc852c1546d1c46986ae2d2a3c111c0",
       "signed_by": "",
       "last_reviewed": "",
       "reviewer": "",
@@ -1590,7 +1590,7 @@
     {
       "name": "code-review-security",
       "version": "1.1.2",
-      "description": "Optional EnGenAI-specific security checklist for authentication,\nauthorisation, secrets, tenant isolation, and supply-chain review. Use only\nwhen that product-specific lens is explicitly requested; use\nopen-code-review as the evidence-gated authority for a bounded diff and treat\nthis checklist as supporting context, not a second verdict engine.\n",
+      "description": "Optional EnGenAI-specific security checklist for authentication,\nauthorisation, secrets, tenant isolation, and supply-chain review. Use only\nwhen that product-specific lens is explicitly requested; use\nevidence-code-review as the evidence-gated authority for a bounded diff and treat\nthis checklist as supporting context, not a second verdict engine.\n",
       "category": "security",
       "trust_tier": "unvetted",
       "risk_level": "low",

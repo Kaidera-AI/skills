@@ -193,9 +193,10 @@ document exists in-repo, read it and check against it; cite the spec line.
 Every `high` and `critical` finding MUST survive adversarial verification
 before it is reported as `confirmed`. Verify `medium` findings as well when `depth=deep`.
 
-For each such finding, spawn an independent verifier (a separate subagent when
-the harness allows; otherwise re-read with a refutation mindset) whose only
-job is to **refute** the finding:
+For each such finding, use an independent reviewer or separate subagent whose
+only job is to **refute** the finding. A same-agent reread is useful preparation,
+but cannot satisfy this independent-verification requirement. If that reviewer
+is unavailable, keep the candidate `unverified` and the verdict `INCOMPLETE`:
 
 - Re-read the cited `file_path:line` fresh. Does the code actually do what the
   finding claims?
@@ -205,7 +206,9 @@ job is to **refute** the finding:
 - **Record `unverified` when uncertain.** Refutation requires evidence that disproves the finding; unresolved material evidence prevents PASS.
 
 Record `verified: confirmed | refuted | unverified`, `confidence` (0.0–1.0),
-and `verifier_reason`. Confirmed findings determine CHANGES_NEEDED; unresolved material candidates and incomplete coverage also prevent PASS.
+and `verifier_reason`. Confirmed high/critical findings determine CHANGES_NEEDED;
+medium/low findings remain visible. Unresolved material candidates, missing required
+independent verification or incomplete coverage yield INCOMPLETE and prevent PASS.
 Report `refuted` findings in a separate "refuted / not actionable" section so
 the reasoning is transparent and the user can see what was considered and
 discarded — do not silently drop them.
@@ -283,6 +286,10 @@ D1 Correctness: <n> confirmed / <m> refuted — <one line>
 D2 Security: ...
 ...
 D8 Spec/contract: ...
+
+## Unresolved candidates
+- Candidate: <evidence and uncertainty>
+- Missing verification: <required independent pass or unavailable context>
 
 ## Coverage & limits
 - Inspected: <file set / count>

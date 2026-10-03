@@ -15,7 +15,10 @@ existing descriptive names when the trigger and purpose still match.
 
 The first three are source-candidate renames. This repository's manifests,
 local links, catalogue, static routing fixtures and generated marketplace use
-the candidate names together. Historical review records retain their original
+the candidate names together where this repository owns the source. The externally
+canonical kaidera-sdlc references/stages and references/code-review consumers retain
+their frozen old names until that source owner accepts a migration and regenerates
+its projection. Historical review records and protocol IDs retain their original
 identifiers. The two Jev skills remain plan proposals awaiting their review.
 
 Active Cortex identities, registration, version/body pins, dependencies,

@@ -5,7 +5,7 @@ description: |
   Optional EnGenAI-specific security checklist for authentication,
   authorisation, secrets, tenant isolation, and supply-chain review. Use only
   when that product-specific lens is explicitly requested; use
-  open-code-review as the evidence-gated authority for a bounded diff and treat
+  evidence-code-review as the evidence-gated authority for a bounded diff and treat
   this checklist as supporting context, not a second verdict engine.
 
 kaidera:

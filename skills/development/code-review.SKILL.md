@@ -5,8 +5,8 @@ description: |
   Lightweight, no-tool, two-stage checklist for an already completed change
   when the user explicitly wants specification compliance to gate a subsequent
   code-quality pass. It does not construct immutable diff receipts or perform
-  adversarial evidence review; use open-code-review for those bounded-change
-  guarantees and ultrareview for whole-codebase health audits.
+  adversarial evidence review; use evidence-code-review for those bounded-change
+  guarantees and codebase-audit for whole-codebase health audits.
 
 kaidera:
   category: development
@@ -92,7 +92,7 @@ Is the code well-built?
 
 ## Post-Conditions
 
-- Review recorded in sprint log
-- If CHECKLIST_SATISFIED: code merged or ready for merge
-- If CHANGES_NEEDED: specific actionable feedback provided
-- If BLOCKED: CTO notified with context
+- Return a proposed checklist record; any sprint-log write belongs to its authorised owner.
+- If CHECKLIST_SATISFIED: report checklist readiness and the remaining project gates.
+- If CHANGES_NEEDED: provide specific actionable feedback.
+- If BLOCKED: provide escalation context to the accountable owner; notification or merge is a separately authorised action.

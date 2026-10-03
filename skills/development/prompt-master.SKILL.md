@@ -28,9 +28,9 @@ attribution_author: nidhinjs
 attribution_url: https://github.com/nidhinjs/prompt-master
 attribution_notes: |
   Adapted by Kaidera-AI from the MIT-licensed prompt-master skill by nidhinjs
-  (upstream v1.8.0). Unlike an adapted marketplace entry, the instructional
-  body below is byte-identical to the upstream SKILL.md; only this frontmatter
-  block was added to satisfy the Kaidera manifest schema. The upstream
+  (upstream v1.8.0 at commit 2bd92518e26bf659e21e3d9ab90573fcf3ddeccb).
+  Local adaptation v1.8.1 adds current-capability verification and corrects the
+  unsupported DALL-E 3 Edit template; it is not a verbatim donor copy. The upstream
   repository's own README recommends installing this skill through a
   Claude.ai upload flow or a `~/.claude/skills/` clone; neither is carried
   here; consumers should use their own harness-agnostic install path and
@@ -350,7 +350,7 @@ First detect: generation from scratch or editing an existing image?
 
 **Image AI — Reference Editing** (when user has an existing image to modify)
 Detect when: user mentions "change", "edit", "modify", "adjust" anything in an existing image, or uploads a reference.
-Always instruct the user to attach the reference image to the tool first. Build the prompt around the delta ONLY — what changes, what stays the same.
+Use the reference already available to the target tool; request attachment only when it is missing. Build the prompt around the delta ONLY — what changes, what stays the same.
 Read references/templates.md Template J for the full reference editing template.
 
 ---
