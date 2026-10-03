@@ -19,14 +19,14 @@ kaidera:
     - csrc.nist.gov
     - google.github.io
     - www.peoplecert.org
-  content_hash: 1cf9973d4114aaab9fea910cd2c308a61631e892a7332eb6aa5d575637e299af
+  content_hash: 7df415c87d9ea919611ab4e04ec7fe0c52459f7e3461619ac171e6940b87594a
   signed_by: ""
   last_reviewed: ""
   reviewer: ""
   source:
     repo: Kaidera-AI/skills
     path: skills/development/development-workflow
-    content_sha256: 0da2487ee0a048c32b99b519435dff588668fbe4ccaea2b46fe105508e44cd6f
+    content_sha256: 9fa5cb7a8254f0522146f4ad3c9ae4d1d6245959d930658ce77bfb200c045dc6
 author: Kaidera-AI
 license: Apache-2.0
 updated: 2026-09-23
@@ -448,7 +448,7 @@ Risk levels and required controls are project policy. At minimum, elevate change
 authentication/authorization, sensitive data, cryptography, public contracts,
 multi-tenant boundaries, migrations/deletion, supply chain, deployment/secret paths,
 or safety-critical behavior. High-impact findings require explicit human disposition;
-AI cannot accept risk. Risk-based the QA owner QA supplements, but does not replace, automated
+AI cannot accept risk. Risk-based QA supplements, but does not replace, automated
 checks, the independent reviewer's independent code review, or human file review.
 
 ## Pipeline and production boundary

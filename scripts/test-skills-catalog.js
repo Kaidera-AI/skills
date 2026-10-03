@@ -35,11 +35,10 @@ const posturePolicy = new Map([
   ['bounded-candidate', new Set([
     'development-workflow',
     'assumption-validation',
-    'open-code-review',
+    'evidence-code-review',
     'research-brief',
-      'gavel',
       'kaidera-sdlc',
-    'unlazy',
+    'completion-evidence',
     'jev-backlog-rank',
     'jev-handoff-check',
     'jev-option-decision',
@@ -47,6 +46,7 @@ const posturePolicy = new Map([
 ])],
   ['reference-only', new Set([
     'jev',
+    'gavel',
     'agent-platform-context',
     'api-design',
     'api-test',
@@ -83,7 +83,7 @@ const posturePolicy = new Map([
     'performance-profiling',
     'sprint-context',
     'tdd-workflow',
-    'ultrareview',
+    'codebase-audit',
   ])],
 ])
 const legacySkills = new Set([
@@ -119,10 +119,10 @@ const currentSourceSkills = new Set([
   'development-workflow',
   'marketing-web-research',
   'assumption-validation',
-  'open-code-review',
+  'evidence-code-review',
   'prompt-injection-test',
   'research-brief',
-  'ultrareview',
+  'codebase-audit',
     'assert-fact-gate',
     'cloud-agnostic-policy',
     'deploy-gate',
@@ -132,7 +132,7 @@ const currentSourceSkills = new Set([
     'kaidera-sdlc',
     'route-handoff-gate',
     'scope-work-gate',
-    'unlazy',
+    'completion-evidence',
     'prompt-master',
 ])
 const categoryLabels = new Map([

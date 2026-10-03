@@ -1,0 +1,575 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:kaidera:open-code-review-report:v4",
+  "title": "Kaidera Open Code Review report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "verdict",
+    "review_scope",
+    "policy_receipt",
+    "target_receipt",
+    "findings",
+    "candidate_audit",
+    "coverage",
+    "validation",
+    "limits",
+    "final_readback"
+  ],
+  "properties": {
+    "schema_version": {"const": 4},
+    "verdict": {"enum": ["PASS", "ADVISORIES", "CHANGES_REQUESTED", "BLOCKED", "INCOMPLETE"]},
+    "review_scope": {"$ref": "#/$defs/reviewScope"},
+    "policy_receipt": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/policyRecord"},
+      "contains": {
+        "type": "object",
+        "properties": {"classification": {"const": "accepted-policy"}},
+        "required": ["classification"]
+      },
+      "minContains": 1
+    },
+    "target_receipt": {"$ref": "#/$defs/targetReceipt"},
+    "findings": {"type": "array", "items": {"$ref": "#/$defs/finding"}},
+    "candidate_audit": {"type": "array", "items": {"$ref": "#/$defs/candidateAudit"}},
+    "coverage": {"$ref": "#/$defs/coverage"},
+    "validation": {"type": "array", "items": {"$ref": "#/$defs/validation"}},
+    "limits": {"type": "array", "items": {"$ref": "#/$defs/limit"}},
+    "final_readback": {"$ref": "#/$defs/finalReadback"}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"verdict": {"const": "ADVISORIES"}}, "required": ["verdict"]},
+      "then": {
+        "properties": {
+          "coverage": {"type": "object", "properties": {"complete": {"const": true}, "metadata_reviewed": {"const": 0}}},
+          "final_readback": {"type": "object", "properties": {"matches_initial": {"const": true}}},
+          "findings": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "properties": {"disposition": {"const": "advisory"}},
+              "required": ["disposition"]
+            }
+          },
+          "candidate_audit": {"type": "array", "items": {"type": "object", "properties": {"verdict_effect": {"const": "none"}}}},
+          "validation": {"type": "array", "items": {"type": "object", "properties": {"verdict_effect": {"const": "none"}}}},
+          "limits": {"type": "array", "items": {"type": "object", "properties": {"verdict_effect": {"const": "none"}}}}
+        }
+      }
+    },
+    {
+      "if": {"properties": {"verdict": {"const": "PASS"}}, "required": ["verdict"]},
+      "then": {
+        "properties": {
+          "coverage": {"type": "object", "properties": {"complete": {"const": true}, "metadata_reviewed": {"const": 0}}},
+          "final_readback": {"type": "object", "properties": {"matches_initial": {"const": true}}},
+          "findings": {"type": "array", "maxItems": 0},
+          "candidate_audit": {"type": "array", "items": {"type": "object", "properties": {"verdict_effect": {"const": "none"}}}},
+          "validation": {"type": "array", "items": {"type": "object", "properties": {"verdict_effect": {"const": "none"}}}},
+          "limits": {"type": "array", "items": {"type": "object", "properties": {"verdict_effect": {"const": "none"}}}}
+        }
+      }
+    },
+    {
+      "if": {"properties": {"verdict": {"const": "CHANGES_REQUESTED"}}, "required": ["verdict"]},
+      "then": {
+        "properties": {
+          "coverage": {"type": "object", "properties": {"complete": {"const": true}}},
+          "final_readback": {"type": "object", "properties": {"matches_initial": {"const": true}}},
+          "findings": {
+            "type": "array",
+            "contains": {"type": "object", "properties": {"disposition": {"const": "blocking"}}, "required": ["disposition"]},
+            "minContains": 1
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "objectId": {"type": ["string", "null"], "pattern": "^(?!0+$)(?:[0-9a-f]{40}|[0-9a-f]{64})$"},
+    "nullableSha256": {"anyOf": [{"$ref": "#/$defs/sha256"}, {"type": "null"}]},
+    "reviewScope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["depth", "intent_sha256", "focus_sha256"],
+      "properties": {
+        "depth": {"enum": ["quick", "standard", "deep"]},
+        "intent_sha256": {"$ref": "#/$defs/nullableSha256"},
+        "focus_sha256": {"$ref": "#/$defs/nullableSha256"}
+      }
+    },
+    "losslessPath": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "required": ["encoding", "value"],
+      "properties": {
+        "encoding": {"enum": ["utf8", "base64"]},
+        "value": {"type": "string"}
+      }
+    },
+    "pathRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path_record_id", "target_mode", "target_head_state", "target_paths_layer",
+        "record_kind", "status", "layer", "stage",
+        "old_path", "new_path", "old_mode", "new_mode", "old_object_id",
+        "new_object_id", "old_content_sha256", "new_content_sha256", "hunks_total", "hunks_reviewed",
+        "bytes_total", "bytes_reviewed", "classification_evidence", "disposition", "reason"
+      ],
+      "properties": {
+        "path_record_id": {"$ref": "#/$defs/sha256"},
+        "target_mode": {"enum": ["workspace", "staged", "commit", "range", "paths", "patch"]},
+        "target_head_state": {"enum": ["present", "unborn", "not-applicable"]},
+        "target_paths_layer": {"type": ["string", "null"], "enum": ["head", "index", "worktree", null]},
+        "record_kind": {"enum": ["file", "binary", "symlink", "submodule", "generated", "vendored"]},
+        "status": {"enum": ["A", "D", "M", "R", "T", "U"]},
+        "layer": {"enum": ["head", "index", "worktree", "patch"]},
+        "stage": {"type": ["integer", "null"], "minimum": 0, "maximum": 3},
+        "old_path": {"$ref": "#/$defs/losslessPath"},
+        "new_path": {"$ref": "#/$defs/losslessPath"},
+        "old_mode": {"type": ["string", "null"], "enum": ["100644", "100755", "120000", "160000", null]},
+        "new_mode": {"type": ["string", "null"], "enum": ["100644", "100755", "120000", "160000", null]},
+        "old_object_id": {"$ref": "#/$defs/objectId"},
+        "new_object_id": {"$ref": "#/$defs/objectId"},
+        "old_content_sha256": {"$ref": "#/$defs/nullableSha256"},
+        "new_content_sha256": {"$ref": "#/$defs/nullableSha256"},
+        "hunks_total": {"type": ["integer", "null"], "minimum": 0},
+        "hunks_reviewed": {"type": ["integer", "null"], "minimum": 0},
+        "bytes_total": {"type": ["integer", "null"], "minimum": 0},
+        "bytes_reviewed": {"type": ["integer", "null"], "minimum": 0},
+        "classification_evidence": {
+          "anyOf": [
+            {"$ref": "#/$defs/classificationEvidence"},
+            {"type": "null"}
+          ]
+        },
+        "disposition": {"enum": ["reviewed", "metadata-reviewed", "unreadable", "skipped-with-reason"]},
+        "reason": {"type": ["string", "null"]}
+      }
+    },
+    "classificationEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["classified_as", "method", "source", "evidence_sha256"],
+      "properties": {
+        "classified_as": {"enum": ["binary", "symlink", "submodule"]},
+        "method": {"enum": ["blob-inspection", "mode-inspection"]},
+        "source": {"type": "string", "minLength": 1},
+        "evidence_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "policyRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "authority_rank", "applicability", "source", "revision",
+        "object_identity", "content_sha256", "classification"
+      ],
+      "properties": {
+        "authority_rank": {"type": "integer", "minimum": 0},
+        "applicability": {"type": "string", "minLength": 1},
+        "source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["encoding", "value"],
+          "properties": {
+            "encoding": {"enum": ["utf8", "base64"]},
+            "value": {"type": "string"}
+          }
+        },
+        "revision": {"type": ["string", "null"], "minLength": 1},
+        "object_identity": {"type": ["string", "null"], "minLength": 1},
+        "content_sha256": {"$ref": "#/$defs/nullableSha256"},
+        "classification": {"enum": ["accepted-policy", "context", "proposed-review-data"]}
+      },
+      "anyOf": [
+        {"properties": {"revision": {"type": "string"}}},
+        {"properties": {"object_identity": {"type": "string"}}}
+      ]
+    },
+    "targetReceipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version", "mode", "repository_root", "git_object_format",
+        "git_version", "receipt_profile", "review_scope_sha256", "head_state", "head_commit", "head_tree",
+        "base_commit", "base_tree", "merge_base", "comparison_parent", "range_style", "paths_layer",
+        "index_entries_sha256",
+        "staged_diff_sha256", "unstaged_diff_sha256",
+        "status_porcelain_v2_sha256", "untracked_inventory_sha256",
+        "supplied_patch_sha256", "review_diff_sha256", "path_ledger_sha256",
+        "policy_receipt_sha256", "receipt_sha256", "paths"
+      ],
+      "properties": {
+        "schema_version": {"const": 4},
+        "mode": {"enum": ["workspace", "staged", "commit", "range", "paths", "patch"]},
+        "repository_root": {"type": ["string", "null"], "minLength": 1},
+        "git_object_format": {"type": ["string", "null"], "enum": ["sha1", "sha256", null]},
+        "git_version": {"type": ["string", "null"], "minLength": 1},
+        "receipt_profile": {"const": "open-code-review-target/v4"},
+        "review_scope_sha256": {"$ref": "#/$defs/sha256"},
+        "head_state": {"enum": ["present", "unborn", "not-applicable"]},
+        "head_commit": {"$ref": "#/$defs/objectId"},
+        "head_tree": {"$ref": "#/$defs/objectId"},
+        "base_commit": {"$ref": "#/$defs/objectId"},
+        "base_tree": {"$ref": "#/$defs/objectId"},
+        "merge_base": {"$ref": "#/$defs/objectId"},
+        "comparison_parent": {
+          "anyOf": [
+            {"type": "string", "pattern": "^(?!0+$)(?:[0-9a-f]{40}|[0-9a-f]{64})$"},
+            {"const": "root"},
+            {"type": "null"}
+          ]
+        },
+        "range_style": {"type": ["string", "null"], "enum": ["merge-base", "two-dot", null]},
+        "paths_layer": {"type": ["string", "null"], "enum": ["head", "index", "worktree", null]},
+        "index_entries_sha256": {"$ref": "#/$defs/nullableSha256"},
+        "staged_diff_sha256": {"$ref": "#/$defs/nullableSha256"},
+        "unstaged_diff_sha256": {"$ref": "#/$defs/nullableSha256"},
+        "status_porcelain_v2_sha256": {"$ref": "#/$defs/nullableSha256"},
+        "untracked_inventory_sha256": {"$ref": "#/$defs/nullableSha256"},
+        "supplied_patch_sha256": {"$ref": "#/$defs/nullableSha256"},
+        "review_diff_sha256": {"$ref": "#/$defs/sha256"},
+        "path_ledger_sha256": {"$ref": "#/$defs/sha256"},
+        "policy_receipt_sha256": {"$ref": "#/$defs/sha256"},
+        "receipt_sha256": {"$ref": "#/$defs/sha256"},
+        "paths": {"type": "array", "items": {"$ref": "#/$defs/pathRecord"}}
+      }
+    },
+    "location": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path_record_id", "layer", "path", "side", "line", "symbol",
+        "snippet", "snippet_sha256", "content_sha256", "position_status"
+      ],
+      "properties": {
+        "path_record_id": {"$ref": "#/$defs/sha256"},
+        "layer": {"enum": ["head", "index", "worktree", "patch"]},
+        "path": {"type": "string", "minLength": 1},
+        "side": {"enum": ["old", "new", "context"]},
+        "line": {"type": ["integer", "null"], "minimum": 1},
+        "symbol": {"type": ["string", "null"]},
+        "snippet": {"type": ["string", "null"]},
+        "snippet_sha256": {"$ref": "#/$defs/nullableSha256"},
+        "content_sha256": {"$ref": "#/$defs/nullableSha256"},
+        "position_status": {"enum": ["verified", "unavailable", "stale"]}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"position_status": {"const": "verified"}}, "required": ["position_status"]},
+          "then": {
+            "properties": {
+              "line": {"type": "integer", "minimum": 1},
+              "snippet": {"type": "string"},
+              "snippet_sha256": {"$ref": "#/$defs/sha256"},
+              "content_sha256": {"$ref": "#/$defs/sha256"}
+            }
+          }
+        }
+      ]
+    },
+    "suppression": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "required": ["owner", "reason", "scope", "expires_at", "policy_receipt_sha256"],
+      "properties": {
+        "owner": {"type": "string", "minLength": 1},
+        "reason": {"type": "string", "minLength": 1},
+        "scope": {"type": "string", "minLength": 1},
+        "expires_at": {"type": "string", "format": "date-time"},
+        "policy_receipt_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "finding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id", "title", "severity", "confidence", "state", "introduced_by",
+        "category", "source", "rule", "root_cause_class", "impact_class",
+        "artifact_blob_id", "location",
+        "execution_path", "evidence", "impact", "reproduction",
+        "mitigations_checked", "recommended_fix", "validation", "disposition",
+        "lifecycle", "fingerprint", "evidence_revision", "suppression", "refutation"
+      ],
+      "properties": {
+        "id": {"type": "string", "pattern": "^OCR-[0-9]{3,}$"},
+        "title": {"type": "string", "minLength": 1},
+        "severity": {"enum": ["critical", "high", "medium", "low"]},
+        "confidence": {"enum": ["high", "medium", "low"]},
+        "state": {"const": "confirmed"},
+        "introduced_by": {"enum": ["this_change", "activated_by_change"]},
+        "category": {"type": "string", "minLength": 1},
+        "source": {"type": "string", "minLength": 1},
+        "rule": {"type": ["string", "null"]},
+        "root_cause_class": {"type": "string", "minLength": 1},
+        "impact_class": {"type": "string", "minLength": 1},
+        "artifact_blob_id": {"$ref": "#/$defs/objectId"},
+        "location": {"$ref": "#/$defs/location"},
+        "execution_path": {"type": "array", "items": {"type": "string"}},
+        "evidence": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+        "impact": {"type": "string", "minLength": 1},
+        "reproduction": {"type": ["string", "null"]},
+        "mitigations_checked": {"type": "array", "items": {"type": "string"}},
+        "recommended_fix": {"type": "string", "minLength": 1},
+        "validation": {"type": "string", "minLength": 1},
+        "disposition": {"enum": ["blocking", "advisory"]},
+        "lifecycle": {"enum": ["new", "repeated"]},
+        "fingerprint": {"$ref": "#/$defs/sha256"},
+        "evidence_revision": {"$ref": "#/$defs/sha256"},
+        "suppression": {"type": "null"},
+        "refutation": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["independence", "result", "agent_receipt_sha256", "evidence", "reason"],
+          "properties": {
+            "independence": {"enum": ["separate_agent", "same_agent"]},
+            "result": {"const": "survived"},
+            "agent_receipt_sha256": {"$ref": "#/$defs/nullableSha256"},
+            "evidence": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+            "reason": {"type": "string", "minLength": 1}
+          },
+          "allOf": [
+            {
+              "if": {"properties": {"independence": {"const": "separate_agent"}}, "required": ["independence"]},
+              "then": {"properties": {"agent_receipt_sha256": {"$ref": "#/$defs/sha256"}}},
+              "else": {"properties": {"agent_receipt_sha256": {"type": "null"}}}
+            }
+          ]
+        }
+      }
+    },
+    "candidateAudit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id", "fingerprint", "fingerprint_status", "title", "severity", "confidence",
+        "source", "rule", "root_cause_class", "impact_class", "candidate_state",
+        "location", "evidence", "suppression", "refutation", "verdict_effect", "reason"
+      ],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "fingerprint": {"$ref": "#/$defs/sha256"},
+        "fingerprint_status": {"enum": ["verified", "carried"]},
+        "title": {"type": "string", "minLength": 1},
+        "severity": {"enum": ["critical", "high", "medium", "low"]},
+        "confidence": {"enum": ["high", "medium", "low"]},
+        "source": {"type": "string", "minLength": 1},
+        "rule": {"type": ["string", "null"]},
+        "root_cause_class": {"type": "string", "minLength": 1},
+        "impact_class": {"type": "string", "minLength": 1},
+        "candidate_state": {"enum": ["refuted", "unverified", "pre_existing", "resolved", "stale", "suppressed"]},
+        "location": {"anyOf": [{"$ref": "#/$defs/location"}, {"type": "null"}]},
+        "evidence": {"type": "array", "items": {"type": "string"}},
+        "suppression": {"$ref": "#/$defs/suppression"},
+        "refutation": {"$ref": "#/$defs/candidateRefutation"},
+        "verdict_effect": {"enum": ["none", "prevents_pass", "blocking"]},
+        "reason": {"type": "string", "minLength": 1}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"candidate_state": {"const": "suppressed"}}, "required": ["candidate_state"]},
+          "then": {
+            "properties": {
+              "suppression": {"not": {"type": "null"}},
+              "verdict_effect": {"const": "prevents_pass"}
+            }
+          },
+          "else": {"properties": {"suppression": {"type": "null"}}}
+        },
+        {
+          "if": {"properties": {"fingerprint_status": {"const": "carried"}}, "required": ["fingerprint_status"]},
+          "then": {"properties": {"candidate_state": {"enum": ["resolved", "stale"]}}}
+        }
+      ]
+    },
+    "candidateRefutation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["independence", "result", "agent_receipt_sha256", "evidence", "reason"],
+      "properties": {
+        "independence": {"enum": ["separate_agent", "same_agent", "not_performed"]},
+        "result": {"enum": ["refuted", "inconclusive", "not_applicable"]},
+        "agent_receipt_sha256": {"$ref": "#/$defs/nullableSha256"},
+        "evidence": {"type": "array", "items": {"type": "string", "minLength": 1}},
+        "reason": {"type": "string", "minLength": 1}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"independence": {"const": "separate_agent"}}, "required": ["independence"]},
+          "then": {
+            "properties": {
+              "agent_receipt_sha256": {"$ref": "#/$defs/sha256"},
+              "evidence": {"type": "array", "minItems": 1}
+            }
+          }
+        },
+        {
+          "if": {"properties": {"independence": {"const": "not_performed"}}, "required": ["independence"]},
+          "then": {"properties": {"agent_receipt_sha256": {"type": "null"}}}
+        },
+        {
+          "if": {"properties": {"result": {"enum": ["refuted", "inconclusive"]}}, "required": ["result"]},
+          "then": {"properties": {"evidence": {"type": "array", "minItems": 1}}}
+        },
+        {
+          "if": {"properties": {"result": {"const": "refuted"}}, "required": ["result"]},
+          "then": {"properties": {"independence": {"enum": ["separate_agent", "same_agent"]}}}
+        },
+        {
+          "if": {"properties": {"result": {"const": "not_applicable"}}, "required": ["result"]},
+          "then": {"properties": {"independence": {"const": "not_performed"}}}
+        }
+      ]
+    },
+    "coverage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "complete", "path_records_total", "reviewed", "metadata_reviewed",
+        "unreadable", "skipped_with_reason", "hunks_total", "hunks_reviewed", "bundles"
+      ],
+      "properties": {
+        "complete": {"type": "boolean"},
+        "path_records_total": {"type": "integer", "minimum": 0},
+        "reviewed": {"type": "integer", "minimum": 0},
+        "metadata_reviewed": {"type": "integer", "minimum": 0},
+        "unreadable": {"type": "integer", "minimum": 0},
+        "skipped_with_reason": {"type": "integer", "minimum": 0},
+        "hunks_total": {"type": "integer", "minimum": 0},
+        "hunks_reviewed": {"type": "integer", "minimum": 0},
+        "bundles": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "primary_path_record_ids", "supporting_path_record_ids"],
+            "properties": {
+              "id": {"type": "string", "minLength": 1},
+              "primary_path_record_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/sha256"}},
+              "supporting_path_record_ids": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/sha256"}}
+            }
+          }
+        }
+      }
+    },
+    "validation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "argv", "cwd", "target_receipt_sha256", "tool_version", "exit_code", "stdout_sha256",
+        "stderr_sha256", "result", "not_run_reason", "verdict_effect"
+      ],
+      "properties": {
+        "argv": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1, "pattern": "^[^\\u0000]+$"}},
+        "cwd": {"type": "string", "minLength": 1, "pattern": "^[^\\u0000]+$"},
+        "target_receipt_sha256": {"$ref": "#/$defs/sha256"},
+        "tool_version": {"type": ["string", "null"], "minLength": 1, "pattern": "^[^\\u0000]+$"},
+        "exit_code": {"type": ["integer", "null"]},
+        "stdout_sha256": {"$ref": "#/$defs/nullableSha256"},
+        "stderr_sha256": {"$ref": "#/$defs/nullableSha256"},
+        "result": {"enum": ["passed", "failed", "not_run"]},
+        "not_run_reason": {"type": ["string", "null"]},
+        "verdict_effect": {"enum": ["none", "prevents_pass", "blocking"]}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"result": {"const": "passed"}}, "required": ["result"]},
+          "then": {
+            "properties": {
+              "exit_code": {"const": 0},
+              "stdout_sha256": {"$ref": "#/$defs/sha256"},
+              "stderr_sha256": {"$ref": "#/$defs/sha256"},
+              "not_run_reason": {"type": "null"},
+              "verdict_effect": {"const": "none"}
+            }
+          }
+        },
+        {
+          "if": {"properties": {"result": {"const": "failed"}}, "required": ["result"]},
+          "then": {
+            "properties": {
+              "stdout_sha256": {"$ref": "#/$defs/sha256"},
+              "stderr_sha256": {"$ref": "#/$defs/sha256"},
+              "verdict_effect": {"enum": ["prevents_pass", "blocking"]}
+            }
+          }
+        },
+        {
+          "if": {"properties": {"result": {"const": "not_run"}}, "required": ["result"]},
+          "then": {
+            "properties": {
+              "exit_code": {"type": "null"},
+              "stdout_sha256": {"type": "null"},
+              "stderr_sha256": {"type": "null"},
+              "not_run_reason": {"type": "string", "minLength": 1}
+            }
+          }
+        }
+      ]
+    },
+    "limit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id", "candidate_id", "category", "description", "affected_path_record_ids",
+        "verdict_effect", "required_evidence"
+      ],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "candidate_id": {"type": ["string", "null"], "minLength": 1},
+        "category": {"type": "string", "minLength": 1},
+        "description": {"type": "string", "minLength": 1},
+        "affected_path_record_ids": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/sha256"}},
+        "verdict_effect": {"enum": ["none", "prevents_pass", "blocking"]},
+        "required_evidence": {"type": "string", "minLength": 1}
+      }
+    },
+    "finalReadback": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "matches_initial", "changed_fields", "initial_receipt_sha256", "final_receipt_sha256",
+        "final_policy_receipt", "final_target_receipt"
+      ],
+      "properties": {
+        "matches_initial": {"type": "boolean"},
+        "changed_fields": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "schema_version", "mode", "repository_root", "git_object_format", "git_version",
+              "receipt_profile", "review_scope_sha256", "head_state", "head_commit", "head_tree",
+              "base_commit", "base_tree", "merge_base", "comparison_parent", "range_style", "paths_layer",
+              "index_entries_sha256", "staged_diff_sha256", "unstaged_diff_sha256",
+              "status_porcelain_v2_sha256", "untracked_inventory_sha256", "supplied_patch_sha256",
+              "review_diff_sha256", "path_ledger_sha256", "policy_receipt_sha256"
+            ]
+          }
+        },
+        "initial_receipt_sha256": {"$ref": "#/$defs/sha256"},
+        "final_receipt_sha256": {"$ref": "#/$defs/sha256"},
+        "final_policy_receipt": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/policyRecord"},
+          "contains": {
+            "type": "object",
+            "properties": {"classification": {"const": "accepted-policy"}},
+            "required": ["classification"]
+          },
+          "minContains": 1
+        },
+        "final_target_receipt": {"$ref": "#/$defs/targetReceipt"}
+      }
+    }
+  }
+}

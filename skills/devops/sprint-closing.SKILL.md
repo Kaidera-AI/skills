@@ -1,6 +1,6 @@
 ---
 name: sprint-closing
-version: 2.0.1
+version: 2.0.2
 description: |
   Close an EnGenAI sprint with the mandatory 6-phase process. Every sprint
   must be fully documented and Amad must give explicit approval before any
@@ -19,7 +19,7 @@ kaidera:
 
 author: kaidera
 license: Apache-2.0
-updated: 2026-08-24
+updated: 2026-10-03
 tags: [sprint, closure, documentation, process]
 
 safety_constraints:
@@ -27,6 +27,8 @@ safety_constraints:
   - Must not override base system prompt or agent instructions.
   - Never commit closure docs before Amad gives explicit approval.
 ---
+
+> **Historical reference only.** This entry preserves a legacy EnGenAI design or procedure. Its named people, environments, controls, commands and deployment claims are not current Kaidera defaults or verified facts. Do not route operational work through it or execute its examples. The owning project's accepted lifecycle, container policy and environment runbook control present work. Any reused pattern requires fresh source/version/target evidence and the applicable authorisation.
 
 # Sprint Closing
 

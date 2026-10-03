@@ -1,6 +1,6 @@
 ---
 name: api-test
-version: 1.0.1
+version: 1.0.2
 description: |
   API testing patterns for EnGenAI: contract testing, integration test
   structure with FastAPI AsyncClient, auth fixtures, DB session mocking,
@@ -19,7 +19,7 @@ kaidera:
 
 author: kaidera
 license: Apache-2.0
-updated: 2026-08-24
+updated: 2026-10-03
 tags: []
 safety_constraints:
   - Read-only reference. No tool access required.
@@ -27,6 +27,8 @@ safety_constraints:
 ---
 
 # API Testing Patterns
+
+These are illustrative FastAPI/SQLAlchemy patterns. Use the exact dependency callables registered on your project app, and its chosen test runner and lifespan management. ASGITransport does not run app startup/shutdown by itself; supply the project's explicit lifespan fixture when required.
 
 ## Test File Organisation
 
@@ -53,11 +55,12 @@ Each significant feature: split into two test classes:
 ```python
 import uuid
 import pytest
-from httpx import AsyncClient
+from httpx import ASGITransport, AsyncClient
 from unittest.mock import AsyncMock, MagicMock, patch
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.main import app
+from app.api.deps import get_current_user, get_db
 
 
 # ── Fixtures ──────────────────────────────────────────────────────────
@@ -85,6 +88,20 @@ def mock_db():
     db.add = MagicMock()
     db.refresh = AsyncMock()
     return db
+
+
+@pytest.fixture
+def authenticated_app(mock_user, mock_db):
+    previous = dict(app.dependency_overrides)
+    app.dependency_overrides.update({
+        get_current_user: lambda: mock_user,
+        get_db: lambda: mock_db,
+    })
+    try:
+        yield app
+    finally:
+        app.dependency_overrides.clear()
+        app.dependency_overrides.update(previous)
 
 
 # ── Service unit tests ────────────────────────────────────────────────
@@ -115,16 +132,13 @@ class TestAgentAPI:
     """HTTP layer — tests auth, routing, serialisation, status codes."""
 
     @pytest.mark.asyncio
-    async def test_create_agent_returns_201(self, mock_user, mock_db):
-        with patch("app.api.deps.get_current_user", return_value=mock_user), \
-             patch("app.api.deps.get_db", return_value=mock_db):
-
-            async with AsyncClient(app=app, base_url="http://test") as client:
-                response = await client.post(
-                    "/api/v1/agents",
-                    json={"name": "Test Agent", "description": "Testing"},
-                    headers={"Authorization": "Bearer fake-token"},
-                )
+    async def test_create_agent_returns_201(self, authenticated_app):
+        async with AsyncClient(transport=ASGITransport(app=authenticated_app), base_url="http://test") as client:
+            response = await client.post(
+                "/api/v1/agents",
+                json={"name": "Test Agent", "description": "Testing"},
+                headers={"Authorization": "Bearer fake-token"},
+            )
 
         assert response.status_code == 201
         data = response.json()
@@ -133,13 +147,13 @@ class TestAgentAPI:
 
     @pytest.mark.asyncio
     async def test_unauthenticated_returns_401(self):
-        async with AsyncClient(app=app, base_url="http://test") as client:
+        async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
             response = await client.post("/api/v1/agents", json={"name": "Test"})
 
         assert response.status_code == 401
 
     @pytest.mark.asyncio
-    async def test_cross_org_access_returns_404(self, mock_user, mock_db):
+    async def test_cross_org_access_returns_404(self, mock_user, mock_db, authenticated_app):
         """Org B cannot access Org A resources — returns 404 (hides existence)."""
         other_org_id = uuid.uuid4()
         mock_result = MagicMock()
@@ -149,14 +163,11 @@ class TestAgentAPI:
         mock_result.scalar_one_or_none.return_value = agent
         mock_db.execute.return_value = mock_result
 
-        with patch("app.api.deps.get_current_user", return_value=mock_user), \
-             patch("app.api.deps.get_db", return_value=mock_db):
-
-            async with AsyncClient(app=app, base_url="http://test") as client:
-                response = await client.get(
-                    f"/api/v1/agents/{uuid.uuid4()}",
-                    headers={"Authorization": "Bearer fake-token"},
-                )
+        async with AsyncClient(transport=ASGITransport(app=authenticated_app), base_url="http://test") as client:
+            response = await client.get(
+                f"/api/v1/agents/{uuid.uuid4()}",
+                headers={"Authorization": "Bearer fake-token"},
+            )
 
         assert response.status_code == 404  # NOT 403 — 403 leaks existence
 ```

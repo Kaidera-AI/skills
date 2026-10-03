@@ -60,7 +60,7 @@
       "expected": {
         "outcome": "manual-only",
         "route": null,
-        "candidates": ["open-code-review", "research-brief"],
+        "candidates": ["evidence-code-review", "research-brief"],
         "reason": "multi-skill-collision"
       }
     },

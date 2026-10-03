@@ -1,6 +1,6 @@
 ---
 name: deploy-gate
-version: 1.0.0
+version: 1.0.1
 description: |
   Gates pushes, pull requests, merges, releases, and deployments on exact target,
   current authorization, quality evidence, and rollback readiness.
@@ -19,7 +19,7 @@ kaidera:
 
 author: Kaidera
 license: Apache-2.0
-updated: 2026-07-29
+updated: 2026-10-03
 tags: [deployment, release, git, authorization, rollback]
 
 parameters:
@@ -57,7 +57,7 @@ stale, target state changed, or rollback is no longer credible.
 
 Return:
 
-- `PASS` or `BLOCKED`
+- advisory `READY` or `BLOCKED`; neither outcome authorises execution
 - exact action and target
 - source revision or artifact digest
 - authorization reference
@@ -65,5 +65,7 @@ Return:
 - rollback and verification plan
 - residual risk or the smallest decision needed to proceed
 
-After an authorized deployment, verify configuration, workload health, external
+This reference reads supplied evidence. Deployment, remote queries and record creation belong to the separately authorised operator. Existing valid authorisation remains valid; ask for a new decision only when scope or target requires it.
+
+After an authorized deployment, the operator verifies configuration, workload health, external
 reachability, and the relevant user journey separately.

@@ -2,7 +2,9 @@
 
 Before/after rewrites for the `human-voice` skill. Each example gives the original, an annotated list of what is wrong with it, and a rewrite. The rewrites are deliberately shorter, because most of what gets removed was decoration rather than information.
 
-Read these alongside `SKILL.md`. The steps there tell you what to do; these show what it looks like when it is done.
+These are synthetic editing illustrations. Biographical, revenue and customer details are not verified factual claims; never reuse them as evidence.
+
+Read these alongside [human-voice.SKILL.md](human-voice.SKILL.md). The steps there tell you what to do; these show what it looks like when it is done.
 
 ---
 
@@ -82,7 +84,7 @@ Word count fell by a third. Every paragraph now contains something a reader coul
 >
 > Fifteen minutes next week?
 
-The rewrite works because of one researched fact in the first line. Without a real observation about the recipient, no amount of editing saves a cold email, that is the gap step 2 of the skill warns about.
+The rewrite works because of one researched fact in the first line. Without a real observation about the recipient, no amount of editing saves a cold email, that is the gap the specificity pass warns about.
 
 ---
 
@@ -107,7 +109,7 @@ The rewrite works because of one researched fact in the first line. Without a re
 >
 > He started Kaidera after watching a client's AI programme stall for four months on a governance question nobody could answer.
 
-Note the third human signal from step 10 in play: a definite claim ("runs aerospace technology at Atos") instead of a hedge, and a detail ("he is a pilot") that a machine would not have volunteered because it does not obviously serve the argument.
+Note the specificity pass in play: a definite claim ("runs aerospace technology at Atos") instead of a hedge, and a detail ("he is a pilot") that a machine would not have volunteered because it does not obviously serve the argument.
 
 ---
 
@@ -134,7 +136,7 @@ Note the third human signal from step 10 in play: a definite claim ("runs aerosp
 >
 > The thing I'm least sure about: whether logistics is a real wedge or two coincidences. I'll know by the end of Q4, when the next four deals close or don't.
 
-Admitting the miss and naming the uncertainty are both human signals from step 10, and both make the confident parts more credible rather than less.
+Admitting the miss and naming the uncertainty are both specificity cues, and both make the confident parts more credible rather than less.
 
 ---
 
@@ -222,7 +224,7 @@ Prose instead of decorated bullets, and the last clause does the work that "Insi
 
 ## 8. Same content, two voices
 
-The skill's step 11 is the part most often skipped. Here is the same factual content written in two different real voices, to show that de-slopping alone does not produce a voice, it only clears the ground for one.
+The skill's voice-profile step is the part most often skipped. Here is the same factual content written in two different real voices, to show that de-slopping alone does not produce a voice, it only clears the ground for one.
 
 **The facts:** the company shipped per-tenant memory isolation; it took four months; the delay was caused by a compliance review, not engineering; two customers were waiting.
 
@@ -230,7 +232,7 @@ The skill's step 11 is the part most often skipped. Here is the same factual con
 
 > Per-tenant memory isolation shipped this week. It took four months. Most of that was a compliance review rather than engineering work. Two customers were waiting for it.
 
-Correct, clean, and could have been written by anyone. This is the trap: it passes every check in step 12 and still has nobody behind it.
+Correct, clean, and could have been written by anyone. This is the trap: it passes every editing pass and still has nobody behind it.
 
 ### Voice A, builder thinking out loud
 

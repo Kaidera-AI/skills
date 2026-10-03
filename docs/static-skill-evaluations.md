@@ -3,7 +3,7 @@
 The repository carries a small, deterministic fixture layer for three bounded
 skill contracts:
 
-- `open-code-review`;
+- `evidence-code-review`;
 - `assumption-validation`; and
 - `research-brief`.
 
@@ -116,7 +116,7 @@ process-memory attestation, signature, provenance, or approval evidence.
 - **Gate 4 HOLD:** no ratified human trust root, signing, provenance, or review
   approval is established.
 - **Loader HOLD:** same-name/source collisions such as the Alibaba and Kaidera
-  `open-code-review` skills still require source-qualified mutual exclusion in
+  `evidence-code-review` skills still require source-qualified mutual exclusion in
   the host loader; prompt fixtures cannot repair an injection collision.
 
 All evaluated skills and all marketplace entries remain `unvetted`.

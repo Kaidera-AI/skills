@@ -27,7 +27,7 @@ const {
 } = require('./open-code-review-contract')
 
 const root = path.join(__dirname, '..')
-const skillPath = path.join(root, 'skills', 'development', 'open-code-review.SKILL.md')
+const skillPath = path.join(root, 'skills', 'development', 'evidence-code-review.SKILL.md')
 const marketplacePath = path.join(root, '.claude-plugin', 'marketplace.json')
 const generatorPath = path.join(root, 'scripts', 'generate-marketplace.js')
 const validatorPath = path.join(root, 'scripts', 'validate-skill.js')
@@ -1702,14 +1702,14 @@ try {
   fs.rmSync(reportFixtureRoot, { recursive: true, force: true })
 }
 const marketplace = JSON.parse(fs.readFileSync(marketplacePath, 'utf8'))
-const entry = marketplace.skills.find(item => item.name === 'open-code-review')
+const entry = marketplace.skills.find(item => item.name === 'evidence-code-review')
 const dryRunOutput = execFileSync(process.execPath, [generatorPath, '--dry-run'], {
   encoding: 'utf8',
 })
 const dryRunMarker = '\n\nDry run:'
 assert(dryRunOutput.includes(dryRunMarker), 'marketplace dry run must include its summary marker')
 const dryRunMarketplace = JSON.parse(dryRunOutput.slice(0, dryRunOutput.lastIndexOf(dryRunMarker)))
-const dryRunEntry = dryRunMarketplace.skills.find(item => item.name === 'open-code-review')
+const dryRunEntry = dryRunMarketplace.skills.find(item => item.name === 'evidence-code-review')
 
 assert(entry, 'open-code-review must be present in marketplace.json')
 assert(dryRunEntry, 'open-code-review must be present in marketplace dry-run output')
@@ -1718,7 +1718,16 @@ assert.equal(marketplace.source, 'https://github.com/Kaidera-AI/skills')
 assert.equal(marketplace.generation_basis, 'maximum skill updated date')
 assert.equal(marketplace.generated_at, dryRunMarketplace.generated_at)
 assert.deepEqual(dryRunMarketplace, marketplace, 'committed marketplace must equal fresh deterministic output')
-assert.equal(entry.version, '4.0.1')
+assert.equal(entry.version, '4.0.2')
+const portableRoot = path.join(root, 'skills/development/evidence-code-review')
+for (const [source, bundled] of [
+  ['scripts/open-code-review-contract.js', 'tools/open-code-review-contract.js'],
+  ['spec/open-code-review-report.schema.json', 'spec/open-code-review-report.schema.json'],
+]) {
+  assert.deepEqual(fs.readFileSync(path.join(portableRoot, bundled)), fs.readFileSync(path.join(root, source)), `portable contract resource drift: ${bundled}`)
+}
+assert.equal(parseSkillContent(fs.readFileSync(path.join(portableRoot, 'SKILL.md'), 'utf8')).frontmatter.name, entry.name)
+
 assert.equal(entry.risk_level, 'medium')
 assert.equal(entry.trust_tier, 'unvetted')
 assert.deepEqual(entry.capabilities_required, ['tool:file_read', 'tool:code_interpreter'])
@@ -1748,10 +1757,10 @@ const cliHash = execFileSync(process.execPath, [generatorPath, '--hash', skillPa
 assert.equal(cliHash, expectedHash)
 assert.equal(entry.content_hash, expectedHash)
 assert.equal(
-  marketplaceRelativePath(path.join(root, 'skills', 'development', 'open-code-review.SKILL.md')),
-  'skills/development/open-code-review.SKILL.md',
+  marketplaceRelativePath(path.join(root, 'skills', 'development', 'evidence-code-review.SKILL.md')),
+  'skills/development/evidence-code-review.SKILL.md',
 )
-assert(!marketplaceRelativePath('skills\\development\\open-code-review.SKILL.md').includes('\\'))
+assert(!marketplaceRelativePath('skills\\development\\evidence-code-review.SKILL.md').includes('\\'))
 assert.throws(
   () => assertUniqueSkillNames([
     { name: 'duplicate', file: 'skills/a.SKILL.md' },
@@ -1787,7 +1796,7 @@ for (const forbidden of [
 }
 
 const fixtureRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'open-code-review-contract-'))
-const fixturePath = path.join(fixtureRoot, 'open-code-review.SKILL.md')
+const fixturePath = path.join(fixtureRoot, 'evidence-code-review.SKILL.md')
 
 function expectValidationFailure(mutatedSkill, expectedMessage) {
   fs.writeFileSync(fixturePath, mutatedSkill)
@@ -1848,7 +1857,7 @@ try {
     'base64-encoded payload',
   )
   expectValidationFailure(
-    skill.replace('updated: 2026-08-25', 'updated: 9999-99-99'),
+    skill.replace(/^updated: .+$/m, 'updated: 9999-99-99'),
     'updated must be a real ISO calendar date',
   )
   expectValidationFailure(
@@ -1871,7 +1880,7 @@ try {
     skill.replace('  allowed_domains:', '  undeclared_runtime_capability: tool:root_shell\n  allowed_domains:'),
     'Unknown kaidera field: undeclared_runtime_capability',
   )
-  const categoryFixture = path.join(fixtureRoot, 'skills', 'development', 'open-code-review.SKILL.md')
+  const categoryFixture = path.join(fixtureRoot, 'skills', 'development', 'evidence-code-review.SKILL.md')
   fs.mkdirSync(path.dirname(categoryFixture), { recursive: true })
   fs.writeFileSync(categoryFixture, skill.replace('  category: development', '  category: security'))
   const categoryResult = spawnSync(process.execPath, [validatorPath, categoryFixture], {

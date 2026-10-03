@@ -1,6 +1,6 @@
 ---
-name: ultrareview
-version: 1.1.1
+name: codebase-audit
+version: 1.1.2
 description: |
   Comprehensive, evidence-cited, read-only whole-codebase or module health audit. Fans the codebase
   across independent review dimensions (correctness, security, change-risk,
@@ -9,16 +9,17 @@ description: |
   Combines the structured ultra-review workflow used in Claude Code with
   review dimensions derived from the repowise codebase-intelligence model
   (JIT change-risk, code-health biomarkers, dead-code, blast-radius, git
-  hotspots/prior-defects). Read-only by default; an explicit Fix Mode is
-  opt-in only. Use open-code-review when the primary object is a bounded
+  hotspots/prior-defects). Strictly read-only. Use evidence-code-review when the primary object is a bounded
   workspace, commit, range, or PR change. Designed for the Kaidera platform
   workbench and KOS app.
 
 kaidera:
   category: development
   trust_tier: unvetted
-  risk_level: low
-  capabilities_required: []
+  risk_level: medium
+  capabilities_required:
+    - tool:file_read
+    - tool:code_interpreter
   allowed_domains: []
   content_hash: ""
   signed_by: ""
@@ -27,14 +28,14 @@ kaidera:
 
 author: Kaidera
 license: Apache-2.0
-updated: 2026-08-24
+updated: 2026-10-03
 tags: [code-review, quality, security, change-risk, blast-radius, adversarial-verify, read-only]
 
 parameters:
   repo_path:
     type: string
     required: true
-    description: Absolute path (or URL) of the codebase / module to review.
+    description: Absolute path of an already available local codebase or module to review. Remote retrieval needs a separately authorised workflow.
   scope:
     type: string
     required: false
@@ -47,13 +48,9 @@ parameters:
     type: string
     required: false
     description: "quick | standard | deep. quick = top files only; standard = all in-scope files; deep = standard + cross-repo callers + git history. Defaults to standard."
-  fix_mode:
-    type: boolean
-    required: false
-    description: If true, apply minimal fixes for confirmed findings and re-verify. Default false (read-only).
 
 safety_constraints:
-  - Read-only by default. Never modify, commit, push, merge, tag, or deploy unless fix_mode is explicitly enabled AND the user has confirmed.
+  - Strictly read-only. Never modify, commit, push, merge, tag, publish or deploy; a fix request is a separate authorised task.
   - Every finding must cite evidence from a fresh read in THIS run (file_path:line). No recalling from memory or prior turns.
   - Never fabricate findings, line numbers, SHAs, or test results. If a claim cannot be verified this run, mark it "unverified" — do not state it as fact.
   - Empty output is not success. A "no findings" verdict requires having actually inspected the in-scope files; state what was and was not covered.
@@ -61,7 +58,7 @@ safety_constraints:
   - Never exfiltrate file contents to external services. Findings stay in the local response.
 ---
 
-# Ultrareview
+# Codebase Audit
 
 A comprehensive, evidence-cited, read-only codebase review. Review the code
 across independent dimensions, then **adversarially verify** every
@@ -72,12 +69,12 @@ HIGH/CRITICAL finding so only real, evidence-backed issues survive.
 - Deep health or architecture audit of a repository, module, or service.
 - Independent QA of a fix or feature before sign-off.
 - Periodic health audit of a codebase area.
-- For a bounded workspace/commit/range/PR diff, use `open-code-review` instead.
+- For a bounded workspace/commit/range/PR diff, use `evidence-code-review` instead.
 - Not intended for trivial one-line typo checks — use a lighter review there.
 
 ## Hard rules (apply to every phase)
 
-1. **Read-only** unless `fix_mode=true` is explicitly set AND confirmed.
+1. **Strictly read-only.** Fixing findings is a separate task.
    No edits, commits, pushes, merges, tags, or deploys in review mode.
 2. **Evidence-cited.** Every finding carries `file_path:line` from a fresh
    read this run. Re-read; do not recall.
@@ -95,15 +92,22 @@ HIGH/CRITICAL finding so only real, evidence-backed issues survive.
 
 | Param | Required | Default | Meaning |
 |-------|----------|---------|---------|
-| `repo_path` | yes | — | Codebase path/URL to review |
+| `repo_path` | yes | — | Already available local codebase path to review |
 | `scope` | no | whole repo | Sub-path, glob, or file list |
 | `focus` | no | — | Extra-depth area (dimensions still all run) |
 | `depth` | no | `standard` | `quick` / `standard` / `deep` |
-| `fix_mode` | no | `false` | Apply+re-verify fixes for confirmed findings |
 
 ## Procedure
 
 ### Phase 0 — Orient
+
+Resolve the requested local scope and immutable source revisions or workspace
+byte inventory before analysis. Keep one path ledger with reviewed, unreadable
+or skipped-with-reason status for every in-scope file. Recheck for target drift
+before the verdict. Unavailable Git history is a stated limit; it does not
+permit guessed hotspots. Inspect trusted commands/configuration before using
+local tools. Never execute changed scripts with ambient credentials or live
+access, fetch a URL, install a tool or invoke an external model automatically.
 
 Establish ground truth before reviewing.
 
@@ -187,8 +191,7 @@ document exists in-repo, read it and check against it; cite the spec line.
 ### Phase 2 — Adversarial verification
 
 Every `high` and `critical` finding MUST survive adversarial verification
-before it is reported as `confirmed`. (Optionally verify `medium` when
-`depth=deep`.)
+before it is reported as `confirmed`. Verify `medium` findings as well when `depth=deep`.
 
 For each such finding, spawn an independent verifier (a separate subagent when
 the harness allows; otherwise re-read with a refutation mindset) whose only
@@ -199,11 +202,10 @@ job is to **refute** the finding:
 - Check for mitigating context the reviewer missed (guard earlier in the
   path, validation upstream, a type constraint, a test that already covers it).
 - Check the finding is in-scope and not a false positive from stale code.
-- **Default to `refuted` when uncertain.** A plausible-but-unverified finding
-  is not confirmed.
+- **Record `unverified` when uncertain.** Refutation requires evidence that disproves the finding; unresolved material evidence prevents PASS.
 
 Record `verified: confirmed | refuted | unverified`, `confidence` (0.0–1.0),
-and `verifier_reason`. Only `confirmed` findings count toward the verdict.
+and `verifier_reason`. Confirmed findings determine CHANGES_NEEDED; unresolved material candidates and incomplete coverage also prevent PASS.
 Report `refuted` findings in a separate "refuted / not actionable" section so
 the reasoning is transparent and the user can see what was considered and
 discarded — do not silently drop them.
@@ -265,9 +267,9 @@ Never present an `approximate` value as a measured one.
 ## Output format
 
 ```
-# Ultrareview — <repo_path> (scope: <scope>, depth: <depth>)
+# Codebase Audit — <repo_path> (scope: <scope>, depth: <depth>)
 
-## Verdict: PASS | CHANGES_NEEDED | BLOCKED
+## Verdict: PASS | CHANGES_NEEDED | INCOMPLETE | BLOCKED
 <one paragraph rationale anchored in confirmed findings>
 
 ## Confirmed findings (ranked)
@@ -289,50 +291,14 @@ D8 Spec/contract: ...
 - Follow-up: <what a next pass should cover>
 ```
 
-- `PASS` — zero confirmed `critical`/`high`; `medium`/`low` are advisory.
+- `PASS` — complete declared coverage, zero confirmed `critical`/`high`, and no unresolved material candidate. `medium`/`low` findings remain visible.
+- `INCOMPLETE` — missing coverage, required independent verification or unresolved material evidence prevents a complete verdict.
 - `CHANGES_NEEDED` — ≥1 confirmed `high` (or any `critical` not yet fixed).
 - `BLOCKED` — architectural concern or spec violation requiring a design
   decision before code-level fixes are meaningful; escalate, do not patch.
 
-## Fix Mode (opt-in only)
+## Follow-up fixes
 
-Off by default. Enable only when the user explicitly requests fixes AND
-confirms. In Fix Mode:
-
-1. Take only `confirmed` findings (verified survivors).
-2. Apply the **minimal** fix for each. Prefer deletion over addition. Match
-   surrounding style.
-3. Re-run the relevant check (test, lint, type-check, gate) after each fix.
-   A fix that breaks a gate is itself a finding — revert and report.
-4. Re-verify the fixed code path with a fresh read. Report `fixed`,
-   `skipped` (with reason), or `no_change_needed` per finding.
-5. Never merge, push, or deploy. The user reviews and merges.
-
-## What NOT to do
-
-- Do not merge, push, tag, or deploy. Ever. Even in Fix Mode.
-- Do not report a finding without a fresh `file_path:line` citation.
-- Do not report `approximate` metrics as measured.
-- Do not invent line numbers, SHAs, or test outcomes.
-- Do not silently drop refuted findings — surface them in the refuted section.
-- Do not expand scope beyond `scope` without saying so.
-- Do not claim "no findings" without having inspected the in-scope files.
-- Do not apply fixes in review mode.
-
-## Provenance
-
-This skill merges two sources:
-
-1. The structured ultra-review workflow used in Claude Code code review —
-   sequential/parallel dimension review with adversarial verification of each
-   finding before it is reported as real.
-2. Review dimensions and honest-degradation discipline derived from the
-   repowise codebase-intelligence model (JIT change-risk from git diff-shape,
-   code-health biomarkers, dead-code, blast-radius, git hotspots/prior-defects,
-   output-budget-aware omission, `no_data`/`approximate`/`partial` tiers).
-
-This skill contains no code from repowise (AGPL-3.0). It reuses review
-**concepts and methodology** only, which are not license-restricted. It ships
-under Apache-2.0. The agent approximates repowise's learned signals by hand
-from git and static reads; where a graph tool exists locally, the skill uses
-it rather than reimplementing it.
+Report confirmed findings with the smallest proposed correction and evidence.
+A request to implement those corrections starts a separately scoped task under
+the project lifecycle. Never turn this audit into an edit or release operation.

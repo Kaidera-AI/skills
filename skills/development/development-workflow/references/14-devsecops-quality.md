@@ -42,7 +42,7 @@ Risk levels and required controls are project policy. At minimum, elevate change
 authentication/authorization, sensitive data, cryptography, public contracts,
 multi-tenant boundaries, migrations/deletion, supply chain, deployment/secret paths,
 or safety-critical behavior. High-impact findings require explicit human disposition;
-AI cannot accept risk. Risk-based the QA owner QA supplements, but does not replace, automated
+AI cannot accept risk. Risk-based QA supplements, but does not replace, automated
 checks, the independent reviewer's independent code review, or human file review.
 
 ## Pipeline and production boundary

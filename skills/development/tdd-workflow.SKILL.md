@@ -1,6 +1,6 @@
 ---
 name: tdd-workflow
-version: 2.0.1
+version: 2.0.2
 description: |
   Test-Driven Development workflow for EnGenAI backend and frontend code.
   Write failing tests first, then implement, then verify with evidence.
@@ -19,7 +19,7 @@ kaidera:
 
 author: kaidera
 license: Apache-2.0
-updated: 2026-08-24
+updated: 2026-10-03
 tags: [tdd, testing, pytest, jest, verification]
 
 safety_constraints:
@@ -65,13 +65,13 @@ it('renders skill card with trust tier badge', () => {
 })
 ```
 
-Run tests — they should **FAIL** (red). If they pass already, the test is wrong.
+For a reproduced defect, capture a **FAIL** (RED) before the fix. If a new test already passes, check whether the behavior already exists or the test misses the intended regression; never manufacture failure.
 
 ## Step 3: Implement Code
 
 Write the **minimum** code to make tests pass. Follow coding standards:
 - Backend: async, typed, Pydantic validated, structured errors
-- Frontend: TypeScript strict, Tailwind only, accessible, no `any`
+- Frontend: follow the project-selected framework, type rules, design system and accessibility contract
 
 ## Step 4: Verify (5-Step Gate)
 

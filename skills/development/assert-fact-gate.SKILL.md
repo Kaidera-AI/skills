@@ -1,6 +1,6 @@
 ---
 name: assert-fact-gate
-version: 1.0.0
+version: 1.0.1
 description: |
   Requires a fresh source check before reporting repository, build, test,
   deployment, route, version, identifier, or handoff state.
@@ -19,7 +19,7 @@ kaidera:
 
 author: Kaidera
 license: Apache-2.0
-updated: 2026-07-29
+updated: 2026-10-03
 tags: [verification, evidence, source-control, testing, release]
 
 parameters:
@@ -41,8 +41,7 @@ handoffs, or artifacts:
 
 1. Identify the authoritative source for the claim.
 2. Read or query that source during the current task.
-3. Prefer the remote branch, immutable artifact, target environment, or API record
-   over a local working copy or another person's report.
+3. Select the source for the exact claim: local bytes for a local change, the remote ref for a push, an immutable artifact for a build, or the target/API for runtime state. Do not substitute a different environment's evidence.
 4. Check that the evidence proves the exact claim. Empty output is not success.
 5. Report the result with the relevant revision, target, command, or source path.
 
@@ -53,6 +52,8 @@ Use these evidence boundaries:
 - A build does not prove deployment.
 - Deployment health does not prove the user journey.
 - A returned handoff does not prove its promised artifact exists.
+
+This manifest grants file reading only. Remote/API queries require an already authorised capability supplied by the host; unavailable queries produce `UNVERIFIED`, never invented receipts.
 
 If the source is unavailable, stale, ambiguous, or incomplete, report
 `UNVERIFIED` and name the missing evidence. Do not upgrade an inference into a
