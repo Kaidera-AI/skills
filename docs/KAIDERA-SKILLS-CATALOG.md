@@ -16,6 +16,12 @@ should and should not be used, what authority and capabilities it declares,
 where it overlaps another skill, and what must happen before it can be bound to
 an agent.
 
+For a one-line-per-skill index — what each skill does and why you would reach for
+it, plus the rename register — read the
+[Kaidera Skills Glossary](SKILLS-GLOSSARY.md). The glossary summarises this
+catalogue and the manifests; it carries no authority of its own, and a
+disagreement is resolved here or in the manifest, never in the glossary.
+
 The individual `*.SKILL.md` manifests remain authoritative for machine-readable
 name, version, parameters, trust tier, risk, capabilities, domains, licence, and
 safety constraints. This catalogue is authoritative for portfolio role,
@@ -1277,6 +1283,7 @@ node scripts/generate-marketplace.js --dry-run
 
 ## Related canonical and evidence documents
 
+- [Kaidera Skills Glossary](SKILLS-GLOSSARY.md)
 - [Skill format and trust policy](../spec/SKILL_FORMAT.md)
 - [Generated marketplace](../.claude-plugin/marketplace.json)
 - [Static skill evaluations](static-skill-evaluations.md)
