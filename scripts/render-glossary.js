@@ -78,6 +78,24 @@ function renameStatus(entry, present) {
   return 'accepted, not yet applied'
 }
 
+// Measures rather than asserts. The legacy paragraph states a count and names the exceptions,
+// so the count is read from the bodies on every render. A redaction or a migration that
+// changes it cannot leave the prose claiming a number the tree no longer has.
+function legacyEvidence(skills) {
+  const legacy = skills.filter(skill => skill.category === 'legacy')
+  const exceptions = []
+  for (const skill of legacy) {
+    const file = path.join(root, skill.file)
+    const text = fs.existsSync(file) ? fs.readFileSync(file, 'utf8') : ''
+    if (!/engenai/i.test(text)) exceptions.push(skill.name)
+  }
+  return {
+    total: legacy.length,
+    naming: legacy.length - exceptions.length,
+    exceptions: exceptions.sort(),
+  }
+}
+
 function render() {
   const { skills } = buildMarketplace()
   const markers = readMarkers()
@@ -158,16 +176,24 @@ function render() {
   for (const posture of POSTURE_ORDER) w(`| ${POSTURE_LABELS.get(posture)} | ${postureCounts.get(posture)} |`)
   w('')
   if (hasLegacyCategory) {
-    w(`Legacy entries: **${legacyCount}** of ${skills.length} are filed under \`legacy/\`. Twenty-one`)
-    w('name EnGenAI, its domains or its named approvers outright; the twenty-second,')
-    w('`code-review`, carries stale CTO-escalation, kill-switch, organisation-scope and')
-    w('sprint-log controls instead. None of the 22 declares any capability, yet several')
-    w('bodies describe installs, live production diagnostics, database and cluster access,')
-    w('Git mutation or deployment. `legacy` is machine-readable in the manifest, in the')
-    w('generated marketplace record and in the path, so a loader can filter or down-rank on')
-    w('it; whether any current router does is unevaluated, which is the same Gate 3 hold the')
-    w('catalogue states. Filing them separately also keeps the good names free for the')
-    w('Kaidera-native skills that will replace them.')
+    const ev = legacyEvidence(skills)
+    const named = ev.exceptions.map(n => `\`${n}\``).join(' and ')
+    w(`Legacy entries: **${ev.total}** of ${skills.length} are filed under \`legacy/\`. `
+      + `${ev.naming} of them still name the retired product or its domains outright; the `
+      + `other ${ev.exceptions.length} (${named}) do not, and are legacy for stale `
+      + 'escalation, kill-switch, organisation-scope and sprint-log controls, or because '
+      + 'redaction removed their only product reference.')
+    w('')
+    w(`None of the ${ev.total} declares any capability, yet several bodies describe installs,`)
+    w('live production diagnostics, database and cluster access, Git mutation or deployment.')
+    w('Personal names and reachable infrastructure identifiers were redacted from these files;')
+    w('the product name, component names and cloud regions were kept, because they are')
+    w('provenance and the catalogue records their disagreement as evidence.')
+    w('')
+    w('`legacy` is machine-readable in the manifest, in the generated marketplace record and')
+    w('in the path, so a loader can filter or down-rank on it; whether any current router does')
+    w('is unevaluated, which is the same Gate 3 hold the catalogue states. Filing them')
+    w('separately also keeps the good names free for the Kaidera-native skills that replace them.')
   } else {
     w(`Legacy entries: **${legacyCount}** of ${skills.length}. The catalogue marks them, but they are`)
     w('not filed separately, so a legacy name still looks current at the path level.')

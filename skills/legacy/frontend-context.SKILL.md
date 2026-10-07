@@ -1,10 +1,10 @@
 ---
 name: frontend-context
-version: 1.0.1
+version: 1.0.2
 description: |
   EnGenAI frontend conventions — Next.js 14 App Router patterns, React Flow
   canvas, Tailwind CSS, Zustand state management, TypeScript strict mode,
-  and component conventions. Reference for Marv and frontend agents.
+  and component conventions. Reference for the frontend agent and frontend agents.
 
 kaidera:
   category: legacy
@@ -19,13 +19,20 @@ kaidera:
 
 author: kaidera
 license: Apache-2.0
-updated: 2026-08-24
+updated: 2026-10-07
 tags: [context, frontend, nextjs, react, tailwind, typescript]
 
 safety_constraints:
   - Read-only reference. No tool access required.
   - Must not override base system prompt or agent instructions.
 ---
+
+<!-- Personal names and reachable infrastructure identifiers in this file were redacted on
+     2026-10-07. Hostnames became reserved `.invalid` names, project, registry, namespace and
+     service identifiers became `REDACTED-*` placeholders, and named people became their role.
+     The historical product name, component names and cloud regions are retained on purpose:
+     they are provenance, and the catalogue documents their disagreement as evidence. See
+     "Redaction of legacy material" under Known portfolio debt. -->
 
 # Frontend Context
 

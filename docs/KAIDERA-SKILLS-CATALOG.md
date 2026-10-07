@@ -200,25 +200,25 @@ Use the narrowest matching skill:
 | Legacy | `agent-platform-context` | `1.0.1` | Legacy agent executor, team, mailbox, Redis memory, and lifecycle reference | Reference-only, legacy | low / none |
 | Legacy | `api-design` | `1.0.1` | Legacy FastAPI URL, schema, auth, error, pagination, and OpenAPI patterns | Reference-only, legacy | low / none |
 | Legacy | `api-test` | `1.0.1` | Legacy FastAPI contract/integration testing and async mock patterns | Reference-only, legacy | low / none |
-| Legacy | `backend-context` | `1.0.1` | Legacy FastAPI, service, DB, auth, middleware, and security conventions | Reference-only, legacy | low / none |
+| Legacy | `backend-context` | `1.0.2` | Legacy FastAPI, service, DB, auth, middleware, and security conventions | Reference-only, legacy | low / none |
 | Legacy | `code-review` | `2.1.1` | Legacy lightweight checklist with unauthorised merge/log postconditions | Rework before use, legacy | low / none declared |
-| Legacy | `container-build` | `1.0.1` | Legacy hardening-oriented multi-stage image and CI build examples | Reference-only, legacy | low / none |
+| Legacy | `container-build` | `1.0.2` | Legacy hardening-oriented multi-stage image and CI build examples | Reference-only, legacy | low / none |
 | Legacy | `database-migration` | `1.0.1` | Legacy Alembic/PostgreSQL migration and rollback patterns | Rework before use, legacy | low / none declared |
-| Legacy | `dependency-audit` | `1.0.1` | Legacy dependency scan, install, remediation, and report workflow | Rework before use, legacy | low / none declared |
-| Legacy | `deploy-to-dev` | `3.0.2` | Legacy sprint-branch GitOps deployment runbook | Manual-only, legacy | medium / none declared |
-| Legacy | `frontend-context` | `1.0.1` | Legacy Next.js, React Flow, Tailwind, Zustand, and TypeScript conventions | Reference-only, legacy | low / none |
-| Legacy | `git-workflow` | `1.0.1` | Legacy branch, commit, PR, and sprint Git conventions | Rework before use, legacy | low / none declared |
-| Legacy | `incident-response` | `1.0.2` | Legacy containment/evidence runbook with unsafe preservation ordering | Rework before use, legacy | low / none declared |
-| Legacy | `infrastructure-context` | `1.0.2` | Legacy GKE, ArgoCD, Terraform, Helm, CI/CD, and hardening overview | Reference-only, legacy | low / none |
-| Legacy | `k8s-deploy` | `1.0.1` | Legacy Kubernetes, ArgoCD, GKE, probes, resources, and network policy patterns | Reference-only, legacy | low / none |
-| Legacy | `performance-profiling` | `1.0.2` | Legacy live API/Kubernetes/DB/Redis profiling workflow | Rework before use, legacy | low / none declared |
+| Legacy | `dependency-audit` | `1.0.2` | Legacy dependency scan, install, remediation, and report workflow | Rework before use, legacy | low / none declared |
+| Legacy | `deploy-to-dev` | `3.0.3` | Legacy sprint-branch GitOps deployment runbook | Manual-only, legacy | medium / none declared |
+| Legacy | `frontend-context` | `1.0.2` | Legacy Next.js, React Flow, Tailwind, Zustand, and TypeScript conventions | Reference-only, legacy | low / none |
+| Legacy | `git-workflow` | `1.0.2` | Legacy branch, commit, PR, and sprint Git conventions | Rework before use, legacy | low / none declared |
+| Legacy | `incident-response` | `1.0.3` | Legacy containment/evidence runbook with unsafe preservation ordering | Rework before use, legacy | low / none declared |
+| Legacy | `infrastructure-context` | `1.0.3` | Legacy GKE, ArgoCD, Terraform, Helm, CI/CD, and hardening overview | Reference-only, legacy | low / none |
+| Legacy | `k8s-deploy` | `1.0.2` | Legacy Kubernetes, ArgoCD, GKE, probes, resources, and network policy patterns | Reference-only, legacy | low / none |
+| Legacy | `performance-profiling` | `1.0.3` | Legacy live API/Kubernetes/DB/Redis profiling workflow | Rework before use, legacy | low / none declared |
 | Legacy | `security-context` | `1.0.1` | Legacy threat model, OWASP, forbidden patterns, SIEM, and trust rules | Reference-only, legacy | low / none |
 | Legacy | `security-review-checklist` | `1.1.1` | Legacy EnGenAI security checklist with unverified control claims | Rework before use, legacy | low / none declared |
-| Legacy | `sprint-closing` | `2.0.1` | Legacy six-phase sprint closure, commit, push, and PR procedure | Manual-only, legacy | low / none declared |
-| Legacy | `sprint-context` | `1.0.1` | Legacy sprint files, status protocol, quality gates, and commit conventions | Rework before use, legacy | low / none declared |
+| Legacy | `sprint-closing` | `2.0.2` | Legacy six-phase sprint closure, commit, push, and PR procedure | Manual-only, legacy | low / none declared |
+| Legacy | `sprint-context` | `1.0.2` | Legacy sprint files, status protocol, quality gates, and commit conventions | Rework before use, legacy | low / none declared |
 | Legacy | `tdd-workflow` | `2.0.1` | Legacy red-green-refactor and five-step verification workflow | Rework before use, legacy | low / none declared |
-| Legacy | `terraform-module` | `1.0.2` | Legacy GCP Terraform module, state, plan, apply, and identity patterns | Manual-only, legacy | low / none declared |
-| Legacy | `workspace-context` | `1.0.1` | Legacy workspace identity, stack, structure, terminology, and principles | Reference-only, legacy | low / none |
+| Legacy | `terraform-module` | `1.0.3` | Legacy GCP Terraform module, state, plan, apply, and identity patterns | Manual-only, legacy | low / none declared |
+| Legacy | `workspace-context` | `1.0.2` | Legacy workspace identity, stack, structure, terminology, and principles | Reference-only, legacy | low / none |
 | Research | `marketing-web-research` | `0.1.002` | Customer-configurable company and professional-profile research with separate action receipts | Manual-only | high / file read, file write, web search, external connector |
 | Research | `research-brief` | `1.0.0` | Drafts a self-contained decision-led brief without executing research | Bounded candidate | low / file read |
 | Security | `prompt-injection-test-design` | `2.0.1` | Read-only design for controlled prompt-injection boundary testing | Reference-only | low / none |
@@ -246,11 +246,11 @@ precedence issue remains a release hold.
 | `database-migration` | `kaidera` | `Apache-2.0` | None | — |
 | `git-workflow` | `kaidera` | `Apache-2.0` | None | — |
 | `open-code-review` | `Kaidera-AI` | `Apache-2.0` | `github.com`, `research.google`, `semgrep.dev` | [Alibaba OpenCodeReview contributors](https://github.com/alibaba/open-code-review/tree/0c44f1049e054b062b8900b93a4828f7b0baf77b) |
-| `performance-profiling` | `kaidera` | `Apache-2.0` | `dev.engenai.app` | — |
+| `performance-profiling` | `kaidera` | `Apache-2.0` | `legacy-dev.invalid` | — |
 | `tdd-workflow` | `kaidera` | `Apache-2.0` | None | — |
 | `ultrareview` | `Kaidera` | `Apache-2.0` | None | — |
 | `container-build` | `kaidera` | `Apache-2.0` | None | — |
-| `deploy-to-dev` | `kaidera` | `Apache-2.0` | `dev.engenai.app` | — |
+| `deploy-to-dev` | `kaidera` | `Apache-2.0` | `legacy-dev.invalid` | — |
 | `k8s-deploy` | `kaidera` | `Apache-2.0` | None | — |
 | `sprint-closing` | `kaidera` | `Apache-2.0` | None | — |
 | `terraform-module` | `kaidera` | `Apache-2.0` | `www.googleapis.com` | — |
@@ -258,7 +258,7 @@ precedence issue remains a release hold.
 | `research-brief` | `Kaidera-AI` | `Apache-2.0` | `github.com` | [David Ondrej](https://github.com/davidondrej/skills/tree/69c3ae5228eb146724fd23dac3d43eab5805bcc3/skills/research-and-web/research-prompt) |
 | `security-review-checklist` | `kaidera` | `Apache-2.0` | None | — |
 | `dependency-audit` | `kaidera` | `Apache-2.0` | None | — |
-| `incident-response` | `kaidera` | `Apache-2.0` | `api.engenai.app` | — |
+| `incident-response` | `kaidera` | `Apache-2.0` | `legacy-api.invalid` | — |
 | `prompt-injection-test-design` | `kaidera` | `Apache-2.0` | None | — |
 | `security-context` | `kaidera` | `Apache-2.0` | None | — |
 | `route-handoff-gate` | `Kaidera` | `Apache-2.0` | None | — |
@@ -607,9 +607,12 @@ Writing and documentation guidance. Reference-only unless a manifest says otherw
 ## Legacy skills
 
 Legacy material is kept because it is still useful research context, not because it
-is current Kaidera truth. Twenty-one of the twenty-two name EnGenAI, its domains, or
-its named approvers outright; the twenty-second, `code-review`, carries stale
-CTO-escalation, kill-switch, organisation-scope and sprint-log controls instead.
+is current Kaidera truth. Twenty of the twenty-two still name the retired product or its
+domains outright. The two that do not are legacy for different reasons: `code-review`
+never named it and carries stale CTO-escalation, kill-switch, organisation-scope and
+sprint-log controls instead, and `deploy-to-dev` stopped naming it when its hostnames and
+project identifiers were redacted, so its redaction comment and its `.invalid`
+placeholders are now the only in-body signal that it is not current.
 
 No manifest in this category declares any capability, yet several bodies describe
 installs, live production diagnostics, database and cluster access, Git mutation or
@@ -679,7 +682,7 @@ Kaidera-native skills that will replace them.
 
 ### `backend-context`
 
-<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"legacy","legacy":true,"name":"backend-context","path":"skills/legacy/backend-context.SKILL.md","posture":"reference-only","review_fingerprint":"1bd9cfc07778bcfbc5a2fadf28611f5524d96bf14a5e9b5fbff7645582600d8a","risk_level":"low","trust_tier":"unvetted","version":"1.0.1"} -->
+<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"legacy","legacy":true,"name":"backend-context","path":"skills/legacy/backend-context.SKILL.md","posture":"reference-only","review_fingerprint":"a6d7b26b85be0c0263db7b9a5f75ed34fcb35e484fbf7993bed32c30ba8d73f4","risk_level":"low","trust_tier":"unvetted","version":"1.0.2"} -->
 
 - **Manifest:** [backend-context.SKILL.md](../skills/legacy/backend-context.SKILL.md)
 - **Function:** Summarises the legacy FastAPI layout, service layer, async DB
@@ -720,7 +723,7 @@ Kaidera-native skills that will replace them.
 
 ### `container-build`
 
-<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"legacy","legacy":true,"name":"container-build","path":"skills/legacy/container-build.SKILL.md","posture":"reference-only","review_fingerprint":"aa51e3588fe266751a69dc782e1be6cc14975b9cab923cc0a45b87d16ba68f65","risk_level":"low","trust_tier":"unvetted","version":"1.0.1"} -->
+<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"legacy","legacy":true,"name":"container-build","path":"skills/legacy/container-build.SKILL.md","posture":"reference-only","review_fingerprint":"8ca68581cef7abe35c80541aea191526bff4ab4f93860c738c13cf2e04b35eb0","risk_level":"low","trust_tier":"unvetted","version":"1.0.2"} -->
 
 - **Manifest:** [container-build.SKILL.md](../skills/legacy/container-build.SKILL.md)
 - **Function:** Provides legacy multi-stage container build, numeric non-root
@@ -763,7 +766,7 @@ Kaidera-native skills that will replace them.
 
 ### `dependency-audit`
 
-<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"legacy","legacy":true,"name":"dependency-audit","path":"skills/legacy/dependency-audit.SKILL.md","posture":"rework-before-use","review_fingerprint":"05339ee6268be4f4c9bf014f301c5e5fddb6497473e7a52eae1665e766886366","risk_level":"low","trust_tier":"unvetted","version":"1.0.1"} -->
+<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"legacy","legacy":true,"name":"dependency-audit","path":"skills/legacy/dependency-audit.SKILL.md","posture":"rework-before-use","review_fingerprint":"8126967c23a74eb05d7683782b6d67d9df020431a4b29def67bb35350dc86610","risk_level":"low","trust_tier":"unvetted","version":"1.0.2"} -->
 
 - **Manifest:** [dependency-audit.SKILL.md](../skills/legacy/dependency-audit.SKILL.md)
 - **Function:** Describes Python/npm vulnerability scanning, Bandit, package
@@ -787,7 +790,7 @@ Kaidera-native skills that will replace them.
 
 ### `deploy-to-dev`
 
-<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"legacy","legacy":true,"name":"deploy-to-dev","path":"skills/legacy/deploy-to-dev.SKILL.md","posture":"manual-only","review_fingerprint":"331a2739a09a792444d2291d575f2a8e8298832c2d11196199112b32a8c7dec8","risk_level":"medium","trust_tier":"unvetted","version":"3.0.2"} -->
+<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"legacy","legacy":true,"name":"deploy-to-dev","path":"skills/legacy/deploy-to-dev.SKILL.md","posture":"manual-only","review_fingerprint":"c559780eaccfbfd3813923b52b1ef7767c583530037afcf4cc170dd1a0614ff0","risk_level":"medium","trust_tier":"unvetted","version":"3.0.3"} -->
 
 - **Manifest:** [deploy-to-dev.SKILL.md](../skills/legacy/deploy-to-dev.SKILL.md)
 - **Function:** Describes a legacy sprint-branch push, GitHub Actions build,
@@ -809,7 +812,7 @@ Kaidera-native skills that will replace them.
 
 ### `frontend-context`
 
-<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"legacy","legacy":true,"name":"frontend-context","path":"skills/legacy/frontend-context.SKILL.md","posture":"reference-only","review_fingerprint":"2a742145f292a8c598ff4fa00aaec51db99836c318053fb7398c082c3c9e0a5e","risk_level":"low","trust_tier":"unvetted","version":"1.0.1"} -->
+<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"legacy","legacy":true,"name":"frontend-context","path":"skills/legacy/frontend-context.SKILL.md","posture":"reference-only","review_fingerprint":"ab7a5f29b120b521f5702c2321d05e2bc9a131419ef2b3b3f5c2f5eb783c92dd","risk_level":"low","trust_tier":"unvetted","version":"1.0.2"} -->
 
 - **Manifest:** [frontend-context.SKILL.md](../skills/legacy/frontend-context.SKILL.md)
 - **Function:** Describes legacy Next.js App Router, TypeScript, Tailwind,
@@ -827,7 +830,7 @@ Kaidera-native skills that will replace them.
 
 ### `git-workflow`
 
-<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"legacy","legacy":true,"name":"git-workflow","path":"skills/legacy/git-workflow.SKILL.md","posture":"rework-before-use","review_fingerprint":"3f2f895ecced199978c1a87ca596da4185bb748a89bcbed3cfa3542f97a4eb7d","risk_level":"low","trust_tier":"unvetted","version":"1.0.1"} -->
+<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"legacy","legacy":true,"name":"git-workflow","path":"skills/legacy/git-workflow.SKILL.md","posture":"rework-before-use","review_fingerprint":"2a940702e66d0690c89b5b5028a238b306e9e82fbd149549dad805598edbb12a","risk_level":"low","trust_tier":"unvetted","version":"1.0.2"} -->
 
 - **Manifest:** [git-workflow.SKILL.md](../skills/legacy/git-workflow.SKILL.md)
 - **Function:** Describes legacy branch strategy, sprint naming, conventional
@@ -844,7 +847,7 @@ Kaidera-native skills that will replace them.
 
 ### `incident-response`
 
-<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"legacy","legacy":true,"name":"incident-response","path":"skills/legacy/incident-response.SKILL.md","posture":"rework-before-use","review_fingerprint":"ed0a859fd94dbbca97bb73b8c2fb26c70d03e48793cad32389e5295ce73f7c60","risk_level":"low","trust_tier":"unvetted","version":"1.0.2"} -->
+<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"legacy","legacy":true,"name":"incident-response","path":"skills/legacy/incident-response.SKILL.md","posture":"rework-before-use","review_fingerprint":"74adba088680b413c5176d52302a2eee7217b2efc55f87f2fe6c4d12abd9b5d0","risk_level":"low","trust_tier":"unvetted","version":"1.0.3"} -->
 
 - **Manifest:** [incident-response.SKILL.md](../skills/legacy/incident-response.SKILL.md)
 - **Function:** Defines legacy severity classification, SIEM/Kubernetes triage,
@@ -868,7 +871,7 @@ Kaidera-native skills that will replace them.
 
 ### `infrastructure-context`
 
-<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"legacy","legacy":true,"name":"infrastructure-context","path":"skills/legacy/infrastructure-context.SKILL.md","posture":"reference-only","review_fingerprint":"c820cf01235087fef5525f07fb41f2b4c95c01370534d9bc953974f1ab2fa852","risk_level":"low","trust_tier":"unvetted","version":"1.0.2"} -->
+<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"legacy","legacy":true,"name":"infrastructure-context","path":"skills/legacy/infrastructure-context.SKILL.md","posture":"reference-only","review_fingerprint":"b6d366f5de2e71d97c210c8ccff09e9b53fb6ccbd6f64ff22cf846b46f6ee13e","risk_level":"low","trust_tier":"unvetted","version":"1.0.3"} -->
 
 - **Manifest:** [infrastructure-context.SKILL.md](../skills/legacy/infrastructure-context.SKILL.md)
 - **Function:** Summarises legacy GKE, ArgoCD GitOps, branch, image, Kubernetes,
@@ -886,7 +889,7 @@ Kaidera-native skills that will replace them.
 
 ### `k8s-deploy`
 
-<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"legacy","legacy":true,"name":"k8s-deploy","path":"skills/legacy/k8s-deploy.SKILL.md","posture":"reference-only","review_fingerprint":"713c6e21152369c26261aa898ce93de3222909f0b8bd544741111877efc5fc9d","risk_level":"low","trust_tier":"unvetted","version":"1.0.1"} -->
+<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"legacy","legacy":true,"name":"k8s-deploy","path":"skills/legacy/k8s-deploy.SKILL.md","posture":"reference-only","review_fingerprint":"63d060907cf3e8d533a188e2692b1b4cf76b9c36406876f61714448bd28cb039","risk_level":"low","trust_tier":"unvetted","version":"1.0.2"} -->
 
 - **Manifest:** [k8s-deploy.SKILL.md](../skills/legacy/k8s-deploy.SKILL.md)
 - **Function:** Provides legacy Kubernetes deployment and network-policy
@@ -906,7 +909,7 @@ Kaidera-native skills that will replace them.
 
 ### `performance-profiling`
 
-<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"legacy","legacy":true,"name":"performance-profiling","path":"skills/legacy/performance-profiling.SKILL.md","posture":"rework-before-use","review_fingerprint":"b8c7bf7699bb3d92ccdda3664cac60568858fd28b9ee9f8c16fa7d18faeb72b6","risk_level":"low","trust_tier":"unvetted","version":"1.0.2"} -->
+<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"legacy","legacy":true,"name":"performance-profiling","path":"skills/legacy/performance-profiling.SKILL.md","posture":"rework-before-use","review_fingerprint":"0681b024f3f86fe25d428ece917409e9ba6e67b39b851ad38da873d45e8cea3f","risk_level":"low","trust_tier":"unvetted","version":"1.0.3"} -->
 
 - **Manifest:** [performance-profiling.SKILL.md](../skills/legacy/performance-profiling.SKILL.md)
 - **Function:** Describes baseline timing, Python profiling, SQL analysis,
@@ -964,7 +967,7 @@ Kaidera-native skills that will replace them.
 
 ### `sprint-closing`
 
-<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"legacy","legacy":true,"name":"sprint-closing","path":"skills/legacy/sprint-closing.SKILL.md","posture":"manual-only","review_fingerprint":"55aa506634cee54479e51f26ed8c1e3b5b0a82d074c10ee46269bab7b75e5426","risk_level":"low","trust_tier":"unvetted","version":"2.0.1"} -->
+<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"legacy","legacy":true,"name":"sprint-closing","path":"skills/legacy/sprint-closing.SKILL.md","posture":"manual-only","review_fingerprint":"4dd97679eec480fbc7f0551ed1811387a903231694b6e33166fdd7995a4666da","risk_level":"low","trust_tier":"unvetted","version":"2.0.2"} -->
 
 - **Manifest:** [sprint-closing.SKILL.md](../skills/legacy/sprint-closing.SKILL.md)
 - **Function:** Defines six legacy phases: verify work, update docs, record
@@ -973,7 +976,7 @@ Kaidera-native skills that will replace them.
   using that sprint structure.
 - **Do not use when:** Closing a Cortex project/handoff, editing memory, creating
   closure files, committing, pushing, opening a PR, or notifying people without
-  current authority and Amad's explicit approval.
+  current authority and the release authority's explicit approval.
 - **Inputs and output:** No parameters/tools; its described outputs are files,
   Git history, a PR, and notifications.
 - **Authority and effects:** Manual-only. The manifest declares no write/Git/
@@ -983,7 +986,7 @@ Kaidera-native skills that will replace them.
 
 ### `sprint-context`
 
-<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"legacy","legacy":true,"name":"sprint-context","path":"skills/legacy/sprint-context.SKILL.md","posture":"rework-before-use","review_fingerprint":"c84737b47b7c0f474a87d0f9e74b7c5776bbb3cf4a427edbc1899e0b4ce5a872","risk_level":"low","trust_tier":"unvetted","version":"1.0.1"} -->
+<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"legacy","legacy":true,"name":"sprint-context","path":"skills/legacy/sprint-context.SKILL.md","posture":"rework-before-use","review_fingerprint":"3036168e2335fc97e58806875896d8c8897c0212a453885d4c87734ef7e14790","risk_level":"low","trust_tier":"unvetted","version":"1.0.2"} -->
 
 - **Manifest:** [sprint-context.SKILL.md](../skills/legacy/sprint-context.SKILL.md)
 - **Function:** Documents the legacy three-file sprint pattern, task-status
@@ -1024,7 +1027,7 @@ Kaidera-native skills that will replace them.
 
 ### `terraform-module`
 
-<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"legacy","legacy":true,"name":"terraform-module","path":"skills/legacy/terraform-module.SKILL.md","posture":"manual-only","review_fingerprint":"5a03262e292891fed231e6fb2b1582235d73c702c26baf1d86eca9b4c49ed1b1","risk_level":"low","trust_tier":"unvetted","version":"1.0.2"} -->
+<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"legacy","legacy":true,"name":"terraform-module","path":"skills/legacy/terraform-module.SKILL.md","posture":"manual-only","review_fingerprint":"dd9d3d287746d536e698a6e486a3bc5a0b0da7a9772b604d7d9df858e31d4b57","risk_level":"low","trust_tier":"unvetted","version":"1.0.3"} -->
 
 - **Manifest:** [terraform-module.SKILL.md](../skills/legacy/terraform-module.SKILL.md)
 - **Function:** Provides legacy GCP module layout, GCS state, plan/apply,
@@ -1044,7 +1047,7 @@ Kaidera-native skills that will replace them.
 
 ### `workspace-context`
 
-<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"legacy","legacy":true,"name":"workspace-context","path":"skills/legacy/workspace-context.SKILL.md","posture":"reference-only","review_fingerprint":"3df70ffd3ab486d2758976b319b835f317ae2b199b2fecbc3e5d03832464f22c","risk_level":"low","trust_tier":"unvetted","version":"1.0.1"} -->
+<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"legacy","legacy":true,"name":"workspace-context","path":"skills/legacy/workspace-context.SKILL.md","posture":"reference-only","review_fingerprint":"6878dea8418c55192c93e6153c4e1ea8d5e4d4d89c162138614e22b49c00ead2","risk_level":"low","trust_tier":"unvetted","version":"1.0.2"} -->
 
 - **Manifest:** [workspace-context.SKILL.md](../skills/legacy/workspace-context.SKILL.md)
 - **Function:** Describes legacy product identity, stack, repository structure,
@@ -1212,11 +1215,12 @@ write path, or sandbox.
 
 ### Legacy identity and architecture
 
-The 22 entries under `legacy/` collectively still name EnGenAI, its domains, fixed
-sprint numbers, old roles, legacy repository paths, branches, endpoints, cloud
-projects and deployed controls. Twenty-one name EnGenAI or its domains outright;
-`code-review` does not, and is legacy for its CTO-escalation, kill-switch,
-organisation-scope and sprint-log controls instead.
+The 22 entries under `legacy/` collectively still name the retired product, fixed sprint
+numbers, old roles, legacy repository paths, branches and deployed controls. Their named
+people, hostnames, and project and registry identifiers are now placeholders — see
+Redaction of legacy material below. Twenty still name the product outright; `code-review`
+never did, and `deploy-to-dev` no longer does, because redaction removed its only product
+reference.
 
 Filing them in one category stops a router from treating them as current, but it does
 not migrate them. They should be migrated only after reviewing the owning Kaidera
@@ -1229,6 +1233,71 @@ The legacy sources also disagree with one another. `container-build` and
 `backend-context` names migration head `026` while `database-migration` presents
 `027`. No combined legacy runbook or context bundle is coherent current-state
 evidence; resolve each fact against its owning source.
+
+### Redaction of legacy material
+
+On 2026-10-07 the 14 `legacy/` bodies that carried them were redacted of personal data
+and reachable infrastructure identifiers. This is a deliberate, bounded edit and not the
+global word replacement this catalogue forbids. The boundary is stated here because it is
+the rule any future redaction should follow.
+
+Removed:
+
+- **Named people**, replaced by the role they held — the release authority, the CTO, the
+  CPO, the backend agent, the frontend agent, the second maintainer, or `(name redacted)`
+  where the text was an organisation-chart entry. Five names appeared across ten files.
+- **Reachable hostnames**, replaced with RFC 2606 reserved names that cannot resolve:
+  `legacy-dev.invalid`, `legacy-api.invalid`, `legacy-root.invalid`. The matching
+  `allowed_domains` entries changed with them, so each manifest still agrees with its body.
+- **Project, registry, namespace, bucket, service-account and deployment identifiers**, in
+  both their development and their production forms, replaced with `REDACTED-PROJECT`,
+  `REDACTED-PROJECT-PROD`, `REDACTED-REPO`, `REDACTED-ORG`, `REDACTED-APP` and
+  `REDACTED-NAMESPACE`. That includes the container-registry path, the Terraform state
+  bucket name, and the naming grammar that would let a reader reconstruct any of them.
+
+The completeness check is derived from the token, not from the substitution list. The
+historical product name is always capitalised, so **any lowercase occurrence of it inside a
+`legacy/` body is an infrastructure identifier by construction**, and must be either
+redacted or consciously retained. A residual grep built out of the rules just applied proves
+that the rules ran; it cannot find an identifier nobody thought to enumerate. The first pass
+here missed the production project, namespace and cluster names for exactly that reason, and
+the lowercase sweep is what caught them. Re-run that sweep after any future redaction.
+
+Retained deliberately:
+
+- **The historical product name.** It is provenance, not personal data and not live
+  infrastructure. Removing it is exactly the global replacement that destroys useful
+  history and creates false current-state claims.
+- **Component and service names, and cloud regions.** The disagreement recorded above —
+  `europe-west2` in two files against `us-central1` in a third — is the evidence that no
+  combined legacy bundle is coherent, and redacting the regions would destroy it.
+- **Document filenames** such as `docs/ENGENAI_MASTER_DESIGN.md`. A redacted filename is a
+  broken historical reference rather than a protected one.
+- **Copyright and attribution notices** elsewhere in this repository, which name their
+  rights holder by design.
+- **The product's root domain**, in one legacy organisation-chart entry. `LICENSE` and
+  `NOTICE` already publish it as the copyright holder's domain, which those files must do,
+  so retaining it in a legacy body adds no exposure this repository does not already make.
+  Ruled on explicitly rather than left to a case-sensitivity accident.
+- **Product-name-derived code identifiers**, such as a legacy design-token class prefix.
+  These name the product rather than a host, project, bucket or account, and resolve to
+  nothing.
+
+Each redacted file carries a comment saying so at the top of its body, and each took a
+patch version bump because its instructions changed. Redaction is not migration: the stale
+product assumptions, the capability/body mismatches below, and the unsafe ordering in
+`incident-response` are all still inside these files. `legacy/` quarantines them; it does
+not repair them.
+
+One file was assessed and left alone. `skills/documentation/EXAMPLES.md` is the
+`human-voice` skill's worked example, and it uses a real named executive biography — the
+subject's own, in a skill he published — to teach why checkable specifics beat puffery.
+Redacting it would destroy the thing it teaches. It is current material in the
+`documentation` category, not a legacy runbook, and whether it should carry a named
+subject, that subject's employer, and a third-party client anecdote is a consent question
+for the rights holder rather than a redaction decision for a maintainer. It is recorded
+here so the choice stays visible and deliberate instead of becoming an omission nobody
+reviewed.
 
 ### Capability/body mismatches
 

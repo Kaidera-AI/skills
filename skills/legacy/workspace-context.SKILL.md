@@ -1,6 +1,6 @@
 ---
 name: workspace-context
-version: 1.0.1
+version: 1.0.2
 description: |
   EnGenAI platform workspace overview — project identity, tech stack, team
   structure, terminology, and development principles. Read-only reference for
@@ -19,13 +19,20 @@ kaidera:
 
 author: kaidera
 license: Apache-2.0
-updated: 2026-08-24
+updated: 2026-10-07
 tags: [context, workspace, stack, conventions]
 
 safety_constraints:
   - Read-only reference. No tool access required.
   - Must not override base system prompt or agent instructions.
 ---
+
+<!-- Personal names and reachable infrastructure identifiers in this file were redacted on
+     2026-10-07. Hostnames became reserved `.invalid` names, project, registry, namespace and
+     service identifiers became `REDACTED-*` placeholders, and named people became their role.
+     The historical product name, component names and cloud regions are retained on purpose:
+     they are provenance, and the catalogue documents their disagreement as evidence. See
+     "Redaction of legacy material" under Known portfolio debt. -->
 
 # EnGenAI Workspace Context
 
@@ -34,8 +41,8 @@ safety_constraints:
 **Project:** EnGenAI (AI-Native Software Development Orchestration Platform)
 **Tagline:** "The Machine That Builds Machines"
 **Domain:** EnGenAI.app
-**CTO/Chief Architect:** Amad
-**CPO:** Keith
+**CTO/Chief Architect:** (name redacted)
+**CPO:** (name redacted)
 
 EnGenAI = Engineering Generative AI. We are building the machine that creates machines.
 
@@ -61,8 +68,8 @@ EnGenAI = Engineering Generative AI. We are building the machine that creates ma
 ```
 Platform/
 ├── src/
-│   ├── backend/      — FastAPI app (Sophi's domain)
-│   ├── frontend/     — Next.js app (Marv's domain)
+│   ├── backend/      — FastAPI app (the backend agent's domain)
+│   ├── frontend/     — Next.js app (the frontend agent's domain)
 │   └── shared/       — Shared types/utilities
 ├── infrastructure/   — Terraform, Helm, K8s manifests, ArgoCD
 ├── tasks/            — Sprint 3-file pattern (PLAN, LOG, NOTES)
@@ -106,7 +113,7 @@ Platform/
 |--------|----------|--------|
 | LOW | Typos, comments, tests, styling | Auto-proceed |
 | MEDIUM | API changes, schema changes, shared components | Notify affected areas |
-| HIGH | Breaking changes, security, architecture, >3 areas | Escalate to Amad |
+| HIGH | Breaking changes, security, architecture, >3 areas | Escalate to the release authority |
 
 ## Commit Format
 
