@@ -9,7 +9,8 @@
     "scan": "python3 scripts/security-scan.py",
     "review-contract": "node scripts/open-code-review-contract.js",
     "eval:static": "node scripts/static-skill-eval.js",
-    "test": "node scripts/render-development-workflow.js --check && node scripts/test-open-code-review.js && node scripts/test-skill-adaptations.js && node scripts/test-static-skill-eval.js && node scripts/test-skills-catalog.js"
+    "glossary": "node scripts/render-glossary.js",
+    "test": "node scripts/render-development-workflow.js --check && node scripts/test-open-code-review.js && node scripts/test-skill-adaptations.js && node scripts/test-static-skill-eval.js && node scripts/test-skills-catalog.js && node scripts/render-glossary.js --check"
   },
   "engines": {
     "node": ">=20"

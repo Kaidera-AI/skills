@@ -6,7 +6,7 @@ description: |
   workspace conventions, variable patterns, and safe apply workflow.
 
 kaidera:
-  category: devops
+  category: legacy
   trust_tier: unvetted
   risk_level: low
   capabilities_required: []

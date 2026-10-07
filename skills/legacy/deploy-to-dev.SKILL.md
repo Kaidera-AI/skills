@@ -7,7 +7,7 @@ description: |
   Never push directly to develop or gitops branches.
 
 kaidera:
-  category: devops
+  category: legacy
   trust_tier: unvetted
   risk_level: medium
   capabilities_required: []

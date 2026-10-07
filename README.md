@@ -20,18 +20,19 @@ A **skill** is one Markdown file, `{skill-name}.SKILL.md`, with a YAML frontmatt
 - **Who** wrote it, under which licence, building on whose work (`author`, `license`, `attribution_*`)
 - **What it must never do** (`safety_constraints`)
 
-Skills are instructions, not programs: the format carries no executable code and this repository runs none. The full schema is in [SKILL_FORMAT.md](spec/SKILL_FORMAT.md).
+Skills are instructions, not programs: the flat `*.SKILL.md` manifest carries no executable code. Two directory-form skills (`gavel`, `jev`) do bundle optional Python helper tooling under `tools/`, and that tooling is **not** covered by Gate 1 or Gate 2 — both gates read `*.SKILL.md` files only. See "Bundled tooling is outside both static gates" under Known portfolio debt in the [catalogue](docs/KAIDERA-SKILLS-CATALOG.md). The full schema is in [SKILL_FORMAT.md](spec/SKILL_FORMAT.md).
 
 ## Skill Categories
 
 | Category | Description | Count |
 |----------|-------------|-------|
-| `context/` | Project and workspace awareness | 8 |
-| `development/` | Code writing, review, testing | 21 |
-| `devops/` | Deployment, infrastructure, CI/CD | 8 |
+| `context/` | Project and workspace awareness | 2 |
+| `development/` | Code writing, review, testing | 14 |
+| `devops/` | Deployment, infrastructure, CI/CD | 3 |
 | `documentation/` | Specs, docs, changelogs, writing voice | 1 |
+| `legacy/` | Retired EnGenAI-era material, kept as reference | 22 |
 | `research/` | Research briefs, company research and evidence | 2 |
-| `security/` | Auditing, scanning, incident response | 5 |
+| `security/` | Auditing, scanning, incident response | 1 |
 
 ## What is implemented, and what is not
 

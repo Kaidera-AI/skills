@@ -7,7 +7,7 @@ description: |
   and component conventions. Reference for Marv and frontend agents.
 
 kaidera:
-  category: context
+  category: legacy
   trust_tier: unvetted
   risk_level: low
   capabilities_required: []

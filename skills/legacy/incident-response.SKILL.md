@@ -7,7 +7,7 @@ description: |
   and post-incident review process.
 
 kaidera:
-  category: security
+  category: legacy
   trust_tier: unvetted
   risk_level: low
   capabilities_required: []

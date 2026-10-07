@@ -7,7 +7,7 @@ description: |
   and remediation process for vulnerable packages.
 
 kaidera:
-  category: security
+  category: legacy
   trust_tier: unvetted
   risk_level: low
   capabilities_required: []

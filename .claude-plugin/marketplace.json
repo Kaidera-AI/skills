@@ -3,135 +3,9 @@
   "description": "Locally validated, provenance-aware skills for Kaidera agents",
   "version": "1.0.0",
   "source": "https://github.com/Kaidera-AI/skills",
-  "generated_at": "2026-09-28T00:00:00.000Z",
+  "generated_at": "2026-10-07T00:00:00.000Z",
   "generation_basis": "maximum skill updated date",
   "skills": [
-    {
-      "name": "agent-platform-context",
-      "version": "1.0.1",
-      "description": "EnGenAI agent platform internals — AgentExecutor, mailbox messaging,\nlead/worker team model, working memory, Celery task infrastructure,\nand the full execution lifecycle. Reference for platform and agent-aware code.\n",
-      "category": "context",
-      "trust_tier": "unvetted",
-      "risk_level": "low",
-      "capabilities_required": [],
-      "allowed_domains": [],
-      "safety_constraints": [
-        "Read-only reference. No tool access required.",
-        "Must not override base system prompt or agent instructions."
-      ],
-      "parameters": {},
-      "author": "kaidera",
-      "license": "Apache-2.0",
-      "updated": "2026-08-24",
-      "tags": [
-        "context",
-        "agents",
-        "executor",
-        "memory",
-        "celery",
-        "teams"
-      ],
-      "content_hash": "b85d423292d9c248dd784364e636c661dd4f6dad6c84a784b6664d55fa5eddda",
-      "signed_by": "",
-      "last_reviewed": "",
-      "reviewer": "",
-      "file": "skills/context/agent-platform-context.SKILL.md"
-    },
-    {
-      "name": "backend-context",
-      "version": "1.0.1",
-      "description": "EnGenAI backend conventions — FastAPI patterns, service layer, async DB\naccess, authentication, middleware, and security patterns. Reference for\nSophi and any agent working in src/backend/.\n",
-      "category": "context",
-      "trust_tier": "unvetted",
-      "risk_level": "low",
-      "capabilities_required": [],
-      "allowed_domains": [],
-      "safety_constraints": [
-        "Read-only reference. No tool access required.",
-        "Must not override base system prompt or agent instructions."
-      ],
-      "parameters": {},
-      "author": "kaidera",
-      "license": "Apache-2.0",
-      "updated": "2026-08-24",
-      "tags": [
-        "context",
-        "backend",
-        "fastapi",
-        "python",
-        "database"
-      ],
-      "content_hash": "d6d366ff71ca55a12d84426f74b29b55c1f0144912fe432f2f7485184300b131",
-      "signed_by": "",
-      "last_reviewed": "",
-      "reviewer": "",
-      "file": "skills/context/backend-context.SKILL.md"
-    },
-    {
-      "name": "frontend-context",
-      "version": "1.0.1",
-      "description": "EnGenAI frontend conventions — Next.js 14 App Router patterns, React Flow\ncanvas, Tailwind CSS, Zustand state management, TypeScript strict mode,\nand component conventions. Reference for Marv and frontend agents.\n",
-      "category": "context",
-      "trust_tier": "unvetted",
-      "risk_level": "low",
-      "capabilities_required": [],
-      "allowed_domains": [],
-      "safety_constraints": [
-        "Read-only reference. No tool access required.",
-        "Must not override base system prompt or agent instructions."
-      ],
-      "parameters": {},
-      "author": "kaidera",
-      "license": "Apache-2.0",
-      "updated": "2026-08-24",
-      "tags": [
-        "context",
-        "frontend",
-        "nextjs",
-        "react",
-        "tailwind",
-        "typescript"
-      ],
-      "content_hash": "b18886d0d0407b49915af899cf604e044987fde2d2c2edd359869cae50a0efa3",
-      "signed_by": "",
-      "last_reviewed": "",
-      "reviewer": "",
-      "file": "skills/context/frontend-context.SKILL.md"
-    },
-    {
-      "name": "infrastructure-context",
-      "version": "1.0.2",
-      "description": "EnGenAI infrastructure conventions — GCP GKE, ArgoCD GitOps, Terraform,\nHelm, CI/CD pipeline, K8s deployment patterns, and security hardening\nrequirements. Reference for DevOps and infrastructure agents.\n",
-      "category": "context",
-      "trust_tier": "unvetted",
-      "risk_level": "low",
-      "capabilities_required": [],
-      "allowed_domains": [
-        "github.com"
-      ],
-      "safety_constraints": [
-        "Read-only reference. No tool access required.",
-        "Must not override base system prompt or agent instructions."
-      ],
-      "parameters": {},
-      "author": "kaidera",
-      "license": "Apache-2.0",
-      "updated": "2026-08-24",
-      "tags": [
-        "context",
-        "infrastructure",
-        "k8s",
-        "gcp",
-        "argocd",
-        "terraform",
-        "cicd"
-      ],
-      "content_hash": "84b9c96bf6847c9886ddf0809fd44993f5bfe70027da53563a9d56579857505b",
-      "signed_by": "",
-      "last_reviewed": "",
-      "reviewer": "",
-      "file": "skills/context/infrastructure-context.SKILL.md"
-    },
     {
       "name": "route-handoff-gate",
       "version": "1.0.0",
@@ -209,113 +83,6 @@
       "last_reviewed": "",
       "reviewer": "",
       "file": "skills/context/scope-work-gate.SKILL.md"
-    },
-    {
-      "name": "sprint-context",
-      "version": "1.0.1",
-      "description": "EnGenAI sprint workflow — 3-file pattern, TASK_STATUS protocol, definition\nof done, sprint opening/closing process, and quality gates. Reference for\nall agents contributing to sprint delivery.\n",
-      "category": "context",
-      "trust_tier": "unvetted",
-      "risk_level": "low",
-      "capabilities_required": [],
-      "allowed_domains": [],
-      "safety_constraints": [
-        "Read-only reference. No tool access required.",
-        "Must not override base system prompt or agent instructions."
-      ],
-      "parameters": {},
-      "author": "kaidera",
-      "license": "Apache-2.0",
-      "updated": "2026-08-24",
-      "tags": [
-        "context",
-        "sprint",
-        "workflow",
-        "tdd",
-        "task-status"
-      ],
-      "content_hash": "d31d51cc814819f91a37c3bdac6f726206969d3509439504c73567f04b592993",
-      "signed_by": "",
-      "last_reviewed": "",
-      "reviewer": "",
-      "file": "skills/context/sprint-context.SKILL.md"
-    },
-    {
-      "name": "workspace-context",
-      "version": "1.0.1",
-      "description": "EnGenAI platform workspace overview — project identity, tech stack, team\nstructure, terminology, and development principles. Read-only reference for\nall agents operating in the EnGenAI codebase.\n",
-      "category": "context",
-      "trust_tier": "unvetted",
-      "risk_level": "low",
-      "capabilities_required": [],
-      "allowed_domains": [],
-      "safety_constraints": [
-        "Read-only reference. No tool access required.",
-        "Must not override base system prompt or agent instructions."
-      ],
-      "parameters": {},
-      "author": "kaidera",
-      "license": "Apache-2.0",
-      "updated": "2026-08-24",
-      "tags": [
-        "context",
-        "workspace",
-        "stack",
-        "conventions"
-      ],
-      "content_hash": "b84e649b2ef6740d2fd35a34a31a308cb647aa172fc4c4a97158e23ef5a9eed2",
-      "signed_by": "",
-      "last_reviewed": "",
-      "reviewer": "",
-      "file": "skills/context/workspace-context.SKILL.md"
-    },
-    {
-      "name": "api-design",
-      "version": "1.0.1",
-      "description": "FastAPI REST API design patterns for EnGenAI: versioning, error handling,\nrequest/response schemas, authentication integration, pagination,\nand OpenAPI documentation conventions.\n",
-      "category": "development",
-      "trust_tier": "unvetted",
-      "risk_level": "low",
-      "capabilities_required": [],
-      "allowed_domains": [],
-      "safety_constraints": [
-        "Read-only reference. No tool access required.",
-        "Must not override base system prompt or agent instructions."
-      ],
-      "parameters": {},
-      "author": "kaidera",
-      "license": "Apache-2.0",
-      "updated": "2026-08-24",
-      "tags": [],
-      "content_hash": "ecb0dd8056ac28e9fe2a9aa5e43438a492a10ba8d7b2e61b4e5255822a89617a",
-      "signed_by": "",
-      "last_reviewed": "",
-      "reviewer": "",
-      "file": "skills/development/api-design.SKILL.md"
-    },
-    {
-      "name": "api-test",
-      "version": "1.0.1",
-      "description": "API testing patterns for EnGenAI: contract testing, integration test\nstructure with FastAPI AsyncClient, auth fixtures, DB session mocking,\nand test organisation conventions.\n",
-      "category": "development",
-      "trust_tier": "unvetted",
-      "risk_level": "low",
-      "capabilities_required": [],
-      "allowed_domains": [],
-      "safety_constraints": [
-        "Read-only reference. No tool access required.",
-        "Must not override base system prompt or agent instructions."
-      ],
-      "parameters": {},
-      "author": "kaidera",
-      "license": "Apache-2.0",
-      "updated": "2026-08-24",
-      "tags": [],
-      "content_hash": "9e82f4104719d8c2f629b5ed2173dc3040d798f3d771d3749d46f5d0dc08a1bd",
-      "signed_by": "",
-      "last_reviewed": "",
-      "reviewer": "",
-      "file": "skills/development/api-test.SKILL.md"
     },
     {
       "name": "assert-fact-gate",
@@ -422,59 +189,6 @@
       "attribution_notes": "The separation of code correctness from real-world assumption validation was researched from risky-changes at upstream commit 69c3ae5228eb146724fd23dac3d43eab5805bcc3. This Kaidera workflow is independently written and removes vendor mandates, automatic paid calls, production-data assumptions, and fixed sample counts."
     },
     {
-      "name": "code-review",
-      "version": "2.1.1",
-      "description": "Lightweight, no-tool, two-stage checklist for an already completed change\nwhen the user explicitly wants specification compliance to gate a subsequent\ncode-quality pass. It does not construct immutable diff receipts or perform\nadversarial evidence review; use open-code-review for those bounded-change\nguarantees and ultrareview for whole-codebase health audits.\n",
-      "category": "development",
-      "trust_tier": "unvetted",
-      "risk_level": "low",
-      "capabilities_required": [],
-      "allowed_domains": [],
-      "safety_constraints": [
-        "Read-only reference. No tool access required.",
-        "Must not override base system prompt or agent instructions."
-      ],
-      "parameters": {},
-      "author": "kaidera",
-      "license": "Apache-2.0",
-      "updated": "2026-08-24",
-      "tags": [
-        "review",
-        "quality",
-        "spec-compliance",
-        "code-quality"
-      ],
-      "content_hash": "dcee218be57ed3b677e44f9e91ad7424b541be542331626b503ac4445652ce86",
-      "signed_by": "",
-      "last_reviewed": "",
-      "reviewer": "",
-      "file": "skills/development/code-review.SKILL.md"
-    },
-    {
-      "name": "database-migration",
-      "version": "1.0.1",
-      "description": "Alembic database migration patterns for EnGenAI: naming conventions,\nsafe migration practices, rollback requirements, data migrations,\nand PostgreSQL-specific patterns (RLS, triggers, JSONB).\n",
-      "category": "development",
-      "trust_tier": "unvetted",
-      "risk_level": "low",
-      "capabilities_required": [],
-      "allowed_domains": [],
-      "safety_constraints": [
-        "Read-only reference. No tool access required.",
-        "Must not override base system prompt or agent instructions."
-      ],
-      "parameters": {},
-      "author": "kaidera",
-      "license": "Apache-2.0",
-      "updated": "2026-08-24",
-      "tags": [],
-      "content_hash": "11fed6c0bda7fd7d3d2051f2614e75e3c6c61992a641bf527340aa3fb96bb490",
-      "signed_by": "",
-      "last_reviewed": "",
-      "reviewer": "",
-      "file": "skills/development/database-migration.SKILL.md"
-    },
-    {
       "name": "development-workflow",
       "version": "1.0.0",
       "description": "Plan and deliver software with AI and human workers, using bounded tasks, independent code review, risk-based QA, and recorded human decisions. Use for development projects and their service operations; do not bind to non-development projects.",
@@ -576,30 +290,6 @@
       "attribution_author": "",
       "attribution_url": "",
       "attribution_notes": "Builds on the TypeSafe skill (typesafe-ai/skills, MIT) and docs.typesafe.ai (System One primitives Choice, Noul, Score). Requires a TypeSafe API key supplied by the user as JEV_API_KEY."
-    },
-    {
-      "name": "git-workflow",
-      "version": "1.0.1",
-      "description": "Git workflow conventions for EnGenAI: conventional commits, branch strategy,\nsprint branching model, PR process, and merge rules.\n",
-      "category": "development",
-      "trust_tier": "unvetted",
-      "risk_level": "low",
-      "capabilities_required": [],
-      "allowed_domains": [],
-      "safety_constraints": [
-        "Read-only reference. No tool access required.",
-        "Must not override base system prompt or agent instructions."
-      ],
-      "parameters": {},
-      "author": "kaidera",
-      "license": "Apache-2.0",
-      "updated": "2026-08-24",
-      "tags": [],
-      "content_hash": "e691b01454cc905eece9dd2e464c9a4b2015d24969a66f58616b946381362bd0",
-      "signed_by": "",
-      "last_reviewed": "",
-      "reviewer": "",
-      "file": "skills/development/git-workflow.SKILL.md"
     },
     {
       "name": "jev-backlog-rank",
@@ -978,32 +668,6 @@
       "attribution_notes": "Architecture research at upstream commit 0c44f1049e054b062b8900b93a4828f7b0baf77b informed change partitioning, delegated rule retrieval, and line relocation. This Kaidera workflow is independently written and deliberately adds cross-file, trust-boundary, coverage, and adversarial-verification gates."
     },
     {
-      "name": "performance-profiling",
-      "version": "1.0.2",
-      "description": "Performance profiling workflow for EnGenAI: Python async profiling,\nPostgreSQL query analysis, K8s resource metrics, and systematic\ndiagnosis of latency regressions.\n",
-      "category": "development",
-      "trust_tier": "unvetted",
-      "risk_level": "low",
-      "capabilities_required": [],
-      "allowed_domains": [
-        "dev.engenai.app"
-      ],
-      "safety_constraints": [
-        "Read-only reference. No tool access required.",
-        "Must not override base system prompt or agent instructions."
-      ],
-      "parameters": {},
-      "author": "kaidera",
-      "license": "Apache-2.0",
-      "updated": "2026-08-24",
-      "tags": [],
-      "content_hash": "a50dccdb0a407a8473f63a73ee4f86e7a1262dea50f3839ee8024494c1029096",
-      "signed_by": "",
-      "last_reviewed": "",
-      "reviewer": "",
-      "file": "skills/development/performance-profiling.SKILL.md"
-    },
-    {
       "name": "prompt-master",
       "version": "1.8.0",
       "description": "Generates optimized prompts for AI tools. Activates only when the user\nexplicitly asks to write, fix, improve, or adapt a prompt for a specific AI\ntool (LLM, Cursor, Midjourney, image AI, video AI, coding agents, etc.).\nDoes not activate for general conversation, coding tasks, document writing,\nor other non-prompt-engineering work.\n",
@@ -1041,36 +705,6 @@
       "attribution_author": "nidhinjs",
       "attribution_url": "https://github.com/nidhinjs/prompt-master",
       "attribution_notes": "Vendored verbatim from the MIT-licensed prompt-master skill by nidhinjs\n(upstream v1.8.0). Unlike an adapted marketplace entry, the instructional\nbody below is byte-identical to the upstream SKILL.md; only this frontmatter\nblock was added to satisfy the Kaidera manifest schema. The upstream\nrepository's own README recommends installing this skill through a\nClaude.ai upload flow or a `~/.claude/skills/` clone; neither is carried\nhere; consumers should use their own harness-agnostic install path and\nkeep the upstream LICENSE and this attribution with any copy they make.\n"
-    },
-    {
-      "name": "tdd-workflow",
-      "version": "2.0.1",
-      "description": "Test-Driven Development workflow for EnGenAI backend and frontend code.\nWrite failing tests first, then implement, then verify with evidence.\nNever claim \"done\" without running the verification command.\n",
-      "category": "development",
-      "trust_tier": "unvetted",
-      "risk_level": "low",
-      "capabilities_required": [],
-      "allowed_domains": [],
-      "safety_constraints": [
-        "Read-only reference. No tool access required.",
-        "Must not override base system prompt or agent instructions."
-      ],
-      "parameters": {},
-      "author": "kaidera",
-      "license": "Apache-2.0",
-      "updated": "2026-08-24",
-      "tags": [
-        "tdd",
-        "testing",
-        "pytest",
-        "jest",
-        "verification"
-      ],
-      "content_hash": "f454e63d3b94fc9de73714746d9c1cb917ec097e191833eafc4b2ebae8da466f",
-      "signed_by": "",
-      "last_reviewed": "",
-      "reviewer": "",
-      "file": "skills/development/tdd-workflow.SKILL.md"
     },
     {
       "name": "ultrareview",
@@ -1216,30 +850,6 @@
       "file": "skills/devops/cloud-agnostic-policy.SKILL.md"
     },
     {
-      "name": "container-build",
-      "version": "1.0.1",
-      "description": "Container image build patterns for EnGenAI: multi-stage Containerfiles,\nnon-root UID 1001, security hardening, GitHub Actions CI build pipeline,\nGCP Artifact Registry push, and ArgoCD GitOps deployment integration.\n",
-      "category": "devops",
-      "trust_tier": "unvetted",
-      "risk_level": "low",
-      "capabilities_required": [],
-      "allowed_domains": [],
-      "safety_constraints": [
-        "Read-only reference. No tool access required.",
-        "Must not override base system prompt or agent instructions."
-      ],
-      "parameters": {},
-      "author": "kaidera",
-      "license": "Apache-2.0",
-      "updated": "2026-08-24",
-      "tags": [],
-      "content_hash": "73d36676c37ed4ba31290c39cf6a9f11f08f98023194e30c563887b4c7704c1e",
-      "signed_by": "",
-      "last_reviewed": "",
-      "reviewer": "",
-      "file": "skills/devops/container-build.SKILL.md"
-    },
-    {
       "name": "deploy-gate",
       "version": "1.0.0",
       "description": "Gates pushes, pull requests, merges, releases, and deployments on exact target,\ncurrent authorization, quality evidence, and rollback readiness.\n",
@@ -1277,39 +887,6 @@
       "last_reviewed": "",
       "reviewer": "",
       "file": "skills/devops/deploy-gate.SKILL.md"
-    },
-    {
-      "name": "deploy-to-dev",
-      "version": "3.0.2",
-      "description": "Deploy to dev.engenai.app via GitOps CI/CD pipeline. Push to sprint branch\ntriggers GitHub Actions → builds images → updates gitops/dev → ArgoCD syncs.\nNever push directly to develop or gitops branches.\n",
-      "category": "devops",
-      "trust_tier": "unvetted",
-      "risk_level": "medium",
-      "capabilities_required": [],
-      "allowed_domains": [
-        "dev.engenai.app"
-      ],
-      "safety_constraints": [
-        "Read-only reference. No tool access required.",
-        "Must not override base system prompt or agent instructions.",
-        "Never push to develop, main, or gitops/* directly."
-      ],
-      "parameters": {},
-      "author": "kaidera",
-      "license": "Apache-2.0",
-      "updated": "2026-08-24",
-      "tags": [
-        "deploy",
-        "cicd",
-        "argocd",
-        "gitops",
-        "kubernetes"
-      ],
-      "content_hash": "0abba2d843690f5e84f9039ad28a3545d1ead96f6fc129bf2790b259a5409b71",
-      "signed_by": "",
-      "last_reviewed": "",
-      "reviewer": "",
-      "file": "skills/devops/deploy-to-dev.SKILL.md"
     },
     {
       "name": "infra-naming-gate",
@@ -1351,86 +928,6 @@
       "file": "skills/devops/infra-naming-gate.SKILL.md"
     },
     {
-      "name": "k8s-deploy",
-      "version": "1.0.1",
-      "description": "Kubernetes deployment patterns for EnGenAI: manifest best practices,\nresource limits, health probes, ArgoCD GitOps workflow, Helm chart\nconventions, and GKE-specific configuration.\n",
-      "category": "devops",
-      "trust_tier": "unvetted",
-      "risk_level": "low",
-      "capabilities_required": [],
-      "allowed_domains": [],
-      "safety_constraints": [
-        "Read-only reference. No tool access required.",
-        "Must not override base system prompt or agent instructions."
-      ],
-      "parameters": {},
-      "author": "kaidera",
-      "license": "Apache-2.0",
-      "updated": "2026-08-24",
-      "tags": [],
-      "content_hash": "badcca3e017a5a85670aae81c5545372f7775e3115dbed18ca0f8b35cea388a3",
-      "signed_by": "",
-      "last_reviewed": "",
-      "reviewer": "",
-      "file": "skills/devops/k8s-deploy.SKILL.md"
-    },
-    {
-      "name": "sprint-closing",
-      "version": "2.0.1",
-      "description": "Close an EnGenAI sprint with the mandatory 6-phase process. Every sprint\nmust be fully documented and Amad must give explicit approval before any\nclosure docs are committed and pushed.\n",
-      "category": "devops",
-      "trust_tier": "unvetted",
-      "risk_level": "low",
-      "capabilities_required": [],
-      "allowed_domains": [],
-      "safety_constraints": [
-        "Read-only reference. No tool access required.",
-        "Must not override base system prompt or agent instructions.",
-        "Never commit closure docs before Amad gives explicit approval."
-      ],
-      "parameters": {},
-      "author": "kaidera",
-      "license": "Apache-2.0",
-      "updated": "2026-08-24",
-      "tags": [
-        "sprint",
-        "closure",
-        "documentation",
-        "process"
-      ],
-      "content_hash": "f49294f44eaf4572438e23b4b8857df0bfbc23ac265098a1aa150f71e53cf312",
-      "signed_by": "",
-      "last_reviewed": "",
-      "reviewer": "",
-      "file": "skills/devops/sprint-closing.SKILL.md"
-    },
-    {
-      "name": "terraform-module",
-      "version": "1.0.2",
-      "description": "Terraform IaC patterns for EnGenAI: GCP module structure, state management,\nworkspace conventions, variable patterns, and safe apply workflow.\n",
-      "category": "devops",
-      "trust_tier": "unvetted",
-      "risk_level": "low",
-      "capabilities_required": [],
-      "allowed_domains": [
-        "www.googleapis.com"
-      ],
-      "safety_constraints": [
-        "Read-only reference. No tool access required.",
-        "Must not override base system prompt or agent instructions."
-      ],
-      "parameters": {},
-      "author": "kaidera",
-      "license": "Apache-2.0",
-      "updated": "2026-08-24",
-      "tags": [],
-      "content_hash": "a9b414cd1af019cf5e158f887665e29f5d4f576c554a9eefc9a1a916b0d3fb88",
-      "signed_by": "",
-      "last_reviewed": "",
-      "reviewer": "",
-      "file": "skills/devops/terraform-module.SKILL.md"
-    },
-    {
       "name": "human-voice",
       "version": "1.0.0",
       "description": "Rewrite, audit, or draft public-facing prose so it uses checkable specifics\nand preserves a named person's actual voice instead of generic machine-like\npatterns. Use for posts, articles, emails, decks, newsletters, web copy,\nstrategy documents, and voice-matched editing. Do not use for specifications,\nlogs, structured data, translation, or already approved attributed copy.\n",
@@ -1470,6 +967,613 @@
       "last_reviewed": "",
       "reviewer": "",
       "file": "skills/documentation/human-voice.SKILL.md"
+    },
+    {
+      "name": "agent-platform-context",
+      "version": "1.0.1",
+      "description": "EnGenAI agent platform internals — AgentExecutor, mailbox messaging,\nlead/worker team model, working memory, Celery task infrastructure,\nand the full execution lifecycle. Reference for platform and agent-aware code.\n",
+      "category": "legacy",
+      "trust_tier": "unvetted",
+      "risk_level": "low",
+      "capabilities_required": [],
+      "allowed_domains": [],
+      "safety_constraints": [
+        "Read-only reference. No tool access required.",
+        "Must not override base system prompt or agent instructions."
+      ],
+      "parameters": {},
+      "author": "kaidera",
+      "license": "Apache-2.0",
+      "updated": "2026-08-24",
+      "tags": [
+        "context",
+        "agents",
+        "executor",
+        "memory",
+        "celery",
+        "teams"
+      ],
+      "content_hash": "b85d423292d9c248dd784364e636c661dd4f6dad6c84a784b6664d55fa5eddda",
+      "signed_by": "",
+      "last_reviewed": "",
+      "reviewer": "",
+      "file": "skills/legacy/agent-platform-context.SKILL.md"
+    },
+    {
+      "name": "api-design",
+      "version": "1.0.1",
+      "description": "FastAPI REST API design patterns for EnGenAI: versioning, error handling,\nrequest/response schemas, authentication integration, pagination,\nand OpenAPI documentation conventions.\n",
+      "category": "legacy",
+      "trust_tier": "unvetted",
+      "risk_level": "low",
+      "capabilities_required": [],
+      "allowed_domains": [],
+      "safety_constraints": [
+        "Read-only reference. No tool access required.",
+        "Must not override base system prompt or agent instructions."
+      ],
+      "parameters": {},
+      "author": "kaidera",
+      "license": "Apache-2.0",
+      "updated": "2026-08-24",
+      "tags": [],
+      "content_hash": "ecb0dd8056ac28e9fe2a9aa5e43438a492a10ba8d7b2e61b4e5255822a89617a",
+      "signed_by": "",
+      "last_reviewed": "",
+      "reviewer": "",
+      "file": "skills/legacy/api-design.SKILL.md"
+    },
+    {
+      "name": "api-test",
+      "version": "1.0.1",
+      "description": "API testing patterns for EnGenAI: contract testing, integration test\nstructure with FastAPI AsyncClient, auth fixtures, DB session mocking,\nand test organisation conventions.\n",
+      "category": "legacy",
+      "trust_tier": "unvetted",
+      "risk_level": "low",
+      "capabilities_required": [],
+      "allowed_domains": [],
+      "safety_constraints": [
+        "Read-only reference. No tool access required.",
+        "Must not override base system prompt or agent instructions."
+      ],
+      "parameters": {},
+      "author": "kaidera",
+      "license": "Apache-2.0",
+      "updated": "2026-08-24",
+      "tags": [],
+      "content_hash": "9e82f4104719d8c2f629b5ed2173dc3040d798f3d771d3749d46f5d0dc08a1bd",
+      "signed_by": "",
+      "last_reviewed": "",
+      "reviewer": "",
+      "file": "skills/legacy/api-test.SKILL.md"
+    },
+    {
+      "name": "backend-context",
+      "version": "1.0.1",
+      "description": "EnGenAI backend conventions — FastAPI patterns, service layer, async DB\naccess, authentication, middleware, and security patterns. Reference for\nSophi and any agent working in src/backend/.\n",
+      "category": "legacy",
+      "trust_tier": "unvetted",
+      "risk_level": "low",
+      "capabilities_required": [],
+      "allowed_domains": [],
+      "safety_constraints": [
+        "Read-only reference. No tool access required.",
+        "Must not override base system prompt or agent instructions."
+      ],
+      "parameters": {},
+      "author": "kaidera",
+      "license": "Apache-2.0",
+      "updated": "2026-08-24",
+      "tags": [
+        "context",
+        "backend",
+        "fastapi",
+        "python",
+        "database"
+      ],
+      "content_hash": "d6d366ff71ca55a12d84426f74b29b55c1f0144912fe432f2f7485184300b131",
+      "signed_by": "",
+      "last_reviewed": "",
+      "reviewer": "",
+      "file": "skills/legacy/backend-context.SKILL.md"
+    },
+    {
+      "name": "code-review",
+      "version": "2.1.1",
+      "description": "Lightweight, no-tool, two-stage checklist for an already completed change\nwhen the user explicitly wants specification compliance to gate a subsequent\ncode-quality pass. It does not construct immutable diff receipts or perform\nadversarial evidence review; use open-code-review for those bounded-change\nguarantees and ultrareview for whole-codebase health audits.\n",
+      "category": "legacy",
+      "trust_tier": "unvetted",
+      "risk_level": "low",
+      "capabilities_required": [],
+      "allowed_domains": [],
+      "safety_constraints": [
+        "Read-only reference. No tool access required.",
+        "Must not override base system prompt or agent instructions."
+      ],
+      "parameters": {},
+      "author": "kaidera",
+      "license": "Apache-2.0",
+      "updated": "2026-08-24",
+      "tags": [
+        "review",
+        "quality",
+        "spec-compliance",
+        "code-quality"
+      ],
+      "content_hash": "dcee218be57ed3b677e44f9e91ad7424b541be542331626b503ac4445652ce86",
+      "signed_by": "",
+      "last_reviewed": "",
+      "reviewer": "",
+      "file": "skills/legacy/code-review.SKILL.md"
+    },
+    {
+      "name": "container-build",
+      "version": "1.0.1",
+      "description": "Container image build patterns for EnGenAI: multi-stage Containerfiles,\nnon-root UID 1001, security hardening, GitHub Actions CI build pipeline,\nGCP Artifact Registry push, and ArgoCD GitOps deployment integration.\n",
+      "category": "legacy",
+      "trust_tier": "unvetted",
+      "risk_level": "low",
+      "capabilities_required": [],
+      "allowed_domains": [],
+      "safety_constraints": [
+        "Read-only reference. No tool access required.",
+        "Must not override base system prompt or agent instructions."
+      ],
+      "parameters": {},
+      "author": "kaidera",
+      "license": "Apache-2.0",
+      "updated": "2026-08-24",
+      "tags": [],
+      "content_hash": "73d36676c37ed4ba31290c39cf6a9f11f08f98023194e30c563887b4c7704c1e",
+      "signed_by": "",
+      "last_reviewed": "",
+      "reviewer": "",
+      "file": "skills/legacy/container-build.SKILL.md"
+    },
+    {
+      "name": "database-migration",
+      "version": "1.0.1",
+      "description": "Alembic database migration patterns for EnGenAI: naming conventions,\nsafe migration practices, rollback requirements, data migrations,\nand PostgreSQL-specific patterns (RLS, triggers, JSONB).\n",
+      "category": "legacy",
+      "trust_tier": "unvetted",
+      "risk_level": "low",
+      "capabilities_required": [],
+      "allowed_domains": [],
+      "safety_constraints": [
+        "Read-only reference. No tool access required.",
+        "Must not override base system prompt or agent instructions."
+      ],
+      "parameters": {},
+      "author": "kaidera",
+      "license": "Apache-2.0",
+      "updated": "2026-08-24",
+      "tags": [],
+      "content_hash": "11fed6c0bda7fd7d3d2051f2614e75e3c6c61992a641bf527340aa3fb96bb490",
+      "signed_by": "",
+      "last_reviewed": "",
+      "reviewer": "",
+      "file": "skills/legacy/database-migration.SKILL.md"
+    },
+    {
+      "name": "dependency-audit",
+      "version": "1.0.1",
+      "description": "Dependency security audit workflow for EnGenAI: CVE scanning,\nsupply chain verification, dependency pinning strategy,\nand remediation process for vulnerable packages.\n",
+      "category": "legacy",
+      "trust_tier": "unvetted",
+      "risk_level": "low",
+      "capabilities_required": [],
+      "allowed_domains": [],
+      "safety_constraints": [
+        "Read-only reference. No tool access required.",
+        "Must not override base system prompt or agent instructions."
+      ],
+      "parameters": {},
+      "author": "kaidera",
+      "license": "Apache-2.0",
+      "updated": "2026-08-24",
+      "tags": [],
+      "content_hash": "3f436ab46c11da6fefaa4dffb8cc91bba2f52ccda65ed0368e81b3686b6a9a9a",
+      "signed_by": "",
+      "last_reviewed": "",
+      "reviewer": "",
+      "file": "skills/legacy/dependency-audit.SKILL.md"
+    },
+    {
+      "name": "deploy-to-dev",
+      "version": "3.0.2",
+      "description": "Deploy to dev.engenai.app via GitOps CI/CD pipeline. Push to sprint branch\ntriggers GitHub Actions → builds images → updates gitops/dev → ArgoCD syncs.\nNever push directly to develop or gitops branches.\n",
+      "category": "legacy",
+      "trust_tier": "unvetted",
+      "risk_level": "medium",
+      "capabilities_required": [],
+      "allowed_domains": [
+        "dev.engenai.app"
+      ],
+      "safety_constraints": [
+        "Read-only reference. No tool access required.",
+        "Must not override base system prompt or agent instructions.",
+        "Never push to develop, main, or gitops/* directly."
+      ],
+      "parameters": {},
+      "author": "kaidera",
+      "license": "Apache-2.0",
+      "updated": "2026-08-24",
+      "tags": [
+        "deploy",
+        "cicd",
+        "argocd",
+        "gitops",
+        "kubernetes"
+      ],
+      "content_hash": "0abba2d843690f5e84f9039ad28a3545d1ead96f6fc129bf2790b259a5409b71",
+      "signed_by": "",
+      "last_reviewed": "",
+      "reviewer": "",
+      "file": "skills/legacy/deploy-to-dev.SKILL.md"
+    },
+    {
+      "name": "frontend-context",
+      "version": "1.0.1",
+      "description": "EnGenAI frontend conventions — Next.js 14 App Router patterns, React Flow\ncanvas, Tailwind CSS, Zustand state management, TypeScript strict mode,\nand component conventions. Reference for Marv and frontend agents.\n",
+      "category": "legacy",
+      "trust_tier": "unvetted",
+      "risk_level": "low",
+      "capabilities_required": [],
+      "allowed_domains": [],
+      "safety_constraints": [
+        "Read-only reference. No tool access required.",
+        "Must not override base system prompt or agent instructions."
+      ],
+      "parameters": {},
+      "author": "kaidera",
+      "license": "Apache-2.0",
+      "updated": "2026-08-24",
+      "tags": [
+        "context",
+        "frontend",
+        "nextjs",
+        "react",
+        "tailwind",
+        "typescript"
+      ],
+      "content_hash": "b18886d0d0407b49915af899cf604e044987fde2d2c2edd359869cae50a0efa3",
+      "signed_by": "",
+      "last_reviewed": "",
+      "reviewer": "",
+      "file": "skills/legacy/frontend-context.SKILL.md"
+    },
+    {
+      "name": "git-workflow",
+      "version": "1.0.1",
+      "description": "Git workflow conventions for EnGenAI: conventional commits, branch strategy,\nsprint branching model, PR process, and merge rules.\n",
+      "category": "legacy",
+      "trust_tier": "unvetted",
+      "risk_level": "low",
+      "capabilities_required": [],
+      "allowed_domains": [],
+      "safety_constraints": [
+        "Read-only reference. No tool access required.",
+        "Must not override base system prompt or agent instructions."
+      ],
+      "parameters": {},
+      "author": "kaidera",
+      "license": "Apache-2.0",
+      "updated": "2026-08-24",
+      "tags": [],
+      "content_hash": "e691b01454cc905eece9dd2e464c9a4b2015d24969a66f58616b946381362bd0",
+      "signed_by": "",
+      "last_reviewed": "",
+      "reviewer": "",
+      "file": "skills/legacy/git-workflow.SKILL.md"
+    },
+    {
+      "name": "incident-response",
+      "version": "1.0.2",
+      "description": "Incident response runbook for EnGenAI: classification, blast radius\ncontainment, kill switch activation, evidence preservation,\nand post-incident review process.\n",
+      "category": "legacy",
+      "trust_tier": "unvetted",
+      "risk_level": "low",
+      "capabilities_required": [],
+      "allowed_domains": [
+        "api.engenai.app"
+      ],
+      "safety_constraints": [
+        "Read-only reference. No tool access required.",
+        "Must not override base system prompt or agent instructions."
+      ],
+      "parameters": {},
+      "author": "kaidera",
+      "license": "Apache-2.0",
+      "updated": "2026-08-24",
+      "tags": [],
+      "content_hash": "1b83dffe4ca871694615a87da8b7407d991af0991638786c3f85ac1f641dc007",
+      "signed_by": "",
+      "last_reviewed": "",
+      "reviewer": "",
+      "file": "skills/legacy/incident-response.SKILL.md"
+    },
+    {
+      "name": "infrastructure-context",
+      "version": "1.0.2",
+      "description": "EnGenAI infrastructure conventions — GCP GKE, ArgoCD GitOps, Terraform,\nHelm, CI/CD pipeline, K8s deployment patterns, and security hardening\nrequirements. Reference for DevOps and infrastructure agents.\n",
+      "category": "legacy",
+      "trust_tier": "unvetted",
+      "risk_level": "low",
+      "capabilities_required": [],
+      "allowed_domains": [
+        "github.com"
+      ],
+      "safety_constraints": [
+        "Read-only reference. No tool access required.",
+        "Must not override base system prompt or agent instructions."
+      ],
+      "parameters": {},
+      "author": "kaidera",
+      "license": "Apache-2.0",
+      "updated": "2026-08-24",
+      "tags": [
+        "context",
+        "infrastructure",
+        "k8s",
+        "gcp",
+        "argocd",
+        "terraform",
+        "cicd"
+      ],
+      "content_hash": "84b9c96bf6847c9886ddf0809fd44993f5bfe70027da53563a9d56579857505b",
+      "signed_by": "",
+      "last_reviewed": "",
+      "reviewer": "",
+      "file": "skills/legacy/infrastructure-context.SKILL.md"
+    },
+    {
+      "name": "k8s-deploy",
+      "version": "1.0.1",
+      "description": "Kubernetes deployment patterns for EnGenAI: manifest best practices,\nresource limits, health probes, ArgoCD GitOps workflow, Helm chart\nconventions, and GKE-specific configuration.\n",
+      "category": "legacy",
+      "trust_tier": "unvetted",
+      "risk_level": "low",
+      "capabilities_required": [],
+      "allowed_domains": [],
+      "safety_constraints": [
+        "Read-only reference. No tool access required.",
+        "Must not override base system prompt or agent instructions."
+      ],
+      "parameters": {},
+      "author": "kaidera",
+      "license": "Apache-2.0",
+      "updated": "2026-08-24",
+      "tags": [],
+      "content_hash": "badcca3e017a5a85670aae81c5545372f7775e3115dbed18ca0f8b35cea388a3",
+      "signed_by": "",
+      "last_reviewed": "",
+      "reviewer": "",
+      "file": "skills/legacy/k8s-deploy.SKILL.md"
+    },
+    {
+      "name": "performance-profiling",
+      "version": "1.0.2",
+      "description": "Performance profiling workflow for EnGenAI: Python async profiling,\nPostgreSQL query analysis, K8s resource metrics, and systematic\ndiagnosis of latency regressions.\n",
+      "category": "legacy",
+      "trust_tier": "unvetted",
+      "risk_level": "low",
+      "capabilities_required": [],
+      "allowed_domains": [
+        "dev.engenai.app"
+      ],
+      "safety_constraints": [
+        "Read-only reference. No tool access required.",
+        "Must not override base system prompt or agent instructions."
+      ],
+      "parameters": {},
+      "author": "kaidera",
+      "license": "Apache-2.0",
+      "updated": "2026-08-24",
+      "tags": [],
+      "content_hash": "a50dccdb0a407a8473f63a73ee4f86e7a1262dea50f3839ee8024494c1029096",
+      "signed_by": "",
+      "last_reviewed": "",
+      "reviewer": "",
+      "file": "skills/legacy/performance-profiling.SKILL.md"
+    },
+    {
+      "name": "security-context",
+      "version": "1.0.1",
+      "description": "EnGenAI security model — OWASP Top 10 checklist, secure coding rules,\nthe Lethal Trifecta threat model, forbidden patterns, and required security\ncontrols for all agents and skills. Mandatory reference for security reviews.\n",
+      "category": "legacy",
+      "trust_tier": "unvetted",
+      "risk_level": "low",
+      "capabilities_required": [],
+      "allowed_domains": [],
+      "safety_constraints": [
+        "Read-only reference. No tool access required.",
+        "Must not override base system prompt or agent instructions."
+      ],
+      "parameters": {},
+      "author": "kaidera",
+      "license": "Apache-2.0",
+      "updated": "2026-08-24",
+      "tags": [
+        "context",
+        "security",
+        "owasp",
+        "threat-model",
+        "secure-coding"
+      ],
+      "content_hash": "6d33b62786589e2d40ec26e05e1ae70cf728e76d3ef49695e50454792b24e493",
+      "signed_by": "",
+      "last_reviewed": "",
+      "reviewer": "",
+      "file": "skills/legacy/security-context.SKILL.md"
+    },
+    {
+      "name": "security-review-checklist",
+      "version": "1.1.1",
+      "description": "Optional EnGenAI-specific security checklist for authentication,\nauthorisation, secrets, tenant isolation, and supply-chain review. Use only\nwhen that product-specific lens is explicitly requested; use\nopen-code-review as the evidence-gated authority for a bounded diff and treat\nthis checklist as supporting context, not a second verdict engine.\n",
+      "category": "legacy",
+      "trust_tier": "unvetted",
+      "risk_level": "low",
+      "capabilities_required": [],
+      "allowed_domains": [],
+      "safety_constraints": [
+        "Read-only reference. No tool access required.",
+        "Must not override base system prompt or agent instructions."
+      ],
+      "parameters": {},
+      "author": "kaidera",
+      "license": "Apache-2.0",
+      "updated": "2026-10-07",
+      "tags": [],
+      "content_hash": "2209d3ea0df8d84bea9eee21566349be226d4693c76174ae5e62bfd7b5ba3f79",
+      "signed_by": "",
+      "last_reviewed": "",
+      "reviewer": "",
+      "file": "skills/legacy/security-review-checklist.SKILL.md"
+    },
+    {
+      "name": "sprint-closing",
+      "version": "2.0.1",
+      "description": "Close an EnGenAI sprint with the mandatory 6-phase process. Every sprint\nmust be fully documented and Amad must give explicit approval before any\nclosure docs are committed and pushed.\n",
+      "category": "legacy",
+      "trust_tier": "unvetted",
+      "risk_level": "low",
+      "capabilities_required": [],
+      "allowed_domains": [],
+      "safety_constraints": [
+        "Read-only reference. No tool access required.",
+        "Must not override base system prompt or agent instructions.",
+        "Never commit closure docs before Amad gives explicit approval."
+      ],
+      "parameters": {},
+      "author": "kaidera",
+      "license": "Apache-2.0",
+      "updated": "2026-08-24",
+      "tags": [
+        "sprint",
+        "closure",
+        "documentation",
+        "process"
+      ],
+      "content_hash": "f49294f44eaf4572438e23b4b8857df0bfbc23ac265098a1aa150f71e53cf312",
+      "signed_by": "",
+      "last_reviewed": "",
+      "reviewer": "",
+      "file": "skills/legacy/sprint-closing.SKILL.md"
+    },
+    {
+      "name": "sprint-context",
+      "version": "1.0.1",
+      "description": "EnGenAI sprint workflow — 3-file pattern, TASK_STATUS protocol, definition\nof done, sprint opening/closing process, and quality gates. Reference for\nall agents contributing to sprint delivery.\n",
+      "category": "legacy",
+      "trust_tier": "unvetted",
+      "risk_level": "low",
+      "capabilities_required": [],
+      "allowed_domains": [],
+      "safety_constraints": [
+        "Read-only reference. No tool access required.",
+        "Must not override base system prompt or agent instructions."
+      ],
+      "parameters": {},
+      "author": "kaidera",
+      "license": "Apache-2.0",
+      "updated": "2026-08-24",
+      "tags": [
+        "context",
+        "sprint",
+        "workflow",
+        "tdd",
+        "task-status"
+      ],
+      "content_hash": "d31d51cc814819f91a37c3bdac6f726206969d3509439504c73567f04b592993",
+      "signed_by": "",
+      "last_reviewed": "",
+      "reviewer": "",
+      "file": "skills/legacy/sprint-context.SKILL.md"
+    },
+    {
+      "name": "tdd-workflow",
+      "version": "2.0.1",
+      "description": "Test-Driven Development workflow for EnGenAI backend and frontend code.\nWrite failing tests first, then implement, then verify with evidence.\nNever claim \"done\" without running the verification command.\n",
+      "category": "legacy",
+      "trust_tier": "unvetted",
+      "risk_level": "low",
+      "capabilities_required": [],
+      "allowed_domains": [],
+      "safety_constraints": [
+        "Read-only reference. No tool access required.",
+        "Must not override base system prompt or agent instructions."
+      ],
+      "parameters": {},
+      "author": "kaidera",
+      "license": "Apache-2.0",
+      "updated": "2026-08-24",
+      "tags": [
+        "tdd",
+        "testing",
+        "pytest",
+        "jest",
+        "verification"
+      ],
+      "content_hash": "f454e63d3b94fc9de73714746d9c1cb917ec097e191833eafc4b2ebae8da466f",
+      "signed_by": "",
+      "last_reviewed": "",
+      "reviewer": "",
+      "file": "skills/legacy/tdd-workflow.SKILL.md"
+    },
+    {
+      "name": "terraform-module",
+      "version": "1.0.2",
+      "description": "Terraform IaC patterns for EnGenAI: GCP module structure, state management,\nworkspace conventions, variable patterns, and safe apply workflow.\n",
+      "category": "legacy",
+      "trust_tier": "unvetted",
+      "risk_level": "low",
+      "capabilities_required": [],
+      "allowed_domains": [
+        "www.googleapis.com"
+      ],
+      "safety_constraints": [
+        "Read-only reference. No tool access required.",
+        "Must not override base system prompt or agent instructions."
+      ],
+      "parameters": {},
+      "author": "kaidera",
+      "license": "Apache-2.0",
+      "updated": "2026-08-24",
+      "tags": [],
+      "content_hash": "a9b414cd1af019cf5e158f887665e29f5d4f576c554a9eefc9a1a916b0d3fb88",
+      "signed_by": "",
+      "last_reviewed": "",
+      "reviewer": "",
+      "file": "skills/legacy/terraform-module.SKILL.md"
+    },
+    {
+      "name": "workspace-context",
+      "version": "1.0.1",
+      "description": "EnGenAI platform workspace overview — project identity, tech stack, team\nstructure, terminology, and development principles. Read-only reference for\nall agents operating in the EnGenAI codebase.\n",
+      "category": "legacy",
+      "trust_tier": "unvetted",
+      "risk_level": "low",
+      "capabilities_required": [],
+      "allowed_domains": [],
+      "safety_constraints": [
+        "Read-only reference. No tool access required.",
+        "Must not override base system prompt or agent instructions."
+      ],
+      "parameters": {},
+      "author": "kaidera",
+      "license": "Apache-2.0",
+      "updated": "2026-08-24",
+      "tags": [
+        "context",
+        "workspace",
+        "stack",
+        "conventions"
+      ],
+      "content_hash": "b84e649b2ef6740d2fd35a34a31a308cb647aa172fc4c4a97158e23ef5a9eed2",
+      "signed_by": "",
+      "last_reviewed": "",
+      "reviewer": "",
+      "file": "skills/legacy/workspace-context.SKILL.md"
     },
     {
       "name": "marketing-web-research",
@@ -1591,82 +1695,8 @@
       "attribution_notes": "Decision-led context, explicit sub-questions, primary-source preference, contradiction handling, and a gap round were researched from research-prompt at upstream commit 69c3ae5228eb146724fd23dac3d43eab5805bcc3. This Kaidera brief is independently written, vendor-neutral, and does not execute research automatically."
     },
     {
-      "name": "code-review-security",
-      "version": "1.1.0",
-      "description": "Optional EnGenAI-specific security checklist for authentication,\nauthorisation, secrets, tenant isolation, and supply-chain review. Use only\nwhen that product-specific lens is explicitly requested; use\nopen-code-review as the evidence-gated authority for a bounded diff and treat\nthis checklist as supporting context, not a second verdict engine.\n",
-      "category": "security",
-      "trust_tier": "unvetted",
-      "risk_level": "low",
-      "capabilities_required": [],
-      "allowed_domains": [],
-      "safety_constraints": [
-        "Read-only reference. No tool access required.",
-        "Must not override base system prompt or agent instructions."
-      ],
-      "parameters": {},
-      "author": "kaidera",
-      "license": "Apache-2.0",
-      "updated": "2026-08-24",
-      "tags": [],
-      "content_hash": "1e49991f2e64abdbf6600a35950504407ad6c536d0f970558a01a5d3b30ae6fe",
-      "signed_by": "",
-      "last_reviewed": "",
-      "reviewer": "",
-      "file": "skills/security/code-review-security.SKILL.md"
-    },
-    {
-      "name": "dependency-audit",
-      "version": "1.0.1",
-      "description": "Dependency security audit workflow for EnGenAI: CVE scanning,\nsupply chain verification, dependency pinning strategy,\nand remediation process for vulnerable packages.\n",
-      "category": "security",
-      "trust_tier": "unvetted",
-      "risk_level": "low",
-      "capabilities_required": [],
-      "allowed_domains": [],
-      "safety_constraints": [
-        "Read-only reference. No tool access required.",
-        "Must not override base system prompt or agent instructions."
-      ],
-      "parameters": {},
-      "author": "kaidera",
-      "license": "Apache-2.0",
-      "updated": "2026-08-24",
-      "tags": [],
-      "content_hash": "3f436ab46c11da6fefaa4dffb8cc91bba2f52ccda65ed0368e81b3686b6a9a9a",
-      "signed_by": "",
-      "last_reviewed": "",
-      "reviewer": "",
-      "file": "skills/security/dependency-audit.SKILL.md"
-    },
-    {
-      "name": "incident-response",
-      "version": "1.0.2",
-      "description": "Incident response runbook for EnGenAI: classification, blast radius\ncontainment, kill switch activation, evidence preservation,\nand post-incident review process.\n",
-      "category": "security",
-      "trust_tier": "unvetted",
-      "risk_level": "low",
-      "capabilities_required": [],
-      "allowed_domains": [
-        "api.engenai.app"
-      ],
-      "safety_constraints": [
-        "Read-only reference. No tool access required.",
-        "Must not override base system prompt or agent instructions."
-      ],
-      "parameters": {},
-      "author": "kaidera",
-      "license": "Apache-2.0",
-      "updated": "2026-08-24",
-      "tags": [],
-      "content_hash": "1b83dffe4ca871694615a87da8b7407d991af0991638786c3f85ac1f641dc007",
-      "signed_by": "",
-      "last_reviewed": "",
-      "reviewer": "",
-      "file": "skills/security/incident-response.SKILL.md"
-    },
-    {
-      "name": "prompt-injection-test",
-      "version": "2.0.0",
+      "name": "prompt-injection-test-design",
+      "version": "2.0.1",
       "description": "Read-only design checklist for testing a skill-content injection boundary\nwithout embedding live attack payloads in an injectable skill. Defines the\nthreat categories, corpus custody, expected rejection properties, audit\nevidence, and regression criteria for a separately controlled test harness.\n",
       "category": "security",
       "trust_tier": "unvetted",
@@ -1681,7 +1711,7 @@
       "parameters": {},
       "author": "kaidera",
       "license": "Apache-2.0",
-      "updated": "2026-08-24",
+      "updated": "2026-10-07",
       "tags": [
         "prompt-injection",
         "security-testing",
@@ -1693,37 +1723,7 @@
       "signed_by": "",
       "last_reviewed": "",
       "reviewer": "",
-      "file": "skills/security/prompt-injection-test.SKILL.md"
-    },
-    {
-      "name": "security-context",
-      "version": "1.0.1",
-      "description": "EnGenAI security model — OWASP Top 10 checklist, secure coding rules,\nthe Lethal Trifecta threat model, forbidden patterns, and required security\ncontrols for all agents and skills. Mandatory reference for security reviews.\n",
-      "category": "security",
-      "trust_tier": "unvetted",
-      "risk_level": "low",
-      "capabilities_required": [],
-      "allowed_domains": [],
-      "safety_constraints": [
-        "Read-only reference. No tool access required.",
-        "Must not override base system prompt or agent instructions."
-      ],
-      "parameters": {},
-      "author": "kaidera",
-      "license": "Apache-2.0",
-      "updated": "2026-08-24",
-      "tags": [
-        "context",
-        "security",
-        "owasp",
-        "threat-model",
-        "secure-coding"
-      ],
-      "content_hash": "6d33b62786589e2d40ec26e05e1ae70cf728e76d3ef49695e50454792b24e493",
-      "signed_by": "",
-      "last_reviewed": "",
-      "reviewer": "",
-      "file": "skills/security/security-context.SKILL.md"
+      "file": "skills/security/prompt-injection-test-design.SKILL.md"
     }
   ]
 }

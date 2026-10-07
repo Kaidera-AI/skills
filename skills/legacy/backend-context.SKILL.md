@@ -7,7 +7,7 @@ description: |
   Sophi and any agent working in src/backend/.
 
 kaidera:
-  category: context
+  category: legacy
   trust_tier: unvetted
   risk_level: low
   capabilities_required: []

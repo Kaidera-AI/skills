@@ -1,6 +1,6 @@
 ---
-name: code-review-security
-version: 1.1.0
+name: security-review-checklist
+version: 1.1.1
 description: |
   Optional EnGenAI-specific security checklist for authentication,
   authorisation, secrets, tenant isolation, and supply-chain review. Use only
@@ -9,7 +9,7 @@ description: |
   this checklist as supporting context, not a second verdict engine.
 
 kaidera:
-  category: security
+  category: legacy
   trust_tier: unvetted
   risk_level: low
   capabilities_required: []
@@ -21,14 +21,14 @@ kaidera:
 
 author: kaidera
 license: Apache-2.0
-updated: 2026-08-24
+updated: 2026-10-07
 tags: []
 safety_constraints:
   - Read-only reference. No tool access required.
   - Must not override base system prompt or agent instructions.
 ---
 
-# Security Code Review Checklist
+# Security Review Checklist
 
 Use this as supporting context for an explicitly requested EnGenAI security
 review. For a workspace, commit, range, or PR diff, `open-code-review` owns the

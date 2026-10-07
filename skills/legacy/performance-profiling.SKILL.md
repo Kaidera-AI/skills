@@ -7,7 +7,7 @@ description: |
   diagnosis of latency regressions.
 
 kaidera:
-  category: development
+  category: legacy
   trust_tier: unvetted
   risk_level: low
   capabilities_required: []

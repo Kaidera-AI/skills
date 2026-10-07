@@ -7,7 +7,7 @@ description: |
   Never claim "done" without running the verification command.
 
 kaidera:
-  category: development
+  category: legacy
   trust_tier: unvetted
   risk_level: low
   capabilities_required: []
