@@ -2,8 +2,6 @@
 
 Status: **human-facing index; the manifests and the catalogue remain authoritative**
 
-Glossary date: **2026-10-07**
-
 Published skills covered: **45**
 
 Rendered by `scripts/render-glossary.js` from the built marketplace, the catalogue

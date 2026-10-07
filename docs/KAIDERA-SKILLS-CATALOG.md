@@ -1236,10 +1236,10 @@ evidence; resolve each fact against its owning source.
 
 ### Redaction of legacy material
 
-On 2026-10-07 the 14 `legacy/` bodies that carried them were redacted of personal data
-and reachable infrastructure identifiers. This is a deliberate, bounded edit and not the
-global word replacement this catalogue forbids. The boundary is stated here because it is
-the rule any future redaction should follow.
+On 2026-10-07 the 14 `legacy/` bodies that carried them, and four references in this
+catalogue, were redacted of personal data and reachable infrastructure identifiers. This is
+a deliberate, bounded edit and not the global word replacement this catalogue forbids. The
+boundary is stated here because it is the rule any future redaction should follow.
 
 Removed:
 
@@ -1288,6 +1288,30 @@ patch version bump because its instructions changed. Redaction is not migration:
 product assumptions, the capability/body mismatches below, and the unsafe ordering in
 `incident-response` are all still inside these files. `legacy/` quarantines them; it does
 not repair them.
+
+**Redaction is not remediation, and this is the part that needs acting on.** The edit above
+applies to the current tree only. This repository's history retains the original text, and
+anyone can recover every identifier removed here with `git log -p` — the production project,
+cluster and namespace names, the Terraform state bucket name, the container-registry path,
+the project-prefix grammar, both deployment hostnames, and all five personal names. They
+have been recoverable since those files were first committed. Rewriting history is not the
+remedy: this repository is public and has forks, and a rewrite would invalidate every clone
+and every open pull request reference.
+
+So the identifiers and names must be treated as **known**, and the remaining work is on the
+infrastructure side rather than in this repository:
+
+1. Confirm the Terraform state bucket's access control does not permit public listing, and
+   consider renaming it. A state bucket name is only safe if the bucket's IAM is correct,
+   because the name was never meaningfully secret — and Terraform state routinely holds
+   credentials in plaintext.
+2. Confirm both deployment hostnames are decommissioned or unreachable from the internet.
+3. Check whether any credential, service-account key or token was committed alongside them,
+   in these files or anywhere else in this repository's history.
+
+A redaction diff answers "does the current tree publish this?". It does not answer "is this
+exposure remediated?", and reading it as though it does is the one misreading in this
+section that has a consequence rather than a cosmetic cost.
 
 One file was assessed and left alone. `skills/documentation/EXAMPLES.md` is the
 `human-voice` skill's worked example, and it uses a real named executive biography — the

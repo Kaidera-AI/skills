@@ -142,8 +142,6 @@ function render() {
   w('')
   w('Status: **human-facing index; the manifests and the catalogue remain authoritative**')
   w('')
-  w('Glossary date: **2026-10-07**')
-  w('')
   w(`Published skills covered: **${skills.length}**`)
   w('')
   w('Rendered by `scripts/render-glossary.js` from the built marketplace, the catalogue')
