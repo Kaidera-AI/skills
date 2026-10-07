@@ -82,9 +82,10 @@ Skills are Markdown instructions. Declare every required platform tool under
 
 ### File Naming
 
-- Use lowercase with hyphens: `code-review.SKILL.md`
-- Place in the correct category folder: `skills/development/code-review.SKILL.md`
+- Use lowercase with hyphens: `git-commit.SKILL.md`
+- Place in the correct category folder: `skills/development/git-commit.SKILL.md`
 - One skill per file
+- Never file a new skill under `skills/legacy/`. That category is a quarantine for retired upstream material, and the catalogue test asserts it agrees with the reviewed `legacy` marker
 
 ### Attribution Fields (Optional but Encouraged)
 

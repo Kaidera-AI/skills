@@ -7,7 +7,7 @@ description: |
   and OpenAPI documentation conventions.
 
 kaidera:
-  category: development
+  category: legacy
   trust_tier: unvetted
   risk_level: low
   capabilities_required: []

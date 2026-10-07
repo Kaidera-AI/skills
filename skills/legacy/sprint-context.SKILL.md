@@ -7,7 +7,7 @@ description: |
   all agents contributing to sprint delivery.
 
 kaidera:
-  category: context
+  category: legacy
   trust_tier: unvetted
   risk_level: low
   capabilities_required: []

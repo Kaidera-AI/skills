@@ -37,7 +37,7 @@ const REQUIRED_KAIDERA = [
 ]
 const ALLOWED_KAIDERA = new Set([...REQUIRED_KAIDERA, 'source'])
 const ALLOWED_PARAMETER_FIELDS = new Set(['type', 'required', 'description'])
-const VALID_CATEGORIES = ['development', 'devops', 'security', 'documentation', 'research', 'integrations', 'context']
+const VALID_CATEGORIES = ['development', 'devops', 'security', 'documentation', 'research', 'integrations', 'context', 'legacy']
 const VALID_TRUST_TIERS = ['official', 'verified_partner', 'community_vetted', 'unvetted']
 const VALID_RISK_LEVELS = ['low', 'medium', 'high']
 const VALID_CAPABILITIES = [

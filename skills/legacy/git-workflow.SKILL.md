@@ -6,7 +6,7 @@ description: |
   sprint branching model, PR process, and merge rules.
 
 kaidera:
-  category: development
+  category: legacy
   trust_tier: unvetted
   risk_level: low
   capabilities_required: []

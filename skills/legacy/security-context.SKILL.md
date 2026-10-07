@@ -7,7 +7,7 @@ description: |
   controls for all agents and skills. Mandatory reference for security reviews.
 
 kaidera:
-  category: security
+  category: legacy
   trust_tier: unvetted
   risk_level: low
   capabilities_required: []

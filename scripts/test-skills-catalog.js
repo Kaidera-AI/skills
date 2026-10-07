@@ -55,7 +55,7 @@ const posturePolicy = new Map([
     'frontend-context',
     'infrastructure-context',
     'k8s-deploy',
-    'prompt-injection-test',
+    'prompt-injection-test-design',
     'security-context',
     'workspace-context',
       'human-voice',
@@ -75,7 +75,7 @@ const posturePolicy = new Map([
 ])],
   ['rework-before-use', new Set([
     'code-review',
-    'code-review-security',
+    'security-review-checklist',
     'database-migration',
     'dependency-audit',
     'git-workflow',
@@ -92,7 +92,7 @@ const legacySkills = new Set([
   'api-test',
   'backend-context',
   'code-review',
-  'code-review-security',
+  'security-review-checklist',
   'container-build',
   'database-migration',
   'dependency-audit',
@@ -120,7 +120,7 @@ const currentSourceSkills = new Set([
   'marketing-web-research',
   'assumption-validation',
   'open-code-review',
-  'prompt-injection-test',
+  'prompt-injection-test-design',
   'research-brief',
   'ultrareview',
     'assert-fact-gate',
@@ -140,6 +140,7 @@ const categoryLabels = new Map([
   ['development', 'Development'],
   ['devops', 'DevOps'],
   ['documentation', 'Documentation'],
+  ['legacy', 'Legacy'],
   ['research', 'Research'],
   ['security', 'Security'],
 ])
@@ -158,6 +159,7 @@ const requiredHeadings = [
   '## Development skills',
   '## DevOps skills',
   '## Documentation skills',
+  '## Legacy skills',
   '## Research skills',
   '## Security skills',
   '## Common usage examples',
@@ -339,6 +341,14 @@ function validateCatalog(content, marketplace) {
       }
     }
 
+    // The legacy/ category and the reviewed legacy marker are two records of one fact.
+    // Nothing else connects them, so without this a skill could sit under skills/legacy/
+    // with marker.legacy false, or stay in a current category with marker.legacy true,
+    // and every other check would still pass.
+    if ((skill.category === 'legacy') !== legacySkills.has(name)) {
+      errors.push(`${name}: legacy category and legacy marker classification disagree`)
+    }
+
     const heading = `### \`${name}\``
     if (lineCount(content, heading) !== 1) {
       errors.push(`${name}: expected exactly one detailed skill heading`)
@@ -458,6 +468,7 @@ function readmeCategoryDescription(category) {
     ['development', 'Code writing, review, testing'],
     ['devops', 'Deployment, infrastructure, CI/CD'],
     ['documentation', 'Specs, docs, changelogs, writing voice'],
+    ['legacy', 'Retired EnGenAI-era material, kept as reference'],
     ['research', 'Research briefs, company research and evidence'],
     ['security', 'Auditing, scanning, incident response'],
   ]).get(category)
@@ -579,21 +590,27 @@ function main() {
     marketplace,
     'ownership/licence/domain/attribution row is missing or stale',
   )
+  // Both fixtures must mutate the target skill's own at-a-glance row. Mutating the first
+  // document occurrence of a posture or risk string can land on the portfolio summary
+  // table or on another skill's row, which then reports a different, unrelated error.
+  const firstGlancePrefix = `| ${categoryLabels.get(firstSkill.category)} | \`${firstSkill.name}\` |`
+  const firstGlanceRow = content.split('\n').find(line => line.startsWith(firstGlancePrefix))
+  assert(firstGlanceRow, `no catalogue-at-a-glance row for ${firstSkill.name}`)
   assertRejected(
     'visible posture drift',
-    content.replace(
+    content.replace(firstGlanceRow, firstGlanceRow.replace(
       `${postureLabels.get(firstRecord.posture)}${firstRecord.legacy ? ', legacy' : ''}`,
       'Bounded candidate',
-    ),
+    )),
     marketplace,
     'catalogue-at-a-glance posture is stale',
   )
   assertRejected(
     'visible risk drift',
-    content.replace(
+    content.replace(firstGlanceRow, firstGlanceRow.replace(
       `${firstRecord.risk_level} / ${capabilitySummary(firstRecord)}`,
       'critical / cluster-admin',
-    ),
+    )),
     marketplace,
     'catalogue-at-a-glance risk or capabilities are stale',
   )
@@ -621,6 +638,26 @@ function main() {
       `| \`${firstSkill.category}/\` | ${readmeCategoryDescription(firstSkill.category)} changed |`),
     marketplace,
     'README category count or description is stale',
+  )
+
+  // The category/marker invariant. This fixture clones the marketplace instead of mutating
+  // the shared object, so the change cannot leak into the fixtures that follow. Flipping a
+  // legacy skill's category also trips the marker-field check, the at-a-glance category cell
+  // and the portfolio count; assertRejected only needs the targeted message among them, and
+  // that co-occurrence is the point - it shows the invariant is not redundant with a check
+  // that happens to fire for a different reason.
+  const legacySkill = marketplace.skills.find(skill => skill.category === 'legacy')
+  assert(legacySkill, 'expected a legacy-category skill to exercise the category/marker invariant')
+  assertRejected(
+    'legacy category and marker disagreement',
+    content,
+    {
+      ...marketplace,
+      skills: marketplace.skills.map(skill => skill.name === legacySkill.name
+        ? { ...skill, category: 'development', file: skill.file.replace('skills/legacy/', 'skills/development/') }
+        : skill),
+    },
+    'legacy category and legacy marker classification disagree',
   )
 
   console.log(
