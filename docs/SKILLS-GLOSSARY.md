@@ -2,7 +2,7 @@
 
 Status: **human-facing index; the manifests and the catalogue remain authoritative**
 
-Published skills covered: **45**
+Published skills covered: **44**
 
 Rendered by `scripts/render-glossary.js` from the built marketplace, the catalogue
 markers and the authored prose in `scripts/glossary-prose.json`. Skill names, categories
@@ -30,21 +30,21 @@ the manifest wins and this file is stale — fix it in the same commit.
 | `development/` | 14 |
 | `devops/` | 3 |
 | `documentation/` | 1 |
-| `legacy/` | 22 |
+| `legacy/` | 21 |
 | `research/` | 2 |
 | `security/` | 1 |
-| **Total** | **45** |
+| **Total** | **44** |
 
 | Posture | Published |
 |---|---:|
 | Bounded candidate | 11 |
 | Reference-only | 14 |
-| Manual-only | 10 |
+| Manual-only | 9 |
 | Rework before use | 10 |
 
-Legacy entries: **22** of 45 are filed under `legacy/`. 20 of them still name the retired product or its domains outright; the other 2 (`code-review` and `deploy-to-dev`) do not, and are legacy for stale escalation, kill-switch, organisation-scope and sprint-log controls, or because redaction removed their only product reference.
+Legacy entries: **21** of 44 are filed under `legacy/`. 19 of them still name the retired product or its domains outright; the other 2 (`code-review` and `deploy-to-dev`) do not, and are legacy for stale escalation, kill-switch, organisation-scope and sprint-log controls, or because redaction removed their only product reference.
 
-None of the 22 declares any capability, yet several bodies describe installs,
+None of the 21 declares any capability, yet several bodies describe installs,
 live production diagnostics, database and cluster access, Git mutation or deployment.
 Personal names and reachable infrastructure identifiers were redacted from these files;
 the product name, component names and cloud regions were kept, because they are
@@ -177,7 +177,6 @@ portfolio judgements, separate from the manifest's `trust_tier`, and every skill
 | [`sprint-closing`](../skills/legacy/sprint-closing.SKILL.md) | `legacy` | Legacy six-phase sprint closure: documentation, commit, push and pull-request procedure. | Names one individual as approver and one product as scope; not portable. | Manual-only, legacy |
 | [`sprint-context`](../skills/legacy/sprint-context.SKILL.md) | `legacy` | Legacy three-file sprint pattern, TASK_STATUS protocol, definition of done and quality gates. | Workflow assumptions no longer match Kaidera delivery; rework before use. | Rework before use, legacy |
 | [`tdd-workflow`](../skills/legacy/tdd-workflow.SKILL.md) | `legacy` | Legacy red-green-refactor loop with a five-step verification requirement before “done”. | Describes test execution under a no-tool manifest; the discipline is sound, the contract is not. | Rework before use, legacy |
-| [`terraform-module`](../skills/legacy/terraform-module.SKILL.md) | `legacy` | Legacy GCP Terraform module structure, state, workspaces, variables and safe-apply workflow. | Provider-specific and mutation-describing; held by the cloud-portability policy. | Manual-only, legacy |
 | [`ultrareview`](../skills/development/ultrareview.SKILL.md) | `development` | Whole-codebase or module health audit across eight dimensions with adversarial verification of findings. | Repository-wide scope. Its opt-in fix mode exceeds its declared no-tool contract. | Rework before use |
 | [`unlazy`](../skills/development/unlazy.SKILL.md) | `development` | Completion discipline: write acceptance gates first, decompose with a depth tree, re-measure every claim. | The counter to quiet incompleteness on long, multi-part, parallel or exhaustive work. | Bounded candidate |
 | [`workspace-context`](../skills/legacy/workspace-context.SKILL.md) | `legacy` | Legacy workspace identity, tech stack, team structure, terminology and development principles. | Orientation only; it names a retired organisation and product. | Reference-only, legacy |

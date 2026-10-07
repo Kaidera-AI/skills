@@ -169,10 +169,6 @@
       "what": "Legacy red-green-refactor loop with a five-step verification requirement before “done”.",
       "why": "Describes test execution under a no-tool manifest; the discipline is sound, the contract is not."
     },
-    "terraform-module": {
-      "what": "Legacy GCP Terraform module structure, state, workspaces, variables and safe-apply workflow.",
-      "why": "Provider-specific and mutation-describing; held by the cloud-portability policy."
-    },
     "ultrareview": {
       "what": "Whole-codebase or module health audit across eight dimensions with adversarial verification of findings.",
       "why": "Repository-wide scope. Its opt-in fix mode exceeds its declared no-tool contract."

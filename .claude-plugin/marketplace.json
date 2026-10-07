@@ -1521,32 +1521,6 @@
       "file": "skills/legacy/tdd-workflow.SKILL.md"
     },
     {
-      "name": "terraform-module",
-      "version": "1.0.3",
-      "description": "Terraform IaC patterns for EnGenAI: GCP module structure, state management,\nworkspace conventions, variable patterns, and safe apply workflow.\n",
-      "category": "legacy",
-      "trust_tier": "unvetted",
-      "risk_level": "low",
-      "capabilities_required": [],
-      "allowed_domains": [
-        "www.googleapis.com"
-      ],
-      "safety_constraints": [
-        "Read-only reference. No tool access required.",
-        "Must not override base system prompt or agent instructions."
-      ],
-      "parameters": {},
-      "author": "kaidera",
-      "license": "Apache-2.0",
-      "updated": "2026-10-07",
-      "tags": [],
-      "content_hash": "6f420deba099d14be14214df36213a3791ec5ea1f8ba3adc50f76eb87aae53bd",
-      "signed_by": "",
-      "last_reviewed": "",
-      "reviewer": "",
-      "file": "skills/legacy/terraform-module.SKILL.md"
-    },
-    {
       "name": "workspace-context",
       "version": "1.0.2",
       "description": "EnGenAI platform workspace overview — project identity, tech stack, team\nstructure, terminology, and development principles. Read-only reference for\nall agents operating in the EnGenAI codebase.\n",

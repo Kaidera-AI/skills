@@ -65,7 +65,6 @@ const posturePolicy = new Map([
     'marketing-web-research',
     'deploy-to-dev',
     'sprint-closing',
-    'terraform-module',
       'assert-fact-gate',
     'cloud-agnostic-policy',
     'deploy-gate',
@@ -107,7 +106,6 @@ const legacySkills = new Set([
   'sprint-closing',
   'sprint-context',
   'tdd-workflow',
-  'terraform-module',
   'workspace-context',
 ])
 const currentSourceSkills = new Set([
