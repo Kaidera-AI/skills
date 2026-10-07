@@ -30,7 +30,7 @@ Skills are instructions, not programs: the flat `*.SKILL.md` manifest carries no
 | `development/` | Code writing, review, testing | 14 |
 | `devops/` | Deployment, infrastructure, CI/CD | 3 |
 | `documentation/` | Specs, docs, changelogs, writing voice | 1 |
-| `legacy/` | Retired EnGenAI-era material, kept as reference | 22 |
+| `legacy/` | Retired EnGenAI-era material, kept as reference | 21 |
 | `research/` | Research briefs, company research and evidence | 2 |
 | `security/` | Auditing, scanning, incident response | 1 |
 

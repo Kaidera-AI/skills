@@ -4,7 +4,7 @@ Status: **canonical human-facing catalogue; source candidate; runtime and trust 
 
 Catalogue date: **2026-09-28**
 
-Total skills: **45**
+Total skills: **44**
 
 Source binding: consume this guide only from the same Git commit as its skill
 manifests, marketplace, and catalogue test. The enclosing commit/tree is the
@@ -31,7 +31,7 @@ a release blocker; do not silently choose one side.
 
 ## Current release boundary
 
-- All 45 skills are `unvetted`.
+- All 44 skills are `unvetted`.
 - Catalogue presence, a body hash, static validation, or a local commit is not
   approval to inject a skill into an agent.
 - Gate 1 strict manifest checks and a bounded Gate 2 pattern scan exist.
@@ -43,7 +43,7 @@ a release blocker; do not silently choose one side.
 - Kaidera and Alibaba both use the name `open-code-review`. A host must select a
   source-qualified identity and inject only one; prompt text cannot resolve a
   loader collision after both skills are present.
-- 22 of the 45 skills are filed under `legacy/`. They are kept as research context,
+- 21 of the 44 skills are filed under `legacy/`. They are kept as research context,
   they are not current Kaidera truth, and none of them may be bound to an agent.
 
 ## Portfolio summary
@@ -54,22 +54,22 @@ a release blocker; do not silently choose one side.
 | Development | 14 |
 | DevOps | 3 |
 | Documentation | 1 |
-| Legacy | 22 |
+| Legacy | 21 |
 | Research | 2 |
 | Security | 1 |
 
 | Declared trust tier | Skills |
 |---|---:|
-| `unvetted` | 45 |
+| `unvetted` | 44 |
 
 | Operating posture | Skills |
 |---|---:|
 | Bounded candidate | 11 |
 | Reference-only | 14 |
-| Manual-only | 10 |
+| Manual-only | 9 |
 | Rework before use | 10 |
 
-Legacy entries: **22**
+Legacy entries: **21**
 
 Current-source entries: **23**
 
@@ -153,9 +153,9 @@ Use the narrowest matching skill:
 | Validate whether a customer-visible assumption is supported | `assumption-validation` | The request is merely code correctness, implementation, or live production research |
 | Draft a decision-led research mission | `research-brief` | The user asked to perform the research rather than draft its brief |
 | Research companies, current leaders and professional profiles | `marketing-web-research` | Only a research brief is requested; invitations, email, follows or paid tools lack applicable authority |
-| Design APIs, tests, migrations, containers, Kubernetes, or Terraform | matching `legacy/` reference skill | Current project conventions differ or execution/changes are requested without authority |
+| Design APIs, tests, migrations, containers or Kubernetes | matching `legacy/` reference skill | Current project conventions differ or execution/changes are requested without authority |
 | Gate a push, pull request, merge, release, deployment, infrastructure name or cloud choice | `deploy-gate`, `infra-naming-gate`, `cloud-agnostic-policy` | Exact target identity, current approval, quality evidence or rollback readiness is missing |
-| Consult a legacy deployment, sprint-closing or Terraform runbook | matching `legacy/` runbook | Execution is requested; these describe mutation while declaring no tools |
+| Consult a legacy deployment or sprint-closing runbook | matching `legacy/` runbook | Execution is requested; these describe mutation while declaring no tools |
 | Respond to an incident | No automatic skill route; rebuild the held `incident-response` source into a current human-gated runbook | Incident command, preservation-before-mutation, evidence custody, rollback, or readback is missing |
 | Design or review a prompt-injection boundary test | `prompt-injection-test-design` | Execution, corpus access, runtime access, or literal payload injection is requested |
 
@@ -217,7 +217,6 @@ Use the narrowest matching skill:
 | Legacy | `sprint-closing` | `2.0.2` | Legacy six-phase sprint closure, commit, push, and PR procedure | Manual-only, legacy | low / none declared |
 | Legacy | `sprint-context` | `1.0.2` | Legacy sprint files, status protocol, quality gates, and commit conventions | Rework before use, legacy | low / none declared |
 | Legacy | `tdd-workflow` | `2.0.1` | Legacy red-green-refactor and five-step verification workflow | Rework before use, legacy | low / none declared |
-| Legacy | `terraform-module` | `1.0.3` | Legacy GCP Terraform module, state, plan, apply, and identity patterns | Manual-only, legacy | low / none declared |
 | Legacy | `workspace-context` | `1.0.2` | Legacy workspace identity, stack, structure, terminology, and principles | Reference-only, legacy | low / none |
 | Research | `marketing-web-research` | `0.1.002` | Customer-configurable company and professional-profile research with separate action receipts | Manual-only | high / file read, file write, web search, external connector |
 | Research | `research-brief` | `1.0.0` | Drafts a self-contained decision-led brief without executing research | Bounded candidate | low / file read |
@@ -253,7 +252,6 @@ precedence issue remains a release hold.
 | `deploy-to-dev` | `kaidera` | `Apache-2.0` | `legacy-dev.invalid` | — |
 | `k8s-deploy` | `kaidera` | `Apache-2.0` | None | — |
 | `sprint-closing` | `kaidera` | `Apache-2.0` | None | — |
-| `terraform-module` | `kaidera` | `Apache-2.0` | `www.googleapis.com` | — |
 | `marketing-web-research` | `Kaidera-AI` | `Apache-2.0` | `linkedin.com`, `x.com` | — |
 | `research-brief` | `Kaidera-AI` | `Apache-2.0` | `github.com` | [David Ondrej](https://github.com/davidondrej/skills/tree/69c3ae5228eb146724fd23dac3d43eab5805bcc3/skills/research-and-web/research-prompt) |
 | `security-review-checklist` | `kaidera` | `Apache-2.0` | None | — |
@@ -607,7 +605,7 @@ Writing and documentation guidance. Reference-only unless a manifest says otherw
 ## Legacy skills
 
 Legacy material is kept because it is still useful research context, not because it
-is current Kaidera truth. Twenty of the twenty-two still name the retired product or its
+is current Kaidera truth. Nineteen of the twenty-one still name the retired product or its
 domains outright. The two that do not are legacy for different reasons: `code-review`
 never named it and carries stale CTO-escalation, kill-switch, organisation-scope and
 sprint-log controls instead, and `deploy-to-dev` stopped naming it when its hostnames and
@@ -616,8 +614,8 @@ placeholders are now the only in-body signal that it is not current.
 
 No manifest in this category declares any capability, yet several bodies describe
 installs, live production diagnostics, database and cluster access, Git mutation or
-deployment. That gap is why nine of the twenty-two are held for rework rather than
-merely labelled legacy, and why the other thirteen are reference-only or manual-only.
+deployment. That gap is why nine of the twenty-one are held for rework rather than
+merely labelled legacy, and why the other twelve are reference-only or manual-only.
 
 Read a legacy skill against its owning source before believing any fact in it, and
 never bind one to an agent. The category exists so a router cannot mistake a retired
@@ -1025,26 +1023,6 @@ Kaidera-native skills that will replace them.
   test passing before implementation must be wrong; regression tests can
   legitimately capture existing behaviour.
 
-### `terraform-module`
-
-<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"legacy","legacy":true,"name":"terraform-module","path":"skills/legacy/terraform-module.SKILL.md","posture":"manual-only","review_fingerprint":"dd9d3d287746d536e698a6e486a3bc5a0b0da7a9772b604d7d9df858e31d4b57","risk_level":"low","trust_tier":"unvetted","version":"1.0.3"} -->
-
-- **Manifest:** [terraform-module.SKILL.md](../skills/legacy/terraform-module.SKILL.md)
-- **Function:** Provides legacy GCP module layout, GCS state, plan/apply,
-  variables, naming, Workload Identity, and anti-pattern guidance.
-- **Use when:** Reviewing historical Terraform or borrowing a design pattern
-  after validating provider versions, state ownership, and environment policy.
-- **Do not use when:** Creating files, initialising providers, reading state,
-  planning, applying, destroying, importing, tainting, or accessing Google APIs
-  under this manifest.
-- **Inputs and output:** No parameters/tools. `www.googleapis.com` is listed but
-  no network capability is declared.
-- **Authority and effects:** Terraform can change or destroy infrastructure;
-  plan review, exact credentials, state locks, backups, approval, and readback
-  are external mandatory gates.
-- **Kaidera action:** Rebuild as separate read-only module design and governed
-  plan/apply skills if Terraform remains in an owning system.
-
 ### `workspace-context`
 
 <!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"legacy","legacy":true,"name":"workspace-context","path":"skills/legacy/workspace-context.SKILL.md","posture":"reference-only","review_fingerprint":"6878dea8418c55192c93e6153c4e1ea8d5e4d4d89c162138614e22b49c00ead2","risk_level":"low","trust_tier":"unvetted","version":"1.0.2"} -->
@@ -1170,9 +1148,10 @@ execution authority and never outranks current source or runtime facts.
 
 ### Design versus implementation
 
-`api-design`, `api-test`, `database-migration`, `container-build`, `k8s-deploy`,
-and `terraform-module` are pattern references, and all six are now filed under
-`legacy/`. They do not authorise file changes, tests, builds, cluster actions,
+`api-design`, `api-test`, `database-migration`, `container-build` and `k8s-deploy`
+are pattern references, and all five are filed under `legacy/`. A sixth,
+`terraform-module`, was archived out of this repository on 2026-10-07 because its
+entire subject was GCP Terraform, which standing cloud policy no longer permits. They do not authorise file changes, tests, builds, cluster actions,
 database operations, or infrastructure apply. Future implementation skills should be
 separate, current-source, and declare the exact write/execution boundary rather than
 expanding these reference manifests silently.
@@ -1215,7 +1194,7 @@ write path, or sandbox.
 
 ### Legacy identity and architecture
 
-The 22 entries under `legacy/` collectively still name the retired product, fixed sprint
+The 21 entries under `legacy/` collectively still name the retired product, fixed sprint
 numbers, old roles, legacy repository paths, branches and deployed controls. Their named
 people, hostnames, and project and registry identifiers are now placeholders — see
 Redaction of legacy material below. Twenty still name the product outright; `code-review`
@@ -1237,7 +1216,9 @@ evidence; resolve each fact against its owning source.
 ### Redaction of legacy material
 
 On 2026-10-07 the 14 `legacy/` bodies that carried them, and four references in this
-catalogue, were redacted of personal data and reachable infrastructure identifiers. This is
+catalogue, were redacted. Thirteen of those bodies are still here; the fourteenth,
+`terraform-module`, was archived out of this repository the same day and its redacted
+copy is preserved in the owning organisation's internal historical archive of personal data and reachable infrastructure identifiers. This is
 a deliberate, bounded edit and not the global word replacement this catalogue forbids. The
 boundary is stated here because it is the rule any future redaction should follow.
 
@@ -1245,7 +1226,7 @@ Removed:
 
 - **Named people**, replaced by the role they held — the release authority, the CTO, the
   CPO, the backend agent, the frontend agent, the second maintainer, or `(name redacted)`
-  where the text was an organisation-chart entry. Five names appeared across ten files.
+  where the text was an organisation-chart entry. Five names appeared across ten files, nine of which are still in this repository.
 - **Reachable hostnames**, replaced with RFC 2606 reserved names that cannot resolve:
   `legacy-dev.invalid`, `legacy-api.invalid`, `legacy-root.invalid`. The matching
   `allowed_domains` entries changed with them, so each manifest still agrees with its body.
@@ -1299,15 +1280,28 @@ remedy: this repository is public and has forks, and a rewrite would invalidate 
 and every open pull request reference.
 
 So the identifiers and names must be treated as **known**, and the remaining work is on the
-infrastructure side rather than in this repository:
+infrastructure side rather than in this repository. One framing point matters more than the
+list: every identifier above belongs to a **retired** cloud estate, not to current
+infrastructure, so the first question is whether that estate still exists at all.
 
-1. Confirm the Terraform state bucket's access control does not permit public listing, and
-   consider renaming it. A state bucket name is only safe if the bucket's IAM is correct,
-   because the name was never meaningfully secret — and Terraform state routinely holds
-   credentials in plaintext.
-2. Confirm both deployment hostnames are decommissioned or unreachable from the internet.
-3. Check whether any credential, service-account key or token was committed alongside them,
-   in these files or anywhere else in this repository's history.
+1. Confirm the retired estate is decommissioned — the cloud project, the Terraform state
+   bucket, and both deployment hostnames. If it is gone, the identifiers resolve to nothing
+   and this item closes on that confirmation alone. If any part of it still exists, check the
+   state bucket's access control and consider renaming it: a state bucket name is only ever as
+   safe as the bucket's IAM, because the name was never meaningfully secret and Terraform
+   state routinely holds credentials in plaintext.
+2. Check whether any credential, service-account key or token was committed alongside these
+   identifiers, in these files or anywhere else in this repository's history. This one is
+   worth running whether or not the estate is gone, because a live credential outlives the
+   infrastructure it was issued for.
+
+There is also a third option, and it was taken for one file: `terraform-module` was
+archived out of this repository entirely on 2026-10-07, because its whole subject was GCP
+Terraform and standing cloud policy is AWS-only with existing GCP resources exit-only.
+Several other `legacy/` files are GCP-flavoured but are about Kubernetes, containers or
+GitOps rather than Terraform, so they stay quarantined; archiving the whole retired cloud
+estate is a larger decision and was not made here. Quarantine is reversible and preserves history; deletion is not, and
+the catalogue's own rule against destroying useful history is the argument for waiting.
 
 A redaction diff answers "does the current tree publish this?". It does not answer "is this
 exposure remediated?", and reading it as though it does is the one misreading in this
@@ -1342,9 +1336,9 @@ examples include:
 - `sprint-context`, `database-migration`, `git-workflow`, and `tdd-workflow`:
   Git, database, code-write, deploy, or test execution described by no-tool
   reference manifests; and
-- `deploy-to-dev`, `sprint-closing`, `terraform-module`, and
-  `incident-response`: operational mutation described by no-tool reference
-  manifests.
+- `deploy-to-dev`, `sprint-closing`, and `incident-response`: operational mutation
+  described by no-tool reference manifests. `terraform-module` carried the same defect and
+  was in this list until it was archived out of the repository on 2026-10-07.
 
 The posture labels in this guide prevent those gaps from being hidden, but they
 are not runtime enforcement. Complete body-to-capability reconciliation remains
