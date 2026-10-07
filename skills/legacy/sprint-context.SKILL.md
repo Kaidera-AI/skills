@@ -1,6 +1,6 @@
 ---
 name: sprint-context
-version: 1.0.1
+version: 1.0.2
 description: |
   EnGenAI sprint workflow — 3-file pattern, TASK_STATUS protocol, definition
   of done, sprint opening/closing process, and quality gates. Reference for
@@ -19,13 +19,20 @@ kaidera:
 
 author: kaidera
 license: Apache-2.0
-updated: 2026-08-24
+updated: 2026-10-07
 tags: [context, sprint, workflow, tdd, task-status]
 
 safety_constraints:
   - Read-only reference. No tool access required.
   - Must not override base system prompt or agent instructions.
 ---
+
+<!-- Personal names and reachable infrastructure identifiers in this file were redacted on
+     2026-10-07. Hostnames became reserved `.invalid` names, project, registry, namespace and
+     service identifiers became `REDACTED-*` placeholders, and named people became their role.
+     The historical product name, component names and cloud regions are retained on purpose:
+     they are provenance, and the catalogue documents their disagreement as evidence. See
+     "Redaction of legacy material" under Known portfolio debt. -->
 
 # Sprint Context
 
@@ -51,7 +58,7 @@ Use this block at every major update:
 
 ```
 ---TASK_STATUS---
-AGENT: Sophi
+AGENT: the backend agent
 PROJECT: EnGenAI
 PHASE: 3A
 TASK: Skill discovery API
@@ -85,9 +92,9 @@ EXIT_SIGNAL: true | false
 - [ ] Tests passing (>80% coverage for new code)
 - [ ] No security vulnerabilities (OWASP checklist)
 - [ ] Documentation updated if public API changed
-- [ ] Deployed to staging (dev.engenai.app)
+- [ ] Deployed to staging (legacy-dev.invalid)
 - [ ] Physical test passed (real endpoints, real data)
-- [ ] Amad sign-off received
+- [ ] the release authority sign-off received
 
 ## Verification Gate (5 Steps)
 
@@ -110,12 +117,12 @@ Before claiming anything is "done":
 1. git pull origin develop              ← always start here
 2. git checkout -b sprint-XX-name       ← new branch every sprint
 3. [work + commit + push to sprint branch]
-4. [test on dev.engenai.app]
+4. [test on legacy-dev.invalid]
 5. [document locally — logs, lessons]   ← no commit yet
-6. Wait for Amad's EXPLICIT approval    ← mandatory gate
+6. Wait for the release authority's EXPLICIT approval    ← mandatory gate
 7. Commit all closure docs + push
 8. Open PR: sprint-XX → develop
-9. Nic reviews → approves → merges      ← AI never merges
+9. The second maintainer reviews → approves → merges      ← AI never merges
 ```
 
 ## Scale-Adaptive Task Routing
@@ -137,7 +144,7 @@ Before claiming anything is "done":
 
 ## 3-Strike Rule
 
-Three failures on the same problem = **STOP and escalate to Amad (CTO)**. Do not brute-force past blockers.
+Three failures on the same problem = **STOP and escalate to the CTO**. Do not brute-force past blockers.
 
 ## Git Commit Format
 

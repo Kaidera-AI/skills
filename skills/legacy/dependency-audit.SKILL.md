@@ -1,6 +1,6 @@
 ---
 name: dependency-audit
-version: 1.0.1
+version: 1.0.2
 description: |
   Dependency security audit workflow for EnGenAI: CVE scanning,
   supply chain verification, dependency pinning strategy,
@@ -19,12 +19,19 @@ kaidera:
 
 author: kaidera
 license: Apache-2.0
-updated: 2026-08-24
+updated: 2026-10-07
 tags: []
 safety_constraints:
   - Read-only reference. No tool access required.
   - Must not override base system prompt or agent instructions.
 ---
+
+<!-- Personal names and reachable infrastructure identifiers in this file were redacted on
+     2026-10-07. Hostnames became reserved `.invalid` names, project, registry, namespace and
+     service identifiers became `REDACTED-*` placeholders, and named people became their role.
+     The historical product name, component names and cloud regions are retained on purpose:
+     they are provenance, and the catalogue documents their disagreement as evidence. See
+     "Redaction of legacy material" under Known portfolio debt. -->
 
 # Dependency Audit Workflow
 
@@ -154,7 +161,7 @@ CVE found in dependency X
 │       ├── YES → Replace package, update all imports, PR
 │       └── NO → Can we vendor/fork the fix?
 │           ├── YES → Add patched version to vendor/, document
-│           └── NO → Escalate to Amad — may need feature removal
+│           └── NO → Escalate to the release authority — may need feature removal
 │
 ├── Does the CVE affect our usage pattern?
 │   └── Document non-applicability with evidence in PR

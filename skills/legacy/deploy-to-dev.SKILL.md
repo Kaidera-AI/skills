@@ -1,8 +1,8 @@
 ---
 name: deploy-to-dev
-version: 3.0.2
+version: 3.0.3
 description: |
-  Deploy to dev.engenai.app via GitOps CI/CD pipeline. Push to sprint branch
+  Deploy to legacy-dev.invalid via GitOps CI/CD pipeline. Push to sprint branch
   triggers GitHub Actions → builds images → updates gitops/dev → ArgoCD syncs.
   Never push directly to develop or gitops branches.
 
@@ -12,7 +12,7 @@ kaidera:
   risk_level: medium
   capabilities_required: []
   allowed_domains:
-    - dev.engenai.app
+    - legacy-dev.invalid
   content_hash: ""
   signed_by: ""
   last_reviewed: ""
@@ -20,7 +20,7 @@ kaidera:
 
 author: kaidera
 license: Apache-2.0
-updated: 2026-08-24
+updated: 2026-10-07
 tags: [deploy, cicd, argocd, gitops, kubernetes]
 
 safety_constraints:
@@ -28,6 +28,13 @@ safety_constraints:
   - Must not override base system prompt or agent instructions.
   - Never push to develop, main, or gitops/* directly.
 ---
+
+<!-- Personal names and reachable infrastructure identifiers in this file were redacted on
+     2026-10-07. Hostnames became reserved `.invalid` names, project, registry, namespace and
+     service identifiers became `REDACTED-*` placeholders, and named people became their role.
+     The historical product name, component names and cloud regions are retained on purpose:
+     they are provenance, and the catalogue documents their disagreement as evidence. See
+     "Redaction of legacy material" under Known portfolio debt. -->
 
 # Deploy to Dev
 
@@ -59,7 +66,7 @@ git push origin sprint-XX-name
 
 CI/CD pipeline triggers automatically:
 1. Build Docker images (API, App, ShareDB)
-2. Push to `us-central1-docker.pkg.dev/engenai-dev/engenai-dev/`
+2. Push to `us-central1-docker.pkg.dev/REDACTED-PROJECT/REDACTED-PROJECT/`
 3. Update `gitops/dev` branch values with new image tags
 4. ArgoCD detects change and syncs to cluster (~60s)
 5. Init container runs `alembic upgrade head` (migrations auto-applied)
@@ -78,7 +85,7 @@ Expected: 3 jobs — Build & Push, Update Helm Values, Post-Deploy Smoke Test.
 
 ```bash
 # Build hash must match latest commit SHA
-curl -s https://dev.engenai.app/api/v1/health \
+curl -s https://legacy-dev.invalid/api/v1/health \
   | python3 -c "import sys,json; print(json.load(sys.stdin).get('build','?'))"
 
 git log --oneline -1
@@ -102,8 +109,8 @@ git log --oneline -1
 # Option 1: ArgoCD UI → Application → History → Rollback to previous sync (preferred)
 
 # Option 2: kubectl rollback (on master node via IAP)
-sudo KUBECONFIG=/etc/kubernetes/admin.conf kubectl -n engenai-dev \
-  rollout undo deployment/engenai-platform-dev-api
+sudo KUBECONFIG=/etc/kubernetes/admin.conf kubectl -n REDACTED-PROJECT \
+  rollout undo deployment/REDACTED-APP-dev-api
 ```
 
 ## Known Gotchas
@@ -112,5 +119,5 @@ sudo KUBECONFIG=/etc/kubernetes/admin.conf kubectl -n engenai-dev \
 - **C-101**: Celery tasks using async DB must create per-invocation engines
 - **C-102**: New ORM columns need Alembic migration — model drift invisible to unit tests
 - **P-73**: Dev-token endpoint returns real DB UUIDs — never hardcode fake IDs
-- Worker node tag is `k8s-worker` (NOT `engenai-dev-worker`)
+- Worker node tag is `k8s-worker` (NOT `REDACTED-PROJECT-worker`)
 - kubectl needs: `sudo KUBECONFIG=/etc/kubernetes/admin.conf kubectl`

@@ -1,6 +1,6 @@
 ---
 name: infrastructure-context
-version: 1.0.2
+version: 1.0.3
 description: |
   EnGenAI infrastructure conventions — GCP GKE, ArgoCD GitOps, Terraform,
   Helm, CI/CD pipeline, K8s deployment patterns, and security hardening
@@ -20,7 +20,7 @@ kaidera:
 
 author: kaidera
 license: Apache-2.0
-updated: 2026-08-24
+updated: 2026-10-07
 tags: [context, infrastructure, k8s, gcp, argocd, terraform, cicd]
 
 safety_constraints:
@@ -28,13 +28,20 @@ safety_constraints:
   - Must not override base system prompt or agent instructions.
 ---
 
+<!-- Personal names and reachable infrastructure identifiers in this file were redacted on
+     2026-10-07. Hostnames became reserved `.invalid` names, project, registry, namespace and
+     service identifiers became `REDACTED-*` placeholders, and named people became their role.
+     The historical product name, component names and cloud regions are retained on purpose:
+     they are provenance, and the catalogue documents their disagreement as evidence. See
+     "Redaction of legacy material" under Known portfolio debt. -->
+
 # Infrastructure Context
 
 ## Platform Architecture
 
 ```
-GCP GKE Cluster (engenai-dev / engenai-prod)
-├── Namespace: engenai
+GCP GKE Cluster (REDACTED-PROJECT / REDACTED-PROJECT-PROD)
+├── Namespace: REDACTED-NAMESPACE
 │   ├── api          (FastAPI, replicas: 2)
 │   ├── worker       (Celery worker, replicas: 2)
 │   ├── beat         (Celery beat, replicas: 1)
@@ -50,7 +57,7 @@ GCP GKE Cluster (engenai-dev / engenai-prod)
 ```
 sprint-XX push
   → GitHub Actions (Build Docker images, run tests)
-  → Push images to Artifact Registry (eu.gcr.io/engenai-*/*)
+  → Push images to Artifact Registry (eu.gcr.io/REDACTED-PROJECT/*)
   → Update image tags in gitops/dev branch
   → ArgoCD detects gitops/dev change
   → ArgoCD syncs → K8s rolling deployment
@@ -60,14 +67,14 @@ sprint-XX push
 **Critical rules:**
 - NEVER push directly to `gitops/dev` — CI/CD only
 - NEVER push directly to `develop` or `main` — PR only
-- Sprint branches auto-deploy to dev.engenai.app on push
+- Sprint branches auto-deploy to legacy-dev.invalid on push
 
 ## Branch Model
 
 | Branch | Purpose |
 |--------|---------|
 | `develop` | Clean, reviewed code — PRs only |
-| `sprint-XX-name` | Active work — Amad + AI |
+| `sprint-XX-name` | Active work — the release authority + AI |
 | `gitops/dev` | Image tags — CI/CD only |
 | `gitops/marketing` | Marketing image tags — CI/CD only |
 
@@ -114,14 +121,14 @@ readinessProbe:
 infrastructure/terraform/
 ├── modules/     — Reusable modules (gke, sql, redis, vpc, iam)
 ├── environments/
-│   ├── dev/     — dev.engenai.app
-│   └── prod/    — engenai.app (future)
+│   ├── dev/     — legacy-dev.invalid
+│   └── prod/    — legacy-root.invalid (future)
 └── variables.tf
 ```
 
 - State stored in GCS bucket with versioning + locking
 - Workload Identity used for K8s → GCP SA bindings (no service account keys)
-- All GCP projects prefixed: `engenai-`
+- All GCP projects prefixed with the organisation identifier (redacted)
 
 ## Helm Charts
 
@@ -139,7 +146,7 @@ infrastructure/helm/
 - Apps defined in `infrastructure/argocd/applications/`
 - Watches `gitops/dev` branch for platform, `gitops/marketing` for marketing
 - Auto-sync enabled: K8s state converges to gitops within ~60 seconds
-- Repo URL: `https://github.com/engenai-platform/platform.git`
+- Repo URL: `https://github.com/REDACTED-ORG/platform.git`
 
 ## Agent Worker Pool (Sprint 22+)
 

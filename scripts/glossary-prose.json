@@ -59,7 +59,7 @@
     },
     "deploy-to-dev": {
       "what": "Legacy GitOps runbook: sprint-branch push triggers CI, image build, gitops update and ArgoCD sync.",
-      "why": "Names one EnGenAI environment and domain; do not generalise it."
+      "why": "Names one retired product's environment; its hostnames and project identifiers are now placeholders. Do not generalise it."
     },
     "development-workflow": {
       "what": "Portable AI-plus-human lifecycle: bounded tasks, independent review, risk-based QA, recorded decisions.",

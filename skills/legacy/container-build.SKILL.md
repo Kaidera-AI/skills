@@ -1,6 +1,6 @@
 ---
 name: container-build
-version: 1.0.1
+version: 1.0.2
 description: |
   Container image build patterns for EnGenAI: multi-stage Containerfiles,
   non-root UID 1001, security hardening, GitHub Actions CI build pipeline,
@@ -19,12 +19,19 @@ kaidera:
 
 author: kaidera
 license: Apache-2.0
-updated: 2026-08-24
+updated: 2026-10-07
 tags: []
 safety_constraints:
   - Read-only reference. No tool access required.
   - Must not override base system prompt or agent instructions.
 ---
+
+<!-- Personal names and reachable infrastructure identifiers in this file were redacted on
+     2026-10-07. Hostnames became reserved `.invalid` names, project, registry, namespace and
+     service identifiers became `REDACTED-*` placeholders, and named people became their role.
+     The historical product name, component names and cloud regions are retained on purpose:
+     they are provenance, and the catalogue documents their disagreement as evidence. See
+     "Redaction of legacy material" under Known portfolio debt. -->
 
 # Container Build Patterns
 
@@ -33,7 +40,7 @@ safety_constraints:
 ```
 GitHub Actions
   └── Build multi-stage image
-  └── Push to GCP Artifact Registry (europe-west2-docker.pkg.dev/engenai-dev/...)
+  └── Push to GCP Artifact Registry (europe-west2-docker.pkg.dev/REDACTED-PROJECT/...)
   └── Update gitops/dev image tag
 ArgoCD watches gitops/dev
   └── Syncs K8s Deployment with new image tag
@@ -157,8 +164,8 @@ infrastructure/terraform/
     file: infrastructure/containerfiles/Containerfile.backend
     push: true
     tags: |
-      europe-west2-docker.pkg.dev/engenai-dev/engenai/platform:latest
-      europe-west2-docker.pkg.dev/engenai-dev/engenai/platform:sha-${{ github.sha }}
+      europe-west2-docker.pkg.dev/REDACTED-PROJECT/REDACTED-REPO/platform:latest
+      europe-west2-docker.pkg.dev/REDACTED-PROJECT/REDACTED-REPO/platform:sha-${{ github.sha }}
     cache-from: type=gha
     cache-to: type=gha,mode=max
 ```
@@ -167,8 +174,8 @@ infrastructure/terraform/
 
 ```
 # Production K8s always uses the SHA tag (never :latest)
-europe-west2-docker.pkg.dev/engenai-dev/engenai/platform:sha-${GITHUB_SHA}
-europe-west2-docker.pkg.dev/engenai-dev/engenai/marketing:sha-${GITHUB_SHA}
+europe-west2-docker.pkg.dev/REDACTED-PROJECT/REDACTED-REPO/platform:sha-${GITHUB_SHA}
+europe-west2-docker.pkg.dev/REDACTED-PROJECT/REDACTED-REPO/marketing:sha-${GITHUB_SHA}
 
 # ArgoCD gitops/dev branch stores this tag in values.yaml
 # CI updates it automatically after push
@@ -180,7 +187,7 @@ europe-west2-docker.pkg.dev/engenai-dev/engenai/marketing:sha-${GITHUB_SHA}
 - name: Scan for CVEs
   uses: aquasecurity/trivy-action@6e7b7d1fd3e4fef0c5fa8cce1229c54b2c9bd0d8  # v0.28.0
   with:
-    image-ref: europe-west2-docker.pkg.dev/engenai-dev/engenai/platform:sha-${{ github.sha }}
+    image-ref: europe-west2-docker.pkg.dev/REDACTED-PROJECT/REDACTED-REPO/platform:sha-${{ github.sha }}
     format: sarif
     severity: CRITICAL,HIGH
     exit-code: 1

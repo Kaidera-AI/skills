@@ -1,6 +1,6 @@
 ---
 name: git-workflow
-version: 1.0.1
+version: 1.0.2
 description: |
   Git workflow conventions for EnGenAI: conventional commits, branch strategy,
   sprint branching model, PR process, and merge rules.
@@ -18,12 +18,19 @@ kaidera:
 
 author: kaidera
 license: Apache-2.0
-updated: 2026-08-24
+updated: 2026-10-07
 tags: []
 safety_constraints:
   - Read-only reference. No tool access required.
   - Must not override base system prompt or agent instructions.
 ---
+
+<!-- Personal names and reachable infrastructure identifiers in this file were redacted on
+     2026-10-07. Hostnames became reserved `.invalid` names, project, registry, namespace and
+     service identifiers became `REDACTED-*` placeholders, and named people became their role.
+     The historical product name, component names and cloud regions are retained on purpose:
+     they are provenance, and the catalogue documents their disagreement as evidence. See
+     "Redaction of legacy material" under Known portfolio debt. -->
 
 # Git Workflow
 
@@ -40,7 +47,7 @@ gitops/marketing← Marketing CI/CD state — managed by pipeline only
 
 - NEVER push directly to `develop` or `main`
 - NEVER push to `gitops/*` branches (CI/CD does this automatically)
-- NEVER merge any PR — merges are done manually by Amad or Nic ONLY
+- NEVER merge any PR — merges are done manually by the two named human maintainers ONLY
 - ALL work goes to a sprint branch → test → approval → PR
 
 ### Sprint Naming
@@ -78,13 +85,13 @@ Examples:
 ```
 1. git pull origin develop          ← always start here
 2. git checkout -b sprint-XX-desc   ← new branch every sprint
-3. [work + commit + push sprint]    ← CI/CD auto-deploys to dev.engenai.app
-4. [test on dev.engenai.app]        ← iterate until satisfied
+3. [work + commit + push sprint]    ← CI/CD auto-deploys to legacy-dev.invalid
+4. [test on legacy-dev.invalid]        ← iterate until satisfied
 5. [document locally]               ← logs, lessons, closure docs (NO commit yet)
-6. Wait for Amad's EXPLICIT approval to close
+6. Wait for the release authority's EXPLICIT approval to close
 7. Commit closure docs + push sprint branch
-8. Open PR: sprint-XX → develop     ← notify Nic
-9. Nic reviews → approves → merges  ← AI does NOT merge
+8. Open PR: sprint-XX → develop     ← notify the second maintainer
+9. The second maintainer reviews → approves → merges  ← AI does NOT merge
 10. git pull origin develop         ← sync before next sprint
 ```
 
@@ -109,7 +116,7 @@ EOF
 
 ## Test Plan
 - [ ] Unit tests pass
-- [ ] Physical test on dev.engenai.app
+- [ ] Physical test on legacy-dev.invalid
 - [ ] No regressions in existing tests
 
 ## Impact

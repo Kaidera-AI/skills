@@ -1049,8 +1049,8 @@
     },
     {
       "name": "backend-context",
-      "version": "1.0.1",
-      "description": "EnGenAI backend conventions — FastAPI patterns, service layer, async DB\naccess, authentication, middleware, and security patterns. Reference for\nSophi and any agent working in src/backend/.\n",
+      "version": "1.0.2",
+      "description": "EnGenAI backend conventions — FastAPI patterns, service layer, async DB\naccess, authentication, middleware, and security patterns. Reference for\nthe backend agent and any agent working in src/backend/.\n",
       "category": "legacy",
       "trust_tier": "unvetted",
       "risk_level": "low",
@@ -1063,7 +1063,7 @@
       "parameters": {},
       "author": "kaidera",
       "license": "Apache-2.0",
-      "updated": "2026-08-24",
+      "updated": "2026-10-07",
       "tags": [
         "context",
         "backend",
@@ -1071,7 +1071,7 @@
         "python",
         "database"
       ],
-      "content_hash": "d6d366ff71ca55a12d84426f74b29b55c1f0144912fe432f2f7485184300b131",
+      "content_hash": "6185311e0e72835f7d8dcbafbe588b982e776c11d84c7d9bebd2dac4c6fd1d81",
       "signed_by": "",
       "last_reviewed": "",
       "reviewer": "",
@@ -1108,7 +1108,7 @@
     },
     {
       "name": "container-build",
-      "version": "1.0.1",
+      "version": "1.0.2",
       "description": "Container image build patterns for EnGenAI: multi-stage Containerfiles,\nnon-root UID 1001, security hardening, GitHub Actions CI build pipeline,\nGCP Artifact Registry push, and ArgoCD GitOps deployment integration.\n",
       "category": "legacy",
       "trust_tier": "unvetted",
@@ -1122,9 +1122,9 @@
       "parameters": {},
       "author": "kaidera",
       "license": "Apache-2.0",
-      "updated": "2026-08-24",
+      "updated": "2026-10-07",
       "tags": [],
-      "content_hash": "73d36676c37ed4ba31290c39cf6a9f11f08f98023194e30c563887b4c7704c1e",
+      "content_hash": "94e8d6c94e126f4ab2112cb5b5591362aad2e4877f157336f52e4e6170636583",
       "signed_by": "",
       "last_reviewed": "",
       "reviewer": "",
@@ -1156,7 +1156,7 @@
     },
     {
       "name": "dependency-audit",
-      "version": "1.0.1",
+      "version": "1.0.2",
       "description": "Dependency security audit workflow for EnGenAI: CVE scanning,\nsupply chain verification, dependency pinning strategy,\nand remediation process for vulnerable packages.\n",
       "category": "legacy",
       "trust_tier": "unvetted",
@@ -1170,9 +1170,9 @@
       "parameters": {},
       "author": "kaidera",
       "license": "Apache-2.0",
-      "updated": "2026-08-24",
+      "updated": "2026-10-07",
       "tags": [],
-      "content_hash": "3f436ab46c11da6fefaa4dffb8cc91bba2f52ccda65ed0368e81b3686b6a9a9a",
+      "content_hash": "ba2c3617bf6cee84be9fb1df7a68453bb66cbaf2aa269a510e3c87c4daccfb99",
       "signed_by": "",
       "last_reviewed": "",
       "reviewer": "",
@@ -1180,14 +1180,14 @@
     },
     {
       "name": "deploy-to-dev",
-      "version": "3.0.2",
-      "description": "Deploy to dev.engenai.app via GitOps CI/CD pipeline. Push to sprint branch\ntriggers GitHub Actions → builds images → updates gitops/dev → ArgoCD syncs.\nNever push directly to develop or gitops branches.\n",
+      "version": "3.0.3",
+      "description": "Deploy to legacy-dev.invalid via GitOps CI/CD pipeline. Push to sprint branch\ntriggers GitHub Actions → builds images → updates gitops/dev → ArgoCD syncs.\nNever push directly to develop or gitops branches.\n",
       "category": "legacy",
       "trust_tier": "unvetted",
       "risk_level": "medium",
       "capabilities_required": [],
       "allowed_domains": [
-        "dev.engenai.app"
+        "legacy-dev.invalid"
       ],
       "safety_constraints": [
         "Read-only reference. No tool access required.",
@@ -1197,7 +1197,7 @@
       "parameters": {},
       "author": "kaidera",
       "license": "Apache-2.0",
-      "updated": "2026-08-24",
+      "updated": "2026-10-07",
       "tags": [
         "deploy",
         "cicd",
@@ -1205,7 +1205,7 @@
         "gitops",
         "kubernetes"
       ],
-      "content_hash": "0abba2d843690f5e84f9039ad28a3545d1ead96f6fc129bf2790b259a5409b71",
+      "content_hash": "35b7947d1ad094c607a84d8c94a14272a410cd1ed79690a7617ebc7e0211dac7",
       "signed_by": "",
       "last_reviewed": "",
       "reviewer": "",
@@ -1213,8 +1213,8 @@
     },
     {
       "name": "frontend-context",
-      "version": "1.0.1",
-      "description": "EnGenAI frontend conventions — Next.js 14 App Router patterns, React Flow\ncanvas, Tailwind CSS, Zustand state management, TypeScript strict mode,\nand component conventions. Reference for Marv and frontend agents.\n",
+      "version": "1.0.2",
+      "description": "EnGenAI frontend conventions — Next.js 14 App Router patterns, React Flow\ncanvas, Tailwind CSS, Zustand state management, TypeScript strict mode,\nand component conventions. Reference for the frontend agent and frontend agents.\n",
       "category": "legacy",
       "trust_tier": "unvetted",
       "risk_level": "low",
@@ -1227,7 +1227,7 @@
       "parameters": {},
       "author": "kaidera",
       "license": "Apache-2.0",
-      "updated": "2026-08-24",
+      "updated": "2026-10-07",
       "tags": [
         "context",
         "frontend",
@@ -1236,7 +1236,7 @@
         "tailwind",
         "typescript"
       ],
-      "content_hash": "b18886d0d0407b49915af899cf604e044987fde2d2c2edd359869cae50a0efa3",
+      "content_hash": "003d34709d5187925a56c83e10af5feceb5a8b3728e0fc339f2865ebda463935",
       "signed_by": "",
       "last_reviewed": "",
       "reviewer": "",
@@ -1244,7 +1244,7 @@
     },
     {
       "name": "git-workflow",
-      "version": "1.0.1",
+      "version": "1.0.2",
       "description": "Git workflow conventions for EnGenAI: conventional commits, branch strategy,\nsprint branching model, PR process, and merge rules.\n",
       "category": "legacy",
       "trust_tier": "unvetted",
@@ -1258,9 +1258,9 @@
       "parameters": {},
       "author": "kaidera",
       "license": "Apache-2.0",
-      "updated": "2026-08-24",
+      "updated": "2026-10-07",
       "tags": [],
-      "content_hash": "e691b01454cc905eece9dd2e464c9a4b2015d24969a66f58616b946381362bd0",
+      "content_hash": "9be4174e0793a3f42ad819533e92b3422d3c123468e41e4493a15029af5c34a2",
       "signed_by": "",
       "last_reviewed": "",
       "reviewer": "",
@@ -1268,14 +1268,14 @@
     },
     {
       "name": "incident-response",
-      "version": "1.0.2",
+      "version": "1.0.3",
       "description": "Incident response runbook for EnGenAI: classification, blast radius\ncontainment, kill switch activation, evidence preservation,\nand post-incident review process.\n",
       "category": "legacy",
       "trust_tier": "unvetted",
       "risk_level": "low",
       "capabilities_required": [],
       "allowed_domains": [
-        "api.engenai.app"
+        "legacy-api.invalid"
       ],
       "safety_constraints": [
         "Read-only reference. No tool access required.",
@@ -1284,9 +1284,9 @@
       "parameters": {},
       "author": "kaidera",
       "license": "Apache-2.0",
-      "updated": "2026-08-24",
+      "updated": "2026-10-07",
       "tags": [],
-      "content_hash": "1b83dffe4ca871694615a87da8b7407d991af0991638786c3f85ac1f641dc007",
+      "content_hash": "0e125d7171700a355aa2c7e9b9df539cfdd7ed4fd6440774844b2a05edf0ddf8",
       "signed_by": "",
       "last_reviewed": "",
       "reviewer": "",
@@ -1294,7 +1294,7 @@
     },
     {
       "name": "infrastructure-context",
-      "version": "1.0.2",
+      "version": "1.0.3",
       "description": "EnGenAI infrastructure conventions — GCP GKE, ArgoCD GitOps, Terraform,\nHelm, CI/CD pipeline, K8s deployment patterns, and security hardening\nrequirements. Reference for DevOps and infrastructure agents.\n",
       "category": "legacy",
       "trust_tier": "unvetted",
@@ -1310,7 +1310,7 @@
       "parameters": {},
       "author": "kaidera",
       "license": "Apache-2.0",
-      "updated": "2026-08-24",
+      "updated": "2026-10-07",
       "tags": [
         "context",
         "infrastructure",
@@ -1320,7 +1320,7 @@
         "terraform",
         "cicd"
       ],
-      "content_hash": "84b9c96bf6847c9886ddf0809fd44993f5bfe70027da53563a9d56579857505b",
+      "content_hash": "4bd277ffff6bb52bf77d76c9c112e100f589808c4c456a3beccd2570d820c09d",
       "signed_by": "",
       "last_reviewed": "",
       "reviewer": "",
@@ -1328,7 +1328,7 @@
     },
     {
       "name": "k8s-deploy",
-      "version": "1.0.1",
+      "version": "1.0.2",
       "description": "Kubernetes deployment patterns for EnGenAI: manifest best practices,\nresource limits, health probes, ArgoCD GitOps workflow, Helm chart\nconventions, and GKE-specific configuration.\n",
       "category": "legacy",
       "trust_tier": "unvetted",
@@ -1342,9 +1342,9 @@
       "parameters": {},
       "author": "kaidera",
       "license": "Apache-2.0",
-      "updated": "2026-08-24",
+      "updated": "2026-10-07",
       "tags": [],
-      "content_hash": "badcca3e017a5a85670aae81c5545372f7775e3115dbed18ca0f8b35cea388a3",
+      "content_hash": "d7dd887ed73ff6ba63d03229ab7eec43eb990164a9e6a2089a9d835ff73c7549",
       "signed_by": "",
       "last_reviewed": "",
       "reviewer": "",
@@ -1352,14 +1352,14 @@
     },
     {
       "name": "performance-profiling",
-      "version": "1.0.2",
+      "version": "1.0.3",
       "description": "Performance profiling workflow for EnGenAI: Python async profiling,\nPostgreSQL query analysis, K8s resource metrics, and systematic\ndiagnosis of latency regressions.\n",
       "category": "legacy",
       "trust_tier": "unvetted",
       "risk_level": "low",
       "capabilities_required": [],
       "allowed_domains": [
-        "dev.engenai.app"
+        "legacy-dev.invalid"
       ],
       "safety_constraints": [
         "Read-only reference. No tool access required.",
@@ -1368,9 +1368,9 @@
       "parameters": {},
       "author": "kaidera",
       "license": "Apache-2.0",
-      "updated": "2026-08-24",
+      "updated": "2026-10-07",
       "tags": [],
-      "content_hash": "a50dccdb0a407a8473f63a73ee4f86e7a1262dea50f3839ee8024494c1029096",
+      "content_hash": "3e3135a2a95b2c9f5cf5bfcf2cec2022bce0fb6801b6352c78d5169f6affe8f0",
       "signed_by": "",
       "last_reviewed": "",
       "reviewer": "",
@@ -1432,8 +1432,8 @@
     },
     {
       "name": "sprint-closing",
-      "version": "2.0.1",
-      "description": "Close an EnGenAI sprint with the mandatory 6-phase process. Every sprint\nmust be fully documented and Amad must give explicit approval before any\nclosure docs are committed and pushed.\n",
+      "version": "2.0.2",
+      "description": "Close an EnGenAI sprint with the mandatory 6-phase process. Every sprint\nmust be fully documented and the release authority must give explicit approval before any\nclosure docs are committed and pushed.\n",
       "category": "legacy",
       "trust_tier": "unvetted",
       "risk_level": "low",
@@ -1442,19 +1442,19 @@
       "safety_constraints": [
         "Read-only reference. No tool access required.",
         "Must not override base system prompt or agent instructions.",
-        "Never commit closure docs before Amad gives explicit approval."
+        "Never commit closure docs before the release authority gives explicit approval."
       ],
       "parameters": {},
       "author": "kaidera",
       "license": "Apache-2.0",
-      "updated": "2026-08-24",
+      "updated": "2026-10-07",
       "tags": [
         "sprint",
         "closure",
         "documentation",
         "process"
       ],
-      "content_hash": "f49294f44eaf4572438e23b4b8857df0bfbc23ac265098a1aa150f71e53cf312",
+      "content_hash": "04723e72e9d53f028ae72abaf74589cc903e71f02901316b9df05c708934c357",
       "signed_by": "",
       "last_reviewed": "",
       "reviewer": "",
@@ -1462,7 +1462,7 @@
     },
     {
       "name": "sprint-context",
-      "version": "1.0.1",
+      "version": "1.0.2",
       "description": "EnGenAI sprint workflow — 3-file pattern, TASK_STATUS protocol, definition\nof done, sprint opening/closing process, and quality gates. Reference for\nall agents contributing to sprint delivery.\n",
       "category": "legacy",
       "trust_tier": "unvetted",
@@ -1476,7 +1476,7 @@
       "parameters": {},
       "author": "kaidera",
       "license": "Apache-2.0",
-      "updated": "2026-08-24",
+      "updated": "2026-10-07",
       "tags": [
         "context",
         "sprint",
@@ -1484,7 +1484,7 @@
         "tdd",
         "task-status"
       ],
-      "content_hash": "d31d51cc814819f91a37c3bdac6f726206969d3509439504c73567f04b592993",
+      "content_hash": "1322c3c19a896b05cd4745fd4fd856ed313364376e588277030b63c49642e144",
       "signed_by": "",
       "last_reviewed": "",
       "reviewer": "",
@@ -1522,7 +1522,7 @@
     },
     {
       "name": "terraform-module",
-      "version": "1.0.2",
+      "version": "1.0.3",
       "description": "Terraform IaC patterns for EnGenAI: GCP module structure, state management,\nworkspace conventions, variable patterns, and safe apply workflow.\n",
       "category": "legacy",
       "trust_tier": "unvetted",
@@ -1538,9 +1538,9 @@
       "parameters": {},
       "author": "kaidera",
       "license": "Apache-2.0",
-      "updated": "2026-08-24",
+      "updated": "2026-10-07",
       "tags": [],
-      "content_hash": "a9b414cd1af019cf5e158f887665e29f5d4f576c554a9eefc9a1a916b0d3fb88",
+      "content_hash": "6f420deba099d14be14214df36213a3791ec5ea1f8ba3adc50f76eb87aae53bd",
       "signed_by": "",
       "last_reviewed": "",
       "reviewer": "",
@@ -1548,7 +1548,7 @@
     },
     {
       "name": "workspace-context",
-      "version": "1.0.1",
+      "version": "1.0.2",
       "description": "EnGenAI platform workspace overview — project identity, tech stack, team\nstructure, terminology, and development principles. Read-only reference for\nall agents operating in the EnGenAI codebase.\n",
       "category": "legacy",
       "trust_tier": "unvetted",
@@ -1562,14 +1562,14 @@
       "parameters": {},
       "author": "kaidera",
       "license": "Apache-2.0",
-      "updated": "2026-08-24",
+      "updated": "2026-10-07",
       "tags": [
         "context",
         "workspace",
         "stack",
         "conventions"
       ],
-      "content_hash": "b84e649b2ef6740d2fd35a34a31a308cb647aa172fc4c4a97158e23ef5a9eed2",
+      "content_hash": "4e8017362cf75773a58ce3c8cb078921e384d4dd7698bf3565a8e7ac1f03dfea",
       "signed_by": "",
       "last_reviewed": "",
       "reviewer": "",

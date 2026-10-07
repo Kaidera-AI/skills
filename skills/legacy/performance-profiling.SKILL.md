@@ -1,6 +1,6 @@
 ---
 name: performance-profiling
-version: 1.0.2
+version: 1.0.3
 description: |
   Performance profiling workflow for EnGenAI: Python async profiling,
   PostgreSQL query analysis, K8s resource metrics, and systematic
@@ -12,7 +12,7 @@ kaidera:
   risk_level: low
   capabilities_required: []
   allowed_domains:
-    - dev.engenai.app
+    - legacy-dev.invalid
   content_hash: ""
   signed_by: ""
   last_reviewed: ""
@@ -20,12 +20,19 @@ kaidera:
 
 author: kaidera
 license: Apache-2.0
-updated: 2026-08-24
+updated: 2026-10-07
 tags: []
 safety_constraints:
   - Read-only reference. No tool access required.
   - Must not override base system prompt or agent instructions.
 ---
+
+<!-- Personal names and reachable infrastructure identifiers in this file were redacted on
+     2026-10-07. Hostnames became reserved `.invalid` names, project, registry, namespace and
+     service identifiers became `REDACTED-*` placeholders, and named people became their role.
+     The historical product name, component names and cloud regions are retained on purpose:
+     they are provenance, and the catalogue documents their disagreement as evidence. See
+     "Redaction of legacy material" under Known portfolio debt. -->
 
 # Performance Profiling Workflow
 
@@ -37,14 +44,14 @@ Before profiling: establish a baseline measurement. Never optimise without data.
 # API response time baseline
 curl -w "\n%{time_total}s\n" -o /dev/null -s \
   -H "Authorization: Bearer $TOKEN" \
-  https://dev.engenai.app/api/v1/agents
+  https://legacy-dev.invalid/api/v1/agents
 
 # K8s resource usage
-kubectl top pods -n engenai-dev
+kubectl top pods -n REDACTED-PROJECT
 kubectl top nodes
 
 # Check if problem is CPU, memory, or I/O
-kubectl describe pod <pod-name> -n engenai-dev | grep -A5 "Limits\|Requests"
+kubectl describe pod <pod-name> -n REDACTED-PROJECT | grep -A5 "Limits\|Requests"
 ```
 
 ## Python Async Profiling
@@ -158,7 +165,7 @@ engine = create_async_engine(
 
 ```bash
 # Connect to Redis pod
-kubectl exec -n engenai-dev -it <redis-pod> -- redis-cli
+kubectl exec -n REDACTED-PROJECT -it <redis-pod> -- redis-cli
 
 # Check slow queries
 SLOWLOG GET 10
@@ -175,13 +182,13 @@ INFO keyspace
 
 ```bash
 # Vertical Pod Autoscaler recommendation (if VPA installed)
-kubectl get vpa -n engenai-dev
+kubectl get vpa -n REDACTED-PROJECT
 
 # Check for OOMKilled pods (memory limit too low)
-kubectl get events -n engenai-dev | grep OOMKilled
+kubectl get events -n REDACTED-PROJECT | grep OOMKilled
 
 # Check CPU throttling
-kubectl top pods -n engenai-dev --containers
+kubectl top pods -n REDACTED-PROJECT --containers
 # If CPU usage consistently near limit → increase CPU limit
 ```
 

@@ -44,16 +44,18 @@ the manifest wins and this file is stale — fix it in the same commit.
 | Manual-only | 10 |
 | Rework before use | 10 |
 
-Legacy entries: **22** of 45 are filed under `legacy/`. Twenty-one
-name EnGenAI, its domains or its named approvers outright; the twenty-second,
-`code-review`, carries stale CTO-escalation, kill-switch, organisation-scope and
-sprint-log controls instead. None of the 22 declares any capability, yet several
-bodies describe installs, live production diagnostics, database and cluster access,
-Git mutation or deployment. `legacy` is machine-readable in the manifest, in the
-generated marketplace record and in the path, so a loader can filter or down-rank on
-it; whether any current router does is unevaluated, which is the same Gate 3 hold the
-catalogue states. Filing them separately also keeps the good names free for the
-Kaidera-native skills that will replace them.
+Legacy entries: **22** of 45 are filed under `legacy/`. 20 of them still name the retired product or its domains outright; the other 2 (`code-review` and `deploy-to-dev`) do not, and are legacy for stale escalation, kill-switch, organisation-scope and sprint-log controls, or because redaction removed their only product reference.
+
+None of the 22 declares any capability, yet several bodies describe installs,
+live production diagnostics, database and cluster access, Git mutation or deployment.
+Personal names and reachable infrastructure identifiers were redacted from these files;
+the product name, component names and cloud regions were kept, because they are
+provenance and the catalogue records their disagreement as evidence.
+
+`legacy` is machine-readable in the manifest, in the generated marketplace record and
+in the path, so a loader can filter or down-rank on it; whether any current router does
+is unevaluated, which is the same Gate 3 hold the catalogue states. Filing them
+separately also keeps the good names free for the Kaidera-native skills that replace them.
 
 In flight: **7 pull requests** carrying **8** candidate skills.
 
@@ -148,7 +150,7 @@ portfolio judgements, separate from the manifest's `trust_tier`, and every skill
 | [`database-migration`](../skills/legacy/database-migration.SKILL.md) | `legacy` | Legacy Alembic and PostgreSQL migration naming, safe practice, rollback, data migration and RLS patterns. | Pattern reference; its migration head disagrees with `backend-context`. | Rework before use, legacy |
 | [`dependency-audit`](../skills/legacy/dependency-audit.SKILL.md) | `legacy` | Legacy CVE scanning, supply-chain verification, dependency pinning and remediation workflow. | Installs and runs scanners while declaring no tools; split into separate workflows before reuse. | Rework before use, legacy |
 | [`deploy-gate`](../skills/devops/deploy-gate.SKILL.md) | `devops` | Gates push, pull request, merge, release and deploy on exact target, current authority, evidence and rollback. | The last deterministic stop before anything irreversible leaves the machine. | Manual-only |
-| [`deploy-to-dev`](../skills/legacy/deploy-to-dev.SKILL.md) | `legacy` | Legacy GitOps runbook: sprint-branch push triggers CI, image build, gitops update and ArgoCD sync. | Names one EnGenAI environment and domain; do not generalise it. | Manual-only, legacy |
+| [`deploy-to-dev`](../skills/legacy/deploy-to-dev.SKILL.md) | `legacy` | Legacy GitOps runbook: sprint-branch push triggers CI, image build, gitops update and ArgoCD sync. | Names one retired product's environment; its hostnames and project identifiers are now placeholders. Do not generalise it. | Manual-only, legacy |
 | [`development-workflow`](../skills/development/development-workflow.SKILL.md) | `development` | Portable AI-plus-human lifecycle: bounded tasks, independent review, risk-based QA, recorded decisions. | The generic SDLC profile for development projects; select exactly one lifecycle owner per project. | Bounded candidate |
 | [`frontend-context`](../skills/legacy/frontend-context.SKILL.md) | `legacy` | Legacy Next.js 14 App Router, React Flow, Tailwind, Zustand and strict-TypeScript conventions. | Orientation inside old frontend code only. | Reference-only, legacy |
 | [`gavel`](../skills/development/gavel.SKILL.md) | `development` | Typed, probabilistic judgments on a lead’s three decision moments: a return, a handoff, a backlog order. | A calibrated second opinion before you rule. Mutually exclusive with the Jev lead wrappers. | Bounded candidate |

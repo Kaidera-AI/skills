@@ -1,6 +1,6 @@
 ---
 name: incident-response
-version: 1.0.2
+version: 1.0.3
 description: |
   Incident response runbook for EnGenAI: classification, blast radius
   containment, kill switch activation, evidence preservation,
@@ -12,7 +12,7 @@ kaidera:
   risk_level: low
   capabilities_required: []
   allowed_domains:
-    - api.engenai.app
+    - legacy-api.invalid
   content_hash: ""
   signed_by: ""
   last_reviewed: ""
@@ -20,12 +20,19 @@ kaidera:
 
 author: kaidera
 license: Apache-2.0
-updated: 2026-08-24
+updated: 2026-10-07
 tags: []
 safety_constraints:
   - Read-only reference. No tool access required.
   - Must not override base system prompt or agent instructions.
 ---
+
+<!-- Personal names and reachable infrastructure identifiers in this file were redacted on
+     2026-10-07. Hostnames became reserved `.invalid` names, project, registry, namespace and
+     service identifiers became `REDACTED-*` placeholders, and named people became their role.
+     The historical product name, component names and cloud regions are retained on purpose:
+     they are provenance, and the catalogue documents their disagreement as evidence. See
+     "Redaction of legacy material" under Known portfolio debt. -->
 
 # Incident Response Runbook
 
@@ -33,7 +40,7 @@ safety_constraints:
 
 | Level | Criteria | Response Time | Owner |
 |---|---|---|---|
-| P0 CRITICAL | Data exfiltration, prompt injection confirmed, cross-org data leak, platform-wide compromise | Immediate | Amad (CTO) |
+| P0 CRITICAL | Data exfiltration, prompt injection confirmed, cross-org data leak, platform-wide compromise | Immediate | the CTO |
 | P1 HIGH | Skill injection attempt detected, agent spawned subprocess, unexpected outbound TCP, KMS failure | < 15 min | On-call |
 | P2 MEDIUM | Single agent misbehaviour, rate limit exceeded, auth anomaly | < 1 hour | On-call |
 | P3 LOW | Performance degradation, non-critical service error | < 4 hours | Team |
@@ -42,7 +49,7 @@ safety_constraints:
 
 ```bash
 # Check SIEM events (skill_audit_log)
-kubectl exec -n engenai-dev -it <api-pod> -- \
+kubectl exec -n REDACTED-PROJECT -it <api-pod> -- \
   psql $DATABASE_URL -c \
   "SELECT event_type, severity, created_at, details FROM skill_audit_log
    WHERE severity IN ('CRITICAL','HIGH') ORDER BY created_at DESC LIMIT 20;"
@@ -51,7 +58,7 @@ kubectl exec -n engenai-dev -it <api-pod> -- \
 kubectl logs -n kube-system -l app.kubernetes.io/name=tetragon --tail=100 | grep SIGKILL
 
 # Check pod anomalies
-kubectl get events -n engenai-dev --sort-by='.lastTimestamp' | tail -30
+kubectl get events -n REDACTED-PROJECT --sort-by='.lastTimestamp' | tail -30
 ```
 
 ## Step 2 — Contain (Blast Radius Reduction)
@@ -74,7 +81,7 @@ redis.set(f"killswitch:org:{org_id}", "1")
 
 Or via Admin API:
 ```bash
-curl -X POST https://api.engenai.app/api/v1/admin/kill-switch \
+curl -X POST https://legacy-api.invalid/api/v1/admin/kill-switch \
   -H "Authorization: Bearer $ADMIN_TOKEN" \
   -d '{"scope": "skill", "id": "<skill_id>", "reason": "Incident #42"}'
 ```
@@ -86,26 +93,26 @@ curl -X POST https://api.engenai.app/api/v1/admin/kill-switch \
 kubectl cordon <node-name>
 
 # Scale down agent worker (stops new executions)
-kubectl scale deployment agent-worker --replicas=0 -n engenai-dev
+kubectl scale deployment agent-worker --replicas=0 -n REDACTED-PROJECT
 ```
 
 ## Step 3 — Preserve Evidence
 
 ```bash
 # Trigger evidence preservation for specific execution
-curl -X POST https://api.engenai.app/api/v1/admin/preserve-evidence \
+curl -X POST https://legacy-api.invalid/api/v1/admin/preserve-evidence \
   -H "Authorization: Bearer $ADMIN_TOKEN" \
   -d '{"execution_id": "<execution_id>"}'
 
 # Manual: export audit log for timeframe
-kubectl exec -n engenai-dev -it <api-pod> -- psql $DATABASE_URL -c \
+kubectl exec -n REDACTED-PROJECT -it <api-pod> -- psql $DATABASE_URL -c \
   "COPY (SELECT * FROM skill_audit_log
          WHERE created_at > NOW() - INTERVAL '2 hours')
    TO STDOUT WITH CSV HEADER" > /tmp/incident_audit_$(date +%Y%m%d_%H%M%S).csv
 
 # Capture pod logs before any restart
-kubectl logs -n engenai-dev -l app=agent-worker --previous > /tmp/agent_worker_prev.log
-kubectl logs -n engenai-dev -l app=engenai-api --previous > /tmp/api_prev.log
+kubectl logs -n REDACTED-PROJECT -l app=agent-worker --previous > /tmp/agent_worker_prev.log
+kubectl logs -n REDACTED-PROJECT -l app=REDACTED-APP --previous > /tmp/api_prev.log
 ```
 
 Evidence is auto-preserved to GCS bucket on any `agent_output_flagged` or `skill_injection_attempt_detected` SIEM event.
@@ -125,7 +132,7 @@ Checklist:
 
 ```bash
 # Reject/deactivate the compromised skill
-curl -X POST https://api.engenai.app/api/v1/admin/skills/<skill_id>/reject \
+curl -X POST https://legacy-api.invalid/api/v1/admin/skills/<skill_id>/reject \
   -H "Authorization: Bearer $ADMIN_TOKEN" \
   -d '{"reason": "Confirmed injection payload — incident #42"}'
 

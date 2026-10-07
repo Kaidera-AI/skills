@@ -1,6 +1,6 @@
 ---
 name: terraform-module
-version: 1.0.2
+version: 1.0.3
 description: |
   Terraform IaC patterns for EnGenAI: GCP module structure, state management,
   workspace conventions, variable patterns, and safe apply workflow.
@@ -19,12 +19,19 @@ kaidera:
 
 author: kaidera
 license: Apache-2.0
-updated: 2026-08-24
+updated: 2026-10-07
 tags: []
 safety_constraints:
   - Read-only reference. No tool access required.
   - Must not override base system prompt or agent instructions.
 ---
+
+<!-- Personal names and reachable infrastructure identifiers in this file were redacted on
+     2026-10-07. Hostnames became reserved `.invalid` names, project, registry, namespace and
+     service identifiers became `REDACTED-*` placeholders, and named people became their role.
+     The historical product name, component names and cloud regions are retained on purpose:
+     they are provenance, and the catalogue documents their disagreement as evidence. See
+     "Redaction of legacy material" under Known portfolio debt. -->
 
 # Terraform Module Patterns
 
@@ -123,7 +130,7 @@ resource "google_container_cluster" "primary" {
 # environments/dev/main.tf
 terraform {
   backend "gcs" {
-    bucket = "engenai-terraform-state-dev"
+    bucket = "REDACTED-PROJECT-terraform-state-dev"
     prefix = "terraform/state"
   }
 
@@ -149,7 +156,7 @@ terraform plan -out=tfplan
 
 # 2. Check for unexpected destroys BEFORE applying
 terraform show tfplan | grep -E "destroy|replace"
-# If any resource shows "destroy" — STOP and escalate to Amad
+# If any resource shows "destroy" — STOP and escalate to the release authority
 
 # 3. Apply only if plan is clean
 terraform apply tfplan
@@ -170,8 +177,8 @@ variable "db_password" {
 
 # Environment-specific non-sensitive values
 # environments/dev/terraform.tfvars
-project_id   = "engenai-dev"
-cluster_name = "engenai-dev-cluster"
+project_id   = "REDACTED-PROJECT"
+cluster_name = "REDACTED-PROJECT-cluster"
 region       = "europe-west2"
 node_count   = 2
 ```
@@ -179,14 +186,14 @@ node_count   = 2
 ## Resource Naming Convention
 
 ```
-engenai-{environment}-{resource-type}
+REDACTED-PROJECT-{environment}-{resource-type}
 
 Examples:
-  engenai-dev-cluster
-  engenai-dev-vpc
-  engenai-dev-db-main
-  engenai-dev-artifact-registry
-  engenai-prod-cluster
+  REDACTED-PROJECT-cluster
+  REDACTED-PROJECT-vpc
+  REDACTED-PROJECT-db-main
+  REDACTED-PROJECT-artifact-registry
+  REDACTED-PROJECT-prod-cluster
 ```
 
 ## GCP Workload Identity (No Key Files)
@@ -198,7 +205,7 @@ resource "google_service_account_iam_binding" "workload_identity" {
   role               = "roles/iam.workloadIdentityUser"
 
   members = [
-    "serviceAccount:${var.project_id}.svc.id.goog[engenai-dev/engenai-api-sa]"
+    "serviceAccount:${var.project_id}.svc.id.goog[REDACTED-PROJECT/REDACTED-APP-sa]"
   ]
 }
 ```
