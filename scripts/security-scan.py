@@ -7,7 +7,7 @@ proof that a separate platform runtime sanitiser has identical policy or that a
 skill is safe to inject.
 
 Usage:
-    python scripts/security-scan.py skills/development/code-review.SKILL.md
+    python scripts/security-scan.py skills/development/git-commit.SKILL.md
     echo $?  # 0 = clean, 1 = blocked
 """
 

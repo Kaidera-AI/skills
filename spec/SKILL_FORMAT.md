@@ -116,6 +116,7 @@ the agent's base system prompt.
 | `research` | Analysis, synthesis, competitive research |
 | `integrations` | External API patterns, webhook handling, OAuth |
 | `context` | Workspace/project context skills (read-only reference) |
+| `legacy` | Quarantine for retired upstream material kept as reference. **Not a target for new submissions** — a new skill never starts here, and `scripts/test-skills-catalog.js` asserts that this category and the reviewed `legacy` marker agree |
 
 ---
 

@@ -6,9 +6,12 @@ Glossary date: **2026-10-07**
 
 Published skills covered: **45**
 
-Skill names, categories and postures are read from the manifests and the catalogue
-markers in the same tree, never retyped; only the prose is authored here. The enclosing
-commit is the receipt, so this file does not self-reference a SHA it cannot know.
+Rendered by `scripts/render-glossary.js` from the built marketplace, the catalogue
+markers and the authored prose in `scripts/glossary-prose.json`. Skill names, categories
+and postures are read from the manifests and the markers in the same tree, never
+retyped; only the prose is authored here. `npm test` runs this script with `--check` and
+fails on drift. The enclosing commit is the receipt, so this file does not
+self-reference a SHA it cannot know.
 
 One row per skill: what it does, and why you would reach for it. This is the fast
 index. It carries no authority. For posture definitions, capability meanings,
@@ -25,12 +28,13 @@ the manifest wins and this file is stale — fix it in the same commit.
 
 | Category | Published |
 |---|---:|
-| `context/` | 8 |
-| `development/` | 21 |
-| `devops/` | 8 |
+| `context/` | 2 |
+| `development/` | 14 |
+| `devops/` | 3 |
 | `documentation/` | 1 |
+| `legacy/` | 22 |
 | `research/` | 2 |
-| `security/` | 5 |
+| `security/` | 1 |
 | **Total** | **45** |
 
 | Posture | Published |
@@ -40,8 +44,16 @@ the manifest wins and this file is stale — fix it in the same commit.
 | Manual-only | 10 |
 | Rework before use | 10 |
 
-Legacy entries: **22** of 45. The catalogue marks them, but they are
-not filed separately, so a legacy name still looks current at the path level.
+Legacy entries: **22** of 45 are filed under `legacy/`. Twenty-one
+name EnGenAI, its domains or its named approvers outright; the twenty-second,
+`code-review`, carries stale CTO-escalation, kill-switch, organisation-scope and
+sprint-log controls instead. None of the 22 declares any capability, yet several
+bodies describe installs, live production diagnostics, database and cluster access,
+Git mutation or deployment. `legacy` is machine-readable in the manifest, in the
+generated marketplace record and in the path, so a loader can filter or down-rank on
+it; whether any current router does is unevaluated, which is the same Gate 3 hold the
+catalogue states. Filing them separately also keeps the good names free for the
+Kaidera-native skills that will replace them.
 
 In flight: **7 pull requests** carrying **8** candidate skills.
 
@@ -55,7 +67,7 @@ Names describe the job. Lowercase, hyphenated, short, stable. Never name a skill
 an ordinal, a date, a version, a person, a personality or a superlative. A vendor prefix
 is correct only when the skill is that vendor's own work, kept verbatim.
 
-Two rules do most of the work:
+Three rules do most of the work:
 
 1. **A name must not promise an authority the manifest does not grant.** A skill that
    designs a test is not a `*-test`; a checklist is not a `*-review`; a policy document
@@ -89,19 +101,19 @@ accepted. Historical review records and protocol identifiers keep their original
 
 | Current name | Proposed | Why | Status |
 |---|---|---|---|
-| `code-review-security` | `security-review-checklist` | Says “checklist” so no router mistakes it for a verdict engine, and drops the `code-review` stem that collides with the review family. | accepted, not yet applied |
-| `prompt-injection-test` | `prompt-injection-test-design` | The skill designs a test harness and executes nothing; the bare name reads as a runnable test. | accepted, not yet applied |
-| `cloud-agnostic-policy` | `cloud-portability-gate` | It is a gate, and every sibling control already ends in `-gate`. `-policy` reads as a document, so routers skip it at exactly the moment it matters. | accepted, not yet applied |
+| `code-review-security` | `security-review-checklist` | Says “checklist” so no router mistakes it for a verdict engine, and drops the `code-review` stem that collides with the review family. | applied in this tree |
+| `prompt-injection-test` | `prompt-injection-test-design` | The skill designs a test harness and executes nothing; the bare name reads as a runnable test. | applied in this tree |
 | `open-code-review` | `evidence-code-review` | Removes a live identity collision: Alibaba ships a different skill under this exact name, and agent trees have installed both. States the evidence contract the skill actually enforces. | carried by #23 |
 | `ultrareview` | `codebase-audit` | A branded superlative says nothing about scope. The new name states whole-repository scope and separates it from bounded-change review. | carried by #23 |
 | `unlazy` | `completion-evidence` | A personality label. The new name states the outcome the skill produces. | carried by #23 |
+| `cloud-agnostic-policy` | `cloud-portability-gate` | **Withdrawn after execution.** Two facts the owner did not have when approving it: the mandate this gate enforces is itself named “Cloud-Agnostic, Fully-Portable, Upstream-OSS-Only”, so the new name drops the word the mandate leads with; and four prose cross-references in the consuming agent tree cite the old name. The rename would manufacture a third identity for one control rather than resolve the two that already exist. The sibling-`-gate` consistency argument is real, and weaker than both. | withdrawn |
 | `marketing-web-research` | `account-and-contact-research` | **Withdrawn.** This manifest is a projection: it carries `kaidera.source` and is regenerated from a canonical directory in another repository, so a rename applied here is overwritten at the next render and desynchronises the skill from the family it belongs to. A projected skill inherits its name from its source owner. | withdrawn |
 | `code-review` | `retire, or fold into evidence-code-review` | Retirement declined by the owner on 2026-10-07. The name stays; the skill is now filed under `legacy/`, which is what stops a router from preferring it over the evidence-gated reviewer. | declined 2026-10-07 |
 | `deploy-to-dev` | `retire with the legacy set` | Retirement declined by the owner on 2026-10-07. The name stays; the skill is now filed under `legacy/`. | declined 2026-10-07 |
+| `adaptech-uiux-design` | `keep the name, move to the design category` | The product prefix is correct because the rulebook is product-specific, but `development` is the wrong category once `design/` exists. | advisory, unmerged candidate (#8) |
+| `gated-deck-web-page` | `deck-landing-page` | “Gated” describes the form, not the artifact. A landing page is what it builds. | advisory, unmerged candidate (#20) |
 | `linkedin-navigator` | `linkedin-follow-checklist` | “Navigator” does not say what it produces, and the name sits next to `social-channel-research`, which covers the same platform read-only. The split that matters is research versus account action. | advisory, unmerged candidate (#15) |
 | `model-fitness` | `worker-model-selection` | “Fitness” is a metaphor; the job is choosing which model each worker runs. | advisory, unmerged candidate (#16) |
-| `gated-deck-web-page` | `deck-landing-page` | “Gated” describes the form, not the artifact. A landing page is what it builds. | advisory, unmerged candidate (#20) |
-| `adaptech-uiux-design` | `keep the name, move to the design category` | The product prefix is correct because the rulebook is product-specific, but `development` is the wrong category once `design/` exists. | advisory, unmerged candidate (#8) |
 
 `applied in this tree` means the manifest, catalogue, marketplace and static fixtures here
 already use the new name. `carried by #23` means another open pull request owns it.
@@ -117,57 +129,58 @@ it removes the router ambiguity without destroying the identity.
 
 ## Glossary
 
-Alphabetical across all published categories. `Posture` and `legacy` come from the
-catalogue markers; both are portfolio judgements, separate from the manifest's
-`trust_tier`, and every skill here is `unvetted`.
+Alphabetical across all published categories; the Category column carries the current
+versus `legacy` split. `Posture` and `legacy` come from the catalogue markers; both are
+portfolio judgements, separate from the manifest's `trust_tier`, and every skill here is
+`unvetted`.
 
 | Skill | Category | What it does | Why you reach for it | Posture |
 |---|---|---|---|---|
-| [`agent-platform-context`](../skills/context/agent-platform-context.SKILL.md) | `context` | EnGenAI agent-runtime internals: executor, mailbox messaging, lead/worker teams, Celery lifecycle. | Background reading for legacy platform code; it is not current Kaidera truth. | Reference-only, legacy |
-| [`api-design`](../skills/development/api-design.SKILL.md) | `development` | Legacy FastAPI conventions for URLs, request/response schemas, auth, pagination, errors and OpenAPI. | Pattern reference in a repository that already matches; verify against current source first. | Reference-only, legacy |
-| [`api-test`](../skills/development/api-test.SKILL.md) | `development` | Legacy FastAPI contract and integration test structure, AsyncClient use, auth fixtures, async DB mocks. | Test-shape ideas only; it runs nothing and never supports a coverage claim. | Reference-only, legacy |
+| [`agent-platform-context`](../skills/legacy/agent-platform-context.SKILL.md) | `legacy` | EnGenAI agent-runtime internals: executor, mailbox messaging, lead/worker teams, Celery lifecycle. | Background reading for legacy platform code; it is not current Kaidera truth. | Reference-only, legacy |
+| [`api-design`](../skills/legacy/api-design.SKILL.md) | `legacy` | Legacy FastAPI conventions for URLs, request/response schemas, auth, pagination, errors and OpenAPI. | Pattern reference in a repository that already matches; verify against current source first. | Reference-only, legacy |
+| [`api-test`](../skills/legacy/api-test.SKILL.md) | `legacy` | Legacy FastAPI contract and integration test structure, AsyncClient use, auth fixtures, async DB mocks. | Test-shape ideas only; it runs nothing and never supports a coverage claim. | Reference-only, legacy |
 | [`assert-fact-gate`](../skills/development/assert-fact-gate.SKILL.md) | `development` | Blocks any factual claim until a fresh source check in this turn backs it. | Cheapest honesty control in the portfolio: kills recalled SHAs, “tests pass” and “it’s deployed”. | Manual-only |
 | [`assumption-validation`](../skills/development/assumption-validation.SKILL.md) | `development` | Separates “the code is correct” from “this costly, customer-visible assumption is supported”. | Run before ranking, pricing, quota, default or migration changes that tests cannot judge. | Bounded candidate |
-| [`backend-context`](../skills/context/backend-context.SKILL.md) | `context` | Legacy FastAPI service-layer, async DB access, authentication, middleware and security conventions. | Orientation inside old backend code; resolve every fact against the owning repository. | Reference-only, legacy |
+| [`backend-context`](../skills/legacy/backend-context.SKILL.md) | `legacy` | Legacy FastAPI service-layer, async DB access, authentication, middleware and security conventions. | Orientation inside old backend code; resolve every fact against the owning repository. | Reference-only, legacy |
 | [`cloud-agnostic-policy`](../skills/devops/cloud-agnostic-policy.SKILL.md) | `devops` | Reviews infrastructure choices for portability and blocks undeclared provider-specific managed primitives. | Apply before architecture locks in; enforces portable, upstream-OSS-only infrastructure. | Manual-only |
-| [`code-review`](../skills/development/code-review.SKILL.md) | `development` | Legacy two-stage checklist: specification compliance, then code quality, ending in a verdict. | Historical reference only; its merge and log postconditions exceed its no-tool contract. | Rework before use, legacy |
-| [`code-review-security`](../skills/security/code-review-security.SKILL.md) | `security` | Legacy product security checklist covering auth, secrets, tenant isolation and supply chain. | A supporting lens under an evidence-gated review; never a competing verdict. | Rework before use, legacy |
-| [`container-build`](../skills/devops/container-build.SKILL.md) | `devops` | Legacy multi-stage image builds, non-root UID, hardening, CI build pipeline and registry push. | Hardening ideas; note it disagrees with `k8s-deploy` on region and service names. | Reference-only, legacy |
-| [`database-migration`](../skills/development/database-migration.SKILL.md) | `development` | Legacy Alembic and PostgreSQL migration naming, safe practice, rollback, data migration and RLS patterns. | Pattern reference; its migration head disagrees with `backend-context`. | Rework before use, legacy |
-| [`dependency-audit`](../skills/security/dependency-audit.SKILL.md) | `security` | Legacy CVE scanning, supply-chain verification, dependency pinning and remediation workflow. | Installs and runs scanners while declaring no tools; split into separate workflows before reuse. | Rework before use, legacy |
+| [`code-review`](../skills/legacy/code-review.SKILL.md) | `legacy` | Legacy two-stage checklist: specification compliance, then code quality, ending in a verdict. | Historical reference only; its merge and log postconditions exceed its no-tool contract. | Rework before use, legacy |
+| [`container-build`](../skills/legacy/container-build.SKILL.md) | `legacy` | Legacy multi-stage image builds, non-root UID, hardening, CI build pipeline and registry push. | Hardening ideas; note it disagrees with `k8s-deploy` on region and service names. | Reference-only, legacy |
+| [`database-migration`](../skills/legacy/database-migration.SKILL.md) | `legacy` | Legacy Alembic and PostgreSQL migration naming, safe practice, rollback, data migration and RLS patterns. | Pattern reference; its migration head disagrees with `backend-context`. | Rework before use, legacy |
+| [`dependency-audit`](../skills/legacy/dependency-audit.SKILL.md) | `legacy` | Legacy CVE scanning, supply-chain verification, dependency pinning and remediation workflow. | Installs and runs scanners while declaring no tools; split into separate workflows before reuse. | Rework before use, legacy |
 | [`deploy-gate`](../skills/devops/deploy-gate.SKILL.md) | `devops` | Gates push, pull request, merge, release and deploy on exact target, current authority, evidence and rollback. | The last deterministic stop before anything irreversible leaves the machine. | Manual-only |
-| [`deploy-to-dev`](../skills/devops/deploy-to-dev.SKILL.md) | `devops` | Legacy GitOps runbook: sprint-branch push triggers CI, image build, gitops update and ArgoCD sync. | Names one EnGenAI environment and domain; do not generalise it. | Manual-only, legacy |
+| [`deploy-to-dev`](../skills/legacy/deploy-to-dev.SKILL.md) | `legacy` | Legacy GitOps runbook: sprint-branch push triggers CI, image build, gitops update and ArgoCD sync. | Names one EnGenAI environment and domain; do not generalise it. | Manual-only, legacy |
 | [`development-workflow`](../skills/development/development-workflow.SKILL.md) | `development` | Portable AI-plus-human lifecycle: bounded tasks, independent review, risk-based QA, recorded decisions. | The generic SDLC profile for development projects; select exactly one lifecycle owner per project. | Bounded candidate |
-| [`frontend-context`](../skills/context/frontend-context.SKILL.md) | `context` | Legacy Next.js 14 App Router, React Flow, Tailwind, Zustand and strict-TypeScript conventions. | Orientation inside old frontend code only. | Reference-only, legacy |
+| [`frontend-context`](../skills/legacy/frontend-context.SKILL.md) | `legacy` | Legacy Next.js 14 App Router, React Flow, Tailwind, Zustand and strict-TypeScript conventions. | Orientation inside old frontend code only. | Reference-only, legacy |
 | [`gavel`](../skills/development/gavel.SKILL.md) | `development` | Typed, probabilistic judgments on a lead’s three decision moments: a return, a handoff, a backlog order. | A calibrated second opinion before you rule. Mutually exclusive with the Jev lead wrappers. | Bounded candidate |
-| [`git-workflow`](../skills/development/git-workflow.SKILL.md) | `development` | Legacy conventional commits, branch strategy, sprint branching, pull-request process and merge rules. | Describes Git mutation under a no-tool manifest; rework before use. | Rework before use, legacy |
+| [`git-workflow`](../skills/legacy/git-workflow.SKILL.md) | `legacy` | Legacy conventional commits, branch strategy, sprint branching, pull-request process and merge rules. | Describes Git mutation under a no-tool manifest; rework before use. | Rework before use, legacy |
 | [`human-voice`](../skills/documentation/human-voice.SKILL.md) | `documentation` | Drafts, rewrites or audits public prose so it carries checkable specifics and a named person’s voice. | Removes machine-generic copy from posts, articles, email, decks, newsletters and web pages. | Reference-only |
-| [`incident-response`](../skills/security/incident-response.SKILL.md) | `security` | Legacy incident runbook: classification, blast-radius containment, kill switch, evidence, post-incident review. | Its containment-before-preservation ordering is unsafe; rebuild human-gated before any use. | Rework before use, legacy |
+| [`incident-response`](../skills/legacy/incident-response.SKILL.md) | `legacy` | Legacy incident runbook: classification, blast-radius containment, kill switch, evidence, post-incident review. | Its containment-before-preservation ordering is unsafe; rebuild human-gated before any use. | Rework before use, legacy |
 | [`infra-naming-gate`](../skills/devops/infra-naming-gate.SKILL.md) | `devops` | Validates infrastructure names against an organisation, project, environment, role, locality and ordinal grammar. | Prevents resources that cannot later be renamed and collisions across projects. | Manual-only |
-| [`infrastructure-context`](../skills/context/infrastructure-context.SKILL.md) | `context` | Legacy GKE, ArgoCD GitOps, Terraform, Helm, CI/CD pipeline and hardening overview. | Orientation inside old infrastructure code only. | Reference-only, legacy |
+| [`infrastructure-context`](../skills/legacy/infrastructure-context.SKILL.md) | `legacy` | Legacy GKE, ArgoCD GitOps, Terraform, Helm, CI/CD pipeline and hardening overview. | Orientation inside old infrastructure code only. | Reference-only, legacy |
 | [`jev`](../skills/development/jev.SKILL.md) | `development` | Reference for the shared Jev core, project transfer policy, CLI, result statuses and the four wrappers. | Setup and troubleshooting. It is not an automatic decision-moment router; install wrappers separately. | Reference-only |
 | [`jev-backlog-rank`](../skills/development/jev-backlog-rank.SKILL.md) | `development` | Checks an accountable lead’s backlog ordering against stated gate dependencies and delay risk. | Catches mis-sequenced dispatch waves early; the human keeps priority authority. | Bounded candidate |
 | [`jev-handoff-check`](../skills/development/jev-handoff-check.SKILL.md) | `development` | Inspects a drafted worker handoff’s receipt contract, gate, exclusions and blocked protocol before sending. | Stops dispatches that no worker could ever prove completion against. | Bounded candidate |
 | [`jev-option-decision`](../skills/development/jev-option-decision.SKILL.md) | `development` | Examines one bounded implementation or architecture choice with named candidates, evidence and requirements. | Structured option comparison for a decision that is genuinely open; the accountable person decides. | Bounded candidate |
 | [`jev-return-triage`](../skills/development/jev-return-triage.SKILL.md) | `development` | Advisory receipt-based triage of an arrived worker return, handback or consult. | Separates acceptable work from rework before the lead rules on it. | Bounded candidate |
-| [`k8s-deploy`](../skills/devops/k8s-deploy.SKILL.md) | `devops` | Legacy Kubernetes manifests, resource limits, health probes, ArgoCD workflow, Helm charts and GKE config. | Pattern reference; contradicts `container-build` on region and services. | Reference-only, legacy |
+| [`k8s-deploy`](../skills/legacy/k8s-deploy.SKILL.md) | `legacy` | Legacy Kubernetes manifests, resource limits, health probes, ArgoCD workflow, Helm charts and GKE config. | Pattern reference; contradicts `container-build` on region and services. | Reference-only, legacy |
 | [`kaidera-sdlc`](../skills/development/kaidera-sdlc.SKILL.md) | `development` | The Kaidera loop: intent, grill, spec, plan, build, verify, review, ship, maintain, re-enter from incidents. | The operating method every lead runs. Nothing is implemented without an accepted plan. | Bounded candidate |
 | [`marketing-web-research`](../skills/research/marketing-web-research.SKILL.md) | `research` | Researches companies, current decision makers and professional profiles from public and authorised sessions. | Market mapping, leadership lists and follow reconciliation. Research never authorises contact. | Manual-only |
 | [`open-code-review`](../skills/development/open-code-review.SKILL.md) | `development` | Diff-first, evidence-gated review of a bounded change: exact receipt, diagnostics, impact, challenge, coverage. | The portfolio’s change-review contract. Strictly read-only. Collides by name with Alibaba’s distinct skill. | Bounded candidate |
-| [`performance-profiling`](../skills/development/performance-profiling.SKILL.md) | `development` | Legacy Python async, PostgreSQL, Kubernetes and Redis profiling for latency-regression diagnosis. | Runs live production diagnostics while declaring no tools; rework before use. | Rework before use, legacy |
-| [`prompt-injection-test`](../skills/security/prompt-injection-test.SKILL.md) | `security` | Read-only design checklist for testing a skill-content injection boundary: threats, corpus, rejection criteria. | Designs a separately controlled harness; it embeds no payloads and executes nothing. | Reference-only |
+| [`performance-profiling`](../skills/legacy/performance-profiling.SKILL.md) | `legacy` | Legacy Python async, PostgreSQL, Kubernetes and Redis profiling for latency-regression diagnosis. | Runs live production diagnostics while declaring no tools; rework before use. | Rework before use, legacy |
+| [`prompt-injection-test-design`](../skills/security/prompt-injection-test-design.SKILL.md) | `security` | Read-only design checklist for testing a skill-content injection boundary: threats, corpus, rejection criteria. | Designs a separately controlled harness; it embeds no payloads and executes nothing. | Reference-only |
 | [`prompt-master`](../skills/development/prompt-master.SKILL.md) | `development` | Vendored verbatim from the donor: writes one optimised prompt for a named AI tool from a rough request. | Only on an explicit prompt-engineering request. Donor name, licence and attribution are preserved. | Reference-only |
 | [`research-brief`](../skills/research/research-brief.SKILL.md) | `research` | Turns an ambiguous research request into a self-contained, decision-led brief with a source plan. | Drafts the mission. It performs no research, invokes no vendor, spends nothing, contacts nobody. | Bounded candidate |
 | [`route-handoff-gate`](../skills/context/route-handoff-gate.SKILL.md) | `context` | Verifies project, lane, layer, role and dependency boundaries before work is created or rerouted. | Prevents cross-lane and wrong-project dispatch, the most common multi-agent failure. | Manual-only |
 | [`scope-work-gate`](../skills/context/scope-work-gate.SKILL.md) | `context` | Confirms proposed work belongs to the current project, role, lane and approved objective. | Stops “while we’re here” scope creep before it starts, not after review. | Manual-only |
-| [`security-context`](../skills/security/security-context.SKILL.md) | `security` | Legacy threat model, OWASP Top 10 checklist, forbidden patterns and required security controls. | Reference lens; its control claims are unverified against current source. | Reference-only, legacy |
-| [`sprint-closing`](../skills/devops/sprint-closing.SKILL.md) | `devops` | Legacy six-phase sprint closure: documentation, commit, push and pull-request procedure. | Names one individual as approver and one product as scope; not portable. | Manual-only, legacy |
-| [`sprint-context`](../skills/context/sprint-context.SKILL.md) | `context` | Legacy three-file sprint pattern, TASK_STATUS protocol, definition of done and quality gates. | Workflow assumptions no longer match Kaidera delivery; rework before use. | Rework before use, legacy |
-| [`tdd-workflow`](../skills/development/tdd-workflow.SKILL.md) | `development` | Legacy red-green-refactor loop with a five-step verification requirement before “done”. | Describes test execution under a no-tool manifest; the discipline is sound, the contract is not. | Rework before use, legacy |
-| [`terraform-module`](../skills/devops/terraform-module.SKILL.md) | `devops` | Legacy GCP Terraform module structure, state, workspaces, variables and safe-apply workflow. | Provider-specific and mutation-describing; held by the cloud-portability policy. | Manual-only, legacy |
+| [`security-context`](../skills/legacy/security-context.SKILL.md) | `legacy` | Legacy threat model, OWASP Top 10 checklist, forbidden patterns and required security controls. | Reference lens; its control claims are unverified against current source. | Reference-only, legacy |
+| [`security-review-checklist`](../skills/legacy/security-review-checklist.SKILL.md) | `legacy` | Legacy product security checklist covering auth, secrets, tenant isolation and supply chain. | A supporting lens under an evidence-gated review; never a competing verdict. | Rework before use, legacy |
+| [`sprint-closing`](../skills/legacy/sprint-closing.SKILL.md) | `legacy` | Legacy six-phase sprint closure: documentation, commit, push and pull-request procedure. | Names one individual as approver and one product as scope; not portable. | Manual-only, legacy |
+| [`sprint-context`](../skills/legacy/sprint-context.SKILL.md) | `legacy` | Legacy three-file sprint pattern, TASK_STATUS protocol, definition of done and quality gates. | Workflow assumptions no longer match Kaidera delivery; rework before use. | Rework before use, legacy |
+| [`tdd-workflow`](../skills/legacy/tdd-workflow.SKILL.md) | `legacy` | Legacy red-green-refactor loop with a five-step verification requirement before “done”. | Describes test execution under a no-tool manifest; the discipline is sound, the contract is not. | Rework before use, legacy |
+| [`terraform-module`](../skills/legacy/terraform-module.SKILL.md) | `legacy` | Legacy GCP Terraform module structure, state, workspaces, variables and safe-apply workflow. | Provider-specific and mutation-describing; held by the cloud-portability policy. | Manual-only, legacy |
 | [`ultrareview`](../skills/development/ultrareview.SKILL.md) | `development` | Whole-codebase or module health audit across eight dimensions with adversarial verification of findings. | Repository-wide scope. Its opt-in fix mode exceeds its declared no-tool contract. | Rework before use |
 | [`unlazy`](../skills/development/unlazy.SKILL.md) | `development` | Completion discipline: write acceptance gates first, decompose with a depth tree, re-measure every claim. | The counter to quiet incompleteness on long, multi-part, parallel or exhaustive work. | Bounded candidate |
-| [`workspace-context`](../skills/context/workspace-context.SKILL.md) | `context` | Legacy workspace identity, tech stack, team structure, terminology and development principles. | Orientation only; it names a retired organisation and product. | Reference-only, legacy |
+| [`workspace-context`](../skills/legacy/workspace-context.SKILL.md) | `legacy` | Legacy workspace identity, tech stack, team structure, terminology and development principles. | Orientation only; it names a retired organisation and product. | Reference-only, legacy |
 
 ---
 
@@ -243,19 +256,24 @@ is an unreproducible dependency.
 
 ## Maintaining this glossary
 
-Update this file in the same commit as any change that makes a row wrong:
+This file is rendered, not edited. To change it, change `scripts/glossary-prose.json` or
+the manifests, then run `node scripts/render-glossary.js`. `npm test` runs the same
+renderer with `--check` and fails if the committed file is not what the current tree
+produces, so a rename, a category move, a posture change, an addition or a removal
+cannot leave this file silently stale.
 
-- a skill is added, removed, renamed, or moved between categories;
-- a posture or legacy classification changes in the catalogue;
-- an in-flight candidate merges, or its pull request is closed without merging;
-- a first-party skill is published here, or a consumed third-party skill is dropped.
+The renderer fails rather than guessing when a published skill has no prose entry, and
+when prose exists for a skill this tree does not carry. In-flight candidates and the
+rename register are authored here rather than derived, because neither is in the
+marketplace yet; a candidate whose pull request merges must be moved into `prose` in the
+same commit, and one that is closed without merging must be deleted.
 
 Version numbers are deliberately absent. They drift on every bump and the marketplace
 already carries them. If a row needs a version to be understood, the row is describing
 a release, not a skill.
 
-Keep each `What it does` to one line and each `Why you reach for it` to one line. The
-moment a row needs a paragraph, the content belongs in the catalogue entry, not here.
+Keep each `what` to one line and each `why` to one line. The moment a row needs a
+paragraph, the content belongs in the catalogue entry, not here.
 
 ## Related documents
 

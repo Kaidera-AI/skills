@@ -9,7 +9,7 @@ description: |
   guarantees and ultrareview for whole-codebase health audits.
 
 kaidera:
-  category: development
+  category: legacy
   trust_tier: unvetted
   risk_level: low
   capabilities_required: []

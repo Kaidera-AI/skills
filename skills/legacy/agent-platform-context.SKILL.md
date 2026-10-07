@@ -7,7 +7,7 @@ description: |
   and the full execution lifecycle. Reference for platform and agent-aware code.
 
 kaidera:
-  category: context
+  category: legacy
   trust_tier: unvetted
   risk_level: low
   capabilities_required: []

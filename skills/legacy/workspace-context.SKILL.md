@@ -7,7 +7,7 @@ description: |
   all agents operating in the EnGenAI codebase.
 
 kaidera:
-  category: context
+  category: legacy
   trust_tier: unvetted
   risk_level: low
   capabilities_required: []

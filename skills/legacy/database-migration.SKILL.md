@@ -7,7 +7,7 @@ description: |
   and PostgreSQL-specific patterns (RLS, triggers, JSONB).
 
 kaidera:
-  category: development
+  category: legacy
   trust_tier: unvetted
   risk_level: low
   capabilities_required: []

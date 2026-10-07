@@ -7,7 +7,7 @@ description: |
   closure docs are committed and pushed.
 
 kaidera:
-  category: devops
+  category: legacy
   trust_tier: unvetted
   risk_level: low
   capabilities_required: []

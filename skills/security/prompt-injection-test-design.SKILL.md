@@ -1,6 +1,6 @@
 ---
-name: prompt-injection-test
-version: 2.0.0
+name: prompt-injection-test-design
+version: 2.0.1
 description: |
   Read-only design checklist for testing a skill-content injection boundary
   without embedding live attack payloads in an injectable skill. Defines the
@@ -20,7 +20,7 @@ kaidera:
 
 author: kaidera
 license: Apache-2.0
-updated: 2026-08-24
+updated: 2026-10-07
 tags: [prompt-injection, security-testing, skills, regression, read-only]
 safety_constraints:
   - Never place literal injection payloads or encoded payload bytes in an injectable skill document.

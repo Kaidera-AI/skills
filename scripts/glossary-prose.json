@@ -1,0 +1,420 @@
+{
+  "_comment": [
+    "Authored input for scripts/render-glossary.js. Only the prose lives here.",
+    "Skill names, categories, postures, legacy flags, versions and file paths are read",
+    "from buildMarketplace() and the catalogue markers at render time, so they cannot",
+    "be retyped wrong. Keys are the published skill name; rename_pairs lets one entry",
+    "serve either side of an accepted rename.",
+    "Keep every 'what' and 'why' to one line. When a row needs a paragraph, the content",
+    "belongs in the catalogue entry, not here."
+  ],
+  "prose": {
+    "agent-platform-context": {
+      "what": "EnGenAI agent-runtime internals: executor, mailbox messaging, lead/worker teams, Celery lifecycle.",
+      "why": "Background reading for legacy platform code; it is not current Kaidera truth."
+    },
+    "api-design": {
+      "what": "Legacy FastAPI conventions for URLs, request/response schemas, auth, pagination, errors and OpenAPI.",
+      "why": "Pattern reference in a repository that already matches; verify against current source first."
+    },
+    "api-test": {
+      "what": "Legacy FastAPI contract and integration test structure, AsyncClient use, auth fixtures, async DB mocks.",
+      "why": "Test-shape ideas only; it runs nothing and never supports a coverage claim."
+    },
+    "assert-fact-gate": {
+      "what": "Blocks any factual claim until a fresh source check in this turn backs it.",
+      "why": "Cheapest honesty control in the portfolio: kills recalled SHAs, “tests pass” and “it’s deployed”."
+    },
+    "assumption-validation": {
+      "what": "Separates “the code is correct” from “this costly, customer-visible assumption is supported”.",
+      "why": "Run before ranking, pricing, quota, default or migration changes that tests cannot judge."
+    },
+    "backend-context": {
+      "what": "Legacy FastAPI service-layer, async DB access, authentication, middleware and security conventions.",
+      "why": "Orientation inside old backend code; resolve every fact against the owning repository."
+    },
+    "code-review": {
+      "what": "Legacy two-stage checklist: specification compliance, then code quality, ending in a verdict.",
+      "why": "Historical reference only; its merge and log postconditions exceed its no-tool contract."
+    },
+    "security-review-checklist": {
+      "what": "Legacy product security checklist covering auth, secrets, tenant isolation and supply chain.",
+      "why": "A supporting lens under an evidence-gated review; never a competing verdict."
+    },
+    "container-build": {
+      "what": "Legacy multi-stage image builds, non-root UID, hardening, CI build pipeline and registry push.",
+      "why": "Hardening ideas; note it disagrees with `k8s-deploy` on region and service names."
+    },
+    "database-migration": {
+      "what": "Legacy Alembic and PostgreSQL migration naming, safe practice, rollback, data migration and RLS patterns.",
+      "why": "Pattern reference; its migration head disagrees with `backend-context`."
+    },
+    "dependency-audit": {
+      "what": "Legacy CVE scanning, supply-chain verification, dependency pinning and remediation workflow.",
+      "why": "Installs and runs scanners while declaring no tools; split into separate workflows before reuse."
+    },
+    "deploy-gate": {
+      "what": "Gates push, pull request, merge, release and deploy on exact target, current authority, evidence and rollback.",
+      "why": "The last deterministic stop before anything irreversible leaves the machine."
+    },
+    "deploy-to-dev": {
+      "what": "Legacy GitOps runbook: sprint-branch push triggers CI, image build, gitops update and ArgoCD sync.",
+      "why": "Names one EnGenAI environment and domain; do not generalise it."
+    },
+    "development-workflow": {
+      "what": "Portable AI-plus-human lifecycle: bounded tasks, independent review, risk-based QA, recorded decisions.",
+      "why": "The generic SDLC profile for development projects; select exactly one lifecycle owner per project."
+    },
+    "frontend-context": {
+      "what": "Legacy Next.js 14 App Router, React Flow, Tailwind, Zustand and strict-TypeScript conventions.",
+      "why": "Orientation inside old frontend code only."
+    },
+    "gavel": {
+      "what": "Typed, probabilistic judgments on a lead’s three decision moments: a return, a handoff, a backlog order.",
+      "why": "A calibrated second opinion before you rule. Mutually exclusive with the Jev lead wrappers."
+    },
+    "git-workflow": {
+      "what": "Legacy conventional commits, branch strategy, sprint branching, pull-request process and merge rules.",
+      "why": "Describes Git mutation under a no-tool manifest; rework before use."
+    },
+    "human-voice": {
+      "what": "Drafts, rewrites or audits public prose so it carries checkable specifics and a named person’s voice.",
+      "why": "Removes machine-generic copy from posts, articles, email, decks, newsletters and web pages."
+    },
+    "incident-response": {
+      "what": "Legacy incident runbook: classification, blast-radius containment, kill switch, evidence, post-incident review.",
+      "why": "Its containment-before-preservation ordering is unsafe; rebuild human-gated before any use."
+    },
+    "infra-naming-gate": {
+      "what": "Validates infrastructure names against an organisation, project, environment, role, locality and ordinal grammar.",
+      "why": "Prevents resources that cannot later be renamed and collisions across projects."
+    },
+    "infrastructure-context": {
+      "what": "Legacy GKE, ArgoCD GitOps, Terraform, Helm, CI/CD pipeline and hardening overview.",
+      "why": "Orientation inside old infrastructure code only."
+    },
+    "jev": {
+      "what": "Reference for the shared Jev core, project transfer policy, CLI, result statuses and the four wrappers.",
+      "why": "Setup and troubleshooting. It is not an automatic decision-moment router; install wrappers separately."
+    },
+    "jev-backlog-rank": {
+      "what": "Checks an accountable lead’s backlog ordering against stated gate dependencies and delay risk.",
+      "why": "Catches mis-sequenced dispatch waves early; the human keeps priority authority."
+    },
+    "jev-handoff-check": {
+      "what": "Inspects a drafted worker handoff’s receipt contract, gate, exclusions and blocked protocol before sending.",
+      "why": "Stops dispatches that no worker could ever prove completion against."
+    },
+    "jev-option-decision": {
+      "what": "Examines one bounded implementation or architecture choice with named candidates, evidence and requirements.",
+      "why": "Structured option comparison for a decision that is genuinely open; the accountable person decides."
+    },
+    "jev-return-triage": {
+      "what": "Advisory receipt-based triage of an arrived worker return, handback or consult.",
+      "why": "Separates acceptable work from rework before the lead rules on it."
+    },
+    "k8s-deploy": {
+      "what": "Legacy Kubernetes manifests, resource limits, health probes, ArgoCD workflow, Helm charts and GKE config.",
+      "why": "Pattern reference; contradicts `container-build` on region and services."
+    },
+    "kaidera-sdlc": {
+      "what": "The Kaidera loop: intent, grill, spec, plan, build, verify, review, ship, maintain, re-enter from incidents.",
+      "why": "The operating method every lead runs. Nothing is implemented without an accepted plan."
+    },
+    "marketing-web-research": {
+      "what": "Researches companies, current decision makers and professional profiles from public and authorised sessions.",
+      "why": "Market mapping, leadership lists and follow reconciliation. Research never authorises contact."
+    },
+    "open-code-review": {
+      "what": "Diff-first, evidence-gated review of a bounded change: exact receipt, diagnostics, impact, challenge, coverage.",
+      "why": "The portfolio’s change-review contract. Strictly read-only. Collides by name with Alibaba’s distinct skill."
+    },
+    "performance-profiling": {
+      "what": "Legacy Python async, PostgreSQL, Kubernetes and Redis profiling for latency-regression diagnosis.",
+      "why": "Runs live production diagnostics while declaring no tools; rework before use."
+    },
+    "prompt-injection-test-design": {
+      "what": "Read-only design checklist for testing a skill-content injection boundary: threats, corpus, rejection criteria.",
+      "why": "Designs a separately controlled harness; it embeds no payloads and executes nothing."
+    },
+    "prompt-master": {
+      "what": "Vendored verbatim from the donor: writes one optimised prompt for a named AI tool from a rough request.",
+      "why": "Only on an explicit prompt-engineering request. Donor name, licence and attribution are preserved."
+    },
+    "research-brief": {
+      "what": "Turns an ambiguous research request into a self-contained, decision-led brief with a source plan.",
+      "why": "Drafts the mission. It performs no research, invokes no vendor, spends nothing, contacts nobody."
+    },
+    "route-handoff-gate": {
+      "what": "Verifies project, lane, layer, role and dependency boundaries before work is created or rerouted.",
+      "why": "Prevents cross-lane and wrong-project dispatch, the most common multi-agent failure."
+    },
+    "scope-work-gate": {
+      "what": "Confirms proposed work belongs to the current project, role, lane and approved objective.",
+      "why": "Stops “while we’re here” scope creep before it starts, not after review."
+    },
+    "security-context": {
+      "what": "Legacy threat model, OWASP Top 10 checklist, forbidden patterns and required security controls.",
+      "why": "Reference lens; its control claims are unverified against current source."
+    },
+    "sprint-closing": {
+      "what": "Legacy six-phase sprint closure: documentation, commit, push and pull-request procedure.",
+      "why": "Names one individual as approver and one product as scope; not portable."
+    },
+    "sprint-context": {
+      "what": "Legacy three-file sprint pattern, TASK_STATUS protocol, definition of done and quality gates.",
+      "why": "Workflow assumptions no longer match Kaidera delivery; rework before use."
+    },
+    "tdd-workflow": {
+      "what": "Legacy red-green-refactor loop with a five-step verification requirement before “done”.",
+      "why": "Describes test execution under a no-tool manifest; the discipline is sound, the contract is not."
+    },
+    "terraform-module": {
+      "what": "Legacy GCP Terraform module structure, state, workspaces, variables and safe-apply workflow.",
+      "why": "Provider-specific and mutation-describing; held by the cloud-portability policy."
+    },
+    "ultrareview": {
+      "what": "Whole-codebase or module health audit across eight dimensions with adversarial verification of findings.",
+      "why": "Repository-wide scope. Its opt-in fix mode exceeds its declared no-tool contract."
+    },
+    "unlazy": {
+      "what": "Completion discipline: write acceptance gates first, decompose with a depth tree, re-measure every claim.",
+      "why": "The counter to quiet incompleteness on long, multi-part, parallel or exhaustive work."
+    },
+    "workspace-context": {
+      "what": "Legacy workspace identity, tech stack, team structure, terminology and development principles.",
+      "why": "Orientation only; it names a retired organisation and product."
+    },
+    "cloud-agnostic-policy": {
+      "what": "Reviews infrastructure choices for portability and blocks undeclared provider-specific managed primitives.",
+      "why": "Apply before architecture locks in; enforces portable, upstream-OSS-only infrastructure."
+    }
+  },
+  "rename_pairs": [
+    [
+      "code-review-security",
+      "security-review-checklist"
+    ],
+    [
+      "prompt-injection-test",
+      "prompt-injection-test-design"
+    ],
+    [
+      "open-code-review",
+      "evidence-code-review"
+    ],
+    [
+      "ultrareview",
+      "codebase-audit"
+    ],
+    [
+      "unlazy",
+      "completion-evidence"
+    ]
+  ],
+  "renames": [
+    {
+      "current": "code-review-security",
+      "proposed": "security-review-checklist",
+      "why": "Says “checklist” so no router mistakes it for a verdict engine, and drops the `code-review` stem that collides with the review family.",
+      "kind": "applied in this branch"
+    },
+    {
+      "current": "prompt-injection-test",
+      "proposed": "prompt-injection-test-design",
+      "why": "The skill designs a test harness and executes nothing; the bare name reads as a runnable test.",
+      "kind": "applied in this branch"
+    },
+    {
+      "current": "open-code-review",
+      "proposed": "evidence-code-review",
+      "why": "Removes a live identity collision: Alibaba ships a different skill under this exact name, and agent trees have installed both. States the evidence contract the skill actually enforces.",
+      "kind": "carried by #23"
+    },
+    {
+      "current": "ultrareview",
+      "proposed": "codebase-audit",
+      "why": "A branded superlative says nothing about scope. The new name states whole-repository scope and separates it from bounded-change review.",
+      "kind": "carried by #23"
+    },
+    {
+      "current": "unlazy",
+      "proposed": "completion-evidence",
+      "why": "A personality label. The new name states the outcome the skill produces.",
+      "kind": "carried by #23"
+    },
+    {
+      "current": "cloud-agnostic-policy",
+      "proposed": "cloud-portability-gate",
+      "why": "**Withdrawn after execution.** Two facts the owner did not have when approving it: the mandate this gate enforces is itself named “Cloud-Agnostic, Fully-Portable, Upstream-OSS-Only”, so the new name drops the word the mandate leads with; and four prose cross-references in the consuming agent tree cite the old name. The rename would manufacture a third identity for one control rather than resolve the two that already exist. The sibling-`-gate` consistency argument is real, and weaker than both.",
+      "kind": "withdrawn"
+    },
+    {
+      "current": "marketing-web-research",
+      "proposed": "account-and-contact-research",
+      "why": "**Withdrawn.** This manifest is a projection: it carries `kaidera.source` and is regenerated from a canonical directory in another repository, so a rename applied here is overwritten at the next render and desynchronises the skill from the family it belongs to. A projected skill inherits its name from its source owner.",
+      "kind": "withdrawn"
+    },
+    {
+      "current": "code-review",
+      "proposed": "retire, or fold into evidence-code-review",
+      "why": "Retirement declined by the owner on 2026-10-07. The name stays; the skill is now filed under `legacy/`, which is what stops a router from preferring it over the evidence-gated reviewer.",
+      "kind": "declined"
+    },
+    {
+      "current": "deploy-to-dev",
+      "proposed": "retire with the legacy set",
+      "why": "Retirement declined by the owner on 2026-10-07. The name stays; the skill is now filed under `legacy/`.",
+      "kind": "declined"
+    },
+    {
+      "current": "adaptech-uiux-design",
+      "proposed": "keep the name, move to the design category",
+      "why": "The product prefix is correct because the rulebook is product-specific, but `development` is the wrong category once `design/` exists.",
+      "kind": "advisory, #8"
+    },
+    {
+      "current": "gated-deck-web-page",
+      "proposed": "deck-landing-page",
+      "why": "“Gated” describes the form, not the artifact. A landing page is what it builds.",
+      "kind": "advisory, #20"
+    },
+    {
+      "current": "linkedin-navigator",
+      "proposed": "linkedin-follow-checklist",
+      "why": "“Navigator” does not say what it produces, and the name sits next to `social-channel-research`, which covers the same platform read-only. The split that matters is research versus account action.",
+      "kind": "advisory, #15"
+    },
+    {
+      "current": "model-fitness",
+      "proposed": "worker-model-selection",
+      "why": "“Fitness” is a metaphor; the job is choosing which model each worker runs.",
+      "kind": "advisory, #16"
+    }
+  ],
+  "in_flight": [
+    {
+      "pr": "#8",
+      "name": "adaptech-uiux-design",
+      "category": "development",
+      "risk": "medium",
+      "what": "Governing UI/UX and design-system rulebook for the ASW Connect / AdapTech dark-aviation products.",
+      "why": "Enforces one house style, computed WCAG 2.2 AA contrast and an elevation ladder for that product only."
+    },
+    {
+      "pr": "#9",
+      "name": "folder-organisation",
+      "category": "development",
+      "risk": "medium",
+      "what": "One root, one home per kind of thing, one owner per fact — plus the loop that consolidates a scattered estate.",
+      "why": "Placement gate before creating any document, diagram, plan, proof, pack or worktree, and before deleting a folder."
+    },
+    {
+      "pr": "#15",
+      "name": "linkedin-navigator",
+      "category": "research",
+      "risk": "medium",
+      "what": "Builds LinkedIn follow and connect target lists with no API, no login session and no paid scraper.",
+      "why": "Turns a named account list into a click-through checklist; a human performs every account action."
+    },
+    {
+      "pr": "#16",
+      "name": "model-fitness",
+      "category": "development",
+      "risk": "medium",
+      "what": "Reviews which model each project worker runs, gathers public and tester feedback, recommends best per task.",
+      "why": "Use for roster audits, an underperforming worker, a new model release, or a fitness question."
+    },
+    {
+      "pr": "#17",
+      "name": "social-channel-research",
+      "category": "research",
+      "risk": "high",
+      "what": "Source-linked, read-only research on public LinkedIn, X and Instagram content through authorised host channels.",
+      "why": "Stops when a platform needs an unavailable login or permission; never publishes or interacts with accounts."
+    },
+    {
+      "pr": "#20",
+      "name": "kaidera-deck-design",
+      "category": "design",
+      "risk": "medium",
+      "what": "Designs, builds and checks house-style investor and partner decks as a scripted PPTX with PDF export.",
+      "why": "Repeatable deck quality with a recorded QA pass. Writes local files only; never sends or publishes."
+    },
+    {
+      "pr": "#20",
+      "name": "gated-deck-web-page",
+      "category": "design",
+      "risk": "medium",
+      "what": "Turns an approved deck into an unlisted static page that emails the PDF after a name, title and address.",
+      "why": "Lead capture on a deck. It does not deploy the page, build the endpoint or send the email."
+    },
+    {
+      "pr": "#22",
+      "name": "lead-generation-outreach",
+      "category": "research",
+      "risk": "high",
+      "what": "Finds, qualifies and verifies prospective customers, then contacts each one personally by email.",
+      "why": "Drafts from cited evidence, queues each batch for owner approval, records every send, stops on any reply."
+    }
+  ],
+  "consumed_third_party": [
+    {
+      "name": "ci-security-scanning-with-strix",
+      "owner": "Strix (usestrix)",
+      "license": "Apache-2.0",
+      "what": "Diff-scoped AI pentest as a CI/CD pre-merge gate, with SARIF to code scanning."
+    },
+    {
+      "name": "fix-security-vulnerabilities-with-strix",
+      "owner": "Strix (usestrix)",
+      "license": "Apache-2.0",
+      "what": "Root-cause remediation of validated Strix findings, re-scanned to prove closure."
+    },
+    {
+      "name": "managed-pentesting-with-strix",
+      "owner": "Strix (usestrix)",
+      "license": "Apache-2.0",
+      "what": "Pentest-as-a-service through the hosted API: schedules, webhooks, auditor-ready reports."
+    },
+    {
+      "name": "penetration-testing-with-strix",
+      "owner": "Strix (usestrix)",
+      "license": "Apache-2.0",
+      "what": "Autonomous pentest that exploits and proves vulnerabilities instead of flagging them."
+    },
+    {
+      "name": "typesafe-ai",
+      "owner": "TypeSafe AI",
+      "license": "MIT",
+      "what": "Typed AI primitives (System One models) for routing, ranking, extraction and verification in product code."
+    },
+    {
+      "name": "pr",
+      "owner": "Matt Pocock",
+      "license": "MIT",
+      "what": "Pull-request body writing. Pinned in the consuming project’s skills lockfile."
+    },
+    {
+      "name": "retro",
+      "owner": "Matt Pocock",
+      "license": "MIT",
+      "what": "Coding-session retrospective, on explicit request only. Pinned in the lockfile."
+    },
+    {
+      "name": "writing-for-agents",
+      "owner": "Matt Pocock",
+      "license": "MIT",
+      "what": "Writing documents that agents consume: skills, AGENTS.md, CLAUDE.md. Pinned in the lockfile."
+    }
+  ],
+  "preferred_category_order": [
+    "context",
+    "development",
+    "devops",
+    "documentation",
+    "legacy",
+    "research",
+    "security"
+  ]
+}

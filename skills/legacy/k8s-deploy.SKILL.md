@@ -7,7 +7,7 @@ description: |
   conventions, and GKE-specific configuration.
 
 kaidera:
-  category: devops
+  category: legacy
   trust_tier: unvetted
   risk_level: low
   capabilities_required: []
