@@ -184,6 +184,10 @@
     "cloud-agnostic-policy": {
       "what": "Reviews infrastructure choices for portability and blocks undeclared provider-specific managed primitives.",
       "why": "Apply before architecture locks in; enforces portable, upstream-OSS-only infrastructure."
+    },
+    "investor-outreach": {
+      "what": "Finds investors for an early-stage round, writes to each person one to one, follows up once and hands replies to the owners.",
+      "why": "Investor lead generation with a portable investor database and a weekly learning loop. Research never authorises a send."
     }
   },
   "rename_pairs": [

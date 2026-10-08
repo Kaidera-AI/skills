@@ -32,6 +32,7 @@ Skills are instructions, not programs: the flat `*.SKILL.md` manifest carries no
 | `documentation/` | Specs, docs, changelogs, writing voice | 1 |
 | `legacy/` | Retired EnGenAI-era material, kept as reference | 21 |
 | `research/` | Research briefs, company research and evidence | 2 |
+| `sales-and-marketing/` | Lead generation, investor and customer outreach | 1 |
 | `security/` | Auditing, scanning, incident response | 1 |
 
 ## What is implemented, and what is not

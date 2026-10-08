@@ -2,7 +2,7 @@
 
 Status: **human-facing index; the manifests and the catalogue remain authoritative**
 
-Published skills covered: **44**
+Published skills covered: **45**
 
 Rendered by `scripts/render-glossary.js` from the built marketplace, the catalogue
 markers and the authored prose in `scripts/glossary-prose.json`. Skill names, categories
@@ -33,16 +33,17 @@ the manifest wins and this file is stale — fix it in the same commit.
 | `legacy/` | 21 |
 | `research/` | 2 |
 | `security/` | 1 |
-| **Total** | **44** |
+| `sales-and-marketing/` | 1 |
+| **Total** | **45** |
 
 | Posture | Published |
 |---|---:|
 | Bounded candidate | 11 |
 | Reference-only | 14 |
-| Manual-only | 9 |
+| Manual-only | 10 |
 | Rework before use | 10 |
 
-Legacy entries: **21** of 44 are filed under `legacy/`. 19 of them still name the retired product or its domains outright; the other 2 (`code-review` and `deploy-to-dev`) do not, and are legacy for stale escalation, kill-switch, organisation-scope and sprint-log controls, or because redaction removed their only product reference.
+Legacy entries: **21** of 45 are filed under `legacy/`. 19 of them still name the retired product or its domains outright; the other 2 (`code-review` and `deploy-to-dev`) do not, and are legacy for stale escalation, kill-switch, organisation-scope and sprint-log controls, or because redaction removed their only product reference.
 
 None of the 21 declares any capability, yet several bodies describe installs,
 live production diagnostics, database and cluster access, Git mutation or deployment.
@@ -157,6 +158,7 @@ portfolio judgements, separate from the manifest's `trust_tier`, and every skill
 | [`incident-response`](../skills/legacy/incident-response.SKILL.md) | `legacy` | Legacy incident runbook: classification, blast-radius containment, kill switch, evidence, post-incident review. | Its containment-before-preservation ordering is unsafe; rebuild human-gated before any use. | Rework before use, legacy |
 | [`infra-naming-gate`](../skills/devops/infra-naming-gate.SKILL.md) | `devops` | Validates infrastructure names against an organisation, project, environment, role, locality and ordinal grammar. | Prevents resources that cannot later be renamed and collisions across projects. | Manual-only |
 | [`infrastructure-context`](../skills/legacy/infrastructure-context.SKILL.md) | `legacy` | Legacy GKE, ArgoCD GitOps, Terraform, Helm, CI/CD pipeline and hardening overview. | Orientation inside old infrastructure code only. | Reference-only, legacy |
+| [`investor-outreach`](../skills/sales-and-marketing/investor-outreach.SKILL.md) | `sales-and-marketing` | Finds investors for an early-stage round, writes to each person one to one, follows up once and hands replies to the owners. | Investor lead generation with a portable investor database and a weekly learning loop. Research never authorises a send. | Manual-only |
 | [`jev`](../skills/development/jev.SKILL.md) | `development` | Reference for the shared Jev core, project transfer policy, CLI, result statuses and the four wrappers. | Setup and troubleshooting. It is not an automatic decision-moment router; install wrappers separately. | Reference-only |
 | [`jev-backlog-rank`](../skills/development/jev-backlog-rank.SKILL.md) | `development` | Checks an accountable lead’s backlog ordering against stated gate dependencies and delay risk. | Catches mis-sequenced dispatch waves early; the human keeps priority authority. | Bounded candidate |
 | [`jev-handoff-check`](../skills/development/jev-handoff-check.SKILL.md) | `development` | Inspects a drafted worker handoff’s receipt contract, gate, exclusions and blocked protocol before sending. | Stops dispatches that no worker could ever prove completion against. | Bounded candidate |
@@ -208,11 +210,11 @@ category labels in `scripts/test-skills-catalog.js`; that pull request adds both
 
 ## Projections
 
-**9** published skills are generated rather than authored here: they carry
+**10** published skills are generated rather than authored here: they carry
 `kaidera.source` or a generation marker, and are re-rendered from a canonical source
 instead of being edited in place.
 
-One of them keeps its canonical directory inside this repository (`development-workflow`): the flat manifest is generated from
+2 of them keep their canonical directory inside this repository (`development-workflow`, `investor-outreach`): the flat manifest is generated from
 the directory of the same name, and `npm test` fails if the two drift.
 
 The other 8 are projected from a canonical directory in `Kaidera-AI/kaideraos`: `gavel`, `jev`, `jev-backlog-rank`, `jev-handoff-check`, `jev-option-decision`, `jev-return-triage`, `kaidera-sdlc`, `marketing-web-research`.
