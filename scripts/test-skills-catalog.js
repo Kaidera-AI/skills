@@ -63,6 +63,7 @@ const posturePolicy = new Map([
 ])],
   ['manual-only', new Set([
     'marketing-web-research',
+    'investor-lead-gen',
     'deploy-to-dev',
     'sprint-closing',
       'assert-fact-gate',
@@ -132,6 +133,7 @@ const currentSourceSkills = new Set([
     'scope-work-gate',
     'unlazy',
     'prompt-master',
+    'investor-lead-gen',
 ])
 const categoryLabels = new Map([
   ['context', 'Context'],
@@ -140,6 +142,7 @@ const categoryLabels = new Map([
   ['documentation', 'Documentation'],
   ['legacy', 'Legacy'],
   ['research', 'Research'],
+  ['sales-and-marketing', 'Sales and marketing'],
   ['security', 'Security'],
 ])
 const requiredHeadings = [
@@ -159,6 +162,7 @@ const requiredHeadings = [
   '## Documentation skills',
   '## Legacy skills',
   '## Research skills',
+  '## Sales and marketing skills',
   '## Security skills',
   '## Common usage examples',
   '## Portfolio overlaps and collision rules',
@@ -468,6 +472,7 @@ function readmeCategoryDescription(category) {
     ['documentation', 'Specs, docs, changelogs, writing voice'],
     ['legacy', 'Retired EnGenAI-era material, kept as reference'],
     ['research', 'Research briefs, company research and evidence'],
+    ['sales-and-marketing', 'Lead generation, investor and customer outreach'],
     ['security', 'Auditing, scanning, incident response'],
   ]).get(category)
 }
