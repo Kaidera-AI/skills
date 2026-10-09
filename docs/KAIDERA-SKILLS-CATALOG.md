@@ -130,7 +130,7 @@ Kaidera truth until reconciled against the owning repository and Cortex.
 | Capability | Meaning |
 |---|---|
 | `tool:file_read` | Read authorised local workspace files. |
-| `tool:file_write` | Modify authorised local files. Six published skills declare it: three bounded candidates (`development-workflow`, `kaidera-sdlc`, `unlazy`), one reference-only (`jev`) and two manual-only (`marketing-web-research`, `investor-lead-generation-and-outreach`). |
+| `tool:file_write` | Modify authorised local files. Six published skills declare it: three bounded candidates (`development-workflow`, `kaidera-sdlc`, `unlazy`), one reference-only (`jev`) and two manual-only (`marketing-web-research`, `investor-lead-gen`). |
 | `tool:code_interpreter` | Run bounded local computation or already-approved diagnostics. It does not imply arbitrary repository code is trusted. |
 | `tool:web_search` | Search public web sources under the runtime's network policy. |
 | `tool:mcp_external` | Call an approved external connector or service. |
@@ -154,7 +154,7 @@ Use the narrowest matching skill:
 | Validate whether a customer-visible assumption is supported | `assumption-validation` | The request is merely code correctness, implementation, or live production research |
 | Draft a decision-led research mission | `research-brief` | The user asked to perform the research rather than draft its brief |
 | Research companies, current leaders and professional profiles | `marketing-web-research` | Only a research brief is requested; invitations, email, follows or paid tools lack applicable authority |
-| Find investors for a round, write to them one to one, handle replies and keep the investor database and learning log | `investor-lead-generation-and-outreach` | The prospects are customers, not investors, or no owner has authority to release names, approve copy or send |
+| Find investors for a round, write to them one to one, handle replies and keep the investor database and learning log | `investor-lead-gen` | The prospects are customers, not investors, or no owner has authority to release names, approve copy or send |
 | Design APIs, tests, migrations, containers or Kubernetes | matching `legacy/` reference skill | Current project conventions differ or execution/changes are requested without authority |
 | Gate a push, pull request, merge, release, deployment, infrastructure name or cloud choice | `deploy-gate`, `infra-naming-gate`, `cloud-agnostic-policy` | Exact target identity, current approval, quality evidence or rollback readiness is missing |
 | Consult a legacy deployment or sprint-closing runbook | matching `legacy/` runbook | Execution is requested; these describe mutation while declaring no tools |
@@ -222,7 +222,7 @@ Use the narrowest matching skill:
 | Legacy | `workspace-context` | `1.0.2` | Legacy workspace identity, stack, structure, terminology, and principles | Reference-only, legacy | low / none |
 | Research | `marketing-web-research` | `0.1.002` | Customer-configurable company and professional-profile research with separate action receipts | Manual-only | high / file read, file write, web search, external connector |
 | Research | `research-brief` | `1.0.0` | Drafts a self-contained decision-led brief without executing research | Bounded candidate | low / file read |
-| Sales and marketing | `investor-lead-generation-and-outreach` | `1.0.0` | Investor research, one-to-one first emails, one follow-up, reply hand-over, investor database and weekly learning loop | Manual-only | high / file read, file write, web search, external connector |
+| Sales and marketing | `investor-lead-gen` | `1.0.0` | Investor research, one-to-one first emails, one follow-up, reply hand-over, investor database and weekly learning loop | Manual-only | high / file read, file write, web search, external connector |
 | Security | `prompt-injection-test-design` | `2.0.1` | Read-only design for controlled prompt-injection boundary testing | Reference-only | low / none |
 
 ## Ownership, licensing, attribution, and domain metadata
@@ -256,7 +256,7 @@ precedence issue remains a release hold.
 | `k8s-deploy` | `kaidera` | `Apache-2.0` | None | — |
 | `sprint-closing` | `kaidera` | `Apache-2.0` | None | — |
 | `marketing-web-research` | `Kaidera-AI` | `Apache-2.0` | `linkedin.com`, `x.com` | — |
-| `investor-lead-generation-and-outreach` | `Kaidera-AI` | `Apache-2.0` | None | — |
+| `investor-lead-gen` | `Kaidera-AI` | `Apache-2.0` | None | — |
 | `research-brief` | `Kaidera-AI` | `Apache-2.0` | `github.com` | [David Ondrej](https://github.com/davidondrej/skills/tree/69c3ae5228eb146724fd23dac3d43eab5805bcc3/skills/research-and-web/research-prompt) |
 | `security-review-checklist` | `kaidera` | `Apache-2.0` | None | — |
 | `dependency-audit` | `kaidera` | `Apache-2.0` | None | — |
@@ -1093,18 +1093,18 @@ spend.
 
 ## Sales and marketing skills
 
-One skill. `investor-lead-generation-and-outreach` is manual-only and high risk: it declares web search, file
+One skill. `investor-lead-gen` is manual-only and high risk: it declares web search, file
 write and an external connector because a host running it sends email, writes to a CRM
 and may pay for address verification. It is a directory package
-(`skills/sales-and-marketing/investor-lead-generation-and-outreach/`) projected into a single file by
-`scripts/render-investor-lead-generation-and-outreach.js`; edit the directory and regenerate. Customer
+(`skills/sales-and-marketing/investor-lead-gen/`) projected into a single file by
+`scripts/render-investor-lead-gen.js`; edit the directory and regenerate. Customer
 prospecting is not this skill's job.
 
-### `investor-lead-generation-and-outreach`
+### `investor-lead-gen`
 
-<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:file_write","tool:web_search","tool:mcp_external"],"category":"sales-and-marketing","legacy":false,"name":"investor-lead-generation-and-outreach","path":"skills/sales-and-marketing/investor-lead-generation-and-outreach.SKILL.md","posture":"manual-only","review_fingerprint":"bad8474e514873f79d54633290dda8bd202a2aa017e79567d6a5dedfddcb4155","risk_level":"high","trust_tier":"unvetted","version":"1.0.0"} -->
+<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:file_write","tool:web_search","tool:mcp_external"],"category":"sales-and-marketing","legacy":false,"name":"investor-lead-gen","path":"skills/sales-and-marketing/investor-lead-gen.SKILL.md","posture":"manual-only","review_fingerprint":"722b50257a04506f9fe601306413e0a07247c0861229e1e9254b496f813443a4","risk_level":"high","trust_tier":"unvetted","version":"1.0.0"} -->
 
-- **Manifest:** [investor-lead-generation-and-outreach.SKILL.md](../skills/sales-and-marketing/investor-lead-generation-and-outreach.SKILL.md)
+- **Manifest:** [investor-lead-gen.SKILL.md](../skills/sales-and-marketing/investor-lead-gen.SKILL.md)
 - **Function:** Run investor lead generation for an early-stage round: research funds and their decision makers from the funds' own pages, record minimums, competitor conflicts and pitch routes, write one plain first email per person with a deck built for that investor, follow up once, hand replies to the people who take meetings, keep a portable investor database and a dated learning log, and refresh both weekly.
 - **Use when:** A company or brand raising a pre-seed or seed round asks an agent to find investors and run one-to-one cold outreach with named human owners for releases, copy and meetings.
 - **Do not use when:** The prospects are customers; no owner can release names or approve copy; the task would send as a founder without their word, contact private individuals before the financial promotion rules are cleared, or publish investor data.
@@ -1153,7 +1153,7 @@ capability gates.
 | “Does this pricing default make sense, independent of whether the code works?” | `assumption-validation` |
 | “Write a research brief comparing three provider strategies.” | `research-brief` |
 | “Find decision makers matching our customer profile and return a sourced list here.” | `marketing-web-research`, with a separately approved host workflow |
-| “Find seed investors who back our sector and start writing to them.” | `investor-lead-generation-and-outreach`, with an instance file naming who releases names, approves copy and sends |
+| “Find seed investors who back our sector and start writing to them.” | `investor-lead-gen`, with an instance file naming who releases names, approves copy and sends |
 | “Use the EnGenAI security checklist while reviewing this patch.” | No automatic route; reverify individual legacy checks under `open-code-review` |
 | “Show the historical branch and PR conventions.” | No runtime route; consult `git-workflow` only as quarantined historical evidence pending rework |
 | “Deploy this to dev now.” | No automatic skill route; separately authorised deployment workflow required |

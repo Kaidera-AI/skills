@@ -63,7 +63,7 @@ const posturePolicy = new Map([
 ])],
   ['manual-only', new Set([
     'marketing-web-research',
-    'investor-lead-generation-and-outreach',
+    'investor-lead-gen',
     'deploy-to-dev',
     'sprint-closing',
       'assert-fact-gate',
@@ -133,7 +133,7 @@ const currentSourceSkills = new Set([
     'scope-work-gate',
     'unlazy',
     'prompt-master',
-    'investor-lead-generation-and-outreach',
+    'investor-lead-gen',
 ])
 const categoryLabels = new Map([
   ['context', 'Context'],

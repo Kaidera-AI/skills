@@ -5,12 +5,12 @@
   "private": true,
   "scripts": {
     "validate": "node scripts/validate-skill.js",
-    "generate": "node scripts/render-development-workflow.js && node scripts/render-investor-lead-generation-and-outreach.js && node scripts/generate-marketplace.js",
+    "generate": "node scripts/render-development-workflow.js && node scripts/render-investor-lead-gen.js && node scripts/generate-marketplace.js",
     "scan": "python3 scripts/security-scan.py",
     "review-contract": "node scripts/open-code-review-contract.js",
     "eval:static": "node scripts/static-skill-eval.js",
     "glossary": "node scripts/render-glossary.js",
-    "test": "node scripts/render-development-workflow.js --check && node scripts/render-investor-lead-generation-and-outreach.js --check && node scripts/test-open-code-review.js && node scripts/test-skill-adaptations.js && node scripts/test-static-skill-eval.js && node scripts/test-skills-catalog.js && node scripts/render-glossary.js --check"
+    "test": "node scripts/render-development-workflow.js --check && node scripts/render-investor-lead-gen.js --check && node scripts/test-open-code-review.js && node scripts/test-skill-adaptations.js && node scripts/test-static-skill-eval.js && node scripts/test-skills-catalog.js && node scripts/render-glossary.js --check"
   },
   "engines": {
     "node": ">=20"
