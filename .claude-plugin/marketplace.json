@@ -1669,7 +1669,7 @@
       "attribution_notes": "Decision-led context, explicit sub-questions, primary-source preference, contradiction handling, and a gap round were researched from research-prompt at upstream commit 69c3ae5228eb146724fd23dac3d43eab5805bcc3. This Kaidera brief is independently written, vendor-neutral, and does not execute research automatically."
     },
     {
-      "name": "investor-outreach",
+      "name": "investor-lead-generation-and-outreach",
       "version": "1.0.0",
       "description": "Find investors for an early-stage round, write to each person one to one, follow up once, hand replies to the people who take the meetings, and keep a reusable investor database and learning log. Use for investor lead generation and cold investor outreach by any company or brand; customer prospecting belongs to a customer lead-generation skill.",
       "category": "sales-and-marketing",
@@ -1710,11 +1710,11 @@
         "crm",
         "learning-loop"
       ],
-      "content_hash": "4b6fdf9f15e0695cbfb48bdc7631f43a0a205a97e58886adcd09158b3bb79c03",
+      "content_hash": "9a058ae80f3473ca651d61e5d5b8d7ca836454d500ee5840b3ed63380385e7f1",
       "signed_by": "",
       "last_reviewed": "",
       "reviewer": "",
-      "file": "skills/sales-and-marketing/investor-outreach.SKILL.md",
+      "file": "skills/sales-and-marketing/investor-lead-generation-and-outreach.SKILL.md",
       "attribution_author": "",
       "attribution_url": "",
       "attribution_notes": "Independently authored from a live pre-seed raise run by an AI marketing agent with human owners. Lessons are anonymised; no investor, person, address or round term is included."

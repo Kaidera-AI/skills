@@ -1,5 +1,5 @@
 ---
-name: investor-outreach
+name: investor-lead-generation-and-outreach
 description: Find investors for an early-stage round, write to each person one to one, follow up once, hand replies to the people who take the meetings, and keep a reusable investor database and learning log. Use for investor lead generation and cold investor outreach by any company or brand; customer prospecting belongs to a customer lead-generation skill.
 license: Apache-2.0
 metadata:
@@ -9,7 +9,7 @@ metadata:
   posture: unvetted-source-candidate
 ---
 
-# Investor outreach and lead generation
+# Investor lead generation and outreach
 
 Use this skill when a company raising a pre-seed or seed round wants an agent to find investors, write to them one by one, follow up once, pass every reply to the people who take the meetings, and learn from each answer. It is written for any company and any brand. Everything that belongs to one raise (the round, the deck, the owners, the sender, the figures, the exclusions) lives in an instance file built from [the instance template](references/instance-template.md), never in this skill.
 

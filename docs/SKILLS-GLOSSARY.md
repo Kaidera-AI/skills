@@ -158,7 +158,7 @@ portfolio judgements, separate from the manifest's `trust_tier`, and every skill
 | [`incident-response`](../skills/legacy/incident-response.SKILL.md) | `legacy` | Legacy incident runbook: classification, blast-radius containment, kill switch, evidence, post-incident review. | Its containment-before-preservation ordering is unsafe; rebuild human-gated before any use. | Rework before use, legacy |
 | [`infra-naming-gate`](../skills/devops/infra-naming-gate.SKILL.md) | `devops` | Validates infrastructure names against an organisation, project, environment, role, locality and ordinal grammar. | Prevents resources that cannot later be renamed and collisions across projects. | Manual-only |
 | [`infrastructure-context`](../skills/legacy/infrastructure-context.SKILL.md) | `legacy` | Legacy GKE, ArgoCD GitOps, Terraform, Helm, CI/CD pipeline and hardening overview. | Orientation inside old infrastructure code only. | Reference-only, legacy |
-| [`investor-outreach`](../skills/sales-and-marketing/investor-outreach.SKILL.md) | `sales-and-marketing` | Finds investors for an early-stage round, writes to each person one to one, follows up once and hands replies to the owners. | Investor lead generation with a portable investor database and a weekly learning loop. Research never authorises a send. | Manual-only |
+| [`investor-lead-generation-and-outreach`](../skills/sales-and-marketing/investor-lead-generation-and-outreach.SKILL.md) | `sales-and-marketing` | Finds investors for an early-stage round, writes to each person one to one, follows up once and hands replies to the owners. | Investor lead generation with a portable investor database and a weekly learning loop. Research never authorises a send. | Manual-only |
 | [`jev`](../skills/development/jev.SKILL.md) | `development` | Reference for the shared Jev core, project transfer policy, CLI, result statuses and the four wrappers. | Setup and troubleshooting. It is not an automatic decision-moment router; install wrappers separately. | Reference-only |
 | [`jev-backlog-rank`](../skills/development/jev-backlog-rank.SKILL.md) | `development` | Checks an accountable lead’s backlog ordering against stated gate dependencies and delay risk. | Catches mis-sequenced dispatch waves early; the human keeps priority authority. | Bounded candidate |
 | [`jev-handoff-check`](../skills/development/jev-handoff-check.SKILL.md) | `development` | Inspects a drafted worker handoff’s receipt contract, gate, exclusions and blocked protocol before sending. | Stops dispatches that no worker could ever prove completion against. | Bounded candidate |
@@ -214,7 +214,7 @@ category labels in `scripts/test-skills-catalog.js`; that pull request adds both
 `kaidera.source` or a generation marker, and are re-rendered from a canonical source
 instead of being edited in place.
 
-2 of them keep their canonical directory inside this repository (`development-workflow`, `investor-outreach`): the flat manifest is generated from
+2 of them keep their canonical directory inside this repository (`development-workflow`, `investor-lead-generation-and-outreach`): the flat manifest is generated from
 the directory of the same name, and `npm test` fails if the two drift.
 
 The other 8 are projected from a canonical directory in `Kaidera-AI/kaideraos`: `gavel`, `jev`, `jev-backlog-rank`, `jev-handoff-check`, `jev-option-decision`, `jev-return-triage`, `kaidera-sdlc`, `marketing-web-research`.
