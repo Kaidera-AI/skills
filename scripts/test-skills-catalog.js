@@ -33,7 +33,7 @@ const postureLabels = new Map([
 ])
 const posturePolicy = new Map([
   ['bounded-candidate', new Set([
-    'emil-design-eng',
+    'ui-design-engineering',
     'gsd-core',
     'hyperframes',
     'development-workflow',
@@ -115,7 +115,7 @@ const legacySkills = new Set([
 ])
 const currentSourceSkills = new Set([
   'design-selection',
-  'emil-design-eng',
+  'ui-design-engineering',
   'gsd-core',
   'hyperframes',
   'jev-backlog-rank',

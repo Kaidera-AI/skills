@@ -37,7 +37,7 @@ Skills are instructions, not programs: the flat `*.SKILL.md` manifest carries no
 
 ## GSD and design selections
 
-New portable source candidates: [gsd-core](skills/development/gsd-core/SKILL.md), [design-selection](skills/development/design-selection/SKILL.md), [emil-design-eng](skills/development/emil-design-eng/SKILL.md) and [hyperframes](skills/development/hyperframes/SKILL.md). They are original adapters with pinned upstream citations; no upstream installer or plugin is bundled. See [review and selection boundaries](docs/UPSTREAM-SKILLS-REVIEW-2026-10-10.md).
+New portable source candidates: [gsd-core](skills/development/gsd-core/SKILL.md), [design-selection](skills/development/design-selection/SKILL.md), [ui-design-engineering](skills/development/ui-design-engineering/SKILL.md) and [hyperframes](skills/development/hyperframes/SKILL.md). They are original adapters with pinned upstream citations; no upstream installer or plugin is bundled. See [review and selection boundaries](docs/UPSTREAM-SKILLS-REVIEW-2026-10-10.md).
 
 The directory form can be installed through the universal plain-file skills path after project approval, for example: `npx skills add Kaidera-AI/skills --skill design-selection -a universal -y --copy`. Cortex projects register and bind through their existing owner; source publication does not activate these unvetted candidates.
 

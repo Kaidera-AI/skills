@@ -1,5 +1,5 @@
 ---
-name: emil-design-eng
+name: ui-design-engineering
 description: "Build or polish interface components using Emil Kowalski-inspired design engineering: purposeful motion, responsive feedback, gesture continuity and mobile platform details. Use for UI craft, interaction quality or a bounded design review."
 license: CC-BY-4.0
 metadata:

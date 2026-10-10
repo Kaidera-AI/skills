@@ -217,7 +217,7 @@
         "design",
         "routing"
       ],
-      "content_hash": "e1155021495f33e62888b8d610e8faab212b1250c35e95ed6cb5f2ec5d762135",
+      "content_hash": "eccb97037fd733cef056b3c80aa501fb1ae35593f1c7ee941bef83faa34c1ba1",
       "signed_by": "",
       "last_reviewed": "",
       "reviewer": "",
@@ -271,48 +271,6 @@
       "attribution_author": "",
       "attribution_url": "",
       "attribution_notes": "Original generic process text from the Kaidera-AI operating model and the kaidera-sdlc lifecycle. External standards are cited as references, not reproduced."
-    },
-    {
-      "name": "emil-design-eng",
-      "version": "1.0.0",
-      "description": "Build or polish interface components using Emil Kowalski-inspired design engineering: purposeful motion, responsive feedback, gesture continuity and mobile platform details. Use for UI craft, interaction quality or a bounded design review.",
-      "category": "development",
-      "trust_tier": "unvetted",
-      "risk_level": "medium",
-      "capabilities_required": [
-        "tool:file_read",
-        "tool:file_write",
-        "tool:code_interpreter",
-        "tool:web_search"
-      ],
-      "allowed_domains": [
-        "github.com",
-        "registry.npmjs.org"
-      ],
-      "safety_constraints": [
-        "Read-only reviews remain read-only until implementation is in the accepted task scope.",
-        "Preserve accessibility, existing design tokens and user intent; describe unobserved device behavior as unverified.",
-        "Use only the task-authorized tools, data and external actions.",
-        "Source publication does not grant runtime trust, installation, release authority or provider spend."
-      ],
-      "parameters": {},
-      "author": "Kaidera-AI",
-      "license": "CC-BY-4.0",
-      "updated": "2026-10-10",
-      "tags": [
-        "design",
-        "ui",
-        "motion",
-        "accessibility"
-      ],
-      "content_hash": "5ef889674087eee0cecc9c8d177add5dc24385770eab8b42940d27ad644c2944",
-      "signed_by": "",
-      "last_reviewed": "",
-      "reviewer": "",
-      "file": "skills/development/emil-design-eng.SKILL.md",
-      "attribution_author": "Emil Kowalski",
-      "attribution_url": "https://github.com/emilkowalski/skills/tree/e8a175de22ae1e49370fc144c1f3bb9aeedf988d",
-      "attribution_notes": "Original Kaidera adaptation and routing text informed by inspected pinned upstream sources. No upstream executable, installer, plugin or skill body is bundled."
     },
     {
       "name": "gavel",
@@ -868,6 +826,48 @@
       "attribution_author": "nidhinjs",
       "attribution_url": "https://github.com/nidhinjs/prompt-master",
       "attribution_notes": "Vendored verbatim from the MIT-licensed prompt-master skill by nidhinjs\n(upstream v1.8.0). Unlike an adapted marketplace entry, the instructional\nbody below is byte-identical to the upstream SKILL.md; only this frontmatter\nblock was added to satisfy the Kaidera manifest schema. The upstream\nrepository's own README recommends installing this skill through a\nClaude.ai upload flow or a `~/.claude/skills/` clone; neither is carried\nhere; consumers should use their own harness-agnostic install path and\nkeep the upstream LICENSE and this attribution with any copy they make.\n"
+    },
+    {
+      "name": "ui-design-engineering",
+      "version": "1.0.0",
+      "description": "Build or polish interface components using Emil Kowalski-inspired design engineering: purposeful motion, responsive feedback, gesture continuity and mobile platform details. Use for UI craft, interaction quality or a bounded design review.",
+      "category": "development",
+      "trust_tier": "unvetted",
+      "risk_level": "medium",
+      "capabilities_required": [
+        "tool:file_read",
+        "tool:file_write",
+        "tool:code_interpreter",
+        "tool:web_search"
+      ],
+      "allowed_domains": [
+        "github.com",
+        "registry.npmjs.org"
+      ],
+      "safety_constraints": [
+        "Read-only reviews remain read-only until implementation is in the accepted task scope.",
+        "Preserve accessibility, existing design tokens and user intent; describe unobserved device behavior as unverified.",
+        "Use only the task-authorized tools, data and external actions.",
+        "Source publication does not grant runtime trust, installation, release authority or provider spend."
+      ],
+      "parameters": {},
+      "author": "Kaidera-AI",
+      "license": "CC-BY-4.0",
+      "updated": "2026-10-10",
+      "tags": [
+        "design",
+        "ui",
+        "motion",
+        "accessibility"
+      ],
+      "content_hash": "5ef889674087eee0cecc9c8d177add5dc24385770eab8b42940d27ad644c2944",
+      "signed_by": "",
+      "last_reviewed": "",
+      "reviewer": "",
+      "file": "skills/development/ui-design-engineering.SKILL.md",
+      "attribution_author": "Emil Kowalski",
+      "attribution_url": "https://github.com/emilkowalski/skills/tree/e8a175de22ae1e49370fc144c1f3bb9aeedf988d",
+      "attribution_notes": "Original Kaidera adaptation and routing text informed by inspected pinned upstream sources. No upstream executable, installer, plugin or skill body is bundled."
     },
     {
       "name": "ultrareview",

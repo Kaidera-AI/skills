@@ -7,7 +7,7 @@ Owner: ren-tk. Scope: portable source publication requested by the user. Runtime
 | Source candidate | Use | Packaging |
 |---|---|---|
 | [gsd-core](../skills/development/gsd-core/SKILL.md) | Phase planning, interrupted-work recovery and legacy GSD migration | Original adapter plus runtime/migration reference |
-| [emil-design-eng](../skills/development/emil-design-eng/SKILL.md) | Interface craft and interaction quality | Original adapter plus a source-linked selection of 14 specialist skills |
+| [ui-design-engineering](../skills/development/ui-design-engineering/SKILL.md) | Interface craft and interaction quality | Original adapter plus a source-linked selection of 14 specialist skills |
 | [hyperframes](../skills/development/hyperframes/SKILL.md) | Deterministic HTML video composition and local rendering | Original adapter plus runtime/rendering reference |
 | [design-selection](../skills/development/design-selection/SKILL.md) | Select by interface, native interaction or exported-video deliverable | Read-only router; upstream specialist options are not bundled dependencies |
 | [unlazy](../skills/development/unlazy.SKILL.md), 1.0.1 | Completion ledgers and evidence discipline | Existing method-only skill; corrected negative check and optional-checker execution guidance |
@@ -55,6 +55,6 @@ The upstream checker is optional and is not bundled. `--status` is the non-execu
 
 ## Review and limits
 
-An independent reviewer inspected the four canonical adapters, bundled references, flat projections and generator. Two HyperFrames findings were corrected: interactive-deck misrouting and incomplete pre-authoring runtime attributes. Source review and manifest validation do not establish rendered-video quality, GSD runtime compatibility, capability sandbox enforcement or production readiness.
+An independent reviewer inspected the four canonical adapters, bundled references, flat projections and generator. Two HyperFrames findings were corrected: interactive-deck misrouting and incomplete pre-authoring runtime attributes. A subsequent packaging review found detached Markdown table rows and a person-based adapter name inconsistent with repository naming policy. The tables were made contiguous and the adapter was renamed `ui-design-engineering`, retaining Emil in source attribution. Source review and manifest validation do not establish rendered-video quality, GSD runtime compatibility, capability sandbox enforcement or production readiness.
 
 The broader big-AGI, Caliber, LangWatch and Switchyard investigation is kept in the internal Helix research packet. It contains project-specific authority and architecture context and is not copied into this public catalogue.

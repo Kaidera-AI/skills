@@ -14,14 +14,14 @@ kaidera:
   allowed_domains:
     - github.com
     - registry.npmjs.org
-  content_hash: e1155021495f33e62888b8d610e8faab212b1250c35e95ed6cb5f2ec5d762135
+  content_hash: eccb97037fd733cef056b3c80aa501fb1ae35593f1c7ee941bef83faa34c1ba1
   signed_by: ""
   last_reviewed: ""
   reviewer: ""
   source:
     repo: Kaidera-AI/skills
     path: skills/development/design-selection
-    content_sha256: a0ba00d627b94d5127585a2a058b83f6e1ce20f5a94c4d0f07ee54d530b3e646
+    content_sha256: 7942c3de373ec7a83a6c78832d20c9b4c05e48ad628f144ffbe1cbf66eaf9f6b
 author: Kaidera-AI
 license: CC-BY-4.0
 updated: 2026-10-10
@@ -49,7 +49,7 @@ Route by the requested deliverable and action, then load one owning skill plus n
 
 | Request | Owning selection | Boundary |
 |---|---|---|
-| UI component craft, visual polish, responsive interaction | `emil-design-eng` | Preserve the existing design system and framework. |
+| UI component craft, visual polish, responsive interaction | `ui-design-engineering` | Preserve the existing design system and framework. |
 | Web motion implementation / review / codebase audit | Emil `animate` / `review-animations` / `improve-animations` | Keep implementation and read-only review distinct. |
 | Mobile web / PWA interaction | Emil `mobile-native` | Real-device evidence differs from desktop emulation. |
 | React Native / Expo motion | Emil `animate-expo` | Native runtime, not HTML video. |
@@ -58,7 +58,7 @@ Route by the requested deliverable and action, then load one owning skill plus n
 | Exported promo, explainer, titles or HTML video composition | `hyperframes` | Deterministic video, local render, retained media provenance. |
 | Named existing framework or library | Its matching workflow | Keep the user's chosen stack. |
 
-The available Kaidera source candidates in this selection are `emil-design-eng` and `hyperframes`; specialist Emil entries are source-linked options, not installed dependencies. Their respective references identify the exact upstream pins and specialist paths. Check availability before invoking a name; missing selection calls for reading the pinned source or proposing its reviewed plain-file import.
+The available Kaidera source candidates in this selection are `ui-design-engineering` and `hyperframes`; specialist Emil entries are source-linked options, not installed dependencies. Their respective references identify the exact upstream pins and specialist paths. Check availability before invoking a name; missing selection calls for reading the pinned source or proposing its reviewed plain-file import.
 
 Return the chosen owner, reason, required inputs and relevant source pin. Skill selection grants no tooling or runtime trust. For a Cortex project, installation uses the approved universal plain-file path and the registry/binding process; generated harness files stay Cortex-owned.
 

@@ -21,7 +21,7 @@ Route by the requested deliverable and action, then load one owning skill plus n
 
 | Request | Owning selection | Boundary |
 |---|---|---|
-| UI component craft, visual polish, responsive interaction | `emil-design-eng` | Preserve the existing design system and framework. |
+| UI component craft, visual polish, responsive interaction | `ui-design-engineering` | Preserve the existing design system and framework. |
 | Web motion implementation / review / codebase audit | Emil `animate` / `review-animations` / `improve-animations` | Keep implementation and read-only review distinct. |
 | Mobile web / PWA interaction | Emil `mobile-native` | Real-device evidence differs from desktop emulation. |
 | React Native / Expo motion | Emil `animate-expo` | Native runtime, not HTML video. |
@@ -30,7 +30,7 @@ Route by the requested deliverable and action, then load one owning skill plus n
 | Exported promo, explainer, titles or HTML video composition | `hyperframes` | Deterministic video, local render, retained media provenance. |
 | Named existing framework or library | Its matching workflow | Keep the user's chosen stack. |
 
-The available Kaidera source candidates in this selection are `emil-design-eng` and `hyperframes`; specialist Emil entries are source-linked options, not installed dependencies. Their respective references identify the exact upstream pins and specialist paths. Check availability before invoking a name; missing selection calls for reading the pinned source or proposing its reviewed plain-file import.
+The available Kaidera source candidates in this selection are `ui-design-engineering` and `hyperframes`; specialist Emil entries are source-linked options, not installed dependencies. Their respective references identify the exact upstream pins and specialist paths. Check availability before invoking a name; missing selection calls for reading the pinned source or proposing its reviewed plain-file import.
 
 Return the chosen owner, reason, required inputs and relevant source pin. Skill selection grants no tooling or runtime trust. For a Cortex project, installation uses the approved universal plain-file path and the registry/binding process; generated harness files stay Cortex-owned.
 

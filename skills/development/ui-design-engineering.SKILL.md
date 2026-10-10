@@ -1,5 +1,5 @@
 ---
-name: emil-design-eng
+name: ui-design-engineering
 version: 1.0.0
 description: "Build or polish interface components using Emil Kowalski-inspired design engineering:
   purposeful motion, responsive feedback, gesture continuity and mobile platform details. Use for UI
@@ -22,8 +22,8 @@ kaidera:
   reviewer: ""
   source:
     repo: Kaidera-AI/skills
-    path: skills/development/emil-design-eng
-    content_sha256: eee7993f2cd163ad0749f46930d94a901f39c9c6eb8ca424d92230bac845f9a5
+    path: skills/development/ui-design-engineering
+    content_sha256: 42f5cb8597e1234e6f4a7dcef7250bf07e13c2c8f7e87f886b41a99476c37645
 author: Kaidera-AI
 license: CC-BY-4.0
 updated: 2026-10-10

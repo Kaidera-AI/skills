@@ -5,7 +5,7 @@ on:
     paths:
       - 'skills/**/*.SKILL.md'
       - 'skills/development/design-selection/**'
-      - 'skills/development/emil-design-eng/**'
+      - 'skills/development/ui-design-engineering/**'
       - 'skills/development/gsd-core/**'
       - 'skills/development/hyperframes/**'
       - 'scripts/render-upstream-adapters.js'
@@ -23,7 +23,7 @@ on:
     paths:
       - 'skills/**/*.SKILL.md'
       - 'skills/development/design-selection/**'
-      - 'skills/development/emil-design-eng/**'
+      - 'skills/development/ui-design-engineering/**'
       - 'skills/development/gsd-core/**'
       - 'skills/development/hyperframes/**'
       - 'scripts/render-upstream-adapters.js'
