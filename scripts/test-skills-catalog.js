@@ -33,6 +33,9 @@ const postureLabels = new Map([
 ])
 const posturePolicy = new Map([
   ['bounded-candidate', new Set([
+    'emil-design-eng',
+    'gsd-core',
+    'hyperframes',
     'development-workflow',
     'assumption-validation',
     'open-code-review',
@@ -46,6 +49,7 @@ const posturePolicy = new Map([
     'jev-return-triage',
 ])],
   ['reference-only', new Set([
+    'design-selection',
     'jev',
     'agent-platform-context',
     'api-design',
@@ -110,6 +114,10 @@ const legacySkills = new Set([
   'workspace-context',
 ])
 const currentSourceSkills = new Set([
+  'design-selection',
+  'emil-design-eng',
+  'gsd-core',
+  'hyperframes',
   'jev-backlog-rank',
   'jev-handoff-check',
   'jev-option-decision',

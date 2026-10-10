@@ -188,6 +188,22 @@
     "investor-lead-gen": {
       "what": "Finds investors for an early-stage round, writes to each person one to one, follows up once and hands replies to the owners.",
       "why": "Investor lead generation with a portable investor database and a weekly learning loop. Research never authorises a send."
+    },
+    "design-selection": {
+      "what": "Select the owning design workflow for UI, motion, native interaction or exported video.",
+      "why": "Choosing design capabilities or resolving UI versus video workflow ownership."
+    },
+    "emil-design-eng": {
+      "what": "Improve UI craft, input feedback, purposeful motion, gesture continuity and mobile details.",
+      "why": "Building or polishing components, or reviewing a bounded interaction."
+    },
+    "gsd-core": {
+      "what": "Use persistent phase artifacts and bounded context to plan, execute or resume GSD Core work.",
+      "why": "An explicitly chosen GSD workflow, interrupted phase, or legacy Get Shit Done migration."
+    },
+    "hyperframes": {
+      "what": "Author and locally render deterministic HTML video compositions and motion graphics.",
+      "why": "An exported film, motion graphic or operation on an existing HyperFrames composition."
     }
   },
   "rename_pairs": [
