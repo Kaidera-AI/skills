@@ -563,30 +563,6 @@ entry is current-source; the EnGenAI-era development material is filed under
   instructions; use this repository's own harness-agnostic distribution
   instead.
 
-### `ui-ux-review`
-
-<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:file_write","tool:code_interpreter"],"category":"development","legacy":false,"name":"ui-ux-review","path":"skills/development/ui-ux-review.SKILL.md","posture":"bounded-candidate","review_fingerprint":"8afca93cb62fdfef5b8c243e7ade89d30ceb045dc0b85903f3c6eb4a141c6007","risk_level":"medium","trust_tier":"unvetted","version":"1.0.0"} -->
-
-- **Manifest:** [ui-ux-review.SKILL.md](../skills/development/ui-ux-review.SKILL.md)
-- **Function:** Critique task flow, audit implemented web quality, and harden scoped failure states.
-- **Use when:** A requested UI/UX review or an accepted resilience edit.
-- **Do not use when:** Unscoped redesign, backend implementation, or accessibility certification.
-- **Inputs and output:** Target, product constraints and evidence; prioritized location-bound findings, remedies and untested states.
-- **Authority and effects:** Critique/audit read; harden writes only its accepted scope; authorized local diagnostics only.
-- **Kaidera action:** Bounded candidate, unvetted. Canonical plain directory projects through `scripts/render-upstream-adapters.js`; pinned donor licence and modification notice are bundled. Source review does not grant binding, trusted tier or release authority. Gate 3/4 and root/per-skill licence precedence remain held.
-
-### `web-interface-guidelines`
-
-<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read"],"category":"development","legacy":false,"name":"web-interface-guidelines","path":"skills/development/web-interface-guidelines.SKILL.md","posture":"reference-only","review_fingerprint":"5faf4a869eb5ffe49585c453bb1ffcae8f168554d8c88442ec7debf3c8426a17","risk_level":"medium","trust_tier":"unvetted","version":"1.0.0"} -->
-
-- **Manifest:** [web-interface-guidelines.SKILL.md](../skills/development/web-interface-guidelines.SKILL.md)
-- **Function:** Review web files against a pinned local Vercel rules snapshot.
-- **Use when:** A named web UI guideline review.
-- **Do not use when:** Native UI, live guideline refresh or an implicit application edit.
-- **Inputs and output:** Target, product constraints and evidence; prioritized location-bound findings, remedies and untested states.
-- **Authority and effects:** File reads only; snapshot and licence bytes stay pinned.
-- **Kaidera action:** Reference-only, unvetted. Canonical plain directory projects through `scripts/render-upstream-adapters.js`; pinned donor licence and modification notice are bundled. Source review does not grant binding, trusted tier or release authority. Gate 3/4 and root/per-skill licence precedence remain held.
-
 ### `ui-design-engineering`
 
 <!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:file_write","tool:code_interpreter","tool:web_search"],"category":"development","legacy":false,"name":"ui-design-engineering","path":"skills/development/ui-design-engineering.SKILL.md","posture":"bounded-candidate","review_fingerprint":"7132e7429ba0b60b5cc49d32581fdd66ce149a711578fc14ef5f51723de054bd","risk_level":"medium","trust_tier":"unvetted","version":"1.0.0"} -->
@@ -598,6 +574,18 @@ entry is current-source; the EnGenAI-era development material is filed under
 - **Inputs and output:** Component, users, design tokens and requested change; implementation or bounded review findings.
 - **Authority and effects:** Reads and edits only scoped application files; tooling and external lookups follow task authorization.
 - **Kaidera action:** Bounded candidate, unvetted. Canonical portable source is the directory beside the manifest; regenerate with `scripts/render-upstream-adapters.js`. This original CC-BY-4.0 adapter matches the root licence and cites pinned upstream sources without bundling their code. Source publication carries no runtime trust or binding; Gate 3/4 holds remain.
+
+### `ui-ux-review`
+
+<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:file_write","tool:code_interpreter"],"category":"development","legacy":false,"name":"ui-ux-review","path":"skills/development/ui-ux-review.SKILL.md","posture":"bounded-candidate","review_fingerprint":"8afca93cb62fdfef5b8c243e7ade89d30ceb045dc0b85903f3c6eb4a141c6007","risk_level":"medium","trust_tier":"unvetted","version":"1.0.0"} -->
+
+- **Manifest:** [ui-ux-review.SKILL.md](../skills/development/ui-ux-review.SKILL.md)
+- **Function:** Critique task flow, audit implemented web quality, and harden scoped failure states.
+- **Use when:** A requested UI/UX review or an accepted resilience edit.
+- **Do not use when:** Unscoped redesign, backend implementation, or accessibility certification.
+- **Inputs and output:** Target, product constraints and evidence; prioritized location-bound findings, remedies and untested states.
+- **Authority and effects:** Critique/audit read; harden writes only its accepted scope; authorized local diagnostics only.
+- **Kaidera action:** Bounded candidate, unvetted. Canonical plain directory projects through `scripts/render-upstream-adapters.js`; pinned donor licence and modification notice are bundled. Source review does not grant binding, trusted tier or release authority. Gate 3/4 and root/per-skill licence precedence remain held.
 
 ### `ultrareview`
 
@@ -641,6 +629,18 @@ mutates anything. Each one demands that a separately authorised workflow supply
 exact target identity, current approval, quality evidence and rollback readiness
 first. The EnGenAI-era deployment runbooks and platform patterns are filed under
 `legacy/`.
+
+### `web-interface-guidelines`
+
+<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read"],"category":"development","legacy":false,"name":"web-interface-guidelines","path":"skills/development/web-interface-guidelines.SKILL.md","posture":"reference-only","review_fingerprint":"5faf4a869eb5ffe49585c453bb1ffcae8f168554d8c88442ec7debf3c8426a17","risk_level":"medium","trust_tier":"unvetted","version":"1.0.0"} -->
+
+- **Manifest:** [web-interface-guidelines.SKILL.md](../skills/development/web-interface-guidelines.SKILL.md)
+- **Function:** Review web files against a pinned local Vercel rules snapshot.
+- **Use when:** A named web UI guideline review.
+- **Do not use when:** Native UI, live guideline refresh or an implicit application edit.
+- **Inputs and output:** Target, product constraints and evidence; prioritized location-bound findings, remedies and untested states.
+- **Authority and effects:** File reads only; snapshot and licence bytes stay pinned.
+- **Kaidera action:** Reference-only, unvetted. Canonical plain directory projects through `scripts/render-upstream-adapters.js`; pinned donor licence and modification notice are bundled. Source review does not grant binding, trusted tier or release authority. Gate 3/4 and root/per-skill licence precedence remain held.
 
 ### `cloud-agnostic-policy`
 

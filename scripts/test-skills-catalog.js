@@ -117,6 +117,8 @@ const legacySkills = new Set([
   'workspace-context',
 ])
 const currentSourceSkills = new Set([
+  'ui-ux-review',
+  'web-interface-guidelines',
   'design-selection',
   'ui-design-engineering',
   'gsd-core',
