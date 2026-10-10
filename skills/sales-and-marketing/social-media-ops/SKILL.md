@@ -3,7 +3,7 @@ name: social-media-ops
 description: Publish to LinkedIn, X, Instagram, Threads and Bluesky through each platform's official API and read every post back, measure whether AI answer engines name the brand, read prospects' own job boards for hiring signals, and vet scraping or automation tools before anyone runs them. Use for any company's or brand's social channels and market listening; never for scraping a social network or driving a logged-in browser.
 license: Apache-2.0
 metadata:
-  version: 1.0.0
+  version: 1.0.1
   updated: 2026-10-10
   source: Kaidera-AI/skills
   posture: unvetted-source-candidate
