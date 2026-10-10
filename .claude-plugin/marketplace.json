@@ -3,7 +3,7 @@
   "description": "Locally validated, provenance-aware skills for Kaidera agents",
   "version": "1.0.0",
   "source": "https://github.com/Kaidera-AI/skills",
-  "generated_at": "2026-10-08T00:00:00.000Z",
+  "generated_at": "2026-10-10T00:00:00.000Z",
   "generation_basis": "maximum skill updated date",
   "skills": [
     {
@@ -189,6 +189,44 @@
       "attribution_notes": "The separation of code correctness from real-world assumption validation was researched from risky-changes at upstream commit 69c3ae5228eb146724fd23dac3d43eab5805bcc3. This Kaidera workflow is independently written and removes vendor mandates, automatic paid calls, production-data assumptions, and fixed sample counts."
     },
     {
+      "name": "design-selection",
+      "version": "1.0.0",
+      "description": "Select a design skill for interface polish, animation review, native interaction, prototypes or rendered video. Use when choosing design capabilities or deciding which design workflow owns a requested deliverable.",
+      "category": "development",
+      "trust_tier": "unvetted",
+      "risk_level": "medium",
+      "capabilities_required": [
+        "tool:file_read",
+        "tool:web_search"
+      ],
+      "allowed_domains": [
+        "github.com",
+        "registry.npmjs.org"
+      ],
+      "safety_constraints": [
+        "Route by requested output and preserve the user-selected technology.",
+        "Source-linked specialist options are not proof of installation or permission to install.",
+        "Use only the task-authorized tools, data and external actions.",
+        "Source publication does not grant runtime trust, installation, release authority or provider spend."
+      ],
+      "parameters": {},
+      "author": "Kaidera-AI",
+      "license": "CC-BY-4.0",
+      "updated": "2026-10-10",
+      "tags": [
+        "design",
+        "routing"
+      ],
+      "content_hash": "eccb97037fd733cef056b3c80aa501fb1ae35593f1c7ee941bef83faa34c1ba1",
+      "signed_by": "",
+      "last_reviewed": "",
+      "reviewer": "",
+      "file": "skills/development/design-selection.SKILL.md",
+      "attribution_author": "Emil Kowalski and HeyGen",
+      "attribution_url": "https://github.com/emilkowalski/skills/tree/e8a175de22ae1e49370fc144c1f3bb9aeedf988d",
+      "attribution_notes": "Original Kaidera adaptation and routing text informed by inspected pinned upstream sources. No upstream executable, installer, plugin or skill body is bundled."
+    },
+    {
       "name": "development-workflow",
       "version": "1.0.0",
       "description": "Plan and deliver software with AI and human workers, using bounded tasks, independent code review, risk-based QA, and recorded human decisions. Use for development projects and their service operations; do not bind to non-development projects.",
@@ -290,6 +328,89 @@
       "attribution_author": "",
       "attribution_url": "",
       "attribution_notes": "Builds on the TypeSafe skill (typesafe-ai/skills, MIT) and docs.typesafe.ai (System One primitives Choice, Noul, Score). Requires a TypeSafe API key supplied by the user as JEV_API_KEY."
+    },
+    {
+      "name": "gsd-core",
+      "version": "1.0.0",
+      "description": "Plan, execute or resume a GSD Core project with persistent phase artifacts and bounded context. Use for GSD, Get Shit Done migration, interrupted phases or an explicitly chosen GSD workflow.",
+      "category": "development",
+      "trust_tier": "unvetted",
+      "risk_level": "medium",
+      "capabilities_required": [
+        "tool:file_read",
+        "tool:file_write",
+        "tool:code_interpreter",
+        "tool:web_search"
+      ],
+      "allowed_domains": [
+        "github.com",
+        "registry.npmjs.org"
+      ],
+      "safety_constraints": [
+        "Preserve Cortex ownership of generated harness files and the project SDLC gates.",
+        "Native runtime migration requires accepted scope, preserved state and rollback.",
+        "Use only the task-authorized tools, data and external actions.",
+        "Source publication does not grant runtime trust, installation, release authority or provider spend."
+      ],
+      "parameters": {},
+      "author": "Kaidera-AI",
+      "license": "CC-BY-4.0",
+      "updated": "2026-10-10",
+      "tags": [
+        "gsd",
+        "planning",
+        "sdlc",
+        "resume"
+      ],
+      "content_hash": "095624e6ef6db1cd906566e1c99f1f57b76a9edcd59e6253fee711ed4162b682",
+      "signed_by": "",
+      "last_reviewed": "",
+      "reviewer": "",
+      "file": "skills/development/gsd-core.SKILL.md",
+      "attribution_author": "OpenGSD",
+      "attribution_url": "https://github.com/open-gsd/gsd-core/tree/87e87d34b2d8519e30d1af7d910fc98f2af4bc8d",
+      "attribution_notes": "Original Kaidera adaptation and routing text informed by inspected pinned upstream sources. No upstream executable, installer, plugin or skill body is bundled."
+    },
+    {
+      "name": "hyperframes",
+      "version": "1.0.0",
+      "description": "Create, edit or render HyperFrames HTML video compositions and motion graphics. Use for HTML-to-video deliverables or existing HyperFrames projects, with deterministic seekable animation and local rendering.",
+      "category": "development",
+      "trust_tier": "unvetted",
+      "risk_level": "medium",
+      "capabilities_required": [
+        "tool:file_read",
+        "tool:file_write",
+        "tool:code_interpreter",
+        "tool:web_search"
+      ],
+      "allowed_domains": [
+        "github.com",
+        "registry.npmjs.org"
+      ],
+      "safety_constraints": [
+        "Use local deterministic rendering and approved project pins; external services and publication require task authorization.",
+        "Keep licensed media provenance and never include credentials in source or exported assets.",
+        "Use only the task-authorized tools, data and external actions.",
+        "Source publication does not grant runtime trust, installation, release authority or provider spend."
+      ],
+      "parameters": {},
+      "author": "Kaidera-AI",
+      "license": "CC-BY-4.0",
+      "updated": "2026-10-10",
+      "tags": [
+        "design",
+        "animation",
+        "video"
+      ],
+      "content_hash": "8bd78e8fb6d46af192f19b90d54f55a8b2168b8e6c09bff3a505315c421970d7",
+      "signed_by": "",
+      "last_reviewed": "",
+      "reviewer": "",
+      "file": "skills/development/hyperframes.SKILL.md",
+      "attribution_author": "HeyGen",
+      "attribution_url": "https://github.com/heygen-com/hyperframes/tree/6f3f86a9c9824c8ad5b7bf760375e243466e5ee0",
+      "attribution_notes": "Original Kaidera adaptation and routing text informed by inspected pinned upstream sources. No upstream executable, installer, plugin or skill body is bundled."
     },
     {
       "name": "jev-backlog-rank",
@@ -707,6 +828,48 @@
       "attribution_notes": "Vendored verbatim from the MIT-licensed prompt-master skill by nidhinjs\n(upstream v1.8.0). Unlike an adapted marketplace entry, the instructional\nbody below is byte-identical to the upstream SKILL.md; only this frontmatter\nblock was added to satisfy the Kaidera manifest schema. The upstream\nrepository's own README recommends installing this skill through a\nClaude.ai upload flow or a `~/.claude/skills/` clone; neither is carried\nhere; consumers should use their own harness-agnostic install path and\nkeep the upstream LICENSE and this attribution with any copy they make.\n"
     },
     {
+      "name": "ui-design-engineering",
+      "version": "1.0.0",
+      "description": "Build or polish interface components using Emil Kowalski-inspired design engineering: purposeful motion, responsive feedback, gesture continuity and mobile platform details. Use for UI craft, interaction quality or a bounded design review.",
+      "category": "development",
+      "trust_tier": "unvetted",
+      "risk_level": "medium",
+      "capabilities_required": [
+        "tool:file_read",
+        "tool:file_write",
+        "tool:code_interpreter",
+        "tool:web_search"
+      ],
+      "allowed_domains": [
+        "github.com",
+        "registry.npmjs.org"
+      ],
+      "safety_constraints": [
+        "Read-only reviews remain read-only until implementation is in the accepted task scope.",
+        "Preserve accessibility, existing design tokens and user intent; describe unobserved device behavior as unverified.",
+        "Use only the task-authorized tools, data and external actions.",
+        "Source publication does not grant runtime trust, installation, release authority or provider spend."
+      ],
+      "parameters": {},
+      "author": "Kaidera-AI",
+      "license": "CC-BY-4.0",
+      "updated": "2026-10-10",
+      "tags": [
+        "design",
+        "ui",
+        "motion",
+        "accessibility"
+      ],
+      "content_hash": "5ef889674087eee0cecc9c8d177add5dc24385770eab8b42940d27ad644c2944",
+      "signed_by": "",
+      "last_reviewed": "",
+      "reviewer": "",
+      "file": "skills/development/ui-design-engineering.SKILL.md",
+      "attribution_author": "Emil Kowalski",
+      "attribution_url": "https://github.com/emilkowalski/skills/tree/e8a175de22ae1e49370fc144c1f3bb9aeedf988d",
+      "attribution_notes": "Original Kaidera adaptation and routing text informed by inspected pinned upstream sources. No upstream executable, installer, plugin or skill body is bundled."
+    },
+    {
       "name": "ultrareview",
       "version": "1.1.1",
       "description": "Comprehensive, evidence-cited, read-only whole-codebase or module health audit. Fans the codebase\nacross independent review dimensions (correctness, security, change-risk,\nmaintainability, blast-radius, tests, performance, spec/contract compliance),\nthen adversarially verifies every HIGH/CRITICAL finding before reporting.\nCombines the structured ultra-review workflow used in Claude Code with\nreview dimensions derived from the repowise codebase-intelligence model\n(JIT change-risk, code-health biomarkers, dead-code, blast-radius, git\nhotspots/prior-defects). Read-only by default; an explicit Fix Mode is\nopt-in only. Use open-code-review when the primary object is a bounded\nworkspace, commit, range, or PR change. Designed for the Kaidera platform\nworkbench and KOS app.\n",
@@ -770,7 +933,7 @@
     },
     {
       "name": "unlazy",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "description": "Completion discipline for substantial autonomous work. Write acceptance gates\nbefore executing, decompose with a Depth Tree, and re-measure every claim\nagainst evidence before reporting. Use when the failure mode is quiet\nincompleteness: long or multi-part tasks, work returned half-done, exhaustive\naudits or migrations, or parallel work streams.\n",
       "category": "development",
       "trust_tier": "unvetted",
@@ -792,7 +955,7 @@
       "parameters": {},
       "author": "kaidera-ai",
       "license": "MIT",
-      "updated": "2026-08-28",
+      "updated": "2026-10-10",
       "tags": [
         "completion",
         "verification",
@@ -801,14 +964,14 @@
         "evidence",
         "orchestration"
       ],
-      "content_hash": "99010cf70eaf720fc9029102d902c6aa4acef1390ec762ec547a3252a0dae741",
+      "content_hash": "24c1a3a95bd3f8036de62a37b59bdacc99d218786e562ce930a06994cf876e6d",
       "signed_by": "",
       "last_reviewed": "",
       "reviewer": "",
       "file": "skills/development/unlazy.SKILL.md",
       "attribution_author": "Leonxlnx",
       "attribution_url": "https://github.com/Leonxlnx/unlazy",
-      "attribution_notes": "Adapted from the MIT-licensed unlazy skill by Leonxlnx (upstream v2.1.0). The\nupstream repository is a multi-file skill shipping a Node gate checker and an\nopt-in Stop hook; this marketplace entry carries the method as a single\nself-contained steering file and points to the upstream repository for that\noptional tooling. Method, structure, and terminology are the original author's.\n"
+      "attribution_notes": "Adapted from the MIT-licensed unlazy skill by Leonxlnx (source targeting 2.1.0 at commit\n16671491f6679ad9378f52604d3bc2415b4120c7; not a verified tagged release). The\nupstream repository is a multi-file skill shipping a Node gate checker and an\nopt-in Stop hook; this marketplace entry carries the method as a single\nself-contained steering file and points to the upstream repository for that\noptional tooling. Method, structure, and terminology are the original author's.\n"
     },
     {
       "name": "cloud-agnostic-policy",

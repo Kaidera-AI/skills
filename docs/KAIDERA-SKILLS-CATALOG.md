@@ -2,9 +2,9 @@
 
 Status: **canonical human-facing catalogue; source candidate; runtime and trust HOLD**
 
-Catalogue date: **2026-10-08**
+Catalogue date: **2026-10-10**
 
-Total skills: **45**
+Total skills: **49**
 
 Source binding: consume this guide only from the same Git commit as its skill
 manifests, marketplace, and catalogue test. The enclosing commit/tree is the
@@ -31,7 +31,7 @@ a release blocker; do not silently choose one side.
 
 ## Current release boundary
 
-- All 45 skills are `unvetted`.
+- All 49 skills are `unvetted`.
 - Catalogue presence, a body hash, static validation, or a local commit is not
   approval to inject a skill into an agent.
 - Gate 1 strict manifest checks and a bounded Gate 2 pattern scan exist.
@@ -43,7 +43,7 @@ a release blocker; do not silently choose one side.
 - Kaidera and Alibaba both use the name `open-code-review`. A host must select a
   source-qualified identity and inject only one; prompt text cannot resolve a
   loader collision after both skills are present.
-- 21 of the 45 skills are filed under `legacy/`. They are kept as research context,
+- 21 of the 49 skills are filed under `legacy/`. They are kept as research context,
   they are not current Kaidera truth, and none of them may be bound to an agent.
 
 ## Portfolio summary
@@ -51,7 +51,7 @@ a release blocker; do not silently choose one side.
 | Category | Skills |
 |---|---:|
 | Context | 2 |
-| Development | 14 |
+| Development | 18 |
 | DevOps | 3 |
 | Documentation | 1 |
 | Legacy | 21 |
@@ -61,18 +61,18 @@ a release blocker; do not silently choose one side.
 
 | Declared trust tier | Skills |
 |---|---:|
-| `unvetted` | 45 |
+| `unvetted` | 49 |
 
 | Operating posture | Skills |
 |---|---:|
-| Bounded candidate | 11 |
-| Reference-only | 14 |
+| Bounded candidate | 14 |
+| Reference-only | 15 |
 | Manual-only | 10 |
 | Rework before use | 10 |
 
 Legacy entries: **21**
 
-Current-source entries: **24**
+Current-source entries: **28**
 
 `Legacy` is a documentation classification and, since the `legacy/` category was
 introduced, a filing location as well. Neither is a trust or compatibility
@@ -120,7 +120,7 @@ The posture below is a portfolio judgement and is separate from the manifest's
 | **Rework before use** | Known stale product assumptions or manifest/body capability mismatch makes runtime use unsafe or misleading. |
 
 `Legacy` in this guide means the skill still names EnGenAI-era repositories,
-services, branches, roles, endpoints, or architecture. All 22 such skills are filed
+services, branches, roles, endpoints, or architecture. All 21 such skills are filed
 under `legacy/`, so the classification is visible in the path and not only in this
 guide. Legacy material can be useful research context, but it is not current
 Kaidera truth until reconciled against the owning repository and Cortex.
@@ -130,7 +130,7 @@ Kaidera truth until reconciled against the owning repository and Cortex.
 | Capability | Meaning |
 |---|---|
 | `tool:file_read` | Read authorised local workspace files. |
-| `tool:file_write` | Modify authorised local files. Six published skills declare it: three bounded candidates (`development-workflow`, `kaidera-sdlc`, `unlazy`), one reference-only (`jev`) and two manual-only (`marketing-web-research`, `investor-lead-gen`). |
+| `tool:file_write` | Modify authorised local files. Nine published skills declare it: six bounded candidates (`development-workflow`, `ui-design-engineering`, `gsd-core`, `hyperframes`, `kaidera-sdlc`, `unlazy`), one reference-only (`jev`) and two manual-only (`marketing-web-research`, `investor-lead-gen`). |
 | `tool:code_interpreter` | Run bounded local computation or already-approved diagnostics. It does not imply arbitrary repository code is trusted. |
 | `tool:web_search` | Search public web sources under the runtime's network policy. |
 | `tool:mcp_external` | Call an approved external connector or service. |
@@ -175,6 +175,10 @@ Use the narrowest matching skill:
 - `prompt-injection-test-design` designs a separately controlled test corpus and
   harness; it is not a general code-review skill.
 
+### Design and GSD selection
+
+Use `design-selection` for the initial UI/native/video route, `ui-design-engineering` for component craft and `hyperframes` for exported HTML video. Emil specialist entries are pinned source-linked selections rather than installed dependencies. Use `gsd-core` for phase execution and continuity inside the governing lifecycle; `kaidera-sdlc` retains gate authority. Source details and adoption findings are recorded in [the upstream review](UPSTREAM-SKILLS-REVIEW-2026-10-10.md).
+
 ## Catalogue at a glance
 
 | Category | Skill | Version | Function | Posture | Risk / declared capabilities |
@@ -194,7 +198,7 @@ Use the narrowest matching skill:
 | Development | `open-code-review` | `4.0.1` | Exact-target, evidence-gated, adversarial bounded-change review | Bounded candidate | medium / file read, interpreter |
 | Development | `prompt-master` | `1.8.0` | Third-party, vendored verbatim: writes one optimized prompt for a named AI tool from a rough request | Reference-only | low / none |
 | Development | `ultrareview` | `1.1.1` | Whole-codebase, multi-dimension health audit with optional fix mode | Rework before use | low / none declared |
-| Development | `unlazy` | `1.0.0` | Completion discipline for substantial autonomous work. Write acceptance gates | Bounded candidate | medium / file read, file write |
+| Development | `unlazy` | `1.0.1` | Completion discipline for substantial autonomous work. Write acceptance gates | Bounded candidate | medium / file read, file write |
 | DevOps | `cloud-agnostic-policy` | `1.0.0` | Reviews infrastructure choices for portability and prevents an architecture | Manual-only | low / file read |
 | DevOps | `deploy-gate` | `1.0.0` | Gates pushes, pull requests, merges, releases, and deployments on exact target, | Manual-only | medium / file read |
 | DevOps | `infra-naming-gate` | `1.0.0` | Validates proposed infrastructure names against a portable organization, | Manual-only | low / file read |
@@ -224,6 +228,10 @@ Use the narrowest matching skill:
 | Research | `research-brief` | `1.0.0` | Drafts a self-contained decision-led brief without executing research | Bounded candidate | low / file read |
 | Sales and marketing | `investor-lead-gen` | `1.0.0` | Investor research, one-to-one first emails, one follow-up, reply hand-over, investor database and weekly learning loop | Manual-only | high / file read, file write, web search, external connector |
 | Security | `prompt-injection-test-design` | `2.0.1` | Read-only design for controlled prompt-injection boundary testing | Reference-only | low / none |
+| Development | `design-selection` | `1.0.0` | Select the owning design workflow for UI, motion, native interaction or exported video. | Reference-only | medium / file read, web search |
+| Development | `ui-design-engineering` | `1.0.0` | Improve UI craft, input feedback, purposeful motion, gesture continuity and mobile details. | Bounded candidate | medium / file read, file write, interpreter, web search |
+| Development | `gsd-core` | `1.0.0` | Use persistent phase artifacts and bounded context to plan, execute or resume GSD Core work. | Bounded candidate | medium / file read, file write, interpreter, web search |
+| Development | `hyperframes` | `1.0.0` | Author and locally render deterministic HTML video compositions and motion graphics. | Bounded candidate | medium / file read, file write, interpreter, web search |
 
 ## Ownership, licensing, attribution, and domain metadata
 
@@ -279,6 +287,10 @@ precedence issue remains a release hold.
 | `deploy-gate` | `Kaidera` | `Apache-2.0` | None | — |
 | `infra-naming-gate` | `Kaidera` | `Apache-2.0` | None | — |
 | `human-voice` | `Kaidera` | `Apache-2.0` | `aclanthology.org`, `arxiv.org`, `en.wikipedia.org`, `www.economist.com`, `www.nytimes.com`, `www.pnas.org`, `www.science.org`, `www.washingtonpost.com` | — |
+| `design-selection` | `Kaidera-AI` | `CC-BY-4.0` | `github.com`, `registry.npmjs.org` | [Emil Kowalski and HeyGen](https://github.com/emilkowalski/skills/tree/e8a175de22ae1e49370fc144c1f3bb9aeedf988d) |
+| `ui-design-engineering` | `Kaidera-AI` | `CC-BY-4.0` | `github.com`, `registry.npmjs.org` | [Emil Kowalski](https://github.com/emilkowalski/skills/tree/e8a175de22ae1e49370fc144c1f3bb9aeedf988d) |
+| `gsd-core` | `Kaidera-AI` | `CC-BY-4.0` | `github.com`, `registry.npmjs.org` | [OpenGSD](https://github.com/open-gsd/gsd-core/tree/87e87d34b2d8519e30d1af7d910fc98f2af4bc8d) |
+| `hyperframes` | `Kaidera-AI` | `CC-BY-4.0` | `github.com`, `registry.npmjs.org` | [HeyGen](https://github.com/heygen-com/hyperframes/tree/6f3f86a9c9824c8ad5b7bf760375e243466e5ee0) |
 
 ## Context skills
 
@@ -359,6 +371,18 @@ entry is current-source; the EnGenAI-era development material is filed under
   inert under the no-browse contract and can be removed unless a future,
   separately authorised evidence-source mode needs it.
 
+### `design-selection`
+
+<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:web_search"],"category":"development","legacy":false,"name":"design-selection","path":"skills/development/design-selection.SKILL.md","posture":"reference-only","review_fingerprint":"7ee77e7b82846c0334cb28cc7fb4bd8bcc54b4d7848314e30d0ab8282078eff6","risk_level":"medium","trust_tier":"unvetted","version":"1.0.0"} -->
+
+- **Manifest:** [design-selection.SKILL.md](../skills/development/design-selection.SKILL.md)
+- **Function:** Select the owning design workflow for UI, motion, native interaction or exported video.
+- **Use when:** Choosing design capabilities or resolving UI versus video workflow ownership.
+- **Do not use when:** As a blanket instruction to install every upstream specialist or replace a chosen stack.
+- **Inputs and output:** Requested deliverable and action; a source-qualified selection, reason and required inputs.
+- **Authority and effects:** Reads sources and selects; no application edits or installer execution.
+- **Kaidera action:** Reference-only, unvetted. Canonical portable source is the directory beside the manifest; regenerate with `scripts/render-upstream-adapters.js`. This original CC-BY-4.0 adapter matches the root licence and cites pinned upstream sources without bundling their code. Source publication carries no runtime trust or binding; Gate 3/4 holds remain.
+
 ### `development-workflow`
 
 <!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:file_write","tool:code_interpreter","tool:web_search"],"category":"development","legacy":false,"name":"development-workflow","path":"skills/development/development-workflow.SKILL.md","posture":"bounded-candidate","review_fingerprint":"906134356d5967050d8de574cf0ee6bab04d0fb282d3410d80216597da381c81","risk_level":"medium","trust_tier":"unvetted","version":"1.0.0"} -->
@@ -383,6 +407,30 @@ entry is current-source; the EnGenAI-era development material is filed under
 - **Authority and effects:** Advisory. It authorises no merge, deploy, publish, deletion or spend; thresholds and policy live in the skill text and the caller's code.
 - **Kaidera action:** Bounded candidate: the canonical source is Kaidera OS `.agents/skills/gavel/` (helper, question catalogue, calibration log, evals); this file is its marketplace projection, rendered by the source's `tools/render-public.py`, which also emits the directory form `skills/development/gavel/` for the agnostic skills CLI. Harness-agnostic by construction; project-agnostic wording.
 
+### `gsd-core`
+
+<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:file_write","tool:code_interpreter","tool:web_search"],"category":"development","legacy":false,"name":"gsd-core","path":"skills/development/gsd-core.SKILL.md","posture":"bounded-candidate","review_fingerprint":"861770b053eb3963d99a027abd0f2b4b0b1c09804168ba645d0dd3698b934dc1","risk_level":"medium","trust_tier":"unvetted","version":"1.0.0"} -->
+
+- **Manifest:** [gsd-core.SKILL.md](../skills/development/gsd-core.SKILL.md)
+- **Function:** Use persistent phase artifacts and bounded context to plan, execute or resume GSD Core work.
+- **Use when:** An explicitly chosen GSD workflow, interrupted phase, or legacy Get Shit Done migration.
+- **Do not use when:** As a replacement for Kaidera SDLC authority or permission to run upstream installers.
+- **Inputs and output:** Existing planning artifacts and accepted scope; phase plans, evidenced summaries and resume checkpoints.
+- **Authority and effects:** Reads/writes scoped artifacts and implementation; a native runtime migration is separately planned.
+- **Kaidera action:** Bounded candidate, unvetted. Canonical portable source is the directory beside the manifest; regenerate with `scripts/render-upstream-adapters.js`. This original CC-BY-4.0 adapter matches the root licence and cites pinned upstream sources without bundling their code. Source publication carries no runtime trust or binding; Gate 3/4 holds remain.
+
+### `hyperframes`
+
+<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:file_write","tool:code_interpreter","tool:web_search"],"category":"development","legacy":false,"name":"hyperframes","path":"skills/development/hyperframes.SKILL.md","posture":"bounded-candidate","review_fingerprint":"ac1cfbfcfb8645395b0f5876f6dcfa478bed60b626de8609df2b05bb86bc39c8","risk_level":"medium","trust_tier":"unvetted","version":"1.0.0"} -->
+
+- **Manifest:** [hyperframes.SKILL.md](../skills/development/hyperframes.SKILL.md)
+- **Function:** Author and locally render deterministic HTML video compositions and motion graphics.
+- **Use when:** An exported film, motion graphic or operation on an existing HyperFrames composition.
+- **Do not use when:** As a default for web UI motion or permission for paid services, cloud rendering or public publishing.
+- **Inputs and output:** Brief, version pin and permitted media; editable composition, export and actual validation receipts.
+- **Authority and effects:** Writes project files and runs approved local CLI/browser/FFmpeg tooling; external actions need task authorization.
+- **Kaidera action:** Bounded candidate, unvetted. Canonical portable source is the directory beside the manifest; regenerate with `scripts/render-upstream-adapters.js`. This original CC-BY-4.0 adapter matches the root licence and cites pinned upstream sources without bundling their code. Source publication carries no runtime trust or binding; Gate 3/4 holds remain.
+
 ### `jev-backlog-rank`
 
 <!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:code_interpreter"],"category":"development","legacy":false,"name":"jev-backlog-rank","path":"skills/development/jev-backlog-rank.SKILL.md","posture":"bounded-candidate","review_fingerprint":"5c8709dc221909fa81b266fb5076fc1ffbfc6031639b1be2c99241d82b3c8e09","risk_level":"medium","trust_tier":"unvetted","version":"0.1.0"} -->
@@ -394,7 +442,6 @@ entry is current-source; the EnGenAI-era development material is filed under
 - **Inputs and output:** Classified minimum summaries or a reference query; typed advisory evidence with returned model identity, not human authority.
 - **Authority and effects:** The core reads only process `TYPESAFE_API_KEY`; project-owned `.agents/config/transfer-policy.<project>.json` must be separately approved and installed. No outbound call when the policy or allowed category is missing; receipts off by default.
 - **Kaidera action:** Bounded candidate, unvetted. Canonical source is Kaidera OS `.agents/skills/jev-backlog-rank/` at `86edd8eeb4ed37bb0aa646de42b3fc6c8af32c56`; published flat manifest and directory form are separate projections. Wrappers require `jev` installed in the same project. The three lead wrappers replace Gavel's corresponding moments, not supplement them. Gate 3/4 and root CC-BY-4.0 versus per-skill Apache-2.0 licence precedence remain HOLD.
-
 
 ### `jev-handoff-check`
 
@@ -408,7 +455,6 @@ entry is current-source; the EnGenAI-era development material is filed under
 - **Authority and effects:** The core reads only process `TYPESAFE_API_KEY`; project-owned `.agents/config/transfer-policy.<project>.json` must be separately approved and installed. No outbound call when the policy or allowed category is missing; receipts off by default.
 - **Kaidera action:** Bounded candidate, unvetted. Canonical source is Kaidera OS `.agents/skills/jev-handoff-check/` at `86edd8eeb4ed37bb0aa646de42b3fc6c8af32c56`; published flat manifest and directory form are separate projections. Wrappers require `jev` installed in the same project. The three lead wrappers replace Gavel's corresponding moments, not supplement them. Gate 3/4 and root CC-BY-4.0 versus per-skill Apache-2.0 licence precedence remain HOLD.
 
-
 ### `jev-option-decision`
 
 <!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:code_interpreter"],"category":"development","legacy":false,"name":"jev-option-decision","path":"skills/development/jev-option-decision.SKILL.md","posture":"bounded-candidate","review_fingerprint":"07ad912df5c0f489a09db83067b553b3c4c15df841592fc59b631845ff10809a","risk_level":"medium","trust_tier":"unvetted","version":"0.1.0"} -->
@@ -420,7 +466,6 @@ entry is current-source; the EnGenAI-era development material is filed under
 - **Inputs and output:** Classified minimum summaries or a reference query; typed advisory evidence with returned model identity, not human authority.
 - **Authority and effects:** The core reads only process `TYPESAFE_API_KEY`; project-owned `.agents/config/transfer-policy.<project>.json` must be separately approved and installed. No outbound call when the policy or allowed category is missing; receipts off by default.
 - **Kaidera action:** Bounded candidate, unvetted. Canonical source is Kaidera OS `.agents/skills/jev-option-decision/` at `86edd8eeb4ed37bb0aa646de42b3fc6c8af32c56`; published flat manifest and directory form are separate projections. Wrappers require `jev` installed in the same project. The three lead wrappers replace Gavel's corresponding moments, not supplement them. Gate 3/4 and root CC-BY-4.0 versus per-skill Apache-2.0 licence precedence remain HOLD.
-
 
 ### `jev-return-triage`
 
@@ -434,7 +479,6 @@ entry is current-source; the EnGenAI-era development material is filed under
 - **Authority and effects:** The core reads only process `TYPESAFE_API_KEY`; project-owned `.agents/config/transfer-policy.<project>.json` must be separately approved and installed. No outbound call when the policy or allowed category is missing; receipts off by default.
 - **Kaidera action:** Bounded candidate, unvetted. Canonical source is Kaidera OS `.agents/skills/jev-return-triage/` at `86edd8eeb4ed37bb0aa646de42b3fc6c8af32c56`; published flat manifest and directory form are separate projections. Wrappers require `jev` installed in the same project. The three lead wrappers replace Gavel's corresponding moments, not supplement them. Gate 3/4 and root CC-BY-4.0 versus per-skill Apache-2.0 licence precedence remain HOLD.
 
-
 ### `jev`
 
 <!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:code_interpreter","tool:file_write"],"category":"development","legacy":false,"name":"jev","path":"skills/development/jev.SKILL.md","posture":"reference-only","review_fingerprint":"e79bd1262eb33aa65059f6e05f17e2cdf808e06119b87853b27c4f0054cc3c15","risk_level":"medium","trust_tier":"unvetted","version":"0.1.0"} -->
@@ -446,7 +490,6 @@ entry is current-source; the EnGenAI-era development material is filed under
 - **Inputs and output:** Classified minimum summaries or a reference query; typed advisory evidence with returned model identity, not human authority.
 - **Authority and effects:** The core reads only process `TYPESAFE_API_KEY`; project-owned `.agents/config/transfer-policy.<project>.json` must be separately approved and installed. No outbound call when the policy or allowed category is missing; receipts off by default.
 - **Kaidera action:** Reference-only, unvetted. Canonical source is Kaidera OS `.agents/skills/jev/` at `86edd8eeb4ed37bb0aa646de42b3fc6c8af32c56`; published flat manifest and directory form are separate projections. Wrappers require `jev` installed in the same project. The three lead wrappers replace Gavel's corresponding moments, not supplement them. Gate 3/4 and root CC-BY-4.0 versus per-skill Apache-2.0 licence precedence remain HOLD.
-
 
 ### `kaidera-sdlc`
 
@@ -513,6 +556,18 @@ entry is current-source; the EnGenAI-era development material is filed under
   instructions; use this repository's own harness-agnostic distribution
   instead.
 
+### `ui-design-engineering`
+
+<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:file_write","tool:code_interpreter","tool:web_search"],"category":"development","legacy":false,"name":"ui-design-engineering","path":"skills/development/ui-design-engineering.SKILL.md","posture":"bounded-candidate","review_fingerprint":"7132e7429ba0b60b5cc49d32581fdd66ce149a711578fc14ef5f51723de054bd","risk_level":"medium","trust_tier":"unvetted","version":"1.0.0"} -->
+
+- **Manifest:** [ui-design-engineering.SKILL.md](../skills/development/ui-design-engineering.SKILL.md)
+- **Function:** Improve UI craft, input feedback, purposeful motion, gesture continuity and mobile details.
+- **Use when:** Building or polishing components, or reviewing a bounded interaction.
+- **Do not use when:** As proof of device behavior without observation, or as an animation framework mandate.
+- **Inputs and output:** Component, users, design tokens and requested change; implementation or bounded review findings.
+- **Authority and effects:** Reads and edits only scoped application files; tooling and external lookups follow task authorization.
+- **Kaidera action:** Bounded candidate, unvetted. Canonical portable source is the directory beside the manifest; regenerate with `scripts/render-upstream-adapters.js`. This original CC-BY-4.0 adapter matches the root licence and cites pinned upstream sources without bundling their code. Source publication carries no runtime trust or binding; Gate 3/4 holds remain.
+
 ### `ultrareview`
 
 <!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"development","legacy":false,"name":"ultrareview","path":"skills/development/ultrareview.SKILL.md","posture":"rework-before-use","review_fingerprint":"662b9f53933142b730b218ccaf9bf58ee3e0d220b5c00cf4c140977cbcce85d4","risk_level":"low","trust_tier":"unvetted","version":"1.1.1"} -->
@@ -534,17 +589,18 @@ entry is current-source; the EnGenAI-era development material is filed under
 - **Kaidera action:** Split read-only audit from implementation, declare exact
   capabilities, add frozen-target receipts, and evaluate routing against
   `open-code-review` before use.
+
 ### `unlazy`
 
-<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:file_write"],"category":"development","legacy":false,"name":"unlazy","path":"skills/development/unlazy.SKILL.md","posture":"bounded-candidate","review_fingerprint":"6c024e42e50b61df9c9f0a9acf62d063bcc0d2f1ca0aff25ac2ffbb580fbdb5f","risk_level":"medium","trust_tier":"unvetted","version":"1.0.0"} -->
+<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:file_write"],"category":"development","legacy":false,"name":"unlazy","path":"skills/development/unlazy.SKILL.md","posture":"bounded-candidate","review_fingerprint":"d860071d9ee1323f61031c865d02a18741bea1cf6070b35ce2fbca5289d77b3f","risk_level":"medium","trust_tier":"unvetted","version":"1.0.1"} -->
 
 - **Manifest:** [unlazy.SKILL.md](../skills/development/unlazy.SKILL.md)
 - **Function:** Completion discipline for substantial autonomous work: gates written before the work, gates that can fail, nothing dropped silently, every claim re-measured before it is reported.
 - **Use when:** Long or multi-part tasks, work that came back half-done, or any return whose failure mode is quiet incompleteness.
 - **Do not use when:** Trivial one-step edits, or as a substitute for the repository's own verification commands.
-- **Inputs and output:** No parameters; read-only process reference; its optional checker and Stop hook are separate opt-in tooling.
+- **Inputs and output:** No parameters; authored acceptance ledger and process guidance; its optional checker and Stop hook are separate opt-in tooling.
 - **Authority and effects:** Advisory. Its gates describe evidence; they do not execute commands or grant authority.
-- **Kaidera action:** Bounded candidate: vendored from Leonxlnx/unlazy (MIT) at a pinned version; keep upstream attribution and version in the manifest.
+- **Kaidera action:** Bounded candidate: MIT method adaptation from pinned Leonxlnx/unlazy source targeting 2.1.0; 1.0.1 corrects the example check and optional-checker execution guidance.
 
 ## DevOps skills
 

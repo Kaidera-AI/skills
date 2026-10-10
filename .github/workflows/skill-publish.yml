@@ -4,6 +4,11 @@ on:
   pull_request:
     paths:
       - 'skills/**/*.SKILL.md'
+      - 'skills/development/design-selection/**'
+      - 'skills/development/ui-design-engineering/**'
+      - 'skills/development/gsd-core/**'
+      - 'skills/development/hyperframes/**'
+      - 'scripts/render-upstream-adapters.js'
       - '.claude-plugin/marketplace.json'
       - 'scripts/generate-marketplace.js'
       - 'scripts/validate-skill.js'
@@ -17,6 +22,11 @@ on:
       - main
     paths:
       - 'skills/**/*.SKILL.md'
+      - 'skills/development/design-selection/**'
+      - 'skills/development/ui-design-engineering/**'
+      - 'skills/development/gsd-core/**'
+      - 'skills/development/hyperframes/**'
+      - 'scripts/render-upstream-adapters.js'
       - '.claude-plugin/marketplace.json'
       - 'scripts/generate-marketplace.js'
       - 'scripts/validate-skill.js'
@@ -45,7 +55,7 @@ jobs:
         run: npm ci --ignore-scripts --no-audit
 
       - name: Generate marketplace.json
-        run: node scripts/generate-marketplace.js
+        run: npm run generate
 
       - name: Validate generated marketplace.json
         run: >-
@@ -54,7 +64,7 @@ jobs:
           console.log("marketplace.json valid —", m.skills.length, "skills");'
 
       - name: Require reproducible committed catalogue
-        run: git diff --exit-code -- .claude-plugin/marketplace.json
+        run: git diff --exit-code -- .claude-plugin/marketplace.json skills/development/*.SKILL.md
 
       # HOLD: this integrity check is not human review, Cosign signing, or SLSA
       # provenance. Gate 4 remains incomplete until a separately ratified trust

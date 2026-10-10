@@ -27,13 +27,19 @@ Skills are instructions, not programs: the flat `*.SKILL.md` manifest carries no
 | Category | Description | Count |
 |----------|-------------|-------|
 | `context/` | Project and workspace awareness | 2 |
-| `development/` | Code writing, review, testing | 14 |
+| `development/` | Code writing, review, testing | 18 |
 | `devops/` | Deployment, infrastructure, CI/CD | 3 |
 | `documentation/` | Specs, docs, changelogs, writing voice | 1 |
 | `legacy/` | Retired EnGenAI-era material, kept as reference | 21 |
 | `research/` | Research briefs, company research and evidence | 2 |
 | `sales-and-marketing/` | Lead generation, investor and customer outreach | 1 |
 | `security/` | Auditing, scanning, incident response | 1 |
+
+## GSD and design selections
+
+New portable source candidates: [gsd-core](skills/development/gsd-core/SKILL.md), [design-selection](skills/development/design-selection/SKILL.md), [ui-design-engineering](skills/development/ui-design-engineering/SKILL.md) and [hyperframes](skills/development/hyperframes/SKILL.md). They are original adapters with pinned upstream citations; no upstream installer or plugin is bundled. See [review and selection boundaries](docs/UPSTREAM-SKILLS-REVIEW-2026-10-10.md).
+
+The directory form can be installed through the universal plain-file skills path after project approval, for example: `npx skills add Kaidera-AI/skills --skill design-selection -a universal -y --copy`. Cortex projects register and bind through their existing owner; source publication does not activate these unvetted candidates.
 
 ## What is implemented, and what is not
 

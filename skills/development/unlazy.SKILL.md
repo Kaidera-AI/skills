@@ -1,6 +1,6 @@
 ---
 name: unlazy
-version: 1.0.0
+version: 1.0.1
 description: |
   Completion discipline for substantial autonomous work. Write acceptance gates
   before executing, decompose with a Depth Tree, and re-measure every claim
@@ -24,13 +24,14 @@ kaidera:
 
 author: kaidera-ai
 license: MIT
-updated: 2026-08-28
+updated: 2026-10-10
 tags: [completion, verification, gates, decomposition, evidence, orchestration]
 
 attribution_author: Leonxlnx
 attribution_url: https://github.com/Leonxlnx/unlazy
 attribution_notes: |
-  Adapted from the MIT-licensed unlazy skill by Leonxlnx (upstream v2.1.0). The
+  Adapted from the MIT-licensed unlazy skill by Leonxlnx (source targeting 2.1.0 at commit
+  16671491f6679ad9378f52604d3bc2415b4120c7; not a verified tagged release). The
   upstream repository is a multi-file skill shipping a Node gate checker and an
   opt-in Stop hook; this marketplace entry carries the method as a single
   self-contained steering file and points to the upstream repository for that
@@ -50,7 +51,7 @@ Make incomplete work visible, and make completion testable. Prove outcomes again
 instead of relying on a confident done report.
 
 Adapted for the Kaidera marketplace from the MIT-licensed
-[Leonxlnx/unlazy](https://github.com/Leonxlnx/unlazy) skill (upstream v2.1.0). The upstream
+[Leonxlnx/unlazy](https://github.com/Leonxlnx/unlazy) skill ([source targeting 2.1.0](https://github.com/Leonxlnx/unlazy/tree/16671491f6679ad9378f52604d3bc2415b4120c7), not a verified tagged release). The upstream
 repository ships an optional Node checker and Stop hook; this file carries the method, which
 is the part that transfers without installing anything.
 
@@ -74,20 +75,22 @@ command can decide gets a `CHECK:` and an `EXPECT:`; use a manual gate only when
 can settle the question.
 
 ```markdown
-## G1 — the migration leaves no legacy call sites
-- [ ] unmet
-  CHECK: rg -c "legacy_client\(" src/ || true
-  EXPECT: ^0$
+- [ ] G1: the migration leaves no legacy call sites in the reviewed src/ scope
+  CHECK: rg -n -- 'legacy_client\(' src/; result=$?; if [ "$result" -eq 1 ]; then printf 'NO_LEGACY_CALL_SITES\n'; else exit 1; fi
+  EXPECT: ^NO_LEGACY_CALL_SITES$
 
-## G2 — the new endpoint returns 201 with a Location header
-- [ ] unmet
+- [ ] G2: the new endpoint returns 201
   CHECK: curl -sS -o /dev/null -w "%{http_code}" -X POST localhost:8080/items
   EXPECT: ^201$
 
-## G3 — the operator runbook reads correctly to someone who has not seen the change
-- [ ] unmet
+- [ ] G3: the operator runbook reads correctly to someone who has not seen the change
   MANUAL: reviewed by a second person; no command can decide this
 ```
+
+The G1 example requires a reviewed POSIX shell and ripgrep. Exit 1 from ripgrep means
+no matches; a match or a search error fails the gate. Check that the reviewed file scope
+covers the migration. G2 proves the status only; checking a Location header needs another
+assertion. These examples describe checks and do not authorize executing them.
 
 A gate is met only when its process exits zero **and** its `EXPECT:` matches the output. A
 checked box with missing evidence is unmet. Record the resolved working directory, shell,
@@ -116,8 +119,8 @@ If a gate cannot fail, it is decoration. Delete it or sharpen it.
 An impossible gate is abandoned explicitly, with a reason, and surfaced as a handoff:
 
 ```markdown
-## G4 — load test sustains 500 rps
-- [ ] abandoned
+- [ ] G4: load test sustains 500 rps
+  STATE: abandoned
   ABANDON: G4 no load-generation host is available in this environment
 ```
 
@@ -191,6 +194,14 @@ opt-in Stop hook that blocks completion while gates remain unmet. They are usefu
 autonomous runs and are not required to practise the method. Install them only from a source
 you trust, read their SECURITY notes first, and never install the hook without the user
 asking for it.
+
+When using that checker, `--status` is the non-executing inspection mode. Normal mode
+can execute commands after their exact approval exists; do not call it a permanent dry
+run. Review the resolved command, expectation, working directory, shell, timeout, output
+limits and PATH. Bind evidence to the current definition and re-run parent checks after
+integration. A digest detects definition drift; it does not prevent a ledger editor from
+forging evidence. This published skill neither bundles that checker nor configures hooks.
+Generated Cortex harness files must remain under Cortex ownership.
 
 The discipline is the transferable part: gates before work, gates that can fail, nothing
 dropped silently, and every claim re-measured before it is reported.

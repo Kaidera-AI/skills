@@ -2,7 +2,7 @@
 
 Status: **human-facing index; the manifests and the catalogue remain authoritative**
 
-Published skills covered: **45**
+Published skills covered: **49**
 
 Rendered by `scripts/render-glossary.js` from the built marketplace, the catalogue
 markers and the authored prose in `scripts/glossary-prose.json`. Skill names, categories
@@ -27,23 +27,23 @@ the manifest wins and this file is stale — fix it in the same commit.
 | Category | Published |
 |---|---:|
 | `context/` | 2 |
-| `development/` | 14 |
+| `development/` | 18 |
 | `devops/` | 3 |
 | `documentation/` | 1 |
 | `legacy/` | 21 |
 | `research/` | 2 |
 | `security/` | 1 |
 | `sales-and-marketing/` | 1 |
-| **Total** | **45** |
+| **Total** | **49** |
 
 | Posture | Published |
 |---|---:|
-| Bounded candidate | 11 |
-| Reference-only | 14 |
+| Bounded candidate | 14 |
+| Reference-only | 15 |
 | Manual-only | 10 |
 | Rework before use | 10 |
 
-Legacy entries: **21** of 45 are filed under `legacy/`. 19 of them still name the retired product or its domains outright; the other 2 (`code-review` and `deploy-to-dev`) do not, and are legacy for stale escalation, kill-switch, organisation-scope and sprint-log controls, or because redaction removed their only product reference.
+Legacy entries: **21** of 49 are filed under `legacy/`. 19 of them still name the retired product or its domains outright; the other 2 (`code-review` and `deploy-to-dev`) do not, and are legacy for stale escalation, kill-switch, organisation-scope and sprint-log controls, or because redaction removed their only product reference.
 
 None of the 21 declares any capability, yet several bodies describe installs,
 live production diagnostics, database and cluster access, Git mutation or deployment.
@@ -150,11 +150,14 @@ portfolio judgements, separate from the manifest's `trust_tier`, and every skill
 | [`dependency-audit`](../skills/legacy/dependency-audit.SKILL.md) | `legacy` | Legacy CVE scanning, supply-chain verification, dependency pinning and remediation workflow. | Installs and runs scanners while declaring no tools; split into separate workflows before reuse. | Rework before use, legacy |
 | [`deploy-gate`](../skills/devops/deploy-gate.SKILL.md) | `devops` | Gates push, pull request, merge, release and deploy on exact target, current authority, evidence and rollback. | The last deterministic stop before anything irreversible leaves the machine. | Manual-only |
 | [`deploy-to-dev`](../skills/legacy/deploy-to-dev.SKILL.md) | `legacy` | Legacy GitOps runbook: sprint-branch push triggers CI, image build, gitops update and ArgoCD sync. | Names one retired product's environment; its hostnames and project identifiers are now placeholders. Do not generalise it. | Manual-only, legacy |
+| [`design-selection`](../skills/development/design-selection.SKILL.md) | `development` | Select the owning design workflow for UI, motion, native interaction or exported video. | Choosing design capabilities or resolving UI versus video workflow ownership. | Reference-only |
 | [`development-workflow`](../skills/development/development-workflow.SKILL.md) | `development` | Portable AI-plus-human lifecycle: bounded tasks, independent review, risk-based QA, recorded decisions. | The generic SDLC profile for development projects; select exactly one lifecycle owner per project. | Bounded candidate |
 | [`frontend-context`](../skills/legacy/frontend-context.SKILL.md) | `legacy` | Legacy Next.js 14 App Router, React Flow, Tailwind, Zustand and strict-TypeScript conventions. | Orientation inside old frontend code only. | Reference-only, legacy |
 | [`gavel`](../skills/development/gavel.SKILL.md) | `development` | Typed, probabilistic judgments on a lead’s three decision moments: a return, a handoff, a backlog order. | A calibrated second opinion before you rule. Mutually exclusive with the Jev lead wrappers. | Bounded candidate |
 | [`git-workflow`](../skills/legacy/git-workflow.SKILL.md) | `legacy` | Legacy conventional commits, branch strategy, sprint branching, pull-request process and merge rules. | Describes Git mutation under a no-tool manifest; rework before use. | Rework before use, legacy |
+| [`gsd-core`](../skills/development/gsd-core.SKILL.md) | `development` | Use persistent phase artifacts and bounded context to plan, execute or resume GSD Core work. | An explicitly chosen GSD workflow, interrupted phase, or legacy Get Shit Done migration. | Bounded candidate |
 | [`human-voice`](../skills/documentation/human-voice.SKILL.md) | `documentation` | Drafts, rewrites or audits public prose so it carries checkable specifics and a named person’s voice. | Removes machine-generic copy from posts, articles, email, decks, newsletters and web pages. | Reference-only |
+| [`hyperframes`](../skills/development/hyperframes.SKILL.md) | `development` | Author and locally render deterministic HTML video compositions and motion graphics. | An exported film, motion graphic or operation on an existing HyperFrames composition. | Bounded candidate |
 | [`incident-response`](../skills/legacy/incident-response.SKILL.md) | `legacy` | Legacy incident runbook: classification, blast-radius containment, kill switch, evidence, post-incident review. | Its containment-before-preservation ordering is unsafe; rebuild human-gated before any use. | Rework before use, legacy |
 | [`infra-naming-gate`](../skills/devops/infra-naming-gate.SKILL.md) | `devops` | Validates infrastructure names against an organisation, project, environment, role, locality and ordinal grammar. | Prevents resources that cannot later be renamed and collisions across projects. | Manual-only |
 | [`infrastructure-context`](../skills/legacy/infrastructure-context.SKILL.md) | `legacy` | Legacy GKE, ArgoCD GitOps, Terraform, Helm, CI/CD pipeline and hardening overview. | Orientation inside old infrastructure code only. | Reference-only, legacy |
@@ -179,6 +182,7 @@ portfolio judgements, separate from the manifest's `trust_tier`, and every skill
 | [`sprint-closing`](../skills/legacy/sprint-closing.SKILL.md) | `legacy` | Legacy six-phase sprint closure: documentation, commit, push and pull-request procedure. | Names one individual as approver and one product as scope; not portable. | Manual-only, legacy |
 | [`sprint-context`](../skills/legacy/sprint-context.SKILL.md) | `legacy` | Legacy three-file sprint pattern, TASK_STATUS protocol, definition of done and quality gates. | Workflow assumptions no longer match Kaidera delivery; rework before use. | Rework before use, legacy |
 | [`tdd-workflow`](../skills/legacy/tdd-workflow.SKILL.md) | `legacy` | Legacy red-green-refactor loop with a five-step verification requirement before “done”. | Describes test execution under a no-tool manifest; the discipline is sound, the contract is not. | Rework before use, legacy |
+| [`ui-design-engineering`](../skills/development/ui-design-engineering.SKILL.md) | `development` | Improve UI craft, input feedback, purposeful motion, gesture continuity and mobile details. | Building or polishing components, or reviewing a bounded interaction. | Bounded candidate |
 | [`ultrareview`](../skills/development/ultrareview.SKILL.md) | `development` | Whole-codebase or module health audit across eight dimensions with adversarial verification of findings. | Repository-wide scope. Its opt-in fix mode exceeds its declared no-tool contract. | Rework before use |
 | [`unlazy`](../skills/development/unlazy.SKILL.md) | `development` | Completion discipline: write acceptance gates first, decompose with a depth tree, re-measure every claim. | The counter to quiet incompleteness on long, multi-part, parallel or exhaustive work. | Bounded candidate |
 | [`workspace-context`](../skills/legacy/workspace-context.SKILL.md) | `legacy` | Legacy workspace identity, tech stack, team structure, terminology and development principles. | Orientation only; it names a retired organisation and product. | Reference-only, legacy |
@@ -210,11 +214,11 @@ category labels in `scripts/test-skills-catalog.js`; that pull request adds both
 
 ## Projections
 
-**10** published skills are generated rather than authored here: they carry
+**14** published skills are generated rather than authored here: they carry
 `kaidera.source` or a generation marker, and are re-rendered from a canonical source
 instead of being edited in place.
 
-2 of them keep their canonical directory inside this repository (`development-workflow`, `investor-lead-gen`): the flat manifest is generated from
+6 of them keep their canonical directory inside this repository (`design-selection`, `development-workflow`, `gsd-core`, `hyperframes`, `investor-lead-gen`, `ui-design-engineering`): the flat manifest is generated from
 the directory of the same name, and `npm test` fails if the two drift.
 
 The other 8 are projected from a canonical directory in `Kaidera-AI/kaideraos`: `gavel`, `jev`, `jev-backlog-rank`, `jev-handoff-check`, `jev-option-decision`, `jev-return-triage`, `kaidera-sdlc`, `marketing-web-research`.
