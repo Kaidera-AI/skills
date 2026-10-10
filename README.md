@@ -27,7 +27,7 @@ Skills are instructions, not programs: the flat `*.SKILL.md` manifest carries no
 | Category | Description | Count |
 |----------|-------------|-------|
 | `context/` | Project and workspace awareness | 2 |
-| `development/` | Code writing, review, testing | 20 |
+| `development/` | Code writing, review, testing | 21 |
 | `devops/` | Deployment, infrastructure, CI/CD | 3 |
 | `documentation/` | Specs, docs, changelogs, writing voice | 1 |
 | `legacy/` | Retired EnGenAI-era material, kept as reference | 21 |
@@ -170,3 +170,5 @@ Under the following terms:
 **Kaidera - The Machine That Builds Machines**
 
 [kaidera.ai](https://kaidera.ai) | [Platform Repo](https://github.com/Kaidera-AI/platform)
+
+The existing [folder-organisation](skills/development/folder-organisation/SKILL.md) policy is mirrored at1.0.1 with original ownership-aware sync instructions and pinned MIT method attribution. It remains a manual-only, unvetted source candidate; source publication does not activate it.

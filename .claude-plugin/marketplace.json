@@ -273,6 +273,45 @@
       "attribution_notes": "Original generic process text from the Kaidera-AI operating model and the kaidera-sdlc lifecycle. External standards are cited as references, not reproduced."
     },
     {
+      "name": "folder-organisation",
+      "version": "1.0.1",
+      "description": "One root, one home per kind of thing, one owner per fact. Where every file of a KOS project goes, how temporary work is kept temporary, and the loop that consolidates an estate that has already scattered. Loads at every worker boot.",
+      "category": "development",
+      "trust_tier": "unvetted",
+      "risk_level": "medium",
+      "capabilities_required": [
+        "tool:file_read",
+        "tool:file_write",
+        "tool:code_interpreter"
+      ],
+      "allowed_domains": [
+        "github.com"
+      ],
+      "safety_constraints": [
+        "Dry-run classification grants no write authority.",
+        "Preserve foreign edits and resolve conflicts with the owner.",
+        "Cortex owns generated files; use its approved writer.",
+        "Source publication does not grant binding, trusted tier or destructive operations."
+      ],
+      "parameters": {},
+      "author": "Kaidera-AI",
+      "license": "Apache-2.0",
+      "updated": "2026-10-10",
+      "tags": [
+        "organisation",
+        "custody",
+        "files"
+      ],
+      "content_hash": "72d419a69c49d7d5d642f270af05c7e70756c79bb07a286115453cde1169e0d4",
+      "signed_by": "",
+      "last_reviewed": "",
+      "reviewer": "",
+      "file": "skills/development/folder-organisation.SKILL.md",
+      "attribution_author": "Caliber AI",
+      "attribution_url": "https://github.com/caliber-ai-org/ai-setup/blob/f5dbc002022a8a10acad25c1cce23ddefdc19d0d/src/sync/reconcile.ts",
+      "attribution_notes": "Original Kaidera wording informed by the pinned MIT donor's classification method; no donor code, CLI or writer is copied."
+    },
+    {
       "name": "gavel",
       "version": "1.0.1",
       "description": "Gavel - typed judgments for a project lead's decisions. Before you rule on a worker's\nreturn, send a handoff, or order a backlog, ask a fixed set of narrow questions and get\ntyped answers with probabilities: disposition, evidence quality, silent gaps, scope creep,\nirreversibility, next owner, urgency; whether a draft handoff carries a receipt contract;\nhow gate-blocking and risky each backlog item is. Powered by TypeSafe's System One model\n(Jev) through a bundled stdlib helper. Use when triaging a return, handback or consult;\nbefore sending any handoff; when prioritising a checklist. Works in any project, any\nharness, any model. Judgments are inputs, never the decision.\n",

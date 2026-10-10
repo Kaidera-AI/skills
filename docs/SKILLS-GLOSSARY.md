@@ -2,7 +2,7 @@
 
 Status: **human-facing index; the manifests and the catalogue remain authoritative**
 
-Published skills covered: **52**
+Published skills covered: **53**
 
 Rendered by `scripts/render-glossary.js` from the built marketplace, the catalogue
 markers and the authored prose in `scripts/glossary-prose.json`. Skill names, categories
@@ -27,23 +27,23 @@ the manifest wins and this file is stale — fix it in the same commit.
 | Category | Published |
 |---|---:|
 | `context/` | 2 |
-| `development/` | 20 |
+| `development/` | 21 |
 | `devops/` | 3 |
 | `documentation/` | 1 |
 | `legacy/` | 21 |
 | `research/` | 2 |
 | `security/` | 1 |
 | `sales-and-marketing/` | 2 |
-| **Total** | **52** |
+| **Total** | **53** |
 
 | Posture | Published |
 |---|---:|
 | Bounded candidate | 15 |
 | Reference-only | 16 |
-| Manual-only | 11 |
+| Manual-only | 12 |
 | Rework before use | 10 |
 
-Legacy entries: **21** of 52 are filed under `legacy/`. 19 of them still name the retired product or its domains outright; the other 2 (`code-review` and `deploy-to-dev`) do not, and are legacy for stale escalation, kill-switch, organisation-scope and sprint-log controls, or because redaction removed their only product reference.
+Legacy entries: **21** of 53 are filed under `legacy/`. 19 of them still name the retired product or its domains outright; the other 2 (`code-review` and `deploy-to-dev`) do not, and are legacy for stale escalation, kill-switch, organisation-scope and sprint-log controls, or because redaction removed their only product reference.
 
 None of the 21 declares any capability, yet several bodies describe installs,
 live production diagnostics, database and cluster access, Git mutation or deployment.
@@ -152,6 +152,7 @@ portfolio judgements, separate from the manifest's `trust_tier`, and every skill
 | [`deploy-to-dev`](../skills/legacy/deploy-to-dev.SKILL.md) | `legacy` | Legacy GitOps runbook: sprint-branch push triggers CI, image build, gitops update and ArgoCD sync. | Names one retired product's environment; its hostnames and project identifiers are now placeholders. Do not generalise it. | Manual-only, legacy |
 | [`design-selection`](../skills/development/design-selection.SKILL.md) | `development` | Select the owning design workflow for UI, motion, native interaction or exported video. | Choosing design capabilities or resolving UI versus video workflow ownership. | Reference-only |
 | [`development-workflow`](../skills/development/development-workflow.SKILL.md) | `development` | Portable AI-plus-human lifecycle: bounded tasks, independent review, risk-based QA, recorded decisions. | The generic SDLC profile for development projects; select exactly one lifecycle owner per project. | Bounded candidate |
+| [`folder-organisation`](../skills/development/folder-organisation.SKILL.md) | `development` | Place project files and record content custody before an authorised consolidation or sync. | Keep foreign edits, distinguish planned actions from writes, and use the canonical approved writer. | Manual-only |
 | [`frontend-context`](../skills/legacy/frontend-context.SKILL.md) | `legacy` | Legacy Next.js 14 App Router, React Flow, Tailwind, Zustand and strict-TypeScript conventions. | Orientation inside old frontend code only. | Reference-only, legacy |
 | [`gavel`](../skills/development/gavel.SKILL.md) | `development` | Typed, probabilistic judgments on a lead’s three decision moments: a return, a handoff, a backlog order. | A calibrated second opinion before you rule. Mutually exclusive with the Jev lead wrappers. | Bounded candidate |
 | [`git-workflow`](../skills/legacy/git-workflow.SKILL.md) | `legacy` | Legacy conventional commits, branch strategy, sprint branching, pull-request process and merge rules. | Describes Git mutation under a no-tool manifest; rework before use. | Rework before use, legacy |
@@ -217,11 +218,11 @@ category labels in `scripts/test-skills-catalog.js`; that pull request adds both
 
 ## Projections
 
-**17** published skills are generated rather than authored here: they carry
+**18** published skills are generated rather than authored here: they carry
 `kaidera.source` or a generation marker, and are re-rendered from a canonical source
 instead of being edited in place.
 
-9 of them keep their canonical directory inside this repository (`design-selection`, `development-workflow`, `gsd-core`, `hyperframes`, `investor-lead-gen`, `social-media-ops`, `ui-design-engineering`, `ui-ux-review`, `web-interface-guidelines`): the flat manifest is generated from
+10 of them keep their canonical directory inside this repository (`design-selection`, `development-workflow`, `folder-organisation`, `gsd-core`, `hyperframes`, `investor-lead-gen`, `social-media-ops`, `ui-design-engineering`, `ui-ux-review`, `web-interface-guidelines`): the flat manifest is generated from
 the directory of the same name, and `npm test` fails if the two drift.
 
 The other 8 are projected from a canonical directory in `Kaidera-AI/kaideraos`: `gavel`, `jev`, `jev-backlog-rank`, `jev-handoff-check`, `jev-option-decision`, `jev-return-triage`, `kaidera-sdlc`, `marketing-web-research`.

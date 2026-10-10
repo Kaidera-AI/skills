@@ -4,7 +4,7 @@ Status: **canonical human-facing catalogue; source candidate; runtime and trust 
 
 Catalogue date: **2026-10-10**
 
-Total skills: **52**
+Total skills: **53**
 
 Source binding: consume this guide only from the same Git commit as its skill
 manifests, marketplace, and catalogue test. The enclosing commit/tree is the
@@ -31,7 +31,7 @@ a release blocker; do not silently choose one side.
 
 ## Current release boundary
 
-- All 52 skills are `unvetted`.
+- All 53 skills are `unvetted`.
 - Catalogue presence, a body hash, static validation, or a local commit is not
   approval to inject a skill into an agent.
 - Gate 1 strict manifest checks and a bounded Gate 2 pattern scan exist.
@@ -43,7 +43,7 @@ a release blocker; do not silently choose one side.
 - Kaidera and Alibaba both use the name `open-code-review`. A host must select a
   source-qualified identity and inject only one; prompt text cannot resolve a
   loader collision after both skills are present.
-- 21 of the 52 skills are filed under `legacy/`. They are kept as research context,
+- 21 of the 53 skills are filed under `legacy/`. They are kept as research context,
   they are not current Kaidera truth, and none of them may be bound to an agent.
 
 ## Portfolio summary
@@ -51,7 +51,7 @@ a release blocker; do not silently choose one side.
 | Category | Skills |
 |---|---:|
 | Context | 2 |
-| Development | 20 |
+| Development | 21 |
 | DevOps | 3 |
 | Documentation | 1 |
 | Legacy | 21 |
@@ -61,18 +61,18 @@ a release blocker; do not silently choose one side.
 
 | Declared trust tier | Skills |
 |---|---:|
-| `unvetted` | 52 |
+| `unvetted` | 53 |
 
 | Operating posture | Skills |
 |---|---:|
 | Bounded candidate | 15 |
 | Reference-only | 16 |
-| Manual-only | 11 |
+| Manual-only | 12 |
 | Rework before use | 10 |
 
 Legacy entries: **21**
 
-Current-source entries: **31**
+Current-source entries: **32**
 
 `Legacy` is a documentation classification and, since the `legacy/` category was
 introduced, a filing location as well. Neither is a trust or compatibility
@@ -130,7 +130,7 @@ Kaidera truth until reconciled against the owning repository and Cortex.
 | Capability | Meaning |
 |---|---|
 | `tool:file_read` | Read authorised local workspace files. |
-| `tool:file_write` | Modify authorised local files. Eleven published skills declare it: seven bounded candidates (`development-workflow`, `ui-design-engineering`, `gsd-core`, `hyperframes`, `kaidera-sdlc`, `unlazy`, `ui-ux-review`), one reference-only (`jev`) and three manual-only (`marketing-web-research`, `investor-lead-gen`, `social-media-ops`). |
+| `tool:file_write` | Modify authorised local files. Twelve published skills declare it: seven bounded candidates (`development-workflow`, `ui-design-engineering`, `gsd-core`, `hyperframes`, `kaidera-sdlc`, `unlazy`, `ui-ux-review`), one reference-only (`jev`) and four manual-only (`folder-organisation`, `marketing-web-research`, `investor-lead-gen`, `social-media-ops`). |
 | `tool:code_interpreter` | Run bounded local computation or already-approved diagnostics. It does not imply arbitrary repository code is trusted. |
 | `tool:web_search` | Search public web sources under the runtime's network policy. |
 | `tool:mcp_external` | Call an approved external connector or service. |
@@ -234,6 +234,7 @@ Use `design-selection` for the initial UI/native/video route, `ui-design-enginee
 | Development | `ui-ux-review` | `1.0.0` | Critique, audit and harden a scoped interface. | Bounded candidate | medium / file read, file write, interpreter |
 | Development | `web-interface-guidelines` | `1.0.0` | Review web UI against the pinned local Vercel snapshot. | Reference-only | medium / file read |
 | Development | `ui-design-engineering` | `1.0.0` | Improve UI craft, input feedback, purposeful motion, gesture continuity and mobile details. | Bounded candidate | medium / file read, file write, interpreter, web search |
+| Development | `folder-organisation` | `1.0.1` | Place project files and preserve custody during authorised consolidation or sync. | Manual-only | medium / file read, file write, interpreter |
 | Development | `gsd-core` | `1.0.0` | Use persistent phase artifacts and bounded context to plan, execute or resume GSD Core work. | Bounded candidate | medium / file read, file write, interpreter, web search |
 | Development | `hyperframes` | `1.0.0` | Author and locally render deterministic HTML video compositions and motion graphics. | Bounded candidate | medium / file read, file write, interpreter, web search |
 
@@ -296,6 +297,7 @@ precedence issue remains a release hold.
 | `ui-ux-review` | `Kaidera-AI` | `Apache-2.0` | `github.com`, `apache.org` | [Paul Bakaus](https://github.com/pbakaus/impeccable/tree/d631a8827f99414d2b6daba4ef08b7f8701751d7) |
 | `web-interface-guidelines` | `Kaidera-AI` | `MIT` | `github.com` | [Vercel Labs](https://github.com/vercel-labs/web-interface-guidelines/tree/434b7f91364665f2f733b310ec54809bf8f37937) |
 | `ui-design-engineering` | `Kaidera-AI` | `CC-BY-4.0` | `github.com`, `registry.npmjs.org` | [Emil Kowalski](https://github.com/emilkowalski/skills/tree/e8a175de22ae1e49370fc144c1f3bb9aeedf988d) |
+| `folder-organisation` | `Kaidera-AI` | `Apache-2.0` | `github.com` | [Caliber AI](https://github.com/caliber-ai-org/ai-setup/blob/f5dbc002022a8a10acad25c1cce23ddefdc19d0d/src/sync/reconcile.ts) |
 | `gsd-core` | `Kaidera-AI` | `CC-BY-4.0` | `github.com`, `registry.npmjs.org` | [OpenGSD](https://github.com/open-gsd/gsd-core/tree/87e87d34b2d8519e30d1af7d910fc98f2af4bc8d) |
 | `hyperframes` | `Kaidera-AI` | `CC-BY-4.0` | `github.com`, `registry.npmjs.org` | [HeyGen](https://github.com/heygen-com/hyperframes/tree/6f3f86a9c9824c8ad5b7bf760375e243466e5ee0) |
 
@@ -401,6 +403,18 @@ entry is current-source; the EnGenAI-era development material is filed under
 - **Inputs and output:** Resolved project type/capabilities, accepted scope/policy and task; produces bounded task/evidence/decision records using the bundled templates. Tool setup persists incomplete and declined choices to avoid repeated boot prompts.
 - **Authority and effects:** File read/write, local computation and current public-source research inside existing authorization. Application connections, source-data transfer, reserved actions and human verdicts require their separate scoped authority. No runtime binding or trusted-tier promotion.
 - **Kaidera action:** Bounded candidate, unvetted. Canonical source is the directory in this repository; scripts/render-development-workflow.js generates the flat manifest and checks its source digest. Dev-OS carries identical pinned bytes and named role adapters. Legacy behavioural skills and their unresolved donor material are excluded from this public skill. Root/per-skill licensing precedence and Gate 3/4 holds remain.
+
+### `folder-organisation`
+
+<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:file_write","tool:code_interpreter"],"category":"development","legacy":false,"name":"folder-organisation","path":"skills/development/folder-organisation.SKILL.md","posture":"manual-only","review_fingerprint":"500e7c77b193b0be4e2cd132991ef4d63169cc17f65f791f0cd16cf4d18122d4","risk_level":"medium","trust_tier":"unvetted","version":"1.0.1"} -->
+
+- **Manifest:** [folder-organisation.SKILL.md](../skills/development/folder-organisation.SKILL.md)
+- **Function:** Place project files in their canonical homes and preserve byte custody during authorised consolidation/sync.
+- **Use when:** Choosing file locations or preparing an authorised fold with missing, identical, previously-owned or foreign-edited destinations.
+- **Do not use when:** Treating dry-run classifications, hashes or source publication as permission to overwrite, delete or change Cortex-generated files.
+- **Inputs and output:** Project root/SOP, canonical owner, proposed/current bytes and trusted custody record; produces a dry-run outcome table and post-write receipt within existing authority.
+- **Authority and effects:** Manual-only file/CLI workflow. Destructive steps retain operator/bundle/disposition gates; Cortex keeps its sole generated writer. No Caliber CLI/runtime or force mode is imported.
+- **Kaidera action:** Existing Kaidera policy skill, first mirrored into this public portfolio at1.0.1, not a new sync workflow. The four canonical Markdown files are copied byte-for-byte from Kaidera-AI/kaideraos source e4277d75; one short new reference uses original Kaidera wording and cites the pinned MIT donor's method. Apache-2.0 authored source retains existing root/per-skill licence precedence and runtime Gate3/4 holds. The always_load field is a project policy declaration, not a runtime grant. Source is projected through scripts/render-upstream-adapters.js; edits originate in KOS, then this mirror is refreshed.
 
 ### `gavel`
 
