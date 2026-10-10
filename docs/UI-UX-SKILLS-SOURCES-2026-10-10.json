@@ -1,0 +1,58 @@
+[
+  {
+    "repo": "pbakaus/impeccable",
+    "pin": "d631a8827f99414d2b6daba4ef08b7f8701751d7",
+    "path": "LICENSE",
+    "sha256": "02bb8c3b4e70190e3986c0404ad2fd8d639b4f534252d82379cc1b502b6d1812",
+    "bytes": 10766
+  },
+  {
+    "repo": "pbakaus/impeccable",
+    "pin": "d631a8827f99414d2b6daba4ef08b7f8701751d7",
+    "path": ".agent/skills/impeccable/SKILL.md",
+    "sha256": "a06c9685d341d580f14f7f1581a093912766cff972f7d00a0be5f1c17ba9fde6",
+    "bytes": 12365
+  },
+  {
+    "repo": "vercel-labs/web-interface-guidelines",
+    "pin": "434b7f91364665f2f733b310ec54809bf8f37937",
+    "path": "LICENSE",
+    "sha256": "6cd1609c9c12233507cdd2ce0d32e9a721e3c27494951be06b90090deeeb7af2",
+    "bytes": 1068
+  },
+  {
+    "repo": "vercel-labs/web-interface-guidelines",
+    "pin": "434b7f91364665f2f733b310ec54809bf8f37937",
+    "path": "command.md",
+    "sha256": "d246b026f4f29b5823a9cc857f9edf3d2507002e055e32040cadeaf3b38e0234",
+    "bytes": 8055
+  },
+  {
+    "repo": "pbakaus/impeccable",
+    "pin": "d631a8827f99414d2b6daba4ef08b7f8701751d7",
+    "path": ".agent/skills/impeccable/reference/critique.md",
+    "sha256": "9eb03b319ce7a2b281bc85ed1b0a437eb05ab2f765fc267354f9f9e6cbfadc25",
+    "bytes": 42717
+  },
+  {
+    "repo": "pbakaus/impeccable",
+    "pin": "d631a8827f99414d2b6daba4ef08b7f8701751d7",
+    "path": ".agent/skills/impeccable/reference/audit.md",
+    "sha256": "b7c98bde47e00889c235e3d808b596224aad5a0869f25e439f135ce86551a075",
+    "bytes": 8528
+  },
+  {
+    "repo": "pbakaus/impeccable",
+    "pin": "d631a8827f99414d2b6daba4ef08b7f8701751d7",
+    "path": ".agent/skills/impeccable/reference/harden.md",
+    "sha256": "3898bd9b56a042e860a0db4fb4dd81ac81126fa218b604702e2ac0c2287ae09b",
+    "bytes": 9450
+  },
+  {
+    "repo": "pbakaus/impeccable",
+    "pin": "d631a8827f99414d2b6daba4ef08b7f8701751d7",
+    "path": "NOTICE.md",
+    "sha256": "c60a093c2845fd9fb82f9c6f742ece31f379f8190b535309d32d66c45ccffdcb",
+    "bytes": 503
+  }
+]

@@ -1,6 +1,6 @@
 ---
 name: design-selection
-version: 1.0.0
+version: 1.0.1
 description: Select a design skill for interface polish, animation review, native interaction,
   prototypes or rendered video. Use when choosing design capabilities or deciding which design
   workflow owns a requested deliverable.
@@ -14,14 +14,14 @@ kaidera:
   allowed_domains:
     - github.com
     - registry.npmjs.org
-  content_hash: eccb97037fd733cef056b3c80aa501fb1ae35593f1c7ee941bef83faa34c1ba1
+  content_hash: 263b1f4129f5b12fe82b6fddb7918b6e6eb7c2455a6efa1783ca98ef6c6324ff
   signed_by: ""
   last_reviewed: ""
   reviewer: ""
   source:
     repo: Kaidera-AI/skills
     path: skills/development/design-selection
-    content_sha256: 7942c3de373ec7a83a6c78832d20c9b4c05e48ad628f144ffbe1cbf66eaf9f6b
+    content_sha256: 3b2ff63893b47fa0babe2166dc7ad24da232974c737eb35fb8e11fc2dfe0b4aa
 author: Kaidera-AI
 license: CC-BY-4.0
 updated: 2026-10-10
@@ -49,6 +49,8 @@ Route by the requested deliverable and action, then load one owning skill plus n
 
 | Request | Owning selection | Boundary |
 |---|---|---|
+| UI/UX critique, technical audit or resilience hardening | `ui-ux-review` | Critique/audit report; harden edits only the accepted scope. |
+| Web implementation guideline review | `web-interface-guidelines` | Read the pinned local snapshot; preserve stack-specific context. |
 | UI component craft, visual polish, responsive interaction | `ui-design-engineering` | Preserve the existing design system and framework. |
 | Web motion implementation / review / codebase audit | Emil `animate` / `review-animations` / `improve-animations` | Keep implementation and read-only review distinct. |
 | Mobile web / PWA interaction | Emil `mobile-native` | Real-device evidence differs from desktop emulation. |
@@ -58,7 +60,7 @@ Route by the requested deliverable and action, then load one owning skill plus n
 | Exported promo, explainer, titles or HTML video composition | `hyperframes` | Deterministic video, local render, retained media provenance. |
 | Named existing framework or library | Its matching workflow | Keep the user's chosen stack. |
 
-The available Kaidera source candidates in this selection are `ui-design-engineering` and `hyperframes`; specialist Emil entries are source-linked options, not installed dependencies. Their respective references identify the exact upstream pins and specialist paths. Check availability before invoking a name; missing selection calls for reading the pinned source or proposing its reviewed plain-file import.
+The available Kaidera source candidates in this selection are `ui-ux-review`, `web-interface-guidelines`, `ui-design-engineering` and `hyperframes`; specialist Emil entries are source-linked options, not installed dependencies. Their respective references identify the exact upstream pins and specialist paths. Check availability before invoking a name; missing selection calls for reading the pinned source or proposing its reviewed plain-file import.
 
 Return the chosen owner, reason, required inputs and relevant source pin. Skill selection grants no tooling or runtime trust. For a Cortex project, installation uses the approved universal plain-file path and the registry/binding process; generated harness files stay Cortex-owned.
 

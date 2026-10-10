@@ -33,6 +33,7 @@ const postureLabels = new Map([
 ])
 const posturePolicy = new Map([
   ['bounded-candidate', new Set([
+    'ui-ux-review',
     'ui-design-engineering',
     'gsd-core',
     'hyperframes',
@@ -49,6 +50,7 @@ const posturePolicy = new Map([
     'jev-return-triage',
 ])],
   ['reference-only', new Set([
+    'web-interface-guidelines',
     'design-selection',
     'jev',
     'agent-platform-context',
