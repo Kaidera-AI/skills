@@ -68,6 +68,7 @@ const posturePolicy = new Map([
   ['manual-only', new Set([
     'marketing-web-research',
     'investor-lead-gen',
+    'social-media-ops',
     'deploy-to-dev',
     'sprint-closing',
       'assert-fact-gate',
@@ -142,6 +143,7 @@ const currentSourceSkills = new Set([
     'unlazy',
     'prompt-master',
     'investor-lead-gen',
+    'social-media-ops',
 ])
 const categoryLabels = new Map([
   ['context', 'Context'],
@@ -480,7 +482,7 @@ function readmeCategoryDescription(category) {
     ['documentation', 'Specs, docs, changelogs, writing voice'],
     ['legacy', 'Retired EnGenAI-era material, kept as reference'],
     ['research', 'Research briefs, company research and evidence'],
-    ['sales-and-marketing', 'Lead generation, investor and customer outreach'],
+    ['sales-and-marketing', 'Lead generation, outreach, social publishing and market listening'],
     ['security', 'Auditing, scanning, incident response'],
   ]).get(category)
 }

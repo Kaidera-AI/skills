@@ -4,7 +4,7 @@ Status: **canonical human-facing catalogue; source candidate; runtime and trust 
 
 Catalogue date: **2026-10-10**
 
-Total skills: **49**
+Total skills: **50**
 
 Source binding: consume this guide only from the same Git commit as its skill
 manifests, marketplace, and catalogue test. The enclosing commit/tree is the
@@ -31,7 +31,7 @@ a release blocker; do not silently choose one side.
 
 ## Current release boundary
 
-- All 49 skills are `unvetted`.
+- All 50 skills are `unvetted`.
 - Catalogue presence, a body hash, static validation, or a local commit is not
   approval to inject a skill into an agent.
 - Gate 1 strict manifest checks and a bounded Gate 2 pattern scan exist.
@@ -43,7 +43,7 @@ a release blocker; do not silently choose one side.
 - Kaidera and Alibaba both use the name `open-code-review`. A host must select a
   source-qualified identity and inject only one; prompt text cannot resolve a
   loader collision after both skills are present.
-- 21 of the 49 skills are filed under `legacy/`. They are kept as research context,
+- 21 of the 50 skills are filed under `legacy/`. They are kept as research context,
   they are not current Kaidera truth, and none of them may be bound to an agent.
 
 ## Portfolio summary
@@ -56,23 +56,23 @@ a release blocker; do not silently choose one side.
 | Documentation | 1 |
 | Legacy | 21 |
 | Research | 2 |
-| Sales and marketing | 1 |
+| Sales and marketing | 2 |
 | Security | 1 |
 
 | Declared trust tier | Skills |
 |---|---:|
-| `unvetted` | 49 |
+| `unvetted` | 50 |
 
 | Operating posture | Skills |
 |---|---:|
 | Bounded candidate | 14 |
 | Reference-only | 15 |
-| Manual-only | 10 |
+| Manual-only | 11 |
 | Rework before use | 10 |
 
 Legacy entries: **21**
 
-Current-source entries: **28**
+Current-source entries: **29**
 
 `Legacy` is a documentation classification and, since the `legacy/` category was
 introduced, a filing location as well. Neither is a trust or compatibility
@@ -130,7 +130,7 @@ Kaidera truth until reconciled against the owning repository and Cortex.
 | Capability | Meaning |
 |---|---|
 | `tool:file_read` | Read authorised local workspace files. |
-| `tool:file_write` | Modify authorised local files. Nine published skills declare it: six bounded candidates (`development-workflow`, `ui-design-engineering`, `gsd-core`, `hyperframes`, `kaidera-sdlc`, `unlazy`), one reference-only (`jev`) and two manual-only (`marketing-web-research`, `investor-lead-gen`). |
+| `tool:file_write` | Modify authorised local files. Ten published skills declare it: six bounded candidates (`development-workflow`, `ui-design-engineering`, `gsd-core`, `hyperframes`, `kaidera-sdlc`, `unlazy`), one reference-only (`jev`) and three manual-only (`marketing-web-research`, `investor-lead-gen`, `social-media-ops`). |
 | `tool:code_interpreter` | Run bounded local computation or already-approved diagnostics. It does not imply arbitrary repository code is trusted. |
 | `tool:web_search` | Search public web sources under the runtime's network policy. |
 | `tool:mcp_external` | Call an approved external connector or service. |
@@ -155,6 +155,7 @@ Use the narrowest matching skill:
 | Draft a decision-led research mission | `research-brief` | The user asked to perform the research rather than draft its brief |
 | Research companies, current leaders and professional profiles | `marketing-web-research` | Only a research brief is requested; invitations, email, follows or paid tools lack applicable authority |
 | Find investors for a round, write to them one to one, handle replies and keep the investor database and learning log | `investor-lead-gen` | The prospects are customers, not investors, or no owner has authority to release names, approve copy or send |
+| Post approved copy to LinkedIn, X, Instagram, Threads or Bluesky, measure whether AI answer engines name a brand, watch prospects' job adverts, or vet a scraper or auto-poster | `social-media-ops` | The task needs a login session, a scraper, a proxy or a page robots.txt closes, or no owner has approved the post or the spend |
 | Design APIs, tests, migrations, containers or Kubernetes | matching `legacy/` reference skill | Current project conventions differ or execution/changes are requested without authority |
 | Gate a push, pull request, merge, release, deployment, infrastructure name or cloud choice | `deploy-gate`, `infra-naming-gate`, `cloud-agnostic-policy` | Exact target identity, current approval, quality evidence or rollback readiness is missing |
 | Consult a legacy deployment or sprint-closing runbook | matching `legacy/` runbook | Execution is requested; these describe mutation while declaring no tools |
@@ -227,6 +228,7 @@ Use `design-selection` for the initial UI/native/video route, `ui-design-enginee
 | Research | `marketing-web-research` | `0.1.002` | Customer-configurable company and professional-profile research with separate action receipts | Manual-only | high / file read, file write, web search, external connector |
 | Research | `research-brief` | `1.0.0` | Drafts a self-contained decision-led brief without executing research | Bounded candidate | low / file read |
 | Sales and marketing | `investor-lead-gen` | `1.0.0` | Investor research, one-to-one first emails, one follow-up, reply hand-over, investor database and weekly learning loop | Manual-only | high / file read, file write, web search, external connector |
+| Sales and marketing | `social-media-ops` | `1.0.0` | Official-API posting with read-back, weekly AI answer visibility and hiring signals, and third-party tool vetting, with bundled stdlib tools | Manual-only | high / file read, file write, web search, external connector, interpreter |
 | Security | `prompt-injection-test-design` | `2.0.1` | Read-only design for controlled prompt-injection boundary testing | Reference-only | low / none |
 | Development | `design-selection` | `1.0.0` | Select the owning design workflow for UI, motion, native interaction or exported video. | Reference-only | medium / file read, web search |
 | Development | `ui-design-engineering` | `1.0.0` | Improve UI craft, input feedback, purposeful motion, gesture continuity and mobile details. | Bounded candidate | medium / file read, file write, interpreter, web search |
@@ -265,6 +267,7 @@ precedence issue remains a release hold.
 | `sprint-closing` | `kaidera` | `Apache-2.0` | None | — |
 | `marketing-web-research` | `Kaidera-AI` | `Apache-2.0` | `linkedin.com`, `x.com` | — |
 | `investor-lead-gen` | `Kaidera-AI` | `Apache-2.0` | None | — |
+| `social-media-ops` | `Kaidera-AI` | `Apache-2.0` | None | — |
 | `research-brief` | `Kaidera-AI` | `Apache-2.0` | `github.com` | [David Ondrej](https://github.com/davidondrej/skills/tree/69c3ae5228eb146724fd23dac3d43eab5805bcc3/skills/research-and-web/research-prompt) |
 | `security-review-checklist` | `kaidera` | `Apache-2.0` | None | — |
 | `dependency-audit` | `kaidera` | `Apache-2.0` | None | — |
@@ -1149,12 +1152,15 @@ spend.
 
 ## Sales and marketing skills
 
-One skill. `investor-lead-gen` is manual-only and high risk: it declares web search, file
+Two skills, both manual-only and high risk. `investor-lead-gen` declares web search, file
 write and an external connector because a host running it sends email, writes to a CRM
 and may pay for address verification. It is a directory package
 (`skills/sales-and-marketing/investor-lead-gen/`) projected into a single file by
 `scripts/render-investor-lead-gen.js`; edit the directory and regenerate. Customer
-prospecting is not this skill's job.
+prospecting is not this skill's job. `social-media-ops` also declares a code interpreter,
+because it bundles standard-library Python tools; it is projected by
+`scripts/render-social-media-ops.js`, which inlines the Markdown and lists each tool file
+with its hash.
 
 ### `investor-lead-gen`
 
@@ -1168,6 +1174,19 @@ prospecting is not this skill's job.
 - **Output:** Lead records with cited evidence, release lists naming every person and their opening line, sent-email copies and a send ledger, reply hand-overs, a daily status by fund, the investor database (SQLite schema included) and dated learnings.
 - **Authority and effects:** High-risk, manual-only source candidate. Research and drafting are local; every send, CRM write, paid verification and form submission needs the authority the instance file names, and a released batch authorises only the named people and the approved copy. Investor names, addresses and round terms stay in the instance's storage; the skill carries anonymised lessons only. No scraper code, credentials, contact data or provider subscription is included.
 - **Kaidera action:** Preserve unvetted status and the Gate 3/4 holds. Qualify the host's mail, CRM and verification connectors and the sender identity before binding. The bundled lessons come from one live raise and are evidence for review, not proof of effect.
+
+### `social-media-ops`
+
+<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:file_write","tool:web_search","tool:mcp_external","tool:code_interpreter"],"category":"sales-and-marketing","legacy":false,"name":"social-media-ops","path":"skills/sales-and-marketing/social-media-ops.SKILL.md","posture":"manual-only","review_fingerprint":"457b41bf12096182d956fba2caedf8daf39d5eb84241b9eeed8635411fe9b250","risk_level":"high","trust_tier":"unvetted","version":"1.0.0"} -->
+
+- **Manifest:** [social-media-ops.SKILL.md](../skills/sales-and-marketing/social-media-ops.SKILL.md)
+- **Function:** Run a brand's social channels and market listening on official routes only: publish approved posts to LinkedIn, X, Instagram, Threads and Bluesky through their APIs with the approved picture and alt text and a read-back before anything counts as published; ask fixed buyer questions of web-grounded AI answer engines weekly and record who is named and cited; read prospects' own job boards weekly for AI, data and digital roles; and vet third-party scrapers, extensions and auto-posters without running them.
+- **Use when:** A company or brand asks an agent to post its approved copy across channels, to measure whether AI assistants recommend it, to watch target accounts' hiring for buying signals, or to judge a scraping or automation repository someone has sent.
+- **Do not use when:** The task needs a login session, a stored password, a proxy, a CAPTCHA solver, a social network's search or a page robots.txt closes; no owner has approved the post, the picture or the spend; or the aim is collecting people's profiles.
+- **Inputs:** A filled-in instance template (owners and gates, channels, scopes and accounts, picture rules, visibility questions, engines and competitors, hiring-signal accounts) or an ordinary owner request that supplies the same values; environment credentials for the bundled tools.
+- **Output:** Published posts with their read-back URLs and send-log lines, weekly visibility results (named, rank, competitors named, cited domains, cost), weekly hiring-signal lists with source health, and vetting write-ups with the ideas worth keeping.
+- **Authority and effects:** High-risk, manual-only source candidate. Every post and every paid call needs the authority the instance names, and an approval covers only the copy and picture shown; the bundled tools post only with `--live`. Results, accounts, tokens and market lists stay in the instance's storage. The tools are standard-library Python outside Gate 1 and Gate 2, listed by hash in the manifest; no scraper code, credentials or provider subscription is included.
+- **Kaidera action:** Preserve unvetted status and the Gate 3/4 holds. Qualify the host's platform apps, scopes, token storage and approval surface before binding, and read the bundled tools before running them. The lessons come from one brand's live channels and are evidence for review, not proof of effect.
 
 ## Security skills
 
@@ -1210,6 +1229,7 @@ capability gates.
 | “Write a research brief comparing three provider strategies.” | `research-brief` |
 | “Find decision makers matching our customer profile and return a sourced list here.” | `marketing-web-research`, with a separately approved host workflow |
 | “Find seed investors who back our sector and start writing to them.” | `investor-lead-gen`, with an instance file naming who releases names, approves copy and sends |
+| “Post today's approved update on LinkedIn and X with the picture, then tell me whether ChatGPT-style assistants mention us.” | `social-media-ops`, with an instance file naming the approver, the channels and the visibility questions |
 | “Use the EnGenAI security checklist while reviewing this patch.” | No automatic route; reverify individual legacy checks under `open-code-review` |
 | “Show the historical branch and PR conventions.” | No runtime route; consult `git-workflow` only as quarantined historical evidence pending rework |
 | “Deploy this to dev now.” | No automatic skill route; separately authorised deployment workflow required |
