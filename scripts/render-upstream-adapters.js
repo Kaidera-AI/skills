@@ -8,7 +8,7 @@ const crypto = require('node:crypto')
 const YAML = require('yaml')
 const root = path.resolve(__dirname, '..')
 const sha = value => crypto.createHash('sha256').update(value).digest('hex')
-const names = ['design-selection', 'ui-design-engineering', 'gsd-core', 'hyperframes', 'ui-ux-review', 'web-interface-guidelines']
+const names = ['design-selection', 'ui-design-engineering', 'gsd-core', 'hyperframes', 'ui-ux-review', 'web-interface-guidelines', 'folder-organisation']
 const anchor = name => 'file-' + name.toLowerCase().replace(/[^a-z0-9]+/g, '-')
 
 for (const name of names) {

@@ -216,6 +216,10 @@
     "web-interface-guidelines": {
       "what": "Review named web UI files against the pinned local Vercel guideline snapshot.",
       "why": "Apply repeatable web implementation guidance with stack and product context, without a live fetch."
+    },
+    "folder-organisation": {
+      "what": "Place project files and record content custody before an authorised consolidation or sync.",
+      "why": "Keep foreign edits, distinguish planned actions from writes, and use the canonical approved writer."
     }
   },
   "rename_pairs": [

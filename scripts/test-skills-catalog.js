@@ -68,6 +68,7 @@ const posturePolicy = new Map([
       'prompt-master',
 ])],
   ['manual-only', new Set([
+    'folder-organisation',
     'marketing-web-research',
     'investor-lead-gen',
     'social-media-ops',
@@ -117,6 +118,7 @@ const legacySkills = new Set([
   'workspace-context',
 ])
 const currentSourceSkills = new Set([
+  'folder-organisation',
   'ui-ux-review',
   'web-interface-guidelines',
   'design-selection',
