@@ -228,13 +228,9 @@ Use `design-selection` for the initial UI/native/video route, `emil-design-eng` 
 | Research | `research-brief` | `1.0.0` | Drafts a self-contained decision-led brief without executing research | Bounded candidate | low / file read |
 | Sales and marketing | `investor-lead-gen` | `1.0.0` | Investor research, one-to-one first emails, one follow-up, reply hand-over, investor database and weekly learning loop | Manual-only | high / file read, file write, web search, external connector |
 | Security | `prompt-injection-test-design` | `2.0.1` | Read-only design for controlled prompt-injection boundary testing | Reference-only | low / none |
-
 | Development | `design-selection` | `1.0.0` | Select the owning design workflow for UI, motion, native interaction or exported video. | Reference-only | medium / file read, web search |
-
 | Development | `emil-design-eng` | `1.0.0` | Improve UI craft, input feedback, purposeful motion, gesture continuity and mobile details. | Bounded candidate | medium / file read, file write, interpreter, web search |
-
 | Development | `gsd-core` | `1.0.0` | Use persistent phase artifacts and bounded context to plan, execute or resume GSD Core work. | Bounded candidate | medium / file read, file write, interpreter, web search |
-
 | Development | `hyperframes` | `1.0.0` | Author and locally render deterministic HTML video compositions and motion graphics. | Bounded candidate | medium / file read, file write, interpreter, web search |
 
 ## Ownership, licensing, attribution, and domain metadata
@@ -291,13 +287,9 @@ precedence issue remains a release hold.
 | `deploy-gate` | `Kaidera` | `Apache-2.0` | None | — |
 | `infra-naming-gate` | `Kaidera` | `Apache-2.0` | None | — |
 | `human-voice` | `Kaidera` | `Apache-2.0` | `aclanthology.org`, `arxiv.org`, `en.wikipedia.org`, `www.economist.com`, `www.nytimes.com`, `www.pnas.org`, `www.science.org`, `www.washingtonpost.com` | — |
-
 | `design-selection` | `Kaidera-AI` | `CC-BY-4.0` | `github.com`, `registry.npmjs.org` | [Emil Kowalski and HeyGen](https://github.com/emilkowalski/skills/tree/e8a175de22ae1e49370fc144c1f3bb9aeedf988d) |
-
 | `emil-design-eng` | `Kaidera-AI` | `CC-BY-4.0` | `github.com`, `registry.npmjs.org` | [Emil Kowalski](https://github.com/emilkowalski/skills/tree/e8a175de22ae1e49370fc144c1f3bb9aeedf988d) |
-
 | `gsd-core` | `Kaidera-AI` | `CC-BY-4.0` | `github.com`, `registry.npmjs.org` | [OpenGSD](https://github.com/open-gsd/gsd-core/tree/87e87d34b2d8519e30d1af7d910fc98f2af4bc8d) |
-
 | `hyperframes` | `Kaidera-AI` | `CC-BY-4.0` | `github.com`, `registry.npmjs.org` | [HeyGen](https://github.com/heygen-com/hyperframes/tree/6f3f86a9c9824c8ad5b7bf760375e243466e5ee0) |
 
 ## Context skills
