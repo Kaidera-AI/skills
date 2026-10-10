@@ -204,6 +204,10 @@
     "hyperframes": {
       "what": "Author and locally render deterministic HTML video compositions and motion graphics.",
       "why": "An exported film, motion graphic or operation on an existing HyperFrames composition."
+    },
+    "social-media-ops": {
+      "what": "Publishes approved posts through each platform's official API with read-back, runs weekly AI answer visibility and hiring-signal checks, and vets scraping or automation tools.",
+      "why": "Social channels and market listening for any brand without scraping, login automation or block evasion. A dry run never posts."
     }
   },
   "rename_pairs": [

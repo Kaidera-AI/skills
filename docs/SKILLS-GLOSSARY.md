@@ -2,7 +2,7 @@
 
 Status: **human-facing index; the manifests and the catalogue remain authoritative**
 
-Published skills covered: **49**
+Published skills covered: **50**
 
 Rendered by `scripts/render-glossary.js` from the built marketplace, the catalogue
 markers and the authored prose in `scripts/glossary-prose.json`. Skill names, categories
@@ -33,17 +33,17 @@ the manifest wins and this file is stale — fix it in the same commit.
 | `legacy/` | 21 |
 | `research/` | 2 |
 | `security/` | 1 |
-| `sales-and-marketing/` | 1 |
-| **Total** | **49** |
+| `sales-and-marketing/` | 2 |
+| **Total** | **50** |
 
 | Posture | Published |
 |---|---:|
 | Bounded candidate | 14 |
 | Reference-only | 15 |
-| Manual-only | 10 |
+| Manual-only | 11 |
 | Rework before use | 10 |
 
-Legacy entries: **21** of 49 are filed under `legacy/`. 19 of them still name the retired product or its domains outright; the other 2 (`code-review` and `deploy-to-dev`) do not, and are legacy for stale escalation, kill-switch, organisation-scope and sprint-log controls, or because redaction removed their only product reference.
+Legacy entries: **21** of 50 are filed under `legacy/`. 19 of them still name the retired product or its domains outright; the other 2 (`code-review` and `deploy-to-dev`) do not, and are legacy for stale escalation, kill-switch, organisation-scope and sprint-log controls, or because redaction removed their only product reference.
 
 None of the 21 declares any capability, yet several bodies describe installs,
 live production diagnostics, database and cluster access, Git mutation or deployment.
@@ -179,6 +179,7 @@ portfolio judgements, separate from the manifest's `trust_tier`, and every skill
 | [`scope-work-gate`](../skills/context/scope-work-gate.SKILL.md) | `context` | Confirms proposed work belongs to the current project, role, lane and approved objective. | Stops “while we’re here” scope creep before it starts, not after review. | Manual-only |
 | [`security-context`](../skills/legacy/security-context.SKILL.md) | `legacy` | Legacy threat model, OWASP Top 10 checklist, forbidden patterns and required security controls. | Reference lens; its control claims are unverified against current source. | Reference-only, legacy |
 | [`security-review-checklist`](../skills/legacy/security-review-checklist.SKILL.md) | `legacy` | Legacy product security checklist covering auth, secrets, tenant isolation and supply chain. | A supporting lens under an evidence-gated review; never a competing verdict. | Rework before use, legacy |
+| [`social-media-ops`](../skills/sales-and-marketing/social-media-ops.SKILL.md) | `sales-and-marketing` | Publishes approved posts through each platform's official API with read-back, runs weekly AI answer visibility and hiring-signal checks, and vets scraping or automation tools. | Social channels and market listening for any brand without scraping, login automation or block evasion. A dry run never posts. | Manual-only |
 | [`sprint-closing`](../skills/legacy/sprint-closing.SKILL.md) | `legacy` | Legacy six-phase sprint closure: documentation, commit, push and pull-request procedure. | Names one individual as approver and one product as scope; not portable. | Manual-only, legacy |
 | [`sprint-context`](../skills/legacy/sprint-context.SKILL.md) | `legacy` | Legacy three-file sprint pattern, TASK_STATUS protocol, definition of done and quality gates. | Workflow assumptions no longer match Kaidera delivery; rework before use. | Rework before use, legacy |
 | [`tdd-workflow`](../skills/legacy/tdd-workflow.SKILL.md) | `legacy` | Legacy red-green-refactor loop with a five-step verification requirement before “done”. | Describes test execution under a no-tool manifest; the discipline is sound, the contract is not. | Rework before use, legacy |
@@ -214,11 +215,11 @@ category labels in `scripts/test-skills-catalog.js`; that pull request adds both
 
 ## Projections
 
-**14** published skills are generated rather than authored here: they carry
+**15** published skills are generated rather than authored here: they carry
 `kaidera.source` or a generation marker, and are re-rendered from a canonical source
 instead of being edited in place.
 
-6 of them keep their canonical directory inside this repository (`design-selection`, `development-workflow`, `gsd-core`, `hyperframes`, `investor-lead-gen`, `ui-design-engineering`): the flat manifest is generated from
+7 of them keep their canonical directory inside this repository (`design-selection`, `development-workflow`, `gsd-core`, `hyperframes`, `investor-lead-gen`, `social-media-ops`, `ui-design-engineering`): the flat manifest is generated from
 the directory of the same name, and `npm test` fails if the two drift.
 
 The other 8 are projected from a canonical directory in `Kaidera-AI/kaideraos`: `gavel`, `jev`, `jev-backlog-rank`, `jev-handoff-check`, `jev-option-decision`, `jev-return-triage`, `kaidera-sdlc`, `marketing-web-research`.
