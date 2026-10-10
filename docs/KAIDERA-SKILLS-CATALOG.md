@@ -431,18 +431,6 @@ entry is current-source; the EnGenAI-era development material is filed under
 - **Authority and effects:** Writes project files and runs approved local CLI/browser/FFmpeg tooling; external actions need task authorization.
 - **Kaidera action:** Bounded candidate, unvetted. Canonical portable source is the directory beside the manifest; regenerate with `scripts/render-upstream-adapters.js`. This original CC-BY-4.0 adapter matches the root licence and cites pinned upstream sources without bundling their code. Source publication carries no runtime trust or binding; Gate 3/4 holds remain.
 
-### `jev`
-
-<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:code_interpreter","tool:file_write"],"category":"development","legacy":false,"name":"jev","path":"skills/development/jev.SKILL.md","posture":"reference-only","review_fingerprint":"e79bd1262eb33aa65059f6e05f17e2cdf808e06119b87853b27c4f0054cc3c15","risk_level":"medium","trust_tier":"unvetted","version":"0.1.0"} -->
-
-- **Manifest:** [jev.SKILL.md](../skills/development/jev.SKILL.md)
-- **Function:** Jev core: common fail-closed policy reader, sanitizer and typed model transport.
-- **Use when:** Reference for the shared Jev core, project-owned transfer policy, CLI, result statuses and four separate decision-moment wrappers; not an automatic moment router.
-- **Do not use when:** As an automatic decision, policy grant or installation action; do not send unclassified data.
-- **Inputs and output:** Classified minimum summaries or a reference query; typed advisory evidence with returned model identity, not human authority.
-- **Authority and effects:** The core reads only process `TYPESAFE_API_KEY`; project-owned `.agents/config/transfer-policy.<project>.json` must be separately approved and installed. No outbound call when the policy or allowed category is missing; receipts off by default.
-- **Kaidera action:** Reference-only, unvetted. Canonical source is Kaidera OS `.agents/skills/jev/` at `86edd8eeb4ed37bb0aa646de42b3fc6c8af32c56`; published flat manifest and directory form are separate projections. Wrappers require `jev` installed in the same project. The three lead wrappers replace Gavel's corresponding moments, not supplement them. Gate 3/4 and root CC-BY-4.0 versus per-skill Apache-2.0 licence precedence remain HOLD.
-
 ### `jev-backlog-rank`
 
 <!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:code_interpreter"],"category":"development","legacy":false,"name":"jev-backlog-rank","path":"skills/development/jev-backlog-rank.SKILL.md","posture":"bounded-candidate","review_fingerprint":"5c8709dc221909fa81b266fb5076fc1ffbfc6031639b1be2c99241d82b3c8e09","risk_level":"medium","trust_tier":"unvetted","version":"0.1.0"} -->
@@ -490,6 +478,18 @@ entry is current-source; the EnGenAI-era development material is filed under
 - **Inputs and output:** Classified minimum summaries or a reference query; typed advisory evidence with returned model identity, not human authority.
 - **Authority and effects:** The core reads only process `TYPESAFE_API_KEY`; project-owned `.agents/config/transfer-policy.<project>.json` must be separately approved and installed. No outbound call when the policy or allowed category is missing; receipts off by default.
 - **Kaidera action:** Bounded candidate, unvetted. Canonical source is Kaidera OS `.agents/skills/jev-return-triage/` at `86edd8eeb4ed37bb0aa646de42b3fc6c8af32c56`; published flat manifest and directory form are separate projections. Wrappers require `jev` installed in the same project. The three lead wrappers replace Gavel's corresponding moments, not supplement them. Gate 3/4 and root CC-BY-4.0 versus per-skill Apache-2.0 licence precedence remain HOLD.
+
+### `jev`
+
+<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:code_interpreter","tool:file_write"],"category":"development","legacy":false,"name":"jev","path":"skills/development/jev.SKILL.md","posture":"reference-only","review_fingerprint":"e79bd1262eb33aa65059f6e05f17e2cdf808e06119b87853b27c4f0054cc3c15","risk_level":"medium","trust_tier":"unvetted","version":"0.1.0"} -->
+
+- **Manifest:** [jev.SKILL.md](../skills/development/jev.SKILL.md)
+- **Function:** Jev core: common fail-closed policy reader, sanitizer and typed model transport.
+- **Use when:** Reference for the shared Jev core, project-owned transfer policy, CLI, result statuses and four separate decision-moment wrappers; not an automatic moment router.
+- **Do not use when:** As an automatic decision, policy grant or installation action; do not send unclassified data.
+- **Inputs and output:** Classified minimum summaries or a reference query; typed advisory evidence with returned model identity, not human authority.
+- **Authority and effects:** The core reads only process `TYPESAFE_API_KEY`; project-owned `.agents/config/transfer-policy.<project>.json` must be separately approved and installed. No outbound call when the policy or allowed category is missing; receipts off by default.
+- **Kaidera action:** Reference-only, unvetted. Canonical source is Kaidera OS `.agents/skills/jev/` at `86edd8eeb4ed37bb0aa646de42b3fc6c8af32c56`; published flat manifest and directory form are separate projections. Wrappers require `jev` installed in the same project. The three lead wrappers replace Gavel's corresponding moments, not supplement them. Gate 3/4 and root CC-BY-4.0 versus per-skill Apache-2.0 licence precedence remain HOLD.
 
 ### `kaidera-sdlc`
 
