@@ -2,7 +2,7 @@
 
 Status: **human-facing index; the manifests and the catalogue remain authoritative**
 
-Published skills covered: **50**
+Published skills covered: **52**
 
 Rendered by `scripts/render-glossary.js` from the built marketplace, the catalogue
 markers and the authored prose in `scripts/glossary-prose.json`. Skill names, categories
@@ -27,23 +27,23 @@ the manifest wins and this file is stale — fix it in the same commit.
 | Category | Published |
 |---|---:|
 | `context/` | 2 |
-| `development/` | 18 |
+| `development/` | 20 |
 | `devops/` | 3 |
 | `documentation/` | 1 |
 | `legacy/` | 21 |
 | `research/` | 2 |
 | `security/` | 1 |
 | `sales-and-marketing/` | 2 |
-| **Total** | **50** |
+| **Total** | **52** |
 
 | Posture | Published |
 |---|---:|
-| Bounded candidate | 14 |
-| Reference-only | 15 |
+| Bounded candidate | 15 |
+| Reference-only | 16 |
 | Manual-only | 11 |
 | Rework before use | 10 |
 
-Legacy entries: **21** of 50 are filed under `legacy/`. 19 of them still name the retired product or its domains outright; the other 2 (`code-review` and `deploy-to-dev`) do not, and are legacy for stale escalation, kill-switch, organisation-scope and sprint-log controls, or because redaction removed their only product reference.
+Legacy entries: **21** of 52 are filed under `legacy/`. 19 of them still name the retired product or its domains outright; the other 2 (`code-review` and `deploy-to-dev`) do not, and are legacy for stale escalation, kill-switch, organisation-scope and sprint-log controls, or because redaction removed their only product reference.
 
 None of the 21 declares any capability, yet several bodies describe installs,
 live production diagnostics, database and cluster access, Git mutation or deployment.
@@ -184,8 +184,10 @@ portfolio judgements, separate from the manifest's `trust_tier`, and every skill
 | [`sprint-context`](../skills/legacy/sprint-context.SKILL.md) | `legacy` | Legacy three-file sprint pattern, TASK_STATUS protocol, definition of done and quality gates. | Workflow assumptions no longer match Kaidera delivery; rework before use. | Rework before use, legacy |
 | [`tdd-workflow`](../skills/legacy/tdd-workflow.SKILL.md) | `legacy` | Legacy red-green-refactor loop with a five-step verification requirement before “done”. | Describes test execution under a no-tool manifest; the discipline is sound, the contract is not. | Rework before use, legacy |
 | [`ui-design-engineering`](../skills/development/ui-design-engineering.SKILL.md) | `development` | Improve UI craft, input feedback, purposeful motion, gesture continuity and mobile details. | Building or polishing components, or reviewing a bounded interaction. | Bounded candidate |
+| [`ui-ux-review`](../skills/development/ui-ux-review.SKILL.md) | `development` | Critique task flow, audit web UI evidence and harden scoped edge cases using a portable Impeccable-derived method. | Prioritize actual user obstacles and recovery without installing upstream CLI or hooks. | Bounded candidate |
 | [`ultrareview`](../skills/development/ultrareview.SKILL.md) | `development` | Whole-codebase or module health audit across eight dimensions with adversarial verification of findings. | Repository-wide scope. Its opt-in fix mode exceeds its declared no-tool contract. | Rework before use |
 | [`unlazy`](../skills/development/unlazy.SKILL.md) | `development` | Completion discipline: write acceptance gates first, decompose with a depth tree, re-measure every claim. | The counter to quiet incompleteness on long, multi-part, parallel or exhaustive work. | Bounded candidate |
+| [`web-interface-guidelines`](../skills/development/web-interface-guidelines.SKILL.md) | `development` | Review named web UI files against the pinned local Vercel guideline snapshot. | Apply repeatable web implementation guidance with stack and product context, without a live fetch. | Reference-only |
 | [`workspace-context`](../skills/legacy/workspace-context.SKILL.md) | `legacy` | Legacy workspace identity, tech stack, team structure, terminology and development principles. | Orientation only; it names a retired organisation and product. | Reference-only, legacy |
 
 ---
@@ -215,11 +217,11 @@ category labels in `scripts/test-skills-catalog.js`; that pull request adds both
 
 ## Projections
 
-**15** published skills are generated rather than authored here: they carry
+**17** published skills are generated rather than authored here: they carry
 `kaidera.source` or a generation marker, and are re-rendered from a canonical source
 instead of being edited in place.
 
-7 of them keep their canonical directory inside this repository (`design-selection`, `development-workflow`, `gsd-core`, `hyperframes`, `investor-lead-gen`, `social-media-ops`, `ui-design-engineering`): the flat manifest is generated from
+9 of them keep their canonical directory inside this repository (`design-selection`, `development-workflow`, `gsd-core`, `hyperframes`, `investor-lead-gen`, `social-media-ops`, `ui-design-engineering`, `ui-ux-review`, `web-interface-guidelines`): the flat manifest is generated from
 the directory of the same name, and `npm test` fails if the two drift.
 
 The other 8 are projected from a canonical directory in `Kaidera-AI/kaideraos`: `gavel`, `jev`, `jev-backlog-rank`, `jev-handoff-check`, `jev-option-decision`, `jev-return-triage`, `kaidera-sdlc`, `marketing-web-research`.

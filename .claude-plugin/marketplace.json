@@ -190,7 +190,7 @@
     },
     {
       "name": "design-selection",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "description": "Select a design skill for interface polish, animation review, native interaction, prototypes or rendered video. Use when choosing design capabilities or deciding which design workflow owns a requested deliverable.",
       "category": "development",
       "trust_tier": "unvetted",
@@ -217,7 +217,7 @@
         "design",
         "routing"
       ],
-      "content_hash": "eccb97037fd733cef056b3c80aa501fb1ae35593f1c7ee941bef83faa34c1ba1",
+      "content_hash": "263b1f4129f5b12fe82b6fddb7918b6e6eb7c2455a6efa1783ca98ef6c6324ff",
       "signed_by": "",
       "last_reviewed": "",
       "reviewer": "",
@@ -870,6 +870,46 @@
       "attribution_notes": "Original Kaidera adaptation and routing text informed by inspected pinned upstream sources. No upstream executable, installer, plugin or skill body is bundled."
     },
     {
+      "name": "ui-ux-review",
+      "version": "1.0.0",
+      "description": "Critique interface usability, audit implemented web UI quality, or harden a scoped interface against data, network and interaction edge cases. Use for a requested UI/UX review or resilience pass.",
+      "category": "development",
+      "trust_tier": "unvetted",
+      "risk_level": "medium",
+      "capabilities_required": [
+        "tool:file_read",
+        "tool:file_write",
+        "tool:code_interpreter"
+      ],
+      "allowed_domains": [
+        "github.com",
+        "apache.org"
+      ],
+      "safety_constraints": [
+        "Use only task-authorized tools and data.",
+        "Critique and audit are read-only; editing requires an accepted task scope.",
+        "Report observed behavior separately from untested assumptions.",
+        "Source review does not grant runtime trust, installation, binding or release authority."
+      ],
+      "parameters": {},
+      "author": "Kaidera-AI",
+      "license": "Apache-2.0",
+      "updated": "2026-10-10",
+      "tags": [
+        "design",
+        "ui-ux",
+        "review"
+      ],
+      "content_hash": "77e48fb0123581f1ebc5331f2028f2eeb448ae80aea9b2f0a0a10bd97e43fc13",
+      "signed_by": "",
+      "last_reviewed": "",
+      "reviewer": "",
+      "file": "skills/development/ui-ux-review.SKILL.md",
+      "attribution_author": "Paul Bakaus",
+      "attribution_url": "https://github.com/pbakaus/impeccable/tree/d631a8827f99414d2b6daba4ef08b7f8701751d7",
+      "attribution_notes": "Plain-file adaptation at the pinned source; licence and modification notice bundled. No upstream CLI, hooks, installer or vendor permission grants."
+    },
+    {
       "name": "ultrareview",
       "version": "1.1.1",
       "description": "Comprehensive, evidence-cited, read-only whole-codebase or module health audit. Fans the codebase\nacross independent review dimensions (correctness, security, change-risk,\nmaintainability, blast-radius, tests, performance, spec/contract compliance),\nthen adversarially verifies every HIGH/CRITICAL finding before reporting.\nCombines the structured ultra-review workflow used in Claude Code with\nreview dimensions derived from the repowise codebase-intelligence model\n(JIT change-risk, code-health biomarkers, dead-code, blast-radius, git\nhotspots/prior-defects). Read-only by default; an explicit Fix Mode is\nopt-in only. Use open-code-review when the primary object is a bounded\nworkspace, commit, range, or PR change. Designed for the Kaidera platform\nworkbench and KOS app.\n",
@@ -972,6 +1012,43 @@
       "attribution_author": "Leonxlnx",
       "attribution_url": "https://github.com/Leonxlnx/unlazy",
       "attribution_notes": "Adapted from the MIT-licensed unlazy skill by Leonxlnx (source targeting 2.1.0 at commit\n16671491f6679ad9378f52604d3bc2415b4120c7; not a verified tagged release). The\nupstream repository is a multi-file skill shipping a Node gate checker and an\nopt-in Stop hook; this marketplace entry carries the method as a single\nself-contained steering file and points to the upstream repository for that\noptional tooling. Method, structure, and terminology are the original author's.\n"
+    },
+    {
+      "name": "web-interface-guidelines",
+      "version": "1.0.0",
+      "description": "Review implemented web interfaces against a pinned local copy of Vercel Web Interface Guidelines. Use for a focused guideline review of named UI files or routes.",
+      "category": "development",
+      "trust_tier": "unvetted",
+      "risk_level": "medium",
+      "capabilities_required": [
+        "tool:file_read"
+      ],
+      "allowed_domains": [
+        "github.com"
+      ],
+      "safety_constraints": [
+        "Use only task-authorized tools and data.",
+        "Critique and audit are read-only; editing requires an accepted task scope.",
+        "Report observed behavior separately from untested assumptions.",
+        "Source review does not grant runtime trust, installation, binding or release authority."
+      ],
+      "parameters": {},
+      "author": "Kaidera-AI",
+      "license": "MIT",
+      "updated": "2026-10-10",
+      "tags": [
+        "design",
+        "ui-ux",
+        "review"
+      ],
+      "content_hash": "1890940aba4321e40afe89471e5c8fb93e9c9d355ee726d72ffaee4ad92cc3fb",
+      "signed_by": "",
+      "last_reviewed": "",
+      "reviewer": "",
+      "file": "skills/development/web-interface-guidelines.SKILL.md",
+      "attribution_author": "Vercel Labs",
+      "attribution_url": "https://github.com/vercel-labs/web-interface-guidelines/tree/434b7f91364665f2f733b310ec54809bf8f37937",
+      "attribution_notes": "Plain-file adaptation at the pinned source; licence and modification notice bundled. No upstream CLI, hooks, installer or vendor permission grants."
     },
     {
       "name": "cloud-agnostic-policy",

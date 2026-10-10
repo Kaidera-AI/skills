@@ -4,7 +4,7 @@ Status: **canonical human-facing catalogue; source candidate; runtime and trust 
 
 Catalogue date: **2026-10-10**
 
-Total skills: **50**
+Total skills: **52**
 
 Source binding: consume this guide only from the same Git commit as its skill
 manifests, marketplace, and catalogue test. The enclosing commit/tree is the
@@ -31,7 +31,7 @@ a release blocker; do not silently choose one side.
 
 ## Current release boundary
 
-- All 50 skills are `unvetted`.
+- All 52 skills are `unvetted`.
 - Catalogue presence, a body hash, static validation, or a local commit is not
   approval to inject a skill into an agent.
 - Gate 1 strict manifest checks and a bounded Gate 2 pattern scan exist.
@@ -43,7 +43,7 @@ a release blocker; do not silently choose one side.
 - Kaidera and Alibaba both use the name `open-code-review`. A host must select a
   source-qualified identity and inject only one; prompt text cannot resolve a
   loader collision after both skills are present.
-- 21 of the 50 skills are filed under `legacy/`. They are kept as research context,
+- 21 of the 52 skills are filed under `legacy/`. They are kept as research context,
   they are not current Kaidera truth, and none of them may be bound to an agent.
 
 ## Portfolio summary
@@ -51,7 +51,7 @@ a release blocker; do not silently choose one side.
 | Category | Skills |
 |---|---:|
 | Context | 2 |
-| Development | 18 |
+| Development | 20 |
 | DevOps | 3 |
 | Documentation | 1 |
 | Legacy | 21 |
@@ -61,18 +61,18 @@ a release blocker; do not silently choose one side.
 
 | Declared trust tier | Skills |
 |---|---:|
-| `unvetted` | 50 |
+| `unvetted` | 52 |
 
 | Operating posture | Skills |
 |---|---:|
-| Bounded candidate | 14 |
-| Reference-only | 15 |
+| Bounded candidate | 15 |
+| Reference-only | 16 |
 | Manual-only | 11 |
 | Rework before use | 10 |
 
 Legacy entries: **21**
 
-Current-source entries: **29**
+Current-source entries: **31**
 
 `Legacy` is a documentation classification and, since the `legacy/` category was
 introduced, a filing location as well. Neither is a trust or compatibility
@@ -130,7 +130,7 @@ Kaidera truth until reconciled against the owning repository and Cortex.
 | Capability | Meaning |
 |---|---|
 | `tool:file_read` | Read authorised local workspace files. |
-| `tool:file_write` | Modify authorised local files. Ten published skills declare it: six bounded candidates (`development-workflow`, `ui-design-engineering`, `gsd-core`, `hyperframes`, `kaidera-sdlc`, `unlazy`), one reference-only (`jev`) and three manual-only (`marketing-web-research`, `investor-lead-gen`, `social-media-ops`). |
+| `tool:file_write` | Modify authorised local files. Eleven published skills declare it: seven bounded candidates (`development-workflow`, `ui-design-engineering`, `gsd-core`, `hyperframes`, `kaidera-sdlc`, `unlazy`, `ui-ux-review`), one reference-only (`jev`) and three manual-only (`marketing-web-research`, `investor-lead-gen`, `social-media-ops`). |
 | `tool:code_interpreter` | Run bounded local computation or already-approved diagnostics. It does not imply arbitrary repository code is trusted. |
 | `tool:web_search` | Search public web sources under the runtime's network policy. |
 | `tool:mcp_external` | Call an approved external connector or service. |
@@ -178,7 +178,7 @@ Use the narrowest matching skill:
 
 ### Design and GSD selection
 
-Use `design-selection` for the initial UI/native/video route, `ui-design-engineering` for component craft and `hyperframes` for exported HTML video. Emil specialist entries are pinned source-linked selections rather than installed dependencies. Use `gsd-core` for phase execution and continuity inside the governing lifecycle; `kaidera-sdlc` retains gate authority. Source details and adoption findings are recorded in [the upstream review](UPSTREAM-SKILLS-REVIEW-2026-10-10.md).
+Use `design-selection` for the initial UI/native/video route, `ui-design-engineering` for component craft, `ui-ux-review` for critique/audit/hardening, `web-interface-guidelines` for a pinned read-only rule review and `hyperframes` for exported HTML video. Emil specialist entries are pinned source-linked selections rather than installed dependencies. Use `gsd-core` for phase execution and continuity inside the governing lifecycle; `kaidera-sdlc` retains gate authority. Source details and adoption findings are recorded in [the upstream review](UPSTREAM-SKILLS-REVIEW-2026-10-10.md).
 
 ## Catalogue at a glance
 
@@ -230,7 +230,9 @@ Use `design-selection` for the initial UI/native/video route, `ui-design-enginee
 | Sales and marketing | `investor-lead-gen` | `1.0.0` | Investor research, one-to-one first emails, one follow-up, reply hand-over, investor database and weekly learning loop | Manual-only | high / file read, file write, web search, external connector |
 | Sales and marketing | `social-media-ops` | `1.0.1` | Official-API posting with read-back, weekly AI answer visibility and hiring signals, and third-party tool vetting, with bundled stdlib tools | Manual-only | high / file read, file write, web search, external connector, interpreter |
 | Security | `prompt-injection-test-design` | `2.0.1` | Read-only design for controlled prompt-injection boundary testing | Reference-only | low / none |
-| Development | `design-selection` | `1.0.0` | Select the owning design workflow for UI, motion, native interaction or exported video. | Reference-only | medium / file read, web search |
+| Development | `design-selection` | `1.0.1` | Select the owning design workflow for UI, motion, native interaction or exported video. | Reference-only | medium / file read, web search |
+| Development | `ui-ux-review` | `1.0.0` | Critique, audit and harden a scoped interface. | Bounded candidate | medium / file read, file write, interpreter |
+| Development | `web-interface-guidelines` | `1.0.0` | Review web UI against the pinned local Vercel snapshot. | Reference-only | medium / file read |
 | Development | `ui-design-engineering` | `1.0.0` | Improve UI craft, input feedback, purposeful motion, gesture continuity and mobile details. | Bounded candidate | medium / file read, file write, interpreter, web search |
 | Development | `gsd-core` | `1.0.0` | Use persistent phase artifacts and bounded context to plan, execute or resume GSD Core work. | Bounded candidate | medium / file read, file write, interpreter, web search |
 | Development | `hyperframes` | `1.0.0` | Author and locally render deterministic HTML video compositions and motion graphics. | Bounded candidate | medium / file read, file write, interpreter, web search |
@@ -291,6 +293,8 @@ precedence issue remains a release hold.
 | `infra-naming-gate` | `Kaidera` | `Apache-2.0` | None | — |
 | `human-voice` | `Kaidera` | `Apache-2.0` | `aclanthology.org`, `arxiv.org`, `en.wikipedia.org`, `www.economist.com`, `www.nytimes.com`, `www.pnas.org`, `www.science.org`, `www.washingtonpost.com` | — |
 | `design-selection` | `Kaidera-AI` | `CC-BY-4.0` | `github.com`, `registry.npmjs.org` | [Emil Kowalski and HeyGen](https://github.com/emilkowalski/skills/tree/e8a175de22ae1e49370fc144c1f3bb9aeedf988d) |
+| `ui-ux-review` | `Kaidera-AI` | `Apache-2.0` | `github.com`, `apache.org` | [Paul Bakaus](https://github.com/pbakaus/impeccable/tree/d631a8827f99414d2b6daba4ef08b7f8701751d7) |
+| `web-interface-guidelines` | `Kaidera-AI` | `MIT` | `github.com` | [Vercel Labs](https://github.com/vercel-labs/web-interface-guidelines/tree/434b7f91364665f2f733b310ec54809bf8f37937) |
 | `ui-design-engineering` | `Kaidera-AI` | `CC-BY-4.0` | `github.com`, `registry.npmjs.org` | [Emil Kowalski](https://github.com/emilkowalski/skills/tree/e8a175de22ae1e49370fc144c1f3bb9aeedf988d) |
 | `gsd-core` | `Kaidera-AI` | `CC-BY-4.0` | `github.com`, `registry.npmjs.org` | [OpenGSD](https://github.com/open-gsd/gsd-core/tree/87e87d34b2d8519e30d1af7d910fc98f2af4bc8d) |
 | `hyperframes` | `Kaidera-AI` | `CC-BY-4.0` | `github.com`, `registry.npmjs.org` | [HeyGen](https://github.com/heygen-com/hyperframes/tree/6f3f86a9c9824c8ad5b7bf760375e243466e5ee0) |
@@ -376,7 +380,7 @@ entry is current-source; the EnGenAI-era development material is filed under
 
 ### `design-selection`
 
-<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:web_search"],"category":"development","legacy":false,"name":"design-selection","path":"skills/development/design-selection.SKILL.md","posture":"reference-only","review_fingerprint":"7ee77e7b82846c0334cb28cc7fb4bd8bcc54b4d7848314e30d0ab8282078eff6","risk_level":"medium","trust_tier":"unvetted","version":"1.0.0"} -->
+<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:web_search"],"category":"development","legacy":false,"name":"design-selection","path":"skills/development/design-selection.SKILL.md","posture":"reference-only","review_fingerprint":"8365ec13acdc6de1b26219be10d4146c2430efcd0e6f1e320be5da845c10bc4e","risk_level":"medium","trust_tier":"unvetted","version":"1.0.1"} -->
 
 - **Manifest:** [design-selection.SKILL.md](../skills/development/design-selection.SKILL.md)
 - **Function:** Select the owning design workflow for UI, motion, native interaction or exported video.
@@ -571,6 +575,18 @@ entry is current-source; the EnGenAI-era development material is filed under
 - **Authority and effects:** Reads and edits only scoped application files; tooling and external lookups follow task authorization.
 - **Kaidera action:** Bounded candidate, unvetted. Canonical portable source is the directory beside the manifest; regenerate with `scripts/render-upstream-adapters.js`. This original CC-BY-4.0 adapter matches the root licence and cites pinned upstream sources without bundling their code. Source publication carries no runtime trust or binding; Gate 3/4 holds remain.
 
+### `ui-ux-review`
+
+<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:file_write","tool:code_interpreter"],"category":"development","legacy":false,"name":"ui-ux-review","path":"skills/development/ui-ux-review.SKILL.md","posture":"bounded-candidate","review_fingerprint":"8afca93cb62fdfef5b8c243e7ade89d30ceb045dc0b85903f3c6eb4a141c6007","risk_level":"medium","trust_tier":"unvetted","version":"1.0.0"} -->
+
+- **Manifest:** [ui-ux-review.SKILL.md](../skills/development/ui-ux-review.SKILL.md)
+- **Function:** Critique task flow, audit implemented web quality, and harden scoped failure states.
+- **Use when:** A requested UI/UX review or an accepted resilience edit.
+- **Do not use when:** Unscoped redesign, backend implementation, or accessibility certification.
+- **Inputs and output:** Target, product constraints and evidence; prioritized location-bound findings, remedies and untested states.
+- **Authority and effects:** Critique/audit read; harden writes only its accepted scope; authorized local diagnostics only.
+- **Kaidera action:** Bounded candidate, unvetted. Canonical plain directory projects through `scripts/render-upstream-adapters.js`; pinned donor licence and modification notice are bundled. Source review does not grant binding, trusted tier or release authority. Gate 3/4 and root/per-skill licence precedence remain held.
+
 ### `ultrareview`
 
 <!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"development","legacy":false,"name":"ultrareview","path":"skills/development/ultrareview.SKILL.md","posture":"rework-before-use","review_fingerprint":"662b9f53933142b730b218ccaf9bf58ee3e0d220b5c00cf4c140977cbcce85d4","risk_level":"low","trust_tier":"unvetted","version":"1.1.1"} -->
@@ -613,6 +629,18 @@ mutates anything. Each one demands that a separately authorised workflow supply
 exact target identity, current approval, quality evidence and rollback readiness
 first. The EnGenAI-era deployment runbooks and platform patterns are filed under
 `legacy/`.
+
+### `web-interface-guidelines`
+
+<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read"],"category":"development","legacy":false,"name":"web-interface-guidelines","path":"skills/development/web-interface-guidelines.SKILL.md","posture":"reference-only","review_fingerprint":"5faf4a869eb5ffe49585c453bb1ffcae8f168554d8c88442ec7debf3c8426a17","risk_level":"medium","trust_tier":"unvetted","version":"1.0.0"} -->
+
+- **Manifest:** [web-interface-guidelines.SKILL.md](../skills/development/web-interface-guidelines.SKILL.md)
+- **Function:** Review web files against a pinned local Vercel rules snapshot.
+- **Use when:** A named web UI guideline review.
+- **Do not use when:** Native UI, live guideline refresh or an implicit application edit.
+- **Inputs and output:** Target, product constraints and evidence; prioritized location-bound findings, remedies and untested states.
+- **Authority and effects:** File reads only; snapshot and licence bytes stay pinned.
+- **Kaidera action:** Reference-only, unvetted. Canonical plain directory projects through `scripts/render-upstream-adapters.js`; pinned donor licence and modification notice are bundled. Source review does not grant binding, trusted tier or release authority. Gate 3/4 and root/per-skill licence precedence remain held.
 
 ### `cloud-agnostic-policy`
 

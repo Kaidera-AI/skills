@@ -208,6 +208,14 @@
     "social-media-ops": {
       "what": "Publishes approved posts through each platform's official API with read-back, runs weekly AI answer visibility and hiring-signal checks, and vets scraping or automation tools.",
       "why": "Social channels and market listening for any brand without scraping, login automation or block evasion. A dry run never posts."
+    },
+    "ui-ux-review": {
+      "what": "Critique task flow, audit web UI evidence and harden scoped edge cases using a portable Impeccable-derived method.",
+      "why": "Prioritize actual user obstacles and recovery without installing upstream CLI or hooks."
+    },
+    "web-interface-guidelines": {
+      "what": "Review named web UI files against the pinned local Vercel guideline snapshot.",
+      "why": "Apply repeatable web implementation guidance with stack and product context, without a live fetch."
     }
   },
   "rename_pairs": [

@@ -1,0 +1,36 @@
+{
+  "kind": "static-source-review-only",
+  "checks": {
+    "strict_manifests": {
+      "exit": 0,
+      "skills": 52
+    },
+    "bounded_security_scan": {
+      "exit": 0,
+      "skills": 52
+    },
+    "projection_drift": {
+      "exit": 0
+    },
+    "catalogue_marker_drift": {
+      "exit": 0
+    },
+    "glossary_drift": {
+      "exit": 0
+    },
+    "whitespace": {
+      "exit": 0
+    }
+  },
+  "behavioral_tests": "not run",
+  "ui_runtime": "not run",
+  "registry_writes": 0,
+  "binding_writes": 0,
+  "snapshot": {
+    "pin": "434b7f91364665f2f733b310ec54809bf8f37937",
+    "sha256": "d246b026f4f29b5823a9cc857f9edf3d2507002e055e32040cadeaf3b38e0234"
+  },
+  "upstream_notice_retained": true,
+  "review": "pending Vera",
+  "licence_precedence": "existing release hold retained"
+}
