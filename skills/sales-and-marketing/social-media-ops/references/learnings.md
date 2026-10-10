@@ -49,3 +49,9 @@ Dated lessons from running a brand's social channels and listening with an AI ma
 - **Observed:** with a few cents left, answer-engine calls failed because no `max_tokens` was sent and the router reserved the model's whole output window.
 - **Rule:** send `max_tokens` on every call, check the spendable credit (the lower of account credit and the key's own monthly limit) first, and abstain with a note below a floor.
 - **Check:** the run writes an abstention file instead of errors.
+
+### L09 · 2026-10-10 · X's sign-in code is too short-lived for a relay
+
+- **Observed:** a paste-back sign-in that worked for LinkedIn (codes live 30 minutes) was built for X too, before checking that X's code expires 30 seconds after the redirect. Relayed through a chat, the address would always arrive dead.
+- **Rule:** check each platform's code lifetime before choosing a headless consent route; for X, a listener reached through an SSH tunnel, or a public callback on the host.
+- **Check:** the consent completes within seconds of the approval, with no human in the relay.

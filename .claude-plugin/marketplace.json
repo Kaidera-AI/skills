@@ -1884,7 +1884,7 @@
     },
     {
       "name": "social-media-ops",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "description": "Publish to LinkedIn, X, Instagram, Threads and Bluesky through each platform's official API and read every post back, measure whether AI answer engines name the brand, read prospects' own job boards for hiring signals, and vet scraping or automation tools before anyone runs them. Use for any company's or brand's social channels and market listening; never for scraping a social network or driving a logged-in browser.",
       "category": "sales-and-marketing",
       "trust_tier": "unvetted",
@@ -1930,7 +1930,7 @@
         "hiring-signals",
         "tool-vetting"
       ],
-      "content_hash": "6f153959056a708ffee76c1789fe63fbb241b0abef878ddd3b88bbe8cba3d3da",
+      "content_hash": "a9ace52b44b66b54875b7f4ecde496c2e83438beb2886c969d617217022f3166",
       "signed_by": "",
       "last_reviewed": "",
       "reviewer": "",

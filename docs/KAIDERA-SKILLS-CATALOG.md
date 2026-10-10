@@ -228,7 +228,7 @@ Use `design-selection` for the initial UI/native/video route, `ui-design-enginee
 | Research | `marketing-web-research` | `0.1.002` | Customer-configurable company and professional-profile research with separate action receipts | Manual-only | high / file read, file write, web search, external connector |
 | Research | `research-brief` | `1.0.0` | Drafts a self-contained decision-led brief without executing research | Bounded candidate | low / file read |
 | Sales and marketing | `investor-lead-gen` | `1.0.0` | Investor research, one-to-one first emails, one follow-up, reply hand-over, investor database and weekly learning loop | Manual-only | high / file read, file write, web search, external connector |
-| Sales and marketing | `social-media-ops` | `1.0.0` | Official-API posting with read-back, weekly AI answer visibility and hiring signals, and third-party tool vetting, with bundled stdlib tools | Manual-only | high / file read, file write, web search, external connector, interpreter |
+| Sales and marketing | `social-media-ops` | `1.0.1` | Official-API posting with read-back, weekly AI answer visibility and hiring signals, and third-party tool vetting, with bundled stdlib tools | Manual-only | high / file read, file write, web search, external connector, interpreter |
 | Security | `prompt-injection-test-design` | `2.0.1` | Read-only design for controlled prompt-injection boundary testing | Reference-only | low / none |
 | Development | `design-selection` | `1.0.0` | Select the owning design workflow for UI, motion, native interaction or exported video. | Reference-only | medium / file read, web search |
 | Development | `ui-design-engineering` | `1.0.0` | Improve UI craft, input feedback, purposeful motion, gesture continuity and mobile details. | Bounded candidate | medium / file read, file write, interpreter, web search |
@@ -1177,7 +1177,7 @@ with its hash.
 
 ### `social-media-ops`
 
-<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:file_write","tool:web_search","tool:mcp_external","tool:code_interpreter"],"category":"sales-and-marketing","legacy":false,"name":"social-media-ops","path":"skills/sales-and-marketing/social-media-ops.SKILL.md","posture":"manual-only","review_fingerprint":"457b41bf12096182d956fba2caedf8daf39d5eb84241b9eeed8635411fe9b250","risk_level":"high","trust_tier":"unvetted","version":"1.0.0"} -->
+<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:file_write","tool:web_search","tool:mcp_external","tool:code_interpreter"],"category":"sales-and-marketing","legacy":false,"name":"social-media-ops","path":"skills/sales-and-marketing/social-media-ops.SKILL.md","posture":"manual-only","review_fingerprint":"d009dda8ca542e8d05800a33cc13d4ac083d797a99cb9d86d3666a9bebd40f57","risk_level":"high","trust_tier":"unvetted","version":"1.0.1"} -->
 
 - **Manifest:** [social-media-ops.SKILL.md](../skills/sales-and-marketing/social-media-ops.SKILL.md)
 - **Function:** Run a brand's social channels and market listening on official routes only: publish approved posts to LinkedIn, X, Instagram, Threads and Bluesky through their APIs with the approved picture and alt text and a read-back before anything counts as published; ask fixed buyer questions of web-grounded AI answer engines weekly and record who is named and cited; read prospects' own job boards weekly for AI, data and digital roles; and vet third-party scrapers, extensions and auto-posters without running them.

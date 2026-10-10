@@ -1,6 +1,6 @@
 ---
 name: social-media-ops
-version: 1.0.0
+version: 1.0.1
 description: Publish to LinkedIn, X, Instagram, Threads and Bluesky through each platform's official
   API and read every post back, measure whether AI answer engines name the brand, read prospects'
   own job boards for hiring signals, and vet scraping or automation tools before anyone runs them.
@@ -17,14 +17,14 @@ kaidera:
     - tool:mcp_external
     - tool:code_interpreter
   allowed_domains: []
-  content_hash: 6f153959056a708ffee76c1789fe63fbb241b0abef878ddd3b88bbe8cba3d3da
+  content_hash: a9ace52b44b66b54875b7f4ecde496c2e83438beb2886c969d617217022f3166
   signed_by: ""
   last_reviewed: ""
   reviewer: ""
   source:
     repo: Kaidera-AI/skills
     path: skills/sales-and-marketing/social-media-ops
-    content_sha256: d561eaa9f9ca45eafd17cd03241013d232e4ca894a75cdd28b234648ba9cfc62
+    content_sha256: 1bc59b76439caa186d0dcfe8d6cd64ae2b60f732c67108c8574c026de725eaf8
 author: Kaidera-AI
 license: Apache-2.0
 updated: 2026-10-10
@@ -232,6 +232,12 @@ Dated lessons from running a brand's social channels and listening with an AI ma
 - **Rule:** send `max_tokens` on every call, check the spendable credit (the lower of account credit and the key's own monthly limit) first, and abstain with a note below a floor.
 - **Check:** the run writes an abstention file instead of errors.
 
+### L09 · 2026-10-10 · X's sign-in code is too short-lived for a relay
+
+- **Observed:** a paste-back sign-in that worked for LinkedIn (codes live 30 minutes) was built for X too, before checking that X's code expires 30 seconds after the redirect. Relayed through a chat, the address would always arrive dead.
+- **Rule:** check each platform's code lifetime before choosing a headless consent route; for X, a listener reached through an SSH tunnel, or a public callback on the host.
+- **Check:** the consent completes within seconds of the approval, with no human in the relay.
+
 <a id="file-references-listening-md"></a>
 
 ## Bundled file: references/listening.md
@@ -309,7 +315,7 @@ Every channel follows the same five steps, and only step 5 makes a post publishe
 ## X (API v2, OAuth 2.0 user token with PKCE)
 
 - Routes: `POST /2/media/upload` (multipart: `media`, `media_category=tweet_image`), `POST /2/media/metadata` for alt text (up to 1,000 characters), `POST /2/tweets` with `media.media_ids`, `GET /2/tweets/:id` to read back. Host `api.x.com`.
-- Scopes: `tweet.read tweet.write users.read offline.access`, plus `media.write` for pictures. A token granted without `media.write` posts text and cannot upload; re-run the consent with the scope added. On a host with no browser, print the consent link, let the account holder approve, and redeem the address their browser lands on (the PKCE verifier stays on the host, owner-readable only, and expires).
+- Scopes: `tweet.read tweet.write users.read offline.access`, plus `media.write` for pictures. A token granted without `media.write` posts text and cannot upload; re-run the consent with the scope added. X's authorisation code expires 30 seconds after the redirect, so the exchange must be immediate. On a host with no browser, run the consent listener on the host and let the account holder reach it through an SSH tunnel (`ssh -L 8000:localhost:8000 <host>`), or register a public HTTPS callback on the host; a redirect address relayed by a person through chat arrives too late. LinkedIn's code lives 30 minutes, so a paste-back works there.
 - Pay-per-use prices change; read the developer console. In October 2026: a post $0.015, a post carrying a URL $0.200, alt text $0.005, picture upload no listed charge. So a link goes in a reply to the post, not in the post.
 - Count length as X does: every URL is 23 characters. Mirror a long LinkedIn post as a thread with 1/N counters, or as a short version written for X.
 - Refresh tokens rotate on every refresh. Two processes refreshing at once leave one holding a dead token: serialise refreshes with a file lock and write the token file atomically.
