@@ -12,6 +12,8 @@ function subjectFrom(entries, extra={}) {
 }
 function snapshot(directory) {
   const base=path.resolve(directory);const found=[]
+  const rootStat=fs.lstatSync(base)
+  if(!rootStat.isDirectory()||rootStat.isSymbolicLink()) throw new Error('regular source directory required')
   function walk(relative='') {
     for(const name of fs.readdirSync(path.join(base,relative)).sort()) {
       const rel=path.posix.join(relative,name);const st=fs.lstatSync(path.join(base,rel))
@@ -68,7 +70,33 @@ function neutralise(subject,c) {
 function bindProjection(subject,file) {
   const st=fs.lstatSync(file)
   if(!st.isFile()||st.isSymbolicLink()) throw new Error('projection must be regular')
-  return {representation:'projection',projection_path:file,projection_sha256:sha(fs.readFileSync(file)),source_tree_hash:subject.tree_hash}
+  const raw=fs.readFileSync(file);const text=raw.toString('utf8')
+  const parts=text.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/)
+  if(!parts) throw new Error('projection source binding missing')
+  const metadata=require('yaml').parse(parts[1],{uniqueKeys:true})
+  if(metadata.name!=='adaptive-routing'||metadata.kaidera?.source?.repo!=='Kaidera-AI/skills'||
+      metadata.kaidera.source.path!=='skills/development/adaptive-routing'||
+      metadata.kaidera.source.content_sha256!==subject.tree_hash||
+      metadata.kaidera.content_hash!==sha(parts[2].trim())) throw new Error('projection source binding mismatch')
+  return {representation:'projection',projection_path:file,projection_sha256:sha(raw),source_tree_hash:subject.tree_hash}
+}
+function materialisePacket(subject,c,packet,destination) {
+  const root=path.resolve(destination)
+  if(fs.existsSync(root)) throw new Error('fresh destination required; no overwrite')
+  fs.mkdirSync(root,{mode:0o700})
+  const skillRoot=path.join(root,'.agents/skills/adaptive-routing')
+  for(const entry of subject.files) {
+    if(!files.includes(entry.path)||sha(entry.bytes)!==entry.sha256) throw new Error('unowned or changed source bytes')
+    const target=path.join(skillRoot,entry.path)
+    fs.mkdirSync(path.dirname(target),{recursive:true,mode:0o700})
+    fs.writeFileSync(target,entry.bytes,{mode:0o600,flag:'wx'})
+  }
+  const frozen=snapshot(skillRoot)
+  if(frozen.tree_hash!==subject.tree_hash) throw new Error('materialised source mismatch')
+  const input=performerPacket(caseSubject(frozen,c),c,packet)
+  fs.writeFileSync(path.join(root,'performer-input.json'),JSON.stringify(input,null,2)+'\n',{mode:0o600,flag:'wx'})
+  return {root,source_tree_hash:frozen.tree_hash,status:'BLOCKED',provider_calls:0,
+    isolation_status:'DECLARED_PACKET_ONLY; INDEPENDENT_ENFORCEMENT_RECEIPT_REQUIRED'}
 }
 function missingPrerequisites(packet) {
   const reasons=[]
@@ -143,7 +171,7 @@ function coupling(evidence) {
     return {status:'UNVERIFIED',coupling_proved:false,reason:'NO_FROZEN_BEHAVIOURAL_FAILURE'}
   return {status:'BLOCKED',coupling_proved:false,reason:'INDEPENDENT_REAL_PERFORMER_RECEIPTS_REQUIRED'}
 }
-module.exports={sha,snapshot,caseSubject,mutate,neutralise,bindProjection,performerPacket,reportBlocked,RecordingBoundary,assess,coupling}
+module.exports={sha,snapshot,caseSubject,mutate,neutralise,bindProjection,performerPacket,materialisePacket,reportBlocked,RecordingBoundary,assess,coupling}
 if(require.main===module) {
   const root=path.resolve(__dirname,'..')
   const subject=snapshot(path.join(root,'skills/development/adaptive-routing'))
