@@ -217,3 +217,9 @@ test('altered projection body with recomputed self-hash cannot attest unchanged 
     assert.throws(()=>h.bindProjection(s,file),/projection source binding/)
   } finally {fs.rmSync(tmp,{recursive:true,force:true})}
 })
+
+test('shared renderer refuses a missing bundled reference with its contract error', () => {
+  const h=harness();const s=h.snapshot(source)
+  const data=s.files.map(x=>[x.path,x.path==='SKILL.md'?x.bytes.replace('(references/shift.md)','(references/missing.md)'):x.bytes])
+  assert.throws(()=>require('./render-upstream-adapters').renderPortableBody(data),/Missing bundled reference/)
+})
