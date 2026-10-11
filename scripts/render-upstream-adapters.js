@@ -20,7 +20,7 @@ function renderPortableBody(files) {
       if (/^https?:|^#/.test(link)) return whole
       const resolved = path.posix.normalize(path.posix.join(path.posix.dirname(file), link))
       if (!files.some(([candidate]) => candidate === resolved)) {
-        throw new Error('Missing bundled reference: ' + name + '/' + file + ' -> ' + link)
+        throw new Error('Missing bundled reference: ' + file + ' -> ' + link)
       }
       return '[' + label + '](#' + anchor(resolved) + ')'
     })
