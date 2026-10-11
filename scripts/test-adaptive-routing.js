@@ -196,3 +196,24 @@ test('materialised performer packet contains frozen skill bytes, no oracle and e
     assert.throws(()=>h.materialisePacket(s,cases.cases[0],cases,dest),/fresh destination/)
   } finally {fs.rmSync(tmp,{recursive:true,force:true})}
 })
+
+test('altered projection body with recomputed self-hash cannot attest unchanged source', () => {
+  const h=harness();const s=h.snapshot(source);const YAML=require('yaml')
+  const raw=fs.readFileSync(path.join(root,'skills/development/adaptive-routing.SKILL.md'),'utf8')
+  const parts=raw.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/)
+  const metadata=YAML.parse(parts[1],{uniqueKeys:true})
+  const changedBody=parts[2].replace(mutations[0].from,mutations[0].to)
+  assert.notEqual(changedBody,parts[2], 'probe must alter actual instructions')
+  metadata.kaidera.content_hash=h.sha(changedBody.trim())
+  assert.equal(metadata.kaidera.source.content_sha256,s.tree_hash)
+  const tmp=fs.mkdtempSync(path.join(os.tmpdir(),'adaptive-projection-'))
+  try {
+    const file=path.join(tmp,'changed-projection.SKILL.md')
+    const altered='---\n'+YAML.stringify(metadata,{lineWidth:100})+'---\n'+changedBody
+    fs.writeFileSync(file,altered)
+    // This is its own changed subject; no unchanged-canonical provenance may be assigned.
+    const declaredChangedSubject={representation:'projection-mutation',sha256:h.sha(altered),source_claim:s.tree_hash}
+    assert.notEqual(declaredChangedSubject.sha256,h.sha(raw))
+    assert.throws(()=>h.bindProjection(s,file),/projection source binding/)
+  } finally {fs.rmSync(tmp,{recursive:true,force:true})}
+})
