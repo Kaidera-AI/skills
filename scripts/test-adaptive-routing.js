@@ -170,3 +170,29 @@ test('symlink and extra JSON input refuse the injectable source subject', () => 
     assert.throws(()=>h.snapshot(tmp),/regular/)
   } finally {fs.rmSync(tmp,{recursive:true,force:true})}
 })
+
+test('root symlink cannot masquerade as the frozen source directory', () => {
+  const h=harness();const tmp=fs.mkdtempSync(path.join(os.tmpdir(),'adaptive-root-'))
+  try {const link=path.join(tmp,'subject');fs.symlinkSync(source,link);assert.throws(()=>h.snapshot(link),/regular source directory/)}
+  finally {fs.rmSync(tmp,{recursive:true,force:true})}
+})
+
+test('projection binds the actual portable source hash, not an arbitrary caller claim', () => {
+  const h=harness();const s=h.snapshot(source);const changed=h.mutate(s,mutations[0])
+  assert.throws(()=>h.bindProjection(changed,path.join(root,'skills/development/adaptive-routing.SKILL.md')),/projection source binding/)
+})
+
+test('materialised performer packet contains frozen skill bytes, no oracle and explicit BLOCKED state', () => {
+  const h=harness();assert.equal(typeof h.materialisePacket,'function','performer packet materialisation absent')
+  const tmp=fs.mkdtempSync(path.join(os.tmpdir(),'adaptive-packet-'));const dest=path.join(tmp,'case')
+  try {
+    const s=h.snapshot(source);const result=h.materialisePacket(s,cases.cases[0],cases,dest)
+    assert.equal(h.snapshot(path.join(dest,'.agents/skills/adaptive-routing')).tree_hash,s.tree_hash)
+    const visible=JSON.parse(fs.readFileSync(path.join(dest,'performer-input.json')))
+    assert.equal(visible.provider_execution,'BLOCKED')
+    assert.equal(visible.oracle,undefined)
+    assert.equal(visible.expected,undefined)
+    assert.equal(result.provider_calls,0)
+    assert.throws(()=>h.materialisePacket(s,cases.cases[0],cases,dest),/fresh destination/)
+  } finally {fs.rmSync(tmp,{recursive:true,force:true})}
+})
