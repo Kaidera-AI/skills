@@ -3,7 +3,7 @@
   "description": "Locally validated, provenance-aware skills for Kaidera agents",
   "version": "1.0.0",
   "source": "https://github.com/Kaidera-AI/skills",
-  "generated_at": "2026-10-10T00:00:00.000Z",
+  "generated_at": "2026-10-11T00:00:00.000Z",
   "generation_basis": "maximum skill updated date",
   "skills": [
     {
@@ -83,6 +83,46 @@
       "last_reviewed": "",
       "reviewer": "",
       "file": "skills/context/scope-work-gate.SKILL.md"
+    },
+    {
+      "name": "adaptive-routing",
+      "version": "1.0.0",
+      "description": "Plan or inspect OpenKai Shift, Fusion and native Run Profiles using catalogue-supported settings and actual effect evidence. Use for routing, cost/quality tuning, cast selection or a requested profile; ordinary development work does not activate it.",
+      "category": "development",
+      "trust_tier": "unvetted",
+      "risk_level": "medium",
+      "capabilities_required": [
+        "tool:file_read",
+        "tool:file_write",
+        "tool:code_interpreter"
+      ],
+      "allowed_domains": [
+        "github.com"
+      ],
+      "safety_constraints": [
+        "Read-only planning is the default; use the customer's existing authorization, purpose and budget for changes or runs.",
+        "Read supported identities and capabilities from the native versioned catalogue; missing contracts remain WAIT.",
+        "Actual effect and expiry require correlated native receipts; declarations and source publication are not activation proof."
+      ],
+      "parameters": {},
+      "author": "Kaidera-AI",
+      "license": "Apache-2.0",
+      "updated": "2026-10-11",
+      "tags": [
+        "openkai",
+        "routing",
+        "shift",
+        "fusion",
+        "run-profile"
+      ],
+      "content_hash": "ce433015fe9a9506ea301acd2c6946b8b845877a992e1cd705a39cfb297a662f",
+      "signed_by": "",
+      "last_reviewed": "",
+      "reviewer": "",
+      "file": "skills/development/adaptive-routing.SKILL.md",
+      "attribution_author": "Kaidera-AI",
+      "attribution_url": "https://github.com/Kaidera-AI/OpenKai",
+      "attribution_notes": "Original customer guidance for native OpenKai capabilities. No runtime, provider catalogue or external decision service is bundled."
     },
     {
       "name": "assert-fact-gate",

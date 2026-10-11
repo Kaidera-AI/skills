@@ -2,9 +2,9 @@
 
 Status: **canonical human-facing catalogue; source candidate; runtime and trust HOLD**
 
-Catalogue date: **2026-10-10**
+Catalogue date: **2026-10-11**
 
-Total skills: **53**
+Total skills: **54**
 
 Source binding: consume this guide only from the same Git commit as its skill
 manifests, marketplace, and catalogue test. The enclosing commit/tree is the
@@ -31,7 +31,7 @@ a release blocker; do not silently choose one side.
 
 ## Current release boundary
 
-- All 53 skills are `unvetted`.
+- All 54 skills are `unvetted`.
 - Catalogue presence, a body hash, static validation, or a local commit is not
   approval to inject a skill into an agent.
 - Gate 1 strict manifest checks and a bounded Gate 2 pattern scan exist.
@@ -43,7 +43,7 @@ a release blocker; do not silently choose one side.
 - Kaidera and Alibaba both use the name `open-code-review`. A host must select a
   source-qualified identity and inject only one; prompt text cannot resolve a
   loader collision after both skills are present.
-- 21 of the 53 skills are filed under `legacy/`. They are kept as research context,
+- 21 of the 54 skills are filed under `legacy/`. They are kept as research context,
   they are not current Kaidera truth, and none of them may be bound to an agent.
 
 ## Portfolio summary
@@ -51,7 +51,7 @@ a release blocker; do not silently choose one side.
 | Category | Skills |
 |---|---:|
 | Context | 2 |
-| Development | 21 |
+| Development | 22 |
 | DevOps | 3 |
 | Documentation | 1 |
 | Legacy | 21 |
@@ -61,18 +61,18 @@ a release blocker; do not silently choose one side.
 
 | Declared trust tier | Skills |
 |---|---:|
-| `unvetted` | 53 |
+| `unvetted` | 54 |
 
 | Operating posture | Skills |
 |---|---:|
 | Bounded candidate | 15 |
 | Reference-only | 16 |
-| Manual-only | 12 |
+| Manual-only | 13 |
 | Rework before use | 10 |
 
 Legacy entries: **21**
 
-Current-source entries: **32**
+Current-source entries: **33**
 
 `Legacy` is a documentation classification and, since the `legacy/` category was
 introduced, a filing location as well. Neither is a trust or compatibility
@@ -130,7 +130,7 @@ Kaidera truth until reconciled against the owning repository and Cortex.
 | Capability | Meaning |
 |---|---|
 | `tool:file_read` | Read authorised local workspace files. |
-| `tool:file_write` | Modify authorised local files. Twelve published skills declare it: seven bounded candidates (`development-workflow`, `ui-design-engineering`, `gsd-core`, `hyperframes`, `kaidera-sdlc`, `unlazy`, `ui-ux-review`), one reference-only (`jev`) and four manual-only (`folder-organisation`, `marketing-web-research`, `investor-lead-gen`, `social-media-ops`). |
+| `tool:file_write` | Modify authorised local files. Thirteen source skills declare it: seven bounded candidates (`development-workflow`, `ui-design-engineering`, `gsd-core`, `hyperframes`, `kaidera-sdlc`, `unlazy`, `ui-ux-review`), one reference-only (`jev`) and five manual-only (`adaptive-routing`, `folder-organisation`, `marketing-web-research`, `investor-lead-gen`, `social-media-ops`). |
 | `tool:code_interpreter` | Run bounded local computation or already-approved diagnostics. It does not imply arbitrary repository code is trusted. |
 | `tool:web_search` | Search public web sources under the runtime's network policy. |
 | `tool:mcp_external` | Call an approved external connector or service. |
@@ -186,6 +186,7 @@ Use `design-selection` for the initial UI/native/video route, `ui-design-enginee
 |---|---|---:|---|---|---|
 | Context | `route-handoff-gate` | `1.0.0` | Verifies project, lane, layer, role, and dependency boundaries before creating | Manual-only | low / file read |
 | Context | `scope-work-gate` | `1.0.0` | Confirms that proposed work belongs to the current project, role, lane, and | Manual-only | low / file read |
+| Development | `adaptive-routing` | `1.0.0` | Plan standalone OpenKai Shift, Fusion and native profiles; unsupported or unproved controls stay WAIT. | Manual-only | medium / file read, file write, interpreter |
 | Development | `assert-fact-gate` | `1.0.0` | Requires a fresh source check before reporting repository, build, test, | Manual-only | low / file read |
 | Development | `assumption-validation` | `1.0.0` | Evidence-gates costly or customer-visible product assumptions | Bounded candidate | medium / file read, interpreter |
 | Development | `development-workflow` | `1.0.0` | Portable AI+human SDLC, review, risk-based QA and service operations | Bounded candidate | medium / file read, file write, interpreter, web search |
@@ -279,6 +280,7 @@ precedence issue remains a release hold.
 | `security-context` | `kaidera` | `Apache-2.0` | None | — |
 | `route-handoff-gate` | `Kaidera` | `Apache-2.0` | None | — |
 | `scope-work-gate` | `Kaidera` | `Apache-2.0` | None | — |
+| `adaptive-routing` | `Kaidera-AI` | `Apache-2.0` | `github.com` | [Kaidera-AI](https://github.com/Kaidera-AI/OpenKai) |
 | `assert-fact-gate` | `Kaidera` | `Apache-2.0` | None | — |
 | `kaidera-sdlc` | `Kaidera-AI` | `Apache-2.0` | `github.com`, `claude.com` | — |
 | `gavel` | `Kaidera-AI` | `Apache-2.0` | `api.typesafe.ai`, `docs.typesafe.ai`, `github.com` | — |
@@ -342,6 +344,18 @@ the only category whose manifests declare write, interpreter and web-search acce
 so capability boundaries matter here more than anywhere else in the portfolio. Every
 entry is current-source; the EnGenAI-era development material is filed under
 `legacy/`.
+
+### `adaptive-routing`
+
+<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:file_write","tool:code_interpreter"],"category":"development","legacy":false,"name":"adaptive-routing","path":"skills/development/adaptive-routing.SKILL.md","posture":"manual-only","review_fingerprint":"3eedfed3d8b11f870c2c3b0c6099c0a4a12291d444aba0d3f78b9890dbb159c5","risk_level":"medium","trust_tier":"unvetted","version":"1.0.0"} -->
+
+- **Manifest:** [adaptive-routing.SKILL.md](../skills/development/adaptive-routing.SKILL.md)
+- **Function:** Customer guidance for native OpenKai Shift, Fusion and Run Profiles using one owner catalogue and actual effect evidence.
+- **Use when:** An OpenKai routing, cost/quality, cast, profile or effect-inspection request.
+- **Do not use when:** Ordinary development, another harness configuration, or as a replacement native catalogue/runner.
+- **Inputs and output:** Task and customer constraints plus installed owner contracts; supported plan/refusal and attributed effect report.
+- **Authority and effects:** Manual-only unvetted source. Changes/runs require existing customer authorization and bounded budget. Runnable unit0/native examples and real performer runs remain BLOCKED.
+- **Kaidera action:** Hale reviews exact bytes. Static checks and simulated ledger tests qualify only those contracts, not actual skill/native behavior. No KOS or external-judge dependency.
 
 ### `assert-fact-gate`
 
