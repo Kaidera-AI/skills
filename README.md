@@ -27,7 +27,7 @@ Skills are instructions, not programs: the flat `*.SKILL.md` manifest carries no
 | Category | Description | Count |
 |----------|-------------|-------|
 | `context/` | Project and workspace awareness | 2 |
-| `development/` | Code writing, review, testing | 21 |
+| `development/` | Code writing, review, testing | 22 |
 | `devops/` | Deployment, infrastructure, CI/CD | 3 |
 | `documentation/` | Specs, docs, changelogs, writing voice | 1 |
 | `legacy/` | Retired EnGenAI-era material, kept as reference | 21 |
@@ -172,3 +172,9 @@ Under the following terms:
 [kaidera.ai](https://kaidera.ai) | [Platform Repo](https://github.com/Kaidera-AI/platform)
 
 The existing [folder-organisation](skills/development/folder-organisation/SKILL.md) policy is mirrored at1.0.1 with original ownership-aware sync instructions and pinned MIT method attribution. It remains a manual-only, unvetted source candidate; source publication does not activate it.
+
+## Standalone OpenKai adaptive routing
+
+The portable [adaptive-routing source candidate](skills/development/adaptive-routing/SKILL.md) teaches catalogue-supported Shift, explicit Fusion casts and native Run Profiles without KOS. It installs as plain `.agents/skills/adaptive-routing` after source/installation approval. Runnable catalogue examples wait for the native owner contract; model performer runs wait for a bounded authorized budget.
+
+`node scripts/adaptive-routing-harness.js` reports readiness with exit2 when BLOCKED. Recording-only fake boundary and checker tests cannot qualify model behavior or native effect. Seven owned instruction mutation carriers and neutral-subject coupling controls are present; actual performer outcomes remain BLOCKED, not green.

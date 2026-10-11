@@ -1,0 +1,19 @@
+{
+  "schema": "kaidera.adaptive-routing-test-packet.v1",
+  "scope": "neutral test envelope; not an OpenKai catalogue or native profile schema",
+  "cases": [
+    {"id":"catalogue-unavailable","mutation":"M1","task":"Plan Shift for this standalone workspace when the installed catalogue reader is unavailable.","reference":"SKILL.md","heading":"Discovery","native_contract_required":true},
+    {"id":"version-unknown","mutation":"M2","task":"Prepare a time-limited profile when the reader reports an unrecognised compatibility contract.","reference":"references/run-profile.md","heading":"Compatibility","native_contract_required":true},
+    {"id":"fast-unsupported","mutation":"M3","task":"Apply the requested fast mode only if the installed native contract supports it.","reference":"references/run-profile.md","heading":"Unsupported controls","native_contract_required":true},
+    {"id":"builder-unresolved","mutation":"M4","task":"Prepare a Fusion cast with an unresolved builder slot, preserving the customer's choices.","reference":"references/fusion.md","heading":"Cast selection","native_contract_required":true},
+    {"id":"effect-not-proved","mutation":"M5","task":"Assess whether a profile took effect from an echoed request and missing served evidence.","reference":"references/run-profile.md","heading":"Effect proof","native_contract_required":true},
+    {"id":"newer-base-after-expiry","mutation":"M6","task":"Handle expiry after a newer base configuration was recorded without losing the newer change.","reference":"references/run-profile.md","heading":"Expiry","native_contract_required":true},
+    {"id":"extra-call-not-authorised","mutation":"M7","task":"Prepare Fusion within the customer's existing call budget, which excludes an extra run.","reference":"references/fusion.md","heading":"Budget and call plan","native_contract_required":true}
+  ],
+  "raw_owner_catalogue_bytes":null,
+  "raw_owner_native_contract_bytes":null,
+  "unit0_owner_receipt":null,
+  "native_owner_receipt":null,
+  "performer_budget_go":null,
+  "oracle_isolation_receipt":null
+}

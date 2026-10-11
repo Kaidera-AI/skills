@@ -220,6 +220,10 @@
     "folder-organisation": {
       "what": "Place project files and record content custody before an authorised consolidation or sync.",
       "why": "Keep foreign edits, distinguish planned actions from writes, and use the canonical approved writer."
+    },
+    "adaptive-routing": {
+      "what": "Standalone OpenKai guidance for catalogue-supported Shift, explicit Fusion and native profiles.",
+      "why": "Use for routing/cast/profile planning and effect inspection; native examples and model performer runs remain gated."
     }
   },
   "rename_pairs": [

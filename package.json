@@ -1,7 +1,7 @@
 {
   "name": "skills",
   "version": "1.0.0",
-  "description": "Kaidera Skills Marketplace — locally validated skill manifests for AI agents",
+  "description": "Kaidera Skills Marketplace \u2014 locally validated skill manifests for AI agents",
   "private": true,
   "scripts": {
     "validate": "node scripts/validate-skill.js",
@@ -10,7 +10,8 @@
     "review-contract": "node scripts/open-code-review-contract.js",
     "eval:static": "node scripts/static-skill-eval.js",
     "glossary": "node scripts/render-glossary.js",
-    "test": "node scripts/render-upstream-adapters.js --check && node scripts/render-development-workflow.js --check && node scripts/render-investor-lead-gen.js --check && node scripts/render-social-media-ops.js --check && node scripts/test-open-code-review.js && node scripts/test-skill-adaptations.js && node scripts/test-static-skill-eval.js && node scripts/test-skills-catalog.js && node scripts/render-glossary.js --check"
+    "test": "node scripts/render-upstream-adapters.js --check && node scripts/render-development-workflow.js --check && node scripts/render-investor-lead-gen.js --check && node scripts/render-social-media-ops.js --check && node scripts/test-open-code-review.js && node scripts/test-skill-adaptations.js && node scripts/test-static-skill-eval.js && node scripts/test-skills-catalog.js && node scripts/render-glossary.js --check && node --test scripts/test-adaptive-routing.js",
+    "eval:adaptive-routing": "node scripts/adaptive-routing-harness.js"
   },
   "engines": {
     "node": ">=20"

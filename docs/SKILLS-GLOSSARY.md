@@ -2,7 +2,7 @@
 
 Status: **human-facing index; the manifests and the catalogue remain authoritative**
 
-Published skills covered: **53**
+Published skills covered: **54**
 
 Rendered by `scripts/render-glossary.js` from the built marketplace, the catalogue
 markers and the authored prose in `scripts/glossary-prose.json`. Skill names, categories
@@ -27,23 +27,23 @@ the manifest wins and this file is stale — fix it in the same commit.
 | Category | Published |
 |---|---:|
 | `context/` | 2 |
-| `development/` | 21 |
+| `development/` | 22 |
 | `devops/` | 3 |
 | `documentation/` | 1 |
 | `legacy/` | 21 |
 | `research/` | 2 |
 | `security/` | 1 |
 | `sales-and-marketing/` | 2 |
-| **Total** | **53** |
+| **Total** | **54** |
 
 | Posture | Published |
 |---|---:|
 | Bounded candidate | 15 |
 | Reference-only | 16 |
-| Manual-only | 12 |
+| Manual-only | 13 |
 | Rework before use | 10 |
 
-Legacy entries: **21** of 53 are filed under `legacy/`. 19 of them still name the retired product or its domains outright; the other 2 (`code-review` and `deploy-to-dev`) do not, and are legacy for stale escalation, kill-switch, organisation-scope and sprint-log controls, or because redaction removed their only product reference.
+Legacy entries: **21** of 54 are filed under `legacy/`. 19 of them still name the retired product or its domains outright; the other 2 (`code-review` and `deploy-to-dev`) do not, and are legacy for stale escalation, kill-switch, organisation-scope and sprint-log controls, or because redaction removed their only product reference.
 
 None of the 21 declares any capability, yet several bodies describe installs,
 live production diagnostics, database and cluster access, Git mutation or deployment.
@@ -137,6 +137,7 @@ portfolio judgements, separate from the manifest's `trust_tier`, and every skill
 
 | Skill | Category | What it does | Why you reach for it | Posture |
 |---|---|---|---|---|
+| [`adaptive-routing`](../skills/development/adaptive-routing.SKILL.md) | `development` | Standalone OpenKai guidance for catalogue-supported Shift, explicit Fusion and native profiles. | Use for routing/cast/profile planning and effect inspection; native examples and model performer runs remain gated. | Manual-only |
 | [`agent-platform-context`](../skills/legacy/agent-platform-context.SKILL.md) | `legacy` | EnGenAI agent-runtime internals: executor, mailbox messaging, lead/worker teams, Celery lifecycle. | Background reading for legacy platform code; it is not current Kaidera truth. | Reference-only, legacy |
 | [`api-design`](../skills/legacy/api-design.SKILL.md) | `legacy` | Legacy FastAPI conventions for URLs, request/response schemas, auth, pagination, errors and OpenAPI. | Pattern reference in a repository that already matches; verify against current source first. | Reference-only, legacy |
 | [`api-test`](../skills/legacy/api-test.SKILL.md) | `legacy` | Legacy FastAPI contract and integration test structure, AsyncClient use, auth fixtures, async DB mocks. | Test-shape ideas only; it runs nothing and never supports a coverage claim. | Reference-only, legacy |
@@ -218,11 +219,11 @@ category labels in `scripts/test-skills-catalog.js`; that pull request adds both
 
 ## Projections
 
-**18** published skills are generated rather than authored here: they carry
+**19** published skills are generated rather than authored here: they carry
 `kaidera.source` or a generation marker, and are re-rendered from a canonical source
 instead of being edited in place.
 
-10 of them keep their canonical directory inside this repository (`design-selection`, `development-workflow`, `folder-organisation`, `gsd-core`, `hyperframes`, `investor-lead-gen`, `social-media-ops`, `ui-design-engineering`, `ui-ux-review`, `web-interface-guidelines`): the flat manifest is generated from
+11 of them keep their canonical directory inside this repository (`adaptive-routing`, `design-selection`, `development-workflow`, `folder-organisation`, `gsd-core`, `hyperframes`, `investor-lead-gen`, `social-media-ops`, `ui-design-engineering`, `ui-ux-review`, `web-interface-guidelines`): the flat manifest is generated from
 the directory of the same name, and `npm test` fails if the two drift.
 
 The other 8 are projected from a canonical directory in `Kaidera-AI/kaideraos`: `gavel`, `jev`, `jev-backlog-rank`, `jev-handoff-check`, `jev-option-decision`, `jev-return-triage`, `kaidera-sdlc`, `marketing-web-research`.
