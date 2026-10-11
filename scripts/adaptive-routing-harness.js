@@ -78,6 +78,8 @@ function bindProjection(subject,file) {
       metadata.kaidera.source.path!=='skills/development/adaptive-routing'||
       metadata.kaidera.source.content_sha256!==subject.tree_hash||
       metadata.kaidera.content_hash!==sha(parts[2].trim())) throw new Error('projection source binding mismatch')
+  const expectedBody=require('./render-upstream-adapters').renderPortableBody(subject.files.map(entry=>[entry.path,entry.bytes]))
+  if(parts[2] !== '\n'+expectedBody+'\n') throw new Error('projection source binding: body is not derived from canonical subject')
   return {representation:'projection',projection_path:file,projection_sha256:sha(raw),source_tree_hash:subject.tree_hash}
 }
 function materialisePacket(subject,c,packet,destination) {
