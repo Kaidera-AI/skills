@@ -3,7 +3,7 @@
   "description": "Locally validated, provenance-aware skills for Kaidera agents",
   "version": "1.0.0",
   "source": "https://github.com/Kaidera-AI/skills",
-  "generated_at": "2026-10-10T00:00:00.000Z",
+  "generated_at": "2026-10-12T00:00:00.000Z",
   "generation_basis": "maximum skill updated date",
   "skills": [
     {
@@ -1949,7 +1949,7 @@
     },
     {
       "name": "investor-lead-gen",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "description": "Find investors for an early-stage round, write to each person one to one, follow up once, hand replies to the people who take the meetings, and keep a reusable investor database and learning log. Use for investor lead generation and cold investor outreach by any company or brand; customer prospecting belongs to a customer lead-generation skill.",
       "category": "sales-and-marketing",
       "trust_tier": "unvetted",
@@ -1978,7 +1978,7 @@
       },
       "author": "Kaidera-AI",
       "license": "Apache-2.0",
-      "updated": "2026-10-08",
+      "updated": "2026-10-12",
       "tags": [
         "sales",
         "marketing",
@@ -1989,7 +1989,7 @@
         "crm",
         "learning-loop"
       ],
-      "content_hash": "b76c2a802da2368603ed2cfbcd02a26be68c7d3ab0918a829b1cf7cac15ec640",
+      "content_hash": "8026f0af494699f1ec37531ae266ad165c7e55f3afc3023386f5664320d57c0d",
       "signed_by": "",
       "last_reviewed": "",
       "reviewer": "",

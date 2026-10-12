@@ -30,6 +30,8 @@ Plain words, at most about 90 to 95 words:
 
 No figure in the body; the deck carries it. Keep every email exactly as sent, attachment included, and log it.
 
+Hold one copy version for a set number of sends (about 40) and read it after the follow-up window before changing the wording. Several versions in a few days leave nothing to read. A correction of fact is not a wording change and goes in at once.
+
 ## 3. The round figure in the deck
 
 - Each deck states a round figure matched to the investor: the lowest of the instance's tiers (for example low, mid and high) that covers the fund's minimum.
@@ -58,6 +60,7 @@ One follow-up, seven business days after email 1, on the same thread, with the d
 ## 7. Replies
 
 - Treat mail from any address at the fund's domain as a reply, because funds answer from team addresses with the partner copied. A personal mail domain matches only the address you wrote to.
+- Funds also answer from a second company domain, sometimes through an email assistant. Record every domain a fund's people mail from, and also match on your own Message-ID in the reply's References or In-Reply-To headers, whatever the sender's domain.
 - Stop every sequence at that fund. Colleagues not yet written to are held.
 - Within the hour, send the standard answer the owners approved: introduce the people who take meetings, propose a call and give the booking link. Once per thread, never to an opt-out, a decline or an automatic reply, and not after an owner has answered.
 - Follow the thread until a call is on the calendar: one reminder seven business days after the standard answer, never before the investor's own stated timeline.
@@ -67,6 +70,8 @@ One follow-up, seven business days after email 1, on the same thread, with the d
 ## 8. Two decks
 
 Keep the short teaser for first emails. Pitch forms and first calls get a fuller deck in the order funds expect: founders first, problem, product, traction by stage, market, competition by category (without naming rivals if the owners rule that out), business model, go-to-market, roadmap, and the ask with its use of funds. Before a fuller deck goes to any fund, get a friendly read from two or three angels or an accelerator.
+
+An adviser on the round is named externally as an independent adviser, never on a team slide or with a company title. Ask anyone named in a deck or reply how they want to appear before it goes out.
 
 ## 9. Compliance
 
