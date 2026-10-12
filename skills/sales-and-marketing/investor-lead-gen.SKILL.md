@@ -1,6 +1,6 @@
 ---
 name: investor-lead-gen
-version: 1.0.0
+version: 1.1.0
 description: Find investors for an early-stage round, write to each person one to one, follow up
   once, hand replies to the people who take the meetings, and keep a reusable investor database and
   learning log. Use for investor lead generation and cold investor outreach by any company or brand;
@@ -15,17 +15,17 @@ kaidera:
     - tool:web_search
     - tool:mcp_external
   allowed_domains: []
-  content_hash: b76c2a802da2368603ed2cfbcd02a26be68c7d3ab0918a829b1cf7cac15ec640
+  content_hash: 8026f0af494699f1ec37531ae266ad165c7e55f3afc3023386f5664320d57c0d
   signed_by: ""
   last_reviewed: ""
   reviewer: ""
   source:
     repo: Kaidera-AI/skills
     path: skills/sales-and-marketing/investor-lead-gen
-    content_sha256: 20945775ed170a9e2c0f0076b20b6885358691d02519ac89fe04d02986aedc5e
+    content_sha256: 0308ba567c3b01f3f587080427ecfad7da4bfa0dc082e39faee6c6342169669b
 author: Kaidera-AI
 license: Apache-2.0
-updated: 2026-10-08
+updated: 2026-10-12
 tags:
   - sales
   - marketing
@@ -295,6 +295,8 @@ Anonymised lessons from running this skill on a real pre-seed raise. Each one na
 
 **First-week benchmark (one raise, October 2026):** 42 people at 33 funds written to over three sending days; 3 funds replied by hand (about 9% of funds), 2 of them on the day of the email and 1 the next day; 2 of the 3 replies sent the company to a pitch form; 1 meeting booked; 0 hard bounces; 0 opt-outs. Treat this as one data point, not a norm.
 
+**At the first pause (same raise, four sending days):** 62 people at 50 funds written to; 5 funds replied by hand (10% of funds), 3 of them sending the company to a pitch form; 2 passed (one on stage, one at its form screen); 1 meeting booked; 0 hard bounces; 0 opt-outs; no follow-up sent yet.
+
 ### L01 · 2026-10-05 · Match the deck's round figure to each fund's minimum
 - **Observed:** A deck stating a raise below a fund's published minimum cheque tells the fund the round is not for them before they read on.
 - **Rule:** The deck carries the lowest of a few round tiers that covers the fund's minimum, in the fund's currency. The email body never states a figure.
@@ -405,6 +407,41 @@ Anonymised lessons from running this skill on a real pre-seed raise. Each one na
 - **Rule:** Before switching a copy version or a test on, preview the next real send for each kind of lead: a new fund, a new colleague at a contacted fund, and a follow-up.
 - **Check:** The switch-on record lists one previewed email per kind of lead.
 
+### L23 · 2026-10-09 · Funds researched before a rule changed still hold one person
+- **Observed:** Two funds researched before the rule to find three to five people per fund each held one person. The only person at one of them had opted out at the enrichment provider, so that fund was never written to.
+- **Rule:** Each research turn, check the region's funds from earlier batches for colleagues to add. A colleague at a fund already written to gets that fund's existing email version, framing and pinned figure. Allow the fund's domain by name; never switch the earlier-batch check off.
+- **Check:** Every researched fund holds the number of people the current rule asks for, or a recorded reason why not.
+
+### L24 · 2026-10-09 · A search summary can upgrade "ties" to "backed by"
+- **Observed:** A search summary said a fund was backed by a large consultancy and named a board member. The article itself said only that the fund had ties to the consultancy, and cut off before any name. A draft release note had repeated the summary.
+- **Rule:** Any fact about a fund that is not on its own site is read in the source itself, with its date, before it goes in a release note. A search summary is a lead to a source, never the source.
+- **Check:** Every outside fact in a release note has a link and a date, and the source says it in those words.
+
+### L25 · 2026-10-09 · Size the turn against the day it will send on
+- **Observed:** A research turn had eight ready names, but its send day held only nine first emails against a daily cap of 20. Adding a third partner at a fund already researched took the day to ten.
+- **Rule:** Run the release simulation before writing the list. If the send day sits well under the cap, add people at funds already researched before reaching for new funds.
+- **Check:** Each release list states the send day's planned count against the cap.
+
+### L26 · 2026-10-10 · A fund can reply from a second domain
+- **Observed:** A partner answered from a second company domain, through an email assistant, the morning after the first email. The reply watcher searched only the domain written to, so the follow-up stayed due until it was stopped by hand.
+- **Rule:** Record every domain a fund's people mail from. Also match replies on your own Message-ID in the reply's References or In-Reply-To headers, whatever the sender's domain.
+- **Check:** In a test, a reply from an unlisted domain that references your message stops the sequence.
+
+### L27 · 2026-10-09 · A seed fund reads pre-seed as too early; keep it for the next round
+- **Observed:** A fund that invests at seed, after launch and revenue, passed because pre-seed was too early. Of the first five funds to answer, three sent the company to a pitch form, one passed on stage and one misread its location; none spoke about the wording.
+- **Rule:** Write only where the fund's own site says it invests at the stage being raised. A pass on stage closes the fund for this round and keeps it for the next, with its stated bar on the record.
+- **Check:** Every first email's fund record carries a stage, in the fund's own words, that includes the round being raised.
+
+### L28 · 2026-10-09 · An adviser on the round is not the team
+- **Observed:** A proposed deck put a team panel beside the founder, and the standard reply introduced the round's independent adviser with an in-house title. The adviser asked never to be shown as part of the team in external communication.
+- **Rule:** Externally, name an adviser as an independent adviser on the round, never on a team slide or with a company title.
+- **Check:** The deck and reply builders refuse an adviser's name on a team slide or beside a company title.
+
+### L29 · 2026-10-09 · Hold one copy version long enough to read it
+- **Observed:** Nine copy versions went out in four sending days, none to more than 20 people, and no follow-up had gone. When the owners paused to ask what had worked, no wording change could be read.
+- **Rule:** Hold one version for a set number of sends (about 40) and read it after the follow-up window before changing the wording. A correction of fact is not a wording change.
+- **Check:** The send log shows each copy version's send count and its first and last send dates.
+
 <a id="file-references-outreach-strategy-md"></a>
 
 ## Bundled file: references/outreach-strategy.md
@@ -441,6 +478,8 @@ Plain words, at most about 90 to 95 words:
 
 No figure in the body; the deck carries it. Keep every email exactly as sent, attachment included, and log it.
 
+Hold one copy version for a set number of sends (about 40) and read it after the follow-up window before changing the wording. Several versions in a few days leave nothing to read. A correction of fact is not a wording change and goes in at once.
+
 ## 3. The round figure in the deck
 
 - Each deck states a round figure matched to the investor: the lowest of the instance's tiers (for example low, mid and high) that covers the fund's minimum.
@@ -469,6 +508,7 @@ One follow-up, seven business days after email 1, on the same thread, with the d
 ## 7. Replies
 
 - Treat mail from any address at the fund's domain as a reply, because funds answer from team addresses with the partner copied. A personal mail domain matches only the address you wrote to.
+- Funds also answer from a second company domain, sometimes through an email assistant. Record every domain a fund's people mail from, and also match on your own Message-ID in the reply's References or In-Reply-To headers, whatever the sender's domain.
 - Stop every sequence at that fund. Colleagues not yet written to are held.
 - Within the hour, send the standard answer the owners approved: introduce the people who take meetings, propose a call and give the booking link. Once per thread, never to an opt-out, a decline or an automatic reply, and not after an owner has answered.
 - Follow the thread until a call is on the calendar: one reminder seven business days after the standard answer, never before the investor's own stated timeline.
@@ -478,6 +518,8 @@ One follow-up, seven business days after email 1, on the same thread, with the d
 ## 8. Two decks
 
 Keep the short teaser for first emails. Pitch forms and first calls get a fuller deck in the order funds expect: founders first, problem, product, traction by stage, market, competition by category (without naming rivals if the owners rule that out), business model, go-to-market, roadmap, and the ask with its use of funds. Before a fuller deck goes to any fund, get a friendly read from two or three angels or an accelerator.
+
+An adviser on the round is named externally as an independent adviser, never on a team slide or with a company title. Ask anyone named in a deck or reply how they want to appear before it goes out.
 
 ## 9. Compliance
 
@@ -508,6 +550,8 @@ Rank lanes by thesis fit with the round, then by cheque fit:
 | Corporate venture | Venture arms of companies in the sector | A parent that is a customer, a prospect or a competitor |
 
 Exclusions, checked before release: a fund backing a direct competitor (the owner decides each case); any organisation on the company's customer or prospect lists unless an owner says otherwise; anyone who opted out; any person whose current employer you cannot confirm.
+
+Stage, checked on the fund's own site: write only where the fund says it invests at the stage being raised. A seed fund with one earlier deal in its portfolio is not an earlier-stage fund. A fund that passes on stage is closed for this round and kept for the next, with its stated bar (for example revenue) on its record.
 
 ## 2. The fund record
 

@@ -16,6 +16,8 @@ Rank lanes by thesis fit with the round, then by cheque fit:
 
 Exclusions, checked before release: a fund backing a direct competitor (the owner decides each case); any organisation on the company's customer or prospect lists unless an owner says otherwise; anyone who opted out; any person whose current employer you cannot confirm.
 
+Stage, checked on the fund's own site: write only where the fund says it invests at the stage being raised. A seed fund with one earlier deal in its portfolio is not an earlier-stage fund. A fund that passes on stage is closed for this round and kept for the next, with its stated bar (for example revenue) on its record.
+
 ## 2. The fund record
 
 Read the fund's own website first, then press quoting the fund or its partners. A tracker or aggregator figure on its own is not the fund saying it: put it in a note and leave the value empty.
