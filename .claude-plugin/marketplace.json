@@ -2000,7 +2000,7 @@
     },
     {
       "name": "marketing-lead-generation",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "description": "Research and qualify prospective customers, build source-dated evidence cards, verify only observed contact routes, and queue a reviewable batch for an owner. Use for customer prospecting before one-to-one outreach; not for investor research, bulk list harvesting, or sending messages.",
       "category": "sales-and-marketing",
       "trust_tier": "unvetted",
@@ -2041,7 +2041,7 @@
         "research",
         "crm"
       ],
-      "content_hash": "d307df426e878c97bd0d0ba31797cee3ce572f0e3aebe0340e0b77d89079dc86",
+      "content_hash": "679c4201b5cf3eb632bd690719fad1b2294603e5ba1f373397a9358fcd8b249d",
       "signed_by": "",
       "last_reviewed": "",
       "reviewer": "",
@@ -2052,7 +2052,7 @@
     },
     {
       "name": "marketing-one-to-one-outreach",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "description": "Write, review, send and measure short evidence-led sales emails to qualified customer prospects, with exact-payload approval, reply stops, suppression checks and human hand-off. Use after lead qualification; not for newsletters, bulk campaigns, investor outreach or autonomous negotiation.",
       "category": "sales-and-marketing",
       "trust_tier": "unvetted",
@@ -2093,7 +2093,7 @@
         "crm",
         "learning-loop"
       ],
-      "content_hash": "620ff5a7123d52204a77f626392d7ee98767f885a7db18fbe5e815d9ca8b2d4c",
+      "content_hash": "bd63442ee497167ab97357ca091b689c05f8cb8bea72ea04db88817f9f886bd8",
       "signed_by": "",
       "last_reviewed": "",
       "reviewer": "",

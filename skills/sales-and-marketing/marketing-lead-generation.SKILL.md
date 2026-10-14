@@ -1,6 +1,6 @@
 ---
 name: marketing-lead-generation
-version: 1.0.0
+version: 1.0.1
 description: Research and qualify prospective customers, build source-dated evidence cards, verify only observed contact routes, and queue a reviewable batch for an owner. Use for customer prospecting before one-to-one outreach; not for investor research, bulk list harvesting, or sending messages.
 kaidera:
   category: sales-and-marketing
@@ -47,6 +47,8 @@ The instance must name the company and offer, ideal customer, regions, exclusion
 ## Research the account before the person
 
 Start with authorised inbound enquiries, the CRM and official company sources. Establish company fit and a current business reason before spending enrichment credits. Good signals include a named initiative or procurement need, a change in the relevant workflow, a current role vacancy, or a public operational expansion. Funding, a senior title, an installed website tag or a missing site feature does not by itself establish need, budget, authority or an internal software problem.
+
+A true fact is not automatically a reason to contact an account. Reject anniversaries, awards, promotions, route announcements, hobbies and generic growth news when they do not change the need, workflow, timing, offer or question. Prefer evidence that contains an ask for help or observable intent: a named project, request for partners, procurement need, stated operating problem, transformation objective, systems role, integration programme or explicit work question. The person's own words may justify a relevant question; they do not prove budget or buying intent.
 
 Build one compact evidence card per account:
 
