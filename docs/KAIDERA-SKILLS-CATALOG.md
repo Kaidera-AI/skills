@@ -2,9 +2,9 @@
 
 Status: **canonical human-facing catalogue; source candidate; runtime and trust HOLD**
 
-Catalogue date: **2026-10-10**
+Catalogue date: **2026-10-14**
 
-Total skills: **53**
+Total skills: **55**
 
 Source binding: consume this guide only from the same Git commit as its skill
 manifests, marketplace, and catalogue test. The enclosing commit/tree is the
@@ -31,7 +31,7 @@ a release blocker; do not silently choose one side.
 
 ## Current release boundary
 
-- All 53 skills are `unvetted`.
+- All 55 skills are `unvetted`.
 - Catalogue presence, a body hash, static validation, or a local commit is not
   approval to inject a skill into an agent.
 - Gate 1 strict manifest checks and a bounded Gate 2 pattern scan exist.
@@ -43,7 +43,7 @@ a release blocker; do not silently choose one side.
 - Kaidera and Alibaba both use the name `open-code-review`. A host must select a
   source-qualified identity and inject only one; prompt text cannot resolve a
   loader collision after both skills are present.
-- 21 of the 53 skills are filed under `legacy/`. They are kept as research context,
+- 21 of the 55 skills are filed under `legacy/`. They are kept as research context,
   they are not current Kaidera truth, and none of them may be bound to an agent.
 
 ## Portfolio summary
@@ -56,23 +56,23 @@ a release blocker; do not silently choose one side.
 | Documentation | 1 |
 | Legacy | 21 |
 | Research | 2 |
-| Sales and marketing | 2 |
+| Sales and marketing | 4 |
 | Security | 1 |
 
 | Declared trust tier | Skills |
 |---|---:|
-| `unvetted` | 53 |
+| `unvetted` | 55 |
 
 | Operating posture | Skills |
 |---|---:|
 | Bounded candidate | 15 |
 | Reference-only | 16 |
-| Manual-only | 12 |
+| Manual-only | 14 |
 | Rework before use | 10 |
 
 Legacy entries: **21**
 
-Current-source entries: **32**
+Current-source entries: **34**
 
 `Legacy` is a documentation classification and, since the `legacy/` category was
 introduced, a filing location as well. Neither is a trust or compatibility
@@ -130,7 +130,7 @@ Kaidera truth until reconciled against the owning repository and Cortex.
 | Capability | Meaning |
 |---|---|
 | `tool:file_read` | Read authorised local workspace files. |
-| `tool:file_write` | Modify authorised local files. Twelve published skills declare it: seven bounded candidates (`development-workflow`, `ui-design-engineering`, `gsd-core`, `hyperframes`, `kaidera-sdlc`, `unlazy`, `ui-ux-review`), one reference-only (`jev`) and four manual-only (`folder-organisation`, `marketing-web-research`, `investor-lead-gen`, `social-media-ops`). |
+| `tool:file_write` | Modify authorised local files. Fourteen published skills declare it: seven bounded candidates (`development-workflow`, `ui-design-engineering`, `gsd-core`, `hyperframes`, `kaidera-sdlc`, `unlazy`, `ui-ux-review`), one reference-only (`jev`) and six manual-only (`folder-organisation`, `marketing-web-research`, `investor-lead-gen`, `marketing-lead-generation`, `marketing-one-to-one-outreach`, `social-media-ops`). |
 | `tool:code_interpreter` | Run bounded local computation or already-approved diagnostics. It does not imply arbitrary repository code is trusted. |
 | `tool:web_search` | Search public web sources under the runtime's network policy. |
 | `tool:mcp_external` | Call an approved external connector or service. |
@@ -155,6 +155,8 @@ Use the narrowest matching skill:
 | Draft a decision-led research mission | `research-brief` | The user asked to perform the research rather than draft its brief |
 | Research companies, current leaders and professional profiles | `marketing-web-research` | Only a research brief is requested; invitations, email, follows or paid tools lack applicable authority |
 | Find investors for a round, write to them one to one, handle replies and keep the investor database and learning log | `investor-lead-gen` | The prospects are customers, not investors, or no owner has authority to release names, approve copy or send |
+| Research and qualify customer prospects and queue a sourced batch | `marketing-lead-generation` | The task is investor research, editorial discovery, bulk harvesting, or an external action lacks authority |
+| Write and run evidence-led one-to-one customer email after qualification | `marketing-one-to-one-outreach` | The task is a newsletter, bulk campaign, investor outreach, autonomous negotiation, or the exact send is not authorised |
 | Post approved copy to LinkedIn, X, Instagram, Threads or Bluesky, measure whether AI answer engines name a brand, watch prospects' job adverts, or vet a scraper or auto-poster | `social-media-ops` | The task needs a login session, a scraper, a proxy or a page robots.txt closes, or no owner has approved the post or the spend |
 | Design APIs, tests, migrations, containers or Kubernetes | matching `legacy/` reference skill | Current project conventions differ or execution/changes are requested without authority |
 | Gate a push, pull request, merge, release, deployment, infrastructure name or cloud choice | `deploy-gate`, `infra-naming-gate`, `cloud-agnostic-policy` | Exact target identity, current approval, quality evidence or rollback readiness is missing |
@@ -228,6 +230,8 @@ Use `design-selection` for the initial UI/native/video route, `ui-design-enginee
 | Research | `marketing-web-research` | `0.1.002` | Customer-configurable company and professional-profile research with separate action receipts | Manual-only | high / file read, file write, web search, external connector |
 | Research | `research-brief` | `1.0.0` | Drafts a self-contained decision-led brief without executing research | Bounded candidate | low / file read |
 | Sales and marketing | `investor-lead-gen` | `1.1.0` | Investor research, one-to-one first emails, one follow-up, reply hand-over, investor database and weekly learning loop | Manual-only | high / file read, file write, web search, external connector |
+| Sales and marketing | `marketing-lead-generation` | `1.0.0` | Customer prospect research, evidence cards, qualification, observed-route verification and review queue | Manual-only | high / file read, file write, web search, external connector |
+| Sales and marketing | `marketing-one-to-one-outreach` | `1.0.0` | Evidence-led customer email, exact-payload approval, reply stops, human hand-over and bounded learning | Manual-only | high / file read, file write, external connector |
 | Sales and marketing | `social-media-ops` | `1.0.1` | Official-API posting with read-back, weekly AI answer visibility and hiring signals, and third-party tool vetting, with bundled stdlib tools | Manual-only | high / file read, file write, web search, external connector, interpreter |
 | Security | `prompt-injection-test-design` | `2.0.1` | Read-only design for controlled prompt-injection boundary testing | Reference-only | low / none |
 | Development | `design-selection` | `1.0.1` | Select the owning design workflow for UI, motion, native interaction or exported video. | Reference-only | medium / file read, web search |
@@ -270,6 +274,8 @@ precedence issue remains a release hold.
 | `sprint-closing` | `kaidera` | `Apache-2.0` | None | — |
 | `marketing-web-research` | `Kaidera-AI` | `Apache-2.0` | `linkedin.com`, `x.com` | — |
 | `investor-lead-gen` | `Kaidera-AI` | `Apache-2.0` | None | — |
+| `marketing-lead-generation` | `Kaidera-AI` | `Apache-2.0` | `github.com` | [Ethan Rogers](https://github.com/ethanplusai/harvey/tree/e2632eb20ee2d4fb6fe04ae715a52f578acf9a37) |
+| `marketing-one-to-one-outreach` | `Kaidera-AI` | `Apache-2.0` | `github.com` | [Ethan Rogers](https://github.com/ethanplusai/harvey/tree/e2632eb20ee2d4fb6fe04ae715a52f578acf9a37) |
 | `social-media-ops` | `Kaidera-AI` | `Apache-2.0` | None | — |
 | `research-brief` | `Kaidera-AI` | `Apache-2.0` | `github.com` | [David Ondrej](https://github.com/davidondrej/skills/tree/69c3ae5228eb146724fd23dac3d43eab5805bcc3/skills/research-and-web/research-prompt) |
 | `security-review-checklist` | `kaidera` | `Apache-2.0` | None | — |
@@ -1194,15 +1200,20 @@ spend.
 
 ## Sales and marketing skills
 
-Two skills, both manual-only and high risk. `investor-lead-gen` declares web search, file
-write and an external connector because a host running it sends email, writes to a CRM
-and may pay for address verification. It is a directory package
+Four skills, all manual-only and high risk. `investor-lead-gen` owns investor research
+and outreach; `marketing-lead-generation` owns customer prospect research and
+qualification; `marketing-one-to-one-outreach` owns customer email after qualification;
+and `social-media-ops` owns official-API social publishing and market listening. Lead
+research or a connected account never authorises contact.
+
+`investor-lead-gen` is a directory package
 (`skills/sales-and-marketing/investor-lead-gen/`) projected into a single file by
-`scripts/render-investor-lead-gen.js`; edit the directory and regenerate. Customer
-prospecting is not this skill's job. `social-media-ops` also declares a code interpreter,
-because it bundles standard-library Python tools; it is projected by
-`scripts/render-social-media-ops.js`, which inlines the Markdown and lists each tool file
-with its hash.
+`scripts/render-investor-lead-gen.js`; edit the directory and regenerate.
+`social-media-ops` also declares a code interpreter because it bundles standard-library
+Python tools; it is projected by `scripts/render-social-media-ops.js`, which inlines the
+Markdown and lists each tool file with its hash. The two customer skills are portable
+flat manifests adapted from the live project editions; their instance-specific owners,
+systems, regions and approvals stay outside this public repository.
 
 ### `investor-lead-gen`
 
@@ -1216,6 +1227,32 @@ with its hash.
 - **Output:** Lead records with cited evidence, release lists naming every person and their opening line, sent-email copies and a send ledger, reply hand-overs, a daily status by fund, the investor database (SQLite schema included) and dated learnings.
 - **Authority and effects:** High-risk, manual-only source candidate. Research and drafting are local; every send, CRM write, paid verification and form submission needs the authority the instance file names, and a released batch authorises only the named people and the approved copy. Investor names, addresses and round terms stay in the instance's storage; the skill carries anonymised lessons only. No scraper code, credentials, contact data or provider subscription is included.
 - **Kaidera action:** Preserve unvetted status and the Gate 3/4 holds. Qualify the host's mail, CRM and verification connectors and the sender identity before binding. The bundled lessons come from one live raise and are evidence for review, not proof of effect.
+
+### `marketing-lead-generation`
+
+<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:file_write","tool:web_search","tool:mcp_external"],"category":"sales-and-marketing","legacy":false,"name":"marketing-lead-generation","path":"skills/sales-and-marketing/marketing-lead-generation.SKILL.md","posture":"manual-only","review_fingerprint":"84a4eb02811eaeecfe301648788382f884e1321537e6b983fcc52d2b98484773","risk_level":"high","trust_tier":"unvetted","version":"1.0.0"} -->
+
+- **Manifest:** [marketing-lead-generation.SKILL.md](../skills/sales-and-marketing/marketing-lead-generation.SKILL.md)
+- **Function:** Research and qualify customer prospects, record one source-dated business signal and workflow hypothesis per account, verify only observed contact routes, reconcile identities and suppression, and queue one bounded batch for owner review.
+- **Use when:** A company has an offer and buyer definition and asks for customer prospecting, buyer research or a sourced outreach-ready batch.
+- **Do not use when:** The prospects are investors; the task is editorial discovery or bulk harvesting; an address would need to be guessed; or suppression, jurisdiction, processing-policy or identity evidence is missing for contact use.
+- **Inputs:** An instance naming the offer, buyer, regions, exclusions, batch cap, owner, CRM, suppression records, retention and processing policy, paid-provider scope and outreach approver.
+- **Output:** Stable lead records, evidence cards, qualification and contact-use holds, reconciliation proposals, exact draft packages, reconciled batch counts and owner keep/maybe/reject feedback.
+- **Authority and effects:** High-risk, manual-only source candidate. Research and local drafting may run inside the host's authority, but every paid call, live CRM change and contact action needs separate authority. Public data, provider verification and a qualification score are not contact permission. Personal records stay in the customer workspace.
+- **Kaidera action:** Preserve unvetted status and the Gate 3/4 holds. Before binding, qualify the host's source access, CRM and suppression controls, regional policy, address-verification route and review surface. Harvey-derived methods are attributed and provide drafting guidance, not evidence of improved reply rates.
+
+### `marketing-one-to-one-outreach`
+
+<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:file_write","tool:mcp_external"],"category":"sales-and-marketing","legacy":false,"name":"marketing-one-to-one-outreach","path":"skills/sales-and-marketing/marketing-one-to-one-outreach.SKILL.md","posture":"manual-only","review_fingerprint":"d1758a75c5a10c62d9daa292671e99a0870bd68bfeb1b1d6b5a9eb2b2d74473c","risk_level":"high","trust_tier":"unvetted","version":"1.0.0"} -->
+
+- **Manifest:** [marketing-one-to-one-outreach.SKILL.md](../skills/sales-and-marketing/marketing-one-to-one-outreach.SKILL.md)
+- **Function:** Turn qualified customer evidence into short individual emails, route exact payloads for approval, recheck mailbox and suppression state immediately before each send, stop on replies and hand the conversation to the named human sales owner, then learn from edits and receipt-backed outcomes.
+- **Use when:** A qualified customer prospect is ready for one-to-one email under an approved campaign instance with a real sender, suppression access, ledger, CRM and human reply owner.
+- **Do not use when:** The task is a newsletter, bulk campaign, investor outreach or autonomous negotiation; the address was guessed; the sender is unhealthy; or the exact recipient, sender, text and timing lack authority.
+- **Inputs:** An instance naming the campaign, regions and policy record, sender and postal identity, sequence and caps, approval owner, human sales owner, suppression sources, CRM, ledger and mailbox connector; qualified lead evidence from the paired lead-generation skill.
+- **Output:** Exact review digests, payload hashes and approval references, sent-message and readback receipts, held-item reasons, reply classifications and human hand-overs, sequence and suppression updates, and bounded outcome reports.
+- **Authority and effects:** High-risk, manual-only source candidate. A campaign brief permits drafting only. Every external send remains scoped to the exact authorised payload; any real reply, booking, hard bounce, opt-out, complaint or company-colleague reply stops the applicable sequence. The skill never negotiates or sets commercial terms.
+- **Kaidera action:** Preserve unvetted status and the Gate 3/4 holds. Before binding, qualify the host's sender identity, deliverability, suppression and idempotency controls, provider readback, reply classifier, ledger and human hand-off route. Harvey-derived methods are attributed and should be tested as bounded hypotheses.
 
 ### `social-media-ops`
 
@@ -1271,6 +1308,8 @@ capability gates.
 | “Write a research brief comparing three provider strategies.” | `research-brief` |
 | “Find decision makers matching our customer profile and return a sourced list here.” | `marketing-web-research`, with a separately approved host workflow |
 | “Find seed investors who back our sector and start writing to them.” | `investor-lead-gen`, with an instance file naming who releases names, approves copy and sends |
+| “Find ten customer prospects in this segment and show why each account is relevant now.” | `marketing-lead-generation`, with an instance naming policy, suppression, CRM and review ownership |
+| “Write the approved first email to each qualified customer and stop when anyone replies.” | `marketing-one-to-one-outreach`, with exact-payload approval, mailbox readback and a named human reply owner |
 | “Post today's approved update on LinkedIn and X with the picture, then tell me whether ChatGPT-style assistants mention us.” | `social-media-ops`, with an instance file naming the approver, the channels and the visibility questions |
 | “Use the EnGenAI security checklist while reviewing this patch.” | No automatic route; reverify individual legacy checks under `open-code-review` |
 | “Show the historical branch and PR conventions.” | No runtime route; consult `git-workflow` only as quarantined historical evidence pending rework |

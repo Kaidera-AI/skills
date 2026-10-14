@@ -2,7 +2,7 @@
 
 Status: **human-facing index; the manifests and the catalogue remain authoritative**
 
-Published skills covered: **53**
+Published skills covered: **55**
 
 Rendered by `scripts/render-glossary.js` from the built marketplace, the catalogue
 markers and the authored prose in `scripts/glossary-prose.json`. Skill names, categories
@@ -33,17 +33,17 @@ the manifest wins and this file is stale — fix it in the same commit.
 | `legacy/` | 21 |
 | `research/` | 2 |
 | `security/` | 1 |
-| `sales-and-marketing/` | 2 |
-| **Total** | **53** |
+| `sales-and-marketing/` | 4 |
+| **Total** | **55** |
 
 | Posture | Published |
 |---|---:|
 | Bounded candidate | 15 |
 | Reference-only | 16 |
-| Manual-only | 12 |
+| Manual-only | 14 |
 | Rework before use | 10 |
 
-Legacy entries: **21** of 53 are filed under `legacy/`. 19 of them still name the retired product or its domains outright; the other 2 (`code-review` and `deploy-to-dev`) do not, and are legacy for stale escalation, kill-switch, organisation-scope and sprint-log controls, or because redaction removed their only product reference.
+Legacy entries: **21** of 55 are filed under `legacy/`. 19 of them still name the retired product or its domains outright; the other 2 (`code-review` and `deploy-to-dev`) do not, and are legacy for stale escalation, kill-switch, organisation-scope and sprint-log controls, or because redaction removed their only product reference.
 
 None of the 21 declares any capability, yet several bodies describe installs,
 live production diagnostics, database and cluster access, Git mutation or deployment.
@@ -170,6 +170,8 @@ portfolio judgements, separate from the manifest's `trust_tier`, and every skill
 | [`jev-return-triage`](../skills/development/jev-return-triage.SKILL.md) | `development` | Advisory receipt-based triage of an arrived worker return, handback or consult. | Separates acceptable work from rework before the lead rules on it. | Bounded candidate |
 | [`k8s-deploy`](../skills/legacy/k8s-deploy.SKILL.md) | `legacy` | Legacy Kubernetes manifests, resource limits, health probes, ArgoCD workflow, Helm charts and GKE config. | Pattern reference; contradicts `container-build` on region and services. | Reference-only, legacy |
 | [`kaidera-sdlc`](../skills/development/kaidera-sdlc.SKILL.md) | `development` | The Kaidera loop: intent, grill, spec, plan, build, verify, review, ship, maintain, re-enter from incidents. | The operating method every lead runs. Nothing is implemented without an accepted plan. | Bounded candidate |
+| [`marketing-lead-generation`](../skills/sales-and-marketing/marketing-lead-generation.SKILL.md) | `sales-and-marketing` | Researches and qualifies customer prospects, builds source-dated evidence cards and queues a reviewable batch. | Customer prospecting before outreach, with observed contact routes and separate qualification, policy and approval gates. | Manual-only |
+| [`marketing-one-to-one-outreach`](../skills/sales-and-marketing/marketing-one-to-one-outreach.SKILL.md) | `sales-and-marketing` | Writes, sends and measures short evidence-led customer emails with exact-payload approval and reply stops. | One-to-one sales outreach after qualification, with suppression checks, human hand-off and bounded learning. | Manual-only |
 | [`marketing-web-research`](../skills/research/marketing-web-research.SKILL.md) | `research` | Researches companies, current decision makers and professional profiles from public and authorised sessions. | Market mapping, leadership lists and follow reconciliation. Research never authorises contact. | Manual-only |
 | [`open-code-review`](../skills/development/open-code-review.SKILL.md) | `development` | Diff-first, evidence-gated review of a bounded change: exact receipt, diagnostics, impact, challenge, coverage. | The portfolio’s change-review contract. Strictly read-only. Collides by name with Alibaba’s distinct skill. | Bounded candidate |
 | [`performance-profiling`](../skills/legacy/performance-profiling.SKILL.md) | `legacy` | Legacy Python async, PostgreSQL, Kubernetes and Redis profiling for latency-regression diagnosis. | Runs live production diagnostics while declaring no tools; rework before use. | Rework before use, legacy |

@@ -125,6 +125,14 @@
       "what": "Researches companies, current decision makers and professional profiles from public and authorised sessions.",
       "why": "Market mapping, leadership lists and follow reconciliation. Research never authorises contact."
     },
+    "marketing-lead-generation": {
+      "what": "Researches and qualifies customer prospects, builds source-dated evidence cards and queues a reviewable batch.",
+      "why": "Customer prospecting before outreach, with observed contact routes and separate qualification, policy and approval gates."
+    },
+    "marketing-one-to-one-outreach": {
+      "what": "Writes, sends and measures short evidence-led customer emails with exact-payload approval and reply stops.",
+      "why": "One-to-one sales outreach after qualification, with suppression checks, human hand-off and bounded learning."
+    },
     "open-code-review": {
       "what": "Diff-first, evidence-gated review of a bounded change: exact receipt, diagnostics, impact, challenge, coverage.",
       "why": "The portfolio’s change-review contract. Strictly read-only. Collides by name with Alibaba’s distinct skill."
