@@ -71,6 +71,8 @@ const posturePolicy = new Map([
     'folder-organisation',
     'marketing-web-research',
     'investor-lead-gen',
+    'marketing-lead-generation',
+    'marketing-one-to-one-outreach',
     'social-media-ops',
     'deploy-to-dev',
     'sprint-closing',
@@ -149,6 +151,8 @@ const currentSourceSkills = new Set([
     'unlazy',
     'prompt-master',
     'investor-lead-gen',
+    'marketing-lead-generation',
+    'marketing-one-to-one-outreach',
     'social-media-ops',
 ])
 const categoryLabels = new Map([
