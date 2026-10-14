@@ -230,8 +230,8 @@ Use `design-selection` for the initial UI/native/video route, `ui-design-enginee
 | Research | `marketing-web-research` | `0.1.002` | Customer-configurable company and professional-profile research with separate action receipts | Manual-only | high / file read, file write, web search, external connector |
 | Research | `research-brief` | `1.0.0` | Drafts a self-contained decision-led brief without executing research | Bounded candidate | low / file read |
 | Sales and marketing | `investor-lead-gen` | `1.1.0` | Investor research, one-to-one first emails, one follow-up, reply hand-over, investor database and weekly learning loop | Manual-only | high / file read, file write, web search, external connector |
-| Sales and marketing | `marketing-lead-generation` | `1.0.0` | Customer prospect research, evidence cards, qualification, observed-route verification and review queue | Manual-only | high / file read, file write, web search, external connector |
-| Sales and marketing | `marketing-one-to-one-outreach` | `1.0.0` | Evidence-led customer email, exact-payload approval, reply stops, human hand-over and bounded learning | Manual-only | high / file read, file write, external connector |
+| Sales and marketing | `marketing-lead-generation` | `1.0.1` | Customer prospect research, buying-relevant evidence cards, qualification, observed-route verification and review queue | Manual-only | high / file read, file write, web search, external connector |
+| Sales and marketing | `marketing-one-to-one-outreach` | `1.0.1` | Human, need-led customer email, exact-payload approval, reply stops, human hand-over and bounded learning | Manual-only | high / file read, file write, external connector |
 | Sales and marketing | `social-media-ops` | `1.0.1` | Official-API posting with read-back, weekly AI answer visibility and hiring signals, and third-party tool vetting, with bundled stdlib tools | Manual-only | high / file read, file write, web search, external connector, interpreter |
 | Security | `prompt-injection-test-design` | `2.0.1` | Read-only design for controlled prompt-injection boundary testing | Reference-only | low / none |
 | Development | `design-selection` | `1.0.1` | Select the owning design workflow for UI, motion, native interaction or exported video. | Reference-only | medium / file read, web search |
@@ -1230,10 +1230,10 @@ systems, regions and approvals stay outside this public repository.
 
 ### `marketing-lead-generation`
 
-<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:file_write","tool:web_search","tool:mcp_external"],"category":"sales-and-marketing","legacy":false,"name":"marketing-lead-generation","path":"skills/sales-and-marketing/marketing-lead-generation.SKILL.md","posture":"manual-only","review_fingerprint":"84a4eb02811eaeecfe301648788382f884e1321537e6b983fcc52d2b98484773","risk_level":"high","trust_tier":"unvetted","version":"1.0.0"} -->
+<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:file_write","tool:web_search","tool:mcp_external"],"category":"sales-and-marketing","legacy":false,"name":"marketing-lead-generation","path":"skills/sales-and-marketing/marketing-lead-generation.SKILL.md","posture":"manual-only","review_fingerprint":"9d72f18d3b60f1b92f0bbdf4c4819427e0dc69e6fa9d35bd1b48f23d8a8a2826","risk_level":"high","trust_tier":"unvetted","version":"1.0.1"} -->
 
 - **Manifest:** [marketing-lead-generation.SKILL.md](../skills/sales-and-marketing/marketing-lead-generation.SKILL.md)
-- **Function:** Research and qualify customer prospects, record one source-dated business signal and workflow hypothesis per account, verify only observed contact routes, reconcile identities and suppression, and queue one bounded batch for owner review.
+- **Function:** Research and qualify customer prospects, record one source-dated and buying-relevant business signal plus a workflow hypothesis per account, reject decorative facts that do not change the offer or question, verify only observed contact routes, reconcile identities and suppression, and queue one bounded batch for owner review.
 - **Use when:** A company has an offer and buyer definition and asks for customer prospecting, buyer research or a sourced outreach-ready batch.
 - **Do not use when:** The prospects are investors; the task is editorial discovery or bulk harvesting; an address would need to be guessed; or suppression, jurisdiction, processing-policy or identity evidence is missing for contact use.
 - **Inputs:** An instance naming the offer, buyer, regions, exclusions, batch cap, owner, CRM, suppression records, retention and processing policy, paid-provider scope and outreach approver.
@@ -1243,10 +1243,10 @@ systems, regions and approvals stay outside this public repository.
 
 ### `marketing-one-to-one-outreach`
 
-<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:file_write","tool:mcp_external"],"category":"sales-and-marketing","legacy":false,"name":"marketing-one-to-one-outreach","path":"skills/sales-and-marketing/marketing-one-to-one-outreach.SKILL.md","posture":"manual-only","review_fingerprint":"d1758a75c5a10c62d9daa292671e99a0870bd68bfeb1b1d6b5a9eb2b2d74473c","risk_level":"high","trust_tier":"unvetted","version":"1.0.0"} -->
+<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:file_write","tool:mcp_external"],"category":"sales-and-marketing","legacy":false,"name":"marketing-one-to-one-outreach","path":"skills/sales-and-marketing/marketing-one-to-one-outreach.SKILL.md","posture":"manual-only","review_fingerprint":"cb69789b55dc6c22a206308ac677a36ff3d45dc23bb95c510f48e17ed961356e","risk_level":"high","trust_tier":"unvetted","version":"1.0.1"} -->
 
 - **Manifest:** [marketing-one-to-one-outreach.SKILL.md](../skills/sales-and-marketing/marketing-one-to-one-outreach.SKILL.md)
-- **Function:** Turn qualified customer evidence into short individual emails, route exact payloads for approval, recheck mailbox and suppression state immediately before each send, stop on replies and hand the conversation to the named human sales owner, then learn from edits and receipt-backed outcomes.
+- **Function:** Turn qualified customer evidence into short, human, need-led emails whose project, credibility and sender voice are truthful, route exact payloads for approval, recheck mailbox and suppression state immediately before each send, stop on replies and hand the conversation to the named human sales owner, then learn from edits and receipt-backed outcomes.
 - **Use when:** A qualified customer prospect is ready for one-to-one email under an approved campaign instance with a real sender, suppression access, ledger, CRM and human reply owner.
 - **Do not use when:** The task is a newsletter, bulk campaign, investor outreach or autonomous negotiation; the address was guessed; the sender is unhealthy; or the exact recipient, sender, text and timing lack authority.
 - **Inputs:** An instance naming the campaign, regions and policy record, sender and postal identity, sequence and caps, approval owner, human sales owner, suppression sources, CRM, ledger and mailbox connector; qualified lead evidence from the paired lead-generation skill.

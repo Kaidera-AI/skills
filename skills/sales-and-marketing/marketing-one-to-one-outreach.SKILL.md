@@ -1,6 +1,6 @@
 ---
 name: marketing-one-to-one-outreach
-version: 1.0.0
+version: 1.0.1
 description: Write, review, send and measure short evidence-led sales emails to qualified customer prospects, with exact-payload approval, reply stops, suppression checks and human hand-off. Use after lead qualification; not for newsletters, bulk campaigns, investor outreach or autonomous negotiation.
 kaidera:
   category: sales-and-marketing
@@ -43,20 +43,26 @@ Contact one qualified customer prospect at a time from source-dated evidence, st
 
 The campaign instance names the offer, ideal customer, regions and policy record, sender and postal identity, human sales owner, sequence, caps, timezone, quiet period, suppression sources, CRM and ledger, mailbox connector, reply service level and approval owner. A connected mailbox or approved campaign brief is not send approval.
 
-## Turn evidence into a useful question
+## Relevance before personalisation
 
 Before writing, answer privately: why this account, why this person, why now, which workflow, and what small question can they answer? Separate the observed fact from the inferred implication.
 
+Do not open with a true fact merely to prove research happened. A random fact followed by a generic bridge is recognisable mass personalisation. The evidence must change the reason to contact this person, the need discussed, the offer or the question. If removing the opener leaves the substantive message unchanged, remove it and revisit the lead.
+
 Use one of four shapes:
 
-- current initiative: observation, workflow question, one supported capability, interest question;
-- stated problem: the person's own problem, one supported capability or proof point, question;
-- existing useful resource: observation, specific resource, permission to send it;
-- no current trigger: honest role hypothesis, one supported capability, question.
+- named project or stated need: the person's project or words, useful outcome, one supported capability, interest question;
+- relevant credibility: truthful sender or company experience, the problem the offer was built to solve, why it may matter here, interest question;
+- existing useful resource: relevant need, specific resource, permission to send it;
+- no current trigger: honest role problem, one supported capability, question.
 
 Personalisation must change the workflow, relevance or ask. Apply the substitution check: if another company could receive every substantive sentence unchanged, revisit the evidence. Label an honest role hypothesis as weaker personalisation for the reviewer rather than adding a fabricated detail.
 
-A first email normally uses 50 to 80 body words, one person, one idea and one question answerable in a few words. Introduce the commercial identity plainly. Remove generic introductions, empty compliments, feature lists and inflated claims. A priority, ownership or resource question often asks less of a stranger than a meeting; the real context decides. Do not promise an assessment, pilot, integration, saving, concession or deadline that has not been approved.
+A first email normally uses 50 to 80 body words, one person, one idea and one question answerable in a few words. Introduce the commercial identity plainly. Remove generic introductions, random-fact openers, empty compliments, feature lists and inflated claims. A priority, ownership or resource question often asks less of a stranger than a meeting; the real context decides. Do not promise an assessment, pilot, integration, saving, concession or deadline that has not been approved.
+
+Only the actual sender may use first person for their role or experience. Never write one person's email as though a founder or sales colleague sent it. A founder or company credential must come from a current approved source, be relevant to the buyer's need, and never imply a customer, endorsement or sender identity that does not exist. Credibility earns a hearing; it does not replace relevance.
+
+AI may collect sources, reconcile history, extract the recipient's own wording, check claims, draft alternatives and run controls. It must not fabricate empathy, invent pain, turn a profile field into praise, or generate different-looking emails from one unchanged idea. The accountable writer must be able to explain every sentence without referring to a generation prompt.
 
 ## Sequence and daily order
 
@@ -86,4 +92,4 @@ Before approval, write the enrolment, step, evidence, exact payload hash, planne
 
 Measure accepted sends, bounces, human replies by class, positive interest, opt-outs, reply-to-hand-off delay, booked and attended meetings with counts, denominators, segment, step and follow-up maturity. Provider acceptance does not prove inbox delivery. Opens and clicks are not buying intent.
 
-Use owner edits and receipt-backed outcomes to test one copy change at a time within a named segment. Assign one variant per company and do not contact the same person twice to compare copy. Report selection bias when signal-bearing accounts receive different wording. Convert learning as: observed outcome, plausible explanation and uncertainty, one proposed change, owner decision, changed reference, next cohort. Small numbers remain preliminary.
+Use owner edits and receipt-backed outcomes to test one copy change at a time within a named segment. Assign one variant per company and do not contact the same person twice to compare copy. Record review labels such as random fact, interchangeable bridge, invented pain, feature dump, weak reason to buy, sender mismatch, credential without relevance and good human directness beside the owner's actual words. Report selection bias when signal-bearing accounts receive different wording. Convert learning as: observed outcome, plausible explanation and uncertainty, one proposed change, owner decision, changed reference, next cohort. Small numbers remain preliminary.
