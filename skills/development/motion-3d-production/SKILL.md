@@ -1,0 +1,49 @@
+---
+name: motion-3d-production
+description: "Plan, build and inspect deterministic motion graphics, 3D renders and product explainers using the project-selected local stack. Use for animation, Blender/3D scene production, reusable motion assets or video QA; retain an existing Remotion or HyperFrames project."
+license: CC-BY-4.0
+metadata:
+  version: "1.0.0"
+  risk_level: "medium"
+  capabilities_required: ["tool:file_read", "tool:file_write", "tool:code_interpreter"]
+  allowed_domains: ["github.com"]
+  updated: "2026-10-18"
+  tags: ["design", "production", "gem"]
+  attribution_author: "Kaidera-AI"
+  attribution_url: "https://github.com/Kaidera-AI/skills"
+  attribution_notes: "Original portable Kaidera instructions. Design methods distilled from internal Marlow workflows; presentation craft informed by draft PR20 at 34186d4f8fd2fcd8969bf417d6fd9cbd30d8027c. No customer assets, upstream executable or third-party skill body bundled."
+  safety_constraints: ["Use only task-authorized tools and data; preserve approved assets and configured brand.", "Source publication does not grant runtime trust, installation, signing, provider spend or external distribution.", "Keep credentials and private customer material out of shared skills and exported artifacts."]
+---
+
+# Motion and 3D production
+
+Turn the accepted creative brief into reproducible source and an inspected still or film. Choose motion because the story needs time, change or depth; do not turn every approved still into a new video.
+
+## Lock the production brief
+
+Read the task, brand package, approved copy, existing source and output specification. Establish duration, frame rate, dimensions, aspect ratio, loop requirement, audio/captions, destination, required claims and review owner. Inspect existing approved assets first. Preserve them unless the task authorizes a revision. Confirm which renderer and capabilities are actually present. Tools, version pins, providers, credentials, budgets and voice permissions come from project configuration, not this skill.
+
+Write a shot/beat list: time or frame range, what the viewer learns, camera/object action, exact text and source asset, transition and exit state. An architecture animation must preserve real relationships and statuses; visual metaphor must not look like evidence of a feature that does not exist. Get creative-owner direction for a new motion language before producing a full campaign.
+
+## Deterministic motion
+
+Use a common time/frame coordinate for every animated property. Fix seeds for procedural randomness, centralize timing and keep scene components reusable. Define entry, hold and exit so the message can actually be read. Use easing to explain causality and attention; avoid making every layer bounce at once. For a loop inspect the first/last transition rather than merely repeating the file. Keep text, numbers, logos and diagram topology exact throughout.
+
+Preserve the existing stack: use `hyperframes` for a selected HyperFrames composition; use the installed Remotion workflow for an existing Remotion project. A link to upstream practices is not an installed skill or runtime licence. Check the project's pinned APIs/docs before using commands. This skill neither migrates frameworks nor installs a renderer.
+
+## 3D scene craft
+
+For a Blender or other supplied 3D project:
+
+1. Inventory source scenes, geometry, textures, fonts and linked assets; retain permitted provenance. Set units, scale, camera, frame range, output format and color-management settings explicitly. Record engine/version, device and relevant settings, without assuming GPU access.
+2. Block the silhouette and spatial relationships with simple geometry first. Establish the intended camera and focal hierarchy before expensive materials. Prefer reusable parameterized meshes/materials to unexplained one-off objects.
+3. Light for readable form: separate subject from background, control reflections/emission and preserve brand colors after the view transform. Compare an actual render with the target display; material RGB alone does not prove the exported brand color.
+4. Model only detail visible at delivery size. Control aliasing, noise, shadows, transparency and depth of field so they support the story. Render a low-cost proof at beginning, key change and end before a full sequence.
+5. Keep camera/object motion physically understandable, with stable spatial anchors and no accidental clipping or intersecting labels. Render an image sequence for expensive work when the installed workflow supports resumable frames; keep intermediates outside approved outputs.
+6. Export a reusable scene with relative asset references and record what is packed or missing. Never overwrite a source scene or approved asset in place. Make a deliberate versioned revision.
+
+## Composite, inspect and deliver
+
+Compose brand frames, exact text and canonical logos deterministically in the planned regions. Inspect the encoded export, not only the timeline. Play it end-to-end; inspect first/last frames, every cut and representative motion peaks for stutter, flicker, crop, compression and unreadable text. Check duration/frame rate/resolution, intended loop, caption timing and audio level/sync when audio is requested. Silence is valid when specified. Voice cloning requires explicit speaker consent and task authorization.
+
+Return editable source, pinned tool/dependency record, scene/asset manifest, actual export path/hash, dimensions/frame rate/duration, inspected frames/playback evidence and limitations. Classify missing runtime, failed render, uninspected export and creative-approval holds separately. Production completion does not authorize publishing, paid generation, installing software or changing project runtime settings.

@@ -33,6 +33,9 @@ const postureLabels = new Map([
 ])
 const posturePolicy = new Map([
   ['bounded-candidate', new Set([
+    'visual-design-production',
+    'motion-3d-production',
+    'presentation-design',
     'ui-ux-review',
     'ui-design-engineering',
     'gsd-core',
@@ -68,6 +71,7 @@ const posturePolicy = new Map([
       'prompt-master',
 ])],
   ['manual-only', new Set([
+    'agent-skill-onboarding',
     'folder-organisation',
     'marketing-web-research',
     'investor-lead-gen',
@@ -120,6 +124,11 @@ const legacySkills = new Set([
   'workspace-context',
 ])
 const currentSourceSkills = new Set([
+  'visual-design-production',
+  'motion-3d-production',
+  'presentation-design',
+  'agent-skill-onboarding',
+
   'folder-organisation',
   'ui-ux-review',
   'web-interface-guidelines',

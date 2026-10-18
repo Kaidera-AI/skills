@@ -4,7 +4,7 @@ Status: **canonical human-facing catalogue; source candidate; runtime and trust 
 
 Catalogue date: **2026-10-14**
 
-Total skills: **55**
+Total skills: **59**
 
 Source binding: consume this guide only from the same Git commit as its skill
 manifests, marketplace, and catalogue test. The enclosing commit/tree is the
@@ -31,7 +31,7 @@ a release blocker; do not silently choose one side.
 
 ## Current release boundary
 
-- All 55 skills are `unvetted`.
+- All 59 skills are `unvetted`.
 - Catalogue presence, a body hash, static validation, or a local commit is not
   approval to inject a skill into an agent.
 - Gate 1 strict manifest checks and a bounded Gate 2 pattern scan exist.
@@ -43,7 +43,7 @@ a release blocker; do not silently choose one side.
 - Kaidera and Alibaba both use the name `open-code-review`. A host must select a
   source-qualified identity and inject only one; prompt text cannot resolve a
   loader collision after both skills are present.
-- 21 of the 55 skills are filed under `legacy/`. They are kept as research context,
+- 21 of the 59 skills are filed under `legacy/`. They are kept as research context,
   they are not current Kaidera truth, and none of them may be bound to an agent.
 
 ## Portfolio summary
@@ -51,7 +51,7 @@ a release blocker; do not silently choose one side.
 | Category | Skills |
 |---|---:|
 | Context | 2 |
-| Development | 21 |
+| Development | 25 |
 | DevOps | 3 |
 | Documentation | 1 |
 | Legacy | 21 |
@@ -61,18 +61,18 @@ a release blocker; do not silently choose one side.
 
 | Declared trust tier | Skills |
 |---|---:|
-| `unvetted` | 55 |
+| `unvetted` | 59 |
 
 | Operating posture | Skills |
 |---|---:|
-| Bounded candidate | 15 |
+| Bounded candidate | 18 |
 | Reference-only | 16 |
-| Manual-only | 14 |
+| Manual-only | 15 |
 | Rework before use | 10 |
 
 Legacy entries: **21**
 
-Current-source entries: **34**
+Current-source entries: **38**
 
 `Legacy` is a documentation classification and, since the `legacy/` category was
 introduced, a filing location as well. Neither is a trust or compatibility
@@ -180,7 +180,7 @@ Use the narrowest matching skill:
 
 ### Design and GSD selection
 
-Use `design-selection` for the initial UI/native/video route, `ui-design-engineering` for component craft, `ui-ux-review` for critique/audit/hardening, `web-interface-guidelines` for a pinned read-only rule review and `hyperframes` for exported HTML video. Emil specialist entries are pinned source-linked selections rather than installed dependencies. Use `gsd-core` for phase execution and continuity inside the governing lifecycle; `kaidera-sdlc` retains gate authority. Source details and adoption findings are recorded in [the upstream review](UPSTREAM-SKILLS-REVIEW-2026-10-10.md).
+Use `design-selection` for the initial static/deck/3D/UI/native/video route, `ui-design-engineering` for component craft, `ui-ux-review` for critique/audit/hardening, `web-interface-guidelines` for a pinned read-only rule review and `hyperframes` for exported HTML video. Emil specialist entries are pinned source-linked selections rather than installed dependencies. Use `gsd-core` for phase execution and continuity inside the governing lifecycle; `kaidera-sdlc` retains gate authority. Source details and adoption findings are recorded in [the upstream review](UPSTREAM-SKILLS-REVIEW-2026-10-10.md).
 
 ## Catalogue at a glance
 
@@ -234,13 +234,17 @@ Use `design-selection` for the initial UI/native/video route, `ui-design-enginee
 | Sales and marketing | `marketing-one-to-one-outreach` | `1.0.1` | Human, need-led customer email, exact-payload approval, reply stops, human hand-over and bounded learning | Manual-only | high / file read, file write, external connector |
 | Sales and marketing | `social-media-ops` | `1.0.1` | Official-API posting with read-back, weekly AI answer visibility and hiring signals, and third-party tool vetting, with bundled stdlib tools | Manual-only | high / file read, file write, web search, external connector, interpreter |
 | Security | `prompt-injection-test-design` | `2.0.1` | Read-only design for controlled prompt-injection boundary testing | Reference-only | low / none |
-| Development | `design-selection` | `1.0.1` | Select the owning design workflow for UI, motion, native interaction or exported video. | Reference-only | medium / file read, web search |
+| Development | `design-selection` | `1.1.0` | Select the owning design workflow for UI, motion, native interaction or exported video. | Reference-only | medium / file read, web search |
 | Development | `ui-ux-review` | `1.0.0` | Critique, audit and harden a scoped interface. | Bounded candidate | medium / file read, file write, interpreter |
 | Development | `web-interface-guidelines` | `1.0.0` | Review web UI against the pinned local Vercel snapshot. | Reference-only | medium / file read |
 | Development | `ui-design-engineering` | `1.0.0` | Improve UI craft, input feedback, purposeful motion, gesture continuity and mobile details. | Bounded candidate | medium / file read, file write, interpreter, web search |
 | Development | `folder-organisation` | `1.0.1` | Place project files and preserve custody during authorised consolidation or sync. | Manual-only | medium / file read, file write, interpreter |
 | Development | `gsd-core` | `1.0.0` | Use persistent phase artifacts and bounded context to plan, execute or resume GSD Core work. | Bounded candidate | medium / file read, file write, interpreter, web search |
 | Development | `hyperframes` | `1.0.0` | Author and locally render deterministic HTML video compositions and motion graphics. | Bounded candidate | medium / file read, file write, interpreter, web search |
+| Development | `visual-design-production` | `1.0.0` | Design and inspect branded or editorial graphics, posters, social assets and campaign compositions | Bounded candidate | medium / file read, file write, interpreter |
+| Development | `motion-3d-production` | `1.0.0` | Plan, build and inspect deterministic motion graphics, 3D renders and product explainers using the project-selected local stack | Bounded candidate | medium / file read, file write, interpreter |
+| Development | `presentation-design` | `1.0.0` | Design, build or restyle presentation decks using the configured brand and approved copy; preserve hand edits, produce editable sources and inspect PPTX/PDF exports | Bounded candidate | medium / file read, file write, interpreter |
+| Development | `agent-skill-onboarding` | `1.0.0` | Onboard an agent to a project: verify boot identity, profile/persona, responsibilities, assigned task and SOP authority; discover task-relevant shared skills, pin source and record approval/qualification gaps | Manual-only | medium / file read, file write, interpreter, web search |
 
 ## Ownership, licensing, attribution, and domain metadata
 
@@ -306,6 +310,10 @@ precedence issue remains a release hold.
 | `folder-organisation` | `Kaidera-AI` | `Apache-2.0` | `github.com` | [Caliber AI](https://github.com/caliber-ai-org/ai-setup/blob/f5dbc002022a8a10acad25c1cce23ddefdc19d0d/src/sync/reconcile.ts) |
 | `gsd-core` | `Kaidera-AI` | `CC-BY-4.0` | `github.com`, `registry.npmjs.org` | [OpenGSD](https://github.com/open-gsd/gsd-core/tree/87e87d34b2d8519e30d1af7d910fc98f2af4bc8d) |
 | `hyperframes` | `Kaidera-AI` | `CC-BY-4.0` | `github.com`, `registry.npmjs.org` | [HeyGen](https://github.com/heygen-com/hyperframes/tree/6f3f86a9c9824c8ad5b7bf760375e243466e5ee0) |
+| `visual-design-production` | `Kaidera-AI` | `CC-BY-4.0` | `github.com` | [Kaidera-AI](https://github.com/Kaidera-AI/skills) |
+| `motion-3d-production` | `Kaidera-AI` | `CC-BY-4.0` | `github.com` | [Kaidera-AI](https://github.com/Kaidera-AI/skills) |
+| `presentation-design` | `Kaidera-AI` | `CC-BY-4.0` | `github.com` | [Kaidera-AI](https://github.com/Kaidera-AI/skills) |
+| `agent-skill-onboarding` | `Kaidera-AI` | `CC-BY-4.0` | `github.com` | [Kaidera-AI](https://github.com/Kaidera-AI/skills) |
 
 ## Context skills
 
@@ -349,6 +357,18 @@ so capability boundaries matter here more than anywhere else in the portfolio. E
 entry is current-source; the EnGenAI-era development material is filed under
 `legacy/`.
 
+### `agent-skill-onboarding`
+
+<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:file_write","tool:code_interpreter","tool:web_search"],"category":"development","legacy":false,"name":"agent-skill-onboarding","path":"skills/development/agent-skill-onboarding.SKILL.md","posture":"manual-only","review_fingerprint":"dcd5c7177bfe606e16b8537ca9863a338d8bbd11aad28e4af05b80045a53dc78","risk_level":"medium","trust_tier":"unvetted","version":"1.0.0"} -->
+
+- **Manifest:** [agent-skill-onboarding.SKILL.md](../skills/development/agent-skill-onboarding.SKILL.md)
+- **Function:** Onboard an agent to a project: verify boot identity, profile/persona, responsibilities, assigned task and SOP authority; discover task-relevant shared skills, pin source and record approval/qualification gaps. Use at first boot, project transfer, role change or skill-pack upgrade.
+- **Use when:** The role/task needs this specific output or onboarding activity.
+- **Do not use when:** Treating source availability as runtime trust, installing tools or overriding the configured brand, task or approval scope.
+- **Inputs and output:** Accepted task, configured tools and assets; editable outputs or onboarding receipt with inspection evidence and explicit holds.
+- **Authority and effects:** Manual-only; no runtime binding, external distribution, generation spend or publication approval.
+- **Kaidera action:** Original portable instructions, canonical directory projected into the manifest. Retain Gate3/4 and licence holds; see [Gem pack evidence](design/gem-skills-20261018/SOURCES.md).
+
 ### `assert-fact-gate`
 
 <!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read"],"category":"development","legacy":false,"name":"assert-fact-gate","path":"skills/development/assert-fact-gate.SKILL.md","posture":"manual-only","review_fingerprint":"1d517b0295c857f6facfda79330d7a79583942674945cd500391d51de1ea80ee","risk_level":"low","trust_tier":"unvetted","version":"1.0.0"} -->
@@ -388,7 +408,7 @@ entry is current-source; the EnGenAI-era development material is filed under
 
 ### `design-selection`
 
-<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:web_search"],"category":"development","legacy":false,"name":"design-selection","path":"skills/development/design-selection.SKILL.md","posture":"reference-only","review_fingerprint":"8365ec13acdc6de1b26219be10d4146c2430efcd0e6f1e320be5da845c10bc4e","risk_level":"medium","trust_tier":"unvetted","version":"1.0.1"} -->
+<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:web_search"],"category":"development","legacy":false,"name":"design-selection","path":"skills/development/design-selection.SKILL.md","posture":"reference-only","review_fingerprint":"b2735bb55cc4239c90175bd0d7ec0f8ae8f0fcc69570f7e2856395f1fc61d9f5","risk_level":"medium","trust_tier":"unvetted","version":"1.1.0"} -->
 
 - **Manifest:** [design-selection.SKILL.md](../skills/development/design-selection.SKILL.md)
 - **Function:** Select the owning design workflow for UI, motion, native interaction or exported video.
@@ -531,6 +551,18 @@ entry is current-source; the EnGenAI-era development material is filed under
 - **Agnostic install:** the directory form `skills/development/kaidera-sdlc/` (SKILL.md, references, templates) installs with `npx skills add Kaidera-AI/skills --skill kaidera-sdlc -a universal -y --copy`; 1.3.0 adds `code-review.md`, `human-gates.md` and `human-guide.md` (two reviewers merging into one report, what a human decides at the gate, and why/how the process works) on top of 1.2.0's team, code-quality, evidence, writing and attribution references and review in bounded rounds.
 - **Kaidera action:** Bounded candidate: the canonical source is Kaidera OS `.agents/skills/kaidera-sdlc/` (references, templates, evals); this file is its marketplace projection, rendered by the source's `tools/render-public.py` (its `--check`, run from a Kaidera OS checkout, proves the projection matches; marketplace CI cannot see that source, so `kaidera.source.content_sha256` names the rendered bytes and a stale projection is a review finding, not a CI failure). Never edited here.
 
+### `motion-3d-production`
+
+<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:file_write","tool:code_interpreter"],"category":"development","legacy":false,"name":"motion-3d-production","path":"skills/development/motion-3d-production.SKILL.md","posture":"bounded-candidate","review_fingerprint":"e29503626de6c9bbc6a62ac5023d7291a0ba1b837bac3dc18d09bd608ae28be1","risk_level":"medium","trust_tier":"unvetted","version":"1.0.0"} -->
+
+- **Manifest:** [motion-3d-production.SKILL.md](../skills/development/motion-3d-production.SKILL.md)
+- **Function:** Plan, build and inspect deterministic motion graphics, 3D renders and product explainers using the project-selected local stack. Use for animation, Blender/3D scene production, reusable motion assets or video QA; retain an existing Remotion or HyperFrames project.
+- **Use when:** The role/task needs this specific output or onboarding activity.
+- **Do not use when:** Treating source availability as runtime trust, installing tools or overriding the configured brand, task or approval scope.
+- **Inputs and output:** Accepted task, configured tools and assets; editable outputs or onboarding receipt with inspection evidence and explicit holds.
+- **Authority and effects:** Bounded candidate; no runtime binding, external distribution, generation spend or publication approval.
+- **Kaidera action:** Original portable instructions, canonical directory projected into the manifest. Retain Gate3/4 and licence holds; see [Gem pack evidence](design/gem-skills-20261018/SOURCES.md).
+
 ### `open-code-review`
 
 <!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:code_interpreter"],"category":"development","legacy":false,"name":"open-code-review","path":"skills/development/open-code-review.SKILL.md","posture":"bounded-candidate","review_fingerprint":"3119a9cd26d311142e49d7ef93fc8f2a9abdaba93cf1022920c18fce3c2a8e08","risk_level":"medium","trust_tier":"unvetted","version":"4.0.1"} -->
@@ -557,6 +589,18 @@ entry is current-source; the EnGenAI-era development material is filed under
   immutable policy binding.
 - **Kaidera action:** First-wave bounded-review candidate. Preserve the explicit
   Gate 3/4 and source-qualified loader holds.
+
+### `presentation-design`
+
+<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:file_write","tool:code_interpreter"],"category":"development","legacy":false,"name":"presentation-design","path":"skills/development/presentation-design.SKILL.md","posture":"bounded-candidate","review_fingerprint":"9104dc30bf3ce6a5ea1cea3ad5bf4b88f2fa451c276b775a38f23e6e02d53bd5","risk_level":"medium","trust_tier":"unvetted","version":"1.0.0"} -->
+
+- **Manifest:** [presentation-design.SKILL.md](../skills/development/presentation-design.SKILL.md)
+- **Function:** Design, build or restyle presentation decks using the configured brand and approved copy; preserve hand edits, produce editable sources and inspect PPTX/PDF exports. Use for slide or pitch-deck craft and visual QA, with the installed document workflow.
+- **Use when:** The role/task needs this specific output or onboarding activity.
+- **Do not use when:** Treating source availability as runtime trust, installing tools or overriding the configured brand, task or approval scope.
+- **Inputs and output:** Accepted task, configured tools and assets; editable outputs or onboarding receipt with inspection evidence and explicit holds.
+- **Authority and effects:** Bounded candidate; no runtime binding, external distribution, generation spend or publication approval.
+- **Kaidera action:** Original portable instructions, canonical directory projected into the manifest. Retain Gate3/4 and licence holds; see [Gem pack evidence](design/gem-skills-20261018/SOURCES.md).
 
 ### `prompt-master`
 
@@ -640,6 +684,18 @@ entry is current-source; the EnGenAI-era development material is filed under
 - **Inputs and output:** No parameters; authored acceptance ledger and process guidance; its optional checker and Stop hook are separate opt-in tooling.
 - **Authority and effects:** Advisory. Its gates describe evidence; they do not execute commands or grant authority.
 - **Kaidera action:** Bounded candidate: MIT method adaptation from pinned Leonxlnx/unlazy source targeting 2.1.0; 1.0.1 corrects the example check and optional-checker execution guidance.
+
+### `visual-design-production`
+
+<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:file_write","tool:code_interpreter"],"category":"development","legacy":false,"name":"visual-design-production","path":"skills/development/visual-design-production.SKILL.md","posture":"bounded-candidate","review_fingerprint":"a7bc1a262585e6ebf52f56d623cb2a082cc1a50e5eb4ef6fb994ad619d9b1c4d","risk_level":"medium","trust_tier":"unvetted","version":"1.0.0"} -->
+
+- **Manifest:** [visual-design-production.SKILL.md](../skills/development/visual-design-production.SKILL.md)
+- **Function:** Design and inspect branded or editorial graphics, posters, social assets and campaign compositions. Use for static visual production, brand-template composition or final visual QA; use the configured brand and approved brief.
+- **Use when:** The role/task needs this specific output or onboarding activity.
+- **Do not use when:** Treating source availability as runtime trust, installing tools or overriding the configured brand, task or approval scope.
+- **Inputs and output:** Accepted task, configured tools and assets; editable outputs or onboarding receipt with inspection evidence and explicit holds.
+- **Authority and effects:** Bounded candidate; no runtime binding, external distribution, generation spend or publication approval.
+- **Kaidera action:** Original portable instructions, canonical directory projected into the manifest. Retain Gate3/4 and licence holds; see [Gem pack evidence](design/gem-skills-20261018/SOURCES.md).
 
 ## DevOps skills
 

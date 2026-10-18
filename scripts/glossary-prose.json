@@ -228,6 +228,22 @@
     "folder-organisation": {
       "what": "Place project files and record content custody before an authorised consolidation or sync.",
       "why": "Keep foreign edits, distinguish planned actions from writes, and use the canonical approved writer."
+    },
+    "visual-design-production": {
+      "what": "Static visual craft: hierarchy, grid, exact text/marks, brand composition and inspected export.",
+      "why": "Makes Gem’s still-production methods reusable without copying a customer brand."
+    },
+    "motion-3d-production": {
+      "what": "Deterministic motion and 3D scene craft with actual encoded-export inspection.",
+      "why": "Preserves the selected local renderer and reusable source; no tool installation or generation spend."
+    },
+    "presentation-design": {
+      "what": "Presentation narrative, reusable slide systems, editable output and full export QA.",
+      "why": "Separates deck craft from format tooling and protects approved copy and manual edits."
+    },
+    "agent-skill-onboarding": {
+      "what": "Boot-to-qualification procedure: role, task, SOP authority, pinned skill selection and evidence.",
+      "why": "Prevents copied skill files or a successful boot from being mistaken for runtime readiness."
     }
   },
   "rename_pairs": [

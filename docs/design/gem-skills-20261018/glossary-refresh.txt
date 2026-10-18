@@ -1,0 +1,4 @@
+$ node scripts/render-glossary.js
+rendered docs/SKILLS-GLOSSARY.md: 299 lines
+
+exit=0
