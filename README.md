@@ -27,7 +27,7 @@ Skills are instructions, not programs: the flat `*.SKILL.md` manifest carries no
 | Category | Description | Count |
 |----------|-------------|-------|
 | `context/` | Project and workspace awareness | 2 |
-| `development/` | Code writing, review, testing | 21 |
+| `development/` | Code writing, review, testing | 25 |
 | `devops/` | Deployment, infrastructure, CI/CD | 3 |
 | `documentation/` | Specs, docs, changelogs, writing voice | 1 |
 | `legacy/` | Retired EnGenAI-era material, kept as reference | 21 |

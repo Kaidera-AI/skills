@@ -1,0 +1,40 @@
+{
+  "base": "53a9afd094020d9a197b299f05e051c27355e62e",
+  "worktrees": "/Volumes/WD-B-4TB/DevVault/kaidera/skills                                     53a9afd [main]\n/Volumes/WD-B-4TB/DevVault/kaidera/skills/.worktrees/tate-gem-design-20261018 53a9afd [tate/gem-design-onboarding-20261018]\n",
+  "shared_status": "?? .worktrees/\n",
+  "refs_count": 15,
+  "refs_sha256": "4f00d90c313153c865df449dbc35166600c9846d849db7d751dab909ea28dc86",
+  "overlaps": [
+    {
+      "ref": "origin/ren-tk/gsd-design-skills-20261010",
+      "rc": 0,
+      "paths": [
+        "docs/KAIDERA-SKILLS-CATALOG.md",
+        "docs/SKILLS-GLOSSARY.md",
+        "docs/UPSTREAM-SKILLS-REVIEW-2026-10-10.md",
+        "package.json",
+        "scripts/glossary-prose.json",
+        "scripts/render-upstream-adapters.js",
+        "scripts/test-skills-catalog.js"
+      ],
+      "error": ""
+    },
+    {
+      "ref": "origin/tate/adaptive-routing-20261011",
+      "rc": 0,
+      "paths": [
+        "docs/KAIDERA-SKILLS-CATALOG.md",
+        "docs/SKILLS-GLOSSARY.md",
+        "package.json",
+        "scripts/adaptive-routing-harness.js",
+        "scripts/fixtures/adaptive-routing/cases.json",
+        "scripts/fixtures/adaptive-routing/mutations.json",
+        "scripts/glossary-prose.json",
+        "scripts/render-upstream-adapters.js",
+        "scripts/test-adaptive-routing.js",
+        "scripts/test-skills-catalog.js"
+      ],
+      "error": ""
+    }
+  ]
+}

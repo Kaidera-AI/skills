@@ -1,13 +1,13 @@
 ---
 name: design-selection
-description: "Select a design skill for interface polish, animation review, native interaction, prototypes or rendered video. Use when choosing design capabilities or deciding which design workflow owns a requested deliverable."
+description: "Select a design skill for static graphics, decks, motion/3D production, interface polish, native interaction or rendered video. Use when choosing design capabilities or deciding which design workflow owns a requested deliverable."
 license: CC-BY-4.0
 metadata:
-  version: "1.0.1"
+  version: "1.1.0"
   risk_level: "medium"
   capabilities_required: ["tool:file_read", "tool:web_search"]
   allowed_domains: ["github.com", "registry.npmjs.org"]
-  updated: "2026-10-10"
+  updated: "2026-10-18"
   tags: ["design", "routing"]
   attribution_author: "Emil Kowalski and HeyGen"
   attribution_url: "https://github.com/emilkowalski/skills/tree/e8a175de22ae1e49370fc144c1f3bb9aeedf988d"
@@ -21,6 +21,9 @@ Route by the requested deliverable and action, then load one owning skill plus n
 
 | Request | Owning selection | Boundary |
 |---|---|---|
+| Static graphic, poster, editorial or branded social asset | `visual-design-production` | Configured brand, deterministic exact copy and inspected export. |
+| Presentation / slide deck | `presentation-design` | Editable deck and inspected exports; use installed document workflow. |
+| 3D scene, motion asset or existing Remotion production | `motion-3d-production` | Keep the chosen renderer; inspect the encoded export. |
 | UI/UX critique, technical audit or resilience hardening | `ui-ux-review` | Critique/audit report; harden edits only the accepted scope. |
 | Web implementation guideline review | `web-interface-guidelines` | Read the pinned local snapshot; preserve stack-specific context. |
 | UI component craft, visual polish, responsive interaction | `ui-design-engineering` | Preserve the existing design system and framework. |
@@ -32,7 +35,7 @@ Route by the requested deliverable and action, then load one owning skill plus n
 | Exported promo, explainer, titles or HTML video composition | `hyperframes` | Deterministic video, local render, retained media provenance. |
 | Named existing framework or library | Its matching workflow | Keep the user's chosen stack. |
 
-The available Kaidera source candidates in this selection are `ui-ux-review`, `web-interface-guidelines`, `ui-design-engineering` and `hyperframes`; specialist Emil entries are source-linked options, not installed dependencies. Their respective references identify the exact upstream pins and specialist paths. Check availability before invoking a name; missing selection calls for reading the pinned source or proposing its reviewed plain-file import.
+The available Kaidera source candidates in this selection are `ui-ux-review`, `web-interface-guidelines`, `ui-design-engineering`, `hyperframes`, `visual-design-production`, `motion-3d-production` and `presentation-design`; specialist Emil entries are source-linked options, not installed dependencies. Their respective references identify the exact upstream pins and specialist paths. Check availability before invoking a name; missing selection calls for reading the pinned source or proposing its reviewed plain-file import.
 
 Return the chosen owner, reason, required inputs and relevant source pin. Skill selection grants no tooling or runtime trust. For a Cortex project, installation uses the approved universal plain-file path and the registry/binding process; generated harness files stay Cortex-owned.
 

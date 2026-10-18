@@ -1,0 +1,42 @@
+---
+name: presentation-design
+description: "Design, build or restyle presentation decks using the configured brand and approved copy; preserve hand edits, produce editable sources and inspect PPTX/PDF exports. Use for slide or pitch-deck craft and visual QA, with the installed document workflow."
+license: CC-BY-4.0
+metadata:
+  version: "1.0.0"
+  risk_level: "medium"
+  capabilities_required: ["tool:file_read", "tool:file_write", "tool:code_interpreter"]
+  allowed_domains: ["github.com"]
+  updated: "2026-10-18"
+  tags: ["design", "production", "gem"]
+  attribution_author: "Kaidera-AI"
+  attribution_url: "https://github.com/Kaidera-AI/skills"
+  attribution_notes: "Original portable Kaidera instructions. Design methods distilled from internal Marlow workflows; presentation craft informed by draft PR20 at 34186d4f8fd2fcd8969bf417d6fd9cbd30d8027c. No customer assets, upstream executable or third-party skill body bundled."
+  safety_constraints: ["Use only task-authorized tools and data; preserve approved assets and configured brand.", "Source publication does not grant runtime trust, installation, signing, provider spend or external distribution.", "Keep credentials and private customer material out of shared skills and exported artifacts."]
+---
+
+# Presentation design
+
+Build a clear visual argument from approved material and the project brand. This skill owns slide craft; the installed presentation/document tool workflow owns its file-format mechanics. Do not impose a house palette or claim that a source merge installs a slide tool.
+
+## Resolve the deck contract
+
+Read the task, target audience, purpose, length, format, approved copy/claim ledger, brand package and named reference deck. Explicit user instructions and approved hand edits govern the revision; preserve factual accuracy and return copy/brand conflicts to their owner. Inspect existing files before rebuilding. Do not overwrite an open deck or discard manual changes: incorporate accepted edits in the source or make a new version.
+
+Create a slide map with title, one claim, source evidence, visual treatment and speaker purpose per slide. Preserve source names, figures, pipeline status and quotations. If a claim is unverified, flag it or omit it with the copy owner's decision; never invent metrics, customers, endorsements or partner marks to fill a slide. Put explanatory detail in notes or appendix only when requested, not in unreadable microtype.
+
+## Establish a reusable layout system
+
+Use the requested aspect ratio, margins, columns, baseline spacing, type hierarchy and brand colors. Derive these from the supplied reference/configuration. Choose a small set of reusable masters: opening, claim/evidence, comparison, process/architecture and closing. Keep recurring elements aligned across slides. One accent family and restrained hierarchy can focus attention; variety is useful only when it improves the argument.
+
+Use canonical mark files with correct proportions, clear space and allowed color variants. Keep text editable when the requested format permits. Prefer real charts/diagrams with explicit labels and sources; avoid decorative 3D charts or fake product screenshots. Use a claim headline rather than a generic section label when approved copy supports it. Check contrast and reading size at the actual screen/projector condition. A dense table may need multiple slides or an appendix, not a smaller font.
+
+For a reused or imported deck, audit fonts, unsupported effects, media links and theme substitutions before a wholesale restyle. Apply consistent treatments to diagrams and screenshots without altering the information. Record rights for fonts, photos, icons and source templates. Customer brand assets remain project inputs and are never bundled into the shared skill.
+
+## Build and verify the deliverable
+
+Use the installed presentation workflow for editable output. Retain source/build scripts and an asset manifest when generation is scripted. Export PDF from the actual presentation artifact with the available converter; verify that both exports contain the expected slides and content. If the conversion tool is absent, report that limitation instead of treating screenshots or a differently generated PDF as equivalent.
+
+Render every slide for visual inspection. Check overflow, collisions, clipped lines, missing glyphs, substituted fonts, stretched images, inconsistent spacing, broken links and unexpected blank slides. Compare visible copy/numbers with the approved source. Inspect notes, metadata and hidden slides for internal directives, credentials or unintended private context. For a corrected slide, inspect its neighbors for system consistency. Automated geometry/text checks supplement this review; they do not prove the design is good.
+
+Return editable deck, requested export, source/build artifacts, hashes, slide count, source/rights manifest and a slide-by-slide QA record with remaining issues. Where available, inspect in the target presentation application and record what was actually checked. Creative selection and external distribution remain with the configured owner; this skill never emails, uploads or publishes the deck.

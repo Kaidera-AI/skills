@@ -1,0 +1,15 @@
+2026-10-14 main
+2026-10-14 tate/gem-design-onboarding-20261018
+2026-10-14 origin
+2026-10-14 origin/main
+2026-10-14 origin/marlow/harvey-outreach-skills-20261014
+2026-10-14 origin/marlow/human-first-outreach-20261014
+2026-10-12 origin/marlow/investor-lead-gen-20261012
+2026-10-10 origin/marlow/social-media-ops-20261010
+2026-10-10 origin/ren-tk/folder-organisation-20261010
+2026-10-10 origin/ren-tk/gsd-design-skills-20261010
+2026-10-07 origin/ren-tk/legacy-redaction-20261007
+2026-10-07 origin/ren-tk/skill-naming-and-legacy-20261007
+2026-10-07 origin/ren-tk/skills-glossary-20261007
+2026-10-10 origin/ren-tk/ui-ux-skills-20261010
+2026-10-11 origin/tate/adaptive-routing-20261011

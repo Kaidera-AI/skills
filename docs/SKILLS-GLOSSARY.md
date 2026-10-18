@@ -2,7 +2,7 @@
 
 Status: **human-facing index; the manifests and the catalogue remain authoritative**
 
-Published skills covered: **55**
+Published skills covered: **59**
 
 Rendered by `scripts/render-glossary.js` from the built marketplace, the catalogue
 markers and the authored prose in `scripts/glossary-prose.json`. Skill names, categories
@@ -27,23 +27,23 @@ the manifest wins and this file is stale — fix it in the same commit.
 | Category | Published |
 |---|---:|
 | `context/` | 2 |
-| `development/` | 21 |
+| `development/` | 25 |
 | `devops/` | 3 |
 | `documentation/` | 1 |
 | `legacy/` | 21 |
 | `research/` | 2 |
 | `security/` | 1 |
 | `sales-and-marketing/` | 4 |
-| **Total** | **55** |
+| **Total** | **59** |
 
 | Posture | Published |
 |---|---:|
-| Bounded candidate | 15 |
+| Bounded candidate | 18 |
 | Reference-only | 16 |
-| Manual-only | 14 |
+| Manual-only | 15 |
 | Rework before use | 10 |
 
-Legacy entries: **21** of 55 are filed under `legacy/`. 19 of them still name the retired product or its domains outright; the other 2 (`code-review` and `deploy-to-dev`) do not, and are legacy for stale escalation, kill-switch, organisation-scope and sprint-log controls, or because redaction removed their only product reference.
+Legacy entries: **21** of 59 are filed under `legacy/`. 19 of them still name the retired product or its domains outright; the other 2 (`code-review` and `deploy-to-dev`) do not, and are legacy for stale escalation, kill-switch, organisation-scope and sprint-log controls, or because redaction removed their only product reference.
 
 None of the 21 declares any capability, yet several bodies describe installs,
 live production diagnostics, database and cluster access, Git mutation or deployment.
@@ -138,6 +138,7 @@ portfolio judgements, separate from the manifest's `trust_tier`, and every skill
 | Skill | Category | What it does | Why you reach for it | Posture |
 |---|---|---|---|---|
 | [`agent-platform-context`](../skills/legacy/agent-platform-context.SKILL.md) | `legacy` | EnGenAI agent-runtime internals: executor, mailbox messaging, lead/worker teams, Celery lifecycle. | Background reading for legacy platform code; it is not current Kaidera truth. | Reference-only, legacy |
+| [`agent-skill-onboarding`](../skills/development/agent-skill-onboarding.SKILL.md) | `development` | Boot-to-qualification procedure: role, task, SOP authority, pinned skill selection and evidence. | Prevents copied skill files or a successful boot from being mistaken for runtime readiness. | Manual-only |
 | [`api-design`](../skills/legacy/api-design.SKILL.md) | `legacy` | Legacy FastAPI conventions for URLs, request/response schemas, auth, pagination, errors and OpenAPI. | Pattern reference in a repository that already matches; verify against current source first. | Reference-only, legacy |
 | [`api-test`](../skills/legacy/api-test.SKILL.md) | `legacy` | Legacy FastAPI contract and integration test structure, AsyncClient use, auth fixtures, async DB mocks. | Test-shape ideas only; it runs nothing and never supports a coverage claim. | Reference-only, legacy |
 | [`assert-fact-gate`](../skills/development/assert-fact-gate.SKILL.md) | `development` | Blocks any factual claim until a fresh source check in this turn backs it. | Cheapest honesty control in the portfolio: kills recalled SHAs, “tests pass” and “it’s deployed”. | Manual-only |
@@ -173,8 +174,10 @@ portfolio judgements, separate from the manifest's `trust_tier`, and every skill
 | [`marketing-lead-generation`](../skills/sales-and-marketing/marketing-lead-generation.SKILL.md) | `sales-and-marketing` | Researches and qualifies customer prospects, builds source-dated evidence cards and queues a reviewable batch. | Customer prospecting before outreach, with observed contact routes and separate qualification, policy and approval gates. | Manual-only |
 | [`marketing-one-to-one-outreach`](../skills/sales-and-marketing/marketing-one-to-one-outreach.SKILL.md) | `sales-and-marketing` | Writes, sends and measures short evidence-led customer emails with exact-payload approval and reply stops. | One-to-one sales outreach after qualification, with suppression checks, human hand-off and bounded learning. | Manual-only |
 | [`marketing-web-research`](../skills/research/marketing-web-research.SKILL.md) | `research` | Researches companies, current decision makers and professional profiles from public and authorised sessions. | Market mapping, leadership lists and follow reconciliation. Research never authorises contact. | Manual-only |
+| [`motion-3d-production`](../skills/development/motion-3d-production.SKILL.md) | `development` | Deterministic motion and 3D scene craft with actual encoded-export inspection. | Preserves the selected local renderer and reusable source; no tool installation or generation spend. | Bounded candidate |
 | [`open-code-review`](../skills/development/open-code-review.SKILL.md) | `development` | Diff-first, evidence-gated review of a bounded change: exact receipt, diagnostics, impact, challenge, coverage. | The portfolio’s change-review contract. Strictly read-only. Collides by name with Alibaba’s distinct skill. | Bounded candidate |
 | [`performance-profiling`](../skills/legacy/performance-profiling.SKILL.md) | `legacy` | Legacy Python async, PostgreSQL, Kubernetes and Redis profiling for latency-regression diagnosis. | Runs live production diagnostics while declaring no tools; rework before use. | Rework before use, legacy |
+| [`presentation-design`](../skills/development/presentation-design.SKILL.md) | `development` | Presentation narrative, reusable slide systems, editable output and full export QA. | Separates deck craft from format tooling and protects approved copy and manual edits. | Bounded candidate |
 | [`prompt-injection-test-design`](../skills/security/prompt-injection-test-design.SKILL.md) | `security` | Read-only design checklist for testing a skill-content injection boundary: threats, corpus, rejection criteria. | Designs a separately controlled harness; it embeds no payloads and executes nothing. | Reference-only |
 | [`prompt-master`](../skills/development/prompt-master.SKILL.md) | `development` | Vendored verbatim from the donor: writes one optimised prompt for a named AI tool from a rough request. | Only on an explicit prompt-engineering request. Donor name, licence and attribution are preserved. | Reference-only |
 | [`research-brief`](../skills/research/research-brief.SKILL.md) | `research` | Turns an ambiguous research request into a self-contained, decision-led brief with a source plan. | Drafts the mission. It performs no research, invokes no vendor, spends nothing, contacts nobody. | Bounded candidate |
@@ -190,6 +193,7 @@ portfolio judgements, separate from the manifest's `trust_tier`, and every skill
 | [`ui-ux-review`](../skills/development/ui-ux-review.SKILL.md) | `development` | Critique task flow, audit web UI evidence and harden scoped edge cases using a portable Impeccable-derived method. | Prioritize actual user obstacles and recovery without installing upstream CLI or hooks. | Bounded candidate |
 | [`ultrareview`](../skills/development/ultrareview.SKILL.md) | `development` | Whole-codebase or module health audit across eight dimensions with adversarial verification of findings. | Repository-wide scope. Its opt-in fix mode exceeds its declared no-tool contract. | Rework before use |
 | [`unlazy`](../skills/development/unlazy.SKILL.md) | `development` | Completion discipline: write acceptance gates first, decompose with a depth tree, re-measure every claim. | The counter to quiet incompleteness on long, multi-part, parallel or exhaustive work. | Bounded candidate |
+| [`visual-design-production`](../skills/development/visual-design-production.SKILL.md) | `development` | Static visual craft: hierarchy, grid, exact text/marks, brand composition and inspected export. | Makes Gem’s still-production methods reusable without copying a customer brand. | Bounded candidate |
 | [`web-interface-guidelines`](../skills/development/web-interface-guidelines.SKILL.md) | `development` | Review named web UI files against the pinned local Vercel guideline snapshot. | Apply repeatable web implementation guidance with stack and product context, without a live fetch. | Reference-only |
 | [`workspace-context`](../skills/legacy/workspace-context.SKILL.md) | `legacy` | Legacy workspace identity, tech stack, team structure, terminology and development principles. | Orientation only; it names a retired organisation and product. | Reference-only, legacy |
 
@@ -220,11 +224,11 @@ category labels in `scripts/test-skills-catalog.js`; that pull request adds both
 
 ## Projections
 
-**18** published skills are generated rather than authored here: they carry
+**22** published skills are generated rather than authored here: they carry
 `kaidera.source` or a generation marker, and are re-rendered from a canonical source
 instead of being edited in place.
 
-10 of them keep their canonical directory inside this repository (`design-selection`, `development-workflow`, `folder-organisation`, `gsd-core`, `hyperframes`, `investor-lead-gen`, `social-media-ops`, `ui-design-engineering`, `ui-ux-review`, `web-interface-guidelines`): the flat manifest is generated from
+14 of them keep their canonical directory inside this repository (`agent-skill-onboarding`, `design-selection`, `development-workflow`, `folder-organisation`, `gsd-core`, `hyperframes`, `investor-lead-gen`, `motion-3d-production`, `presentation-design`, `social-media-ops`, `ui-design-engineering`, `ui-ux-review`, `visual-design-production`, `web-interface-guidelines`): the flat manifest is generated from
 the directory of the same name, and `npm test` fails if the two drift.
 
 The other 8 are projected from a canonical directory in `Kaidera-AI/kaideraos`: `gavel`, `jev`, `jev-backlog-rank`, `jev-handoff-check`, `jev-option-decision`, `jev-return-triage`, `kaidera-sdlc`, `marketing-web-research`.

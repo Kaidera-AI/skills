@@ -1,0 +1,4 @@
+$ node scripts/update-catalog-markers.js
+1 marker(s) and 0 at-a-glance row(s) rewritten, 59 skills
+
+exit=0
