@@ -150,3 +150,38 @@ Anonymised lessons from running this skill on a real pre-seed raise. Each one na
 - **Observed:** Nine copy versions went out in four sending days, none to more than 20 people, and no follow-up had gone. When the owners paused to ask what had worked, no wording change could be read.
 - **Rule:** Hold one version for a set number of sends (about 40) and read it after the follow-up window before changing the wording. A correction of fact is not a wording change.
 - **Check:** The send log shows each copy version's send count and its first and last send dates.
+
+### L30 · 2026-10-14 · A researched fact is not investor relevance
+- **Observed:** The owner asked for generic filler to be removed before outreach restarted. The released queue held true but decorative bridges from a partner's career or portfolio into the same product paragraph and an immediate meeting ask.
+- **Rule:** A first email records a sourced relevance receipt: the observed fact, why the company fits, the accepted basis and a passed substitution check (the line must fail if another fund's name is swapped in). The opening states the fit plainly, and the first ask is whether the opportunity fits, not for a stranger's time.
+- **Check:** The preflight refuses a first email with no relevance receipt.
+
+### L31 · 2026-10-16 · Programme attendance is not investee geography
+- **Observed:** An accelerator requires selected teams to spend twelve weeks in one city, but its programme page does not say the company must be incorporated or based there.
+- **Rule:** Record a temporary in-person requirement in the geography evidence, but do not treat it as a location restriction unless the fund's own site states one.
+- **Check:** A geography stretch on the record cites a stated investee-location rule, not an attendance rule.
+
+### L32 · 2026-10-15 · Read the fund's company-eligibility rule before email 1
+- **Observed:** A fund passed after its form because it invests only in companies incorporated in one jurisdiction. Its fit record had already noted a regional focus, and nothing in the process read an incorporation or headquarters rule. A read of every open fund that followed found about half eligible, most of the rest silent, and a few that ruled the company out.
+- **Rule:** Before email 1, read the fund's own site for where an investee must be incorporated or based, and record it. A stated rule that excludes the company holds the lead; "not stated" goes ahead with the URL on the record. Re-incorporation is the founder's decision and is never proposed unasked.
+- **Check:** Every first email's fund record carries an eligibility reading and its source URL.
+
+### L33 · 2026-10-15 · A new first-email gate can silently hold every follow-up
+- **Observed:** A new copy version made the preflight refuse any lead without a sourced relevance record. Leads written before the change had none, so their one follow-up was skipped, neither sent nor stopped, and the dry run reported nothing due.
+- **Rule:** After any copy-version or gate change, dry-run the follow-up step and count the skips. Backfill the record for older leads or scope the gate to its own step. Never count follow-ups as moving until the dry run shows them due.
+- **Check:** The daily status reports follow-ups skipped by a gate as a number, not as "none due".
+
+### L34 · 2026-10-16 · Review the opener as the assembled email, not as a field
+- **Observed:** The opener sits straight before the founder's fixed product line, so openers that said what the company is repeated it. Removing that pushed the writer to verdict tails ("the relevant fit here"), to describing a fund's own portfolio company back to it, and to telling a fund its own ticket range. Each passed a word-list check and failed when read aloud.
+- **Rule:** Render every ready email 1 with the sending script and read the opener aloud with the line after it; read the openers for partners at one fund side by side. An opener states one sourced fund fact and no verdict about fit. By the third rework round the only acceptable return is fix once or hold.
+- **Check:** A research return carries the rendered email 1 and its body hash for every ready lead.
+
+### L35 · 2026-10-17 · The copy list is not the approver list
+- **Observed:** An outside adviser who leads the lane asked to be kept off outgoing investor emails, and a day later the founder took him off all lane mail until a meeting needs him. His approval rights and the signature stayed as they were, and carriers filed earlier still named him as a recipient.
+- **Rule:** Keep who is copied, who approves and who is named in the signature as separate settings, and read the recipient setting at send time, not when the carrier was filed.
+- **Check:** A test that changes the copy list leaves the approver list and signature untouched and changes the next send's recipients.
+
+### L36 · 2026-10-18 · A decline that names other funds is a later-stage watchlist
+- **Observed:** A fund passed because the company has no revenue yet and listed several other funds as starting points, not endorsements. Some were already in the sequence; the founder's only instruction was to keep them for future stages.
+- **Rule:** Funds named in a decline go to a research-only watchlist, each marked for now or after first revenue, with no lead, release or CRM write until the owner says go. Never name the declining fund in later copy.
+- **Check:** Watchlist entries carry no lead file and no release until a recorded go.

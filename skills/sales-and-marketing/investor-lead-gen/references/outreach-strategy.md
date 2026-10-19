@@ -57,6 +57,8 @@ The sender, signature and copied addresses come from the instance. Never send fr
 
 One follow-up, seven business days after email 1, on the same thread, with the deck again (the fund's name on the cover helps). Then stop. More reminders cost goodwill and seldom change the answer.
 
+After any copy-version or gate change, dry-run the follow-up step and count the skips. A gate written for the first email can hold every older lead's follow-up without sending or stopping it.
+
 ## 7. Replies
 
 - Treat mail from any address at the fund's domain as a reply, because funds answer from team addresses with the partner copied. A personal mail domain matches only the address you wrote to.
