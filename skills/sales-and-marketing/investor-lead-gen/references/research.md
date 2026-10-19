@@ -30,6 +30,7 @@ Record for each fund:
 - minimum cheque (section 3), with source and note;
 - portfolio companies that compete with the company raising (section 4);
 - its pitch form or submission route, if it has one (section 5).
+- where an investee must be incorporated or based, read on the fund's own site, with the URL; a temporary programme attendance requirement is recorded but is not a location rule. A stated rule that excludes the company holds the lead before email 1.
 
 ## 3. Minimum cheque
 
@@ -62,6 +63,8 @@ Take the top three to five decision makers from the fund's own team page, partne
 ## 8. Opening lines
 
 One plain fact about the fund or person, from its own thesis or portfolio, said the way a person would say it across a table. Then stop. Count the patterns across a batch: if one construction opens more than about one line in ten, it reads as a template and should be retired. Never invent familiarity, praise or urgency.
+
+Review each opener in the email as the sending script renders it, read aloud with the line that follows, and read the openers for partners at one fund side by side. An opener carries no verdict about fit ("the relevant fit here"), does not describe the fund's own portfolio company back to it, and does not tell the fund its own ticket range.
 
 ## 9. Angels
 

@@ -229,7 +229,7 @@ Use `design-selection` for the initial static/deck/3D/UI/native/video route, `ui
 | Legacy | `workspace-context` | `1.0.2` | Legacy workspace identity, stack, structure, terminology, and principles | Reference-only, legacy | low / none |
 | Research | `marketing-web-research` | `0.1.002` | Customer-configurable company and professional-profile research with separate action receipts | Manual-only | high / file read, file write, web search, external connector |
 | Research | `research-brief` | `1.0.0` | Drafts a self-contained decision-led brief without executing research | Bounded candidate | low / file read |
-| Sales and marketing | `investor-lead-gen` | `1.1.0` | Investor research, one-to-one first emails, one follow-up, reply hand-over, investor database and weekly learning loop | Manual-only | high / file read, file write, web search, external connector |
+| Sales and marketing | `investor-lead-gen` | `1.2.0` | Investor research, one-to-one first emails, one follow-up, reply hand-over, investor database and weekly learning loop | Manual-only | high / file read, file write, web search, external connector |
 | Sales and marketing | `marketing-lead-generation` | `1.0.1` | Customer prospect research, buying-relevant evidence cards, qualification, observed-route verification and review queue | Manual-only | high / file read, file write, web search, external connector |
 | Sales and marketing | `marketing-one-to-one-outreach` | `1.0.1` | Human, need-led customer email, exact-payload approval, reply stops, human hand-over and bounded learning | Manual-only | high / file read, file write, external connector |
 | Sales and marketing | `social-media-ops` | `1.0.1` | Official-API posting with read-back, weekly AI answer visibility and hiring signals, and third-party tool vetting, with bundled stdlib tools | Manual-only | high / file read, file write, web search, external connector, interpreter |
@@ -1273,7 +1273,7 @@ systems, regions and approvals stay outside this public repository.
 
 ### `investor-lead-gen`
 
-<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:file_write","tool:web_search","tool:mcp_external"],"category":"sales-and-marketing","legacy":false,"name":"investor-lead-gen","path":"skills/sales-and-marketing/investor-lead-gen.SKILL.md","posture":"manual-only","review_fingerprint":"36bc28d4e7948ecc71b90a688af4277ac98f0f2a735f38cccbdf457c9a06982f","risk_level":"high","trust_tier":"unvetted","version":"1.1.0"} -->
+<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:file_write","tool:web_search","tool:mcp_external"],"category":"sales-and-marketing","legacy":false,"name":"investor-lead-gen","path":"skills/sales-and-marketing/investor-lead-gen.SKILL.md","posture":"manual-only","review_fingerprint":"ce84c3f2e1b795f98c11299868f02e6e5ed18ef397732d321f47dca8223c3118","risk_level":"high","trust_tier":"unvetted","version":"1.2.0"} -->
 
 - **Manifest:** [investor-lead-gen.SKILL.md](../skills/sales-and-marketing/investor-lead-gen.SKILL.md)
 - **Function:** Run investor lead generation for an early-stage round: research funds and their decision makers from the funds' own pages, record minimums, competitor conflicts and pitch routes, write one plain first email per person with a deck built for that investor, follow up once, hand replies to the people who take meetings, keep a portable investor database and a dated learning log, and refresh both weekly.
