@@ -6,6 +6,8 @@ Anonymised lessons from running this skill on a real pre-seed raise. Each one na
 
 **At the first pause (same raise, four sending days):** 62 people at 50 funds written to; 5 funds replied by hand (10% of funds), 3 of them sending the company to a pitch form; 2 passed (one on stage, one at its form screen); 1 meeting booked; 0 hard bounces; 0 opt-outs; no follow-up sent yet.
 
+**At the second pause (same raise, about three weeks of sending):** 137 people at 80 funds written to; 11 funds replied by hand (about 14% of funds); 7 passed, several because the company was too early for them; 2 funds reached a meeting as the database counts it; 15 follow-ups sent. The founder's own network added funds outside the sequence that this count leaves out.
+
 ### L01 · 2026-10-05 · Match the deck's round figure to each fund's minimum
 - **Observed:** A deck stating a raise below a fund's published minimum cheque tells the fund the round is not for them before they read on.
 - **Rule:** The deck carries the lowest of a few round tiers that covers the fund's minimum, in the fund's currency. The email body never states a figure.
@@ -185,3 +187,28 @@ Anonymised lessons from running this skill on a real pre-seed raise. Each one na
 - **Observed:** A fund passed because the company has no revenue yet and listed several other funds as starting points, not endorsements. Some were already in the sequence; the founder's only instruction was to keep them for future stages.
 - **Rule:** Funds named in a decline go to a research-only watchlist, each marked for now or after first revenue, with no lead, release or CRM write until the owner says go. Never name the declining fund in later copy.
 - **Check:** Watchlist entries carry no lead file and no release until a recorded go.
+
+### L37 · 2026-10-22 · A named deployment bar is a re-entry trigger, not a follow-up date
+- **Observed:** A fund passed because the company was too early for it and asked to be kept posted once the first customer deployments were live.
+- **Rule:** Close the fund for the current round and record the named operating milestone as a re-entry trigger. Schedule no automatic follow-up. New contact needs both a verified milestone and a fresh release from the owner.
+- **Check:** The closed fund has a trigger recorded, no next follow-up date and no step queued.
+
+### L38 · 2026-10-22 · Released is not loaded: the CRM record is its own gate
+- **Observed:** Two released batches with verified addresses sat unsent for a day because the leads had never been loaded into the CRM, and the sender needs both the release and the record.
+- **Rule:** Load the released leads into the CRM in the same run that records the release. After any release, the send dry run shows no released lead held as missing from the CRM.
+- **Check:** Count released leads that the send dry run skips for a missing CRM record. The count is 0.
+
+### L39 · 2026-10-22 · A pause has to reach every path that files or reports work, not only the sender
+- **Observed:** The owner paused the lane and the kill switch stopped sending, follow-ups and research. The next morning, a task dispatcher that did not read the switch filed a research order, and the daily status kept going until the owner said it was not needed during the pause.
+- **Rule:** A pause lists every sender, dispatcher, scheduled carrier and report that touches the lane, and a dry run proves each one stops. The status report pauses with the lane unless the owner asks to keep it.
+- **Check:** With the kill switch set, a dry run of each listed path reports that it stopped. No order is filed and no mail goes out.
+
+### L40 · 2026-10-23 · A conditional yes on a customer milestone ties the round to the pipeline
+- **Observed:** After a meeting, one fund said it would invest once a single target customer signed a paid pilot. Other funds took the company to their partners, and the founder took over every follow-up.
+- **Rule:** Record the fund's stated condition as a re-entry trigger on its record. Customer news that meets the condition is investor news and reaches the founder the same day. No automatic step goes to that fund.
+- **Check:** The fund record names its condition. Pipeline reporting flags any deal that would meet it.
+
+### L41 · 2026-10-26 · When the founder takes over a fund, stop its sequence and read the stop back after the next scheduled run
+- **Observed:** Sequences were reported stopped when the founder took over a fund, but three days later the stops were missing from the sequence file. Their follow-ups were due the next day, and only the lane's kill switch held them. A scheduled job reads and rewrites that file every few minutes, so a hand edit made during a run can be lost.
+- **Rule:** Write an owner stop between scheduled runs, with none in progress, after taking a backup. Read the stop back after the next run. Before a pause is lifted, check that every person at each fund the founder now handles shows as stopped.
+- **Check:** After the next scheduled run, the sequence record still shows each owner stop. The follow-up dry run lists none of those people.

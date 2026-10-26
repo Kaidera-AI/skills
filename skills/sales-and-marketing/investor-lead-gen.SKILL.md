@@ -1,6 +1,6 @@
 ---
 name: investor-lead-gen
-version: 1.2.0
+version: 1.3.0
 description: Find investors for an early-stage round, write to each person one to one, follow up
   once, hand replies to the people who take the meetings, and keep a reusable investor database and
   learning log. Use for investor lead generation and cold investor outreach by any company or brand;
@@ -15,17 +15,17 @@ kaidera:
     - tool:web_search
     - tool:mcp_external
   allowed_domains: []
-  content_hash: 462f84639ef323e66f34a426e864b81df5e7efd4ff287875c19e938fa470828b
+  content_hash: d381134a6f748d5753306d0344d725221a17881455cd109fdf413383e3337f1b
   signed_by: ""
   last_reviewed: ""
   reviewer: ""
   source:
     repo: Kaidera-AI/skills
     path: skills/sales-and-marketing/investor-lead-gen
-    content_sha256: 71a40292d4cea400f26a2e87f8bec659041d95e0ad7e181a31c7bbec9ea12655
+    content_sha256: 6804c690fff907f7eae19e5c14d2239ff96f8d408e90746b0134ceeb8a628d94
 author: Kaidera-AI
 license: Apache-2.0
-updated: 2026-10-19
+updated: 2026-10-26
 tags:
   - sales
   - marketing
@@ -297,6 +297,8 @@ Anonymised lessons from running this skill on a real pre-seed raise. Each one na
 
 **At the first pause (same raise, four sending days):** 62 people at 50 funds written to; 5 funds replied by hand (10% of funds), 3 of them sending the company to a pitch form; 2 passed (one on stage, one at its form screen); 1 meeting booked; 0 hard bounces; 0 opt-outs; no follow-up sent yet.
 
+**At the second pause (same raise, about three weeks of sending):** 137 people at 80 funds written to; 11 funds replied by hand (about 14% of funds); 7 passed, several because the company was too early for them; 2 funds reached a meeting as the database counts it; 15 follow-ups sent. The founder's own network added funds outside the sequence that this count leaves out.
+
 ### L01 · 2026-10-05 · Match the deck's round figure to each fund's minimum
 - **Observed:** A deck stating a raise below a fund's published minimum cheque tells the fund the round is not for them before they read on.
 - **Rule:** The deck carries the lowest of a few round tiers that covers the fund's minimum, in the fund's currency. The email body never states a figure.
@@ -477,6 +479,31 @@ Anonymised lessons from running this skill on a real pre-seed raise. Each one na
 - **Rule:** Funds named in a decline go to a research-only watchlist, each marked for now or after first revenue, with no lead, release or CRM write until the owner says go. Never name the declining fund in later copy.
 - **Check:** Watchlist entries carry no lead file and no release until a recorded go.
 
+### L37 · 2026-10-22 · A named deployment bar is a re-entry trigger, not a follow-up date
+- **Observed:** A fund passed because the company was too early for it and asked to be kept posted once the first customer deployments were live.
+- **Rule:** Close the fund for the current round and record the named operating milestone as a re-entry trigger. Schedule no automatic follow-up. New contact needs both a verified milestone and a fresh release from the owner.
+- **Check:** The closed fund has a trigger recorded, no next follow-up date and no step queued.
+
+### L38 · 2026-10-22 · Released is not loaded: the CRM record is its own gate
+- **Observed:** Two released batches with verified addresses sat unsent for a day because the leads had never been loaded into the CRM, and the sender needs both the release and the record.
+- **Rule:** Load the released leads into the CRM in the same run that records the release. After any release, the send dry run shows no released lead held as missing from the CRM.
+- **Check:** Count released leads that the send dry run skips for a missing CRM record. The count is 0.
+
+### L39 · 2026-10-22 · A pause has to reach every path that files or reports work, not only the sender
+- **Observed:** The owner paused the lane and the kill switch stopped sending, follow-ups and research. The next morning, a task dispatcher that did not read the switch filed a research order, and the daily status kept going until the owner said it was not needed during the pause.
+- **Rule:** A pause lists every sender, dispatcher, scheduled carrier and report that touches the lane, and a dry run proves each one stops. The status report pauses with the lane unless the owner asks to keep it.
+- **Check:** With the kill switch set, a dry run of each listed path reports that it stopped. No order is filed and no mail goes out.
+
+### L40 · 2026-10-23 · A conditional yes on a customer milestone ties the round to the pipeline
+- **Observed:** After a meeting, one fund said it would invest once a single target customer signed a paid pilot. Other funds took the company to their partners, and the founder took over every follow-up.
+- **Rule:** Record the fund's stated condition as a re-entry trigger on its record. Customer news that meets the condition is investor news and reaches the founder the same day. No automatic step goes to that fund.
+- **Check:** The fund record names its condition. Pipeline reporting flags any deal that would meet it.
+
+### L41 · 2026-10-26 · When the founder takes over a fund, stop its sequence and read the stop back after the next scheduled run
+- **Observed:** Sequences were reported stopped when the founder took over a fund, but three days later the stops were missing from the sequence file. Their follow-ups were due the next day, and only the lane's kill switch held them. A scheduled job reads and rewrites that file every few minutes, so a hand edit made during a run can be lost.
+- **Rule:** Write an owner stop between scheduled runs, with none in progress, after taking a backup. Read the stop back after the next run. Before a pause is lifted, check that every person at each fund the founder now handles shows as stopped.
+- **Check:** After the next scheduled run, the sequence record still shows each owner stop. The follow-up dry run lists none of those people.
+
 <a id="file-references-outreach-strategy-md"></a>
 
 ## Bundled file: references/outreach-strategy.md
@@ -493,6 +520,7 @@ Nothing reaches an investor until every gate holds for that lead:
 | Release | The release owner released this lead by id, with their message reference |
 | Address | Verified, domain agrees with the fund, nobody typed it by hand |
 | Minimum | Recorded, and read on the fund's own site for a first email |
+| Record | The lead is loaded in the CRM (recording a release does not load it) |
 | Hold | No hold reason on the lead |
 | Kill switch | Not set |
 | Send switches | The instance's live-send flags are on |
@@ -551,6 +579,8 @@ After any copy-version or gate change, dry-run the follow-up step and count the 
 - Follow the thread until a call is on the calendar: one reminder seven business days after the standard answer, never before the investor's own stated timeline.
 - A decline can arrive outside your thread, from a form system to a founder's own address. Close it by hand when it is forwarded; automation will not see it.
 - Count replies from the sequence record, not from mailbox search: a reply moved to trash disappears from search.
+- A fund that names a condition (a first paid pilot, live deployments) gets that condition recorded as a re-entry trigger, not a follow-up date. Customer news that meets it goes to the founder the same day.
+- When the founder takes a fund over after a meeting, stop the sequence for every person there between scheduled runs, then read the stops back after the next run. A scheduled job that rewrites the sequence file can undo a hand edit.
 
 ## 8. Two decks
 
@@ -565,6 +595,10 @@ Every email carries the legal entity and registered office, a line saying it is 
 ## 10. Daily status
 
 The owners usually want one short daily figure: people and funds written to, funds that replied, funds that declined, meetings booked, what went today and what is coming. Count by fund and say how each figure is counted.
+
+## 11. Pausing the lane
+
+A pause reaches every path that touches the lane: the senders, the follow-up and research steps, any task dispatcher or scheduled carrier that files lane work, and the daily status. Dry-run each one with the kill switch set and record what it printed. Unless the owner asks to keep the status going, it pauses with the lane. Before the pause is lifted, check that every fund an owner took over is stopped, and re-run by hand any research turn that was skipped.
 
 <a id="file-references-research-md"></a>
 
