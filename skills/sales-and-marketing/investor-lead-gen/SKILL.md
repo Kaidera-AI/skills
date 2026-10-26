@@ -3,8 +3,8 @@ name: investor-lead-gen
 description: Find investors for an early-stage round, write to each person one to one, follow up once, hand replies to the people who take the meetings, and keep a reusable investor database and learning log. Use for investor lead generation and cold investor outreach by any company or brand; customer prospecting belongs to a customer lead-generation skill.
 license: Apache-2.0
 metadata:
-  version: 1.2.0
-  updated: 2026-10-19
+  version: 1.3.0
+  updated: 2026-10-26
   source: Kaidera-AI/skills
   posture: unvetted-source-candidate
 ---

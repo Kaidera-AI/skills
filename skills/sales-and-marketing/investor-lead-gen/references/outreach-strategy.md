@@ -10,6 +10,7 @@ Nothing reaches an investor until every gate holds for that lead:
 | Release | The release owner released this lead by id, with their message reference |
 | Address | Verified, domain agrees with the fund, nobody typed it by hand |
 | Minimum | Recorded, and read on the fund's own site for a first email |
+| Record | The lead is loaded in the CRM (recording a release does not load it) |
 | Hold | No hold reason on the lead |
 | Kill switch | Not set |
 | Send switches | The instance's live-send flags are on |
@@ -68,6 +69,8 @@ After any copy-version or gate change, dry-run the follow-up step and count the 
 - Follow the thread until a call is on the calendar: one reminder seven business days after the standard answer, never before the investor's own stated timeline.
 - A decline can arrive outside your thread, from a form system to a founder's own address. Close it by hand when it is forwarded; automation will not see it.
 - Count replies from the sequence record, not from mailbox search: a reply moved to trash disappears from search.
+- A fund that names a condition (a first paid pilot, live deployments) gets that condition recorded as a re-entry trigger, not a follow-up date. Customer news that meets it goes to the founder the same day.
+- When the founder takes a fund over after a meeting, stop the sequence for every person there between scheduled runs, then read the stops back after the next run. A scheduled job that rewrites the sequence file can undo a hand edit.
 
 ## 8. Two decks
 
@@ -82,3 +85,7 @@ Every email carries the legal entity and registered office, a line saying it is 
 ## 10. Daily status
 
 The owners usually want one short daily figure: people and funds written to, funds that replied, funds that declined, meetings booked, what went today and what is coming. Count by fund and say how each figure is counted.
+
+## 11. Pausing the lane
+
+A pause reaches every path that touches the lane: the senders, the follow-up and research steps, any task dispatcher or scheduled carrier that files lane work, and the daily status. Dry-run each one with the kill switch set and record what it printed. Unless the owner asks to keep the status going, it pauses with the lane. Before the pause is lifted, check that every fund an owner took over is stopped, and re-run by hand any research turn that was skipped.
