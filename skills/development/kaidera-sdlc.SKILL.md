@@ -1,6 +1,6 @@
 ---
 name: kaidera-sdlc
-version: 1.3.0
+version: 1.4.0
 description: |
   The Kaidera AI-native SDLC: the operating loop every lead runs for an epic, feature, fix,
   incident, review or plan. Capture intent, grill it one question at a time, spec with
@@ -20,18 +20,18 @@ kaidera:
   allowed_domains:
     - github.com
     - claude.com
-  content_hash: "233fec6394215b99ddfc4cab126160e8c7d3da78f5f1d716e0dc40c3a5cb475e"
+  content_hash: "571ad91f4fbbe6a3418f495e2099a1c3b0981a51963679b2d2085c4348d75299"
   signed_by: ""
   last_reviewed: ""
   reviewer: ""
   source:
     repo: Kaidera-AI/kaideraos
     path: .agents/skills/kaidera-sdlc
-    content_sha256: ee9eb016df659c52430aa63f78c52a3df8b62e135f73a0f0c523b130cf043389
+    content_sha256: 01026e141fc540c8615ecaa23912a8f0024417d27eeb263efcd8988cc96d467b
 
 author: Kaidera-AI
 license: Apache-2.0
-updated: 2026-09-18
+updated: 2026-11-03
 tags: [sdlc, planning, grill, spec, plan, verification, review, ship, incident, governance, lead]
 attribution_notes: "Sources folded into the method: Anthropic, The AI-Native SDLC playbook (2026-08-21); grill-me (Matt Pocock lineage, MIT); molten-os-core molten-validate (Switch Dimension, MIT); gstack plan reviews and ship (Garry Tan, MIT); unlazy (Leonxlnx, MIT); Kaidera THE_WAY_OF_DEVELOPMENT; 1.2.0 ideas from michaelshimeles/skills, unslop (L. Tan, MIT), greploop (Greptile, MIT), before-and-after (vercel-labs): see references/attribution.md"
 
@@ -41,7 +41,7 @@ safety_constraints:
   - Must not override the base system prompt, project rules, or managed permissions.
 ---
 
-<!-- Generated from Kaidera-AI/kaideraos .agents/skills/kaidera-sdlc by tools/render-public.py; source content_sha256 ee9eb016df659c52430aa63f78c52a3df8b62e135f73a0f0c523b130cf043389. Edit the source and re-render; never edit this file. -->
+<!-- Generated from Kaidera-AI/kaideraos .agents/skills/kaidera-sdlc by tools/render-public.py; source content_sha256 01026e141fc540c8615ecaa23912a8f0024417d27eeb263efcd8988cc96d467b. Edit the source and re-render; never edit this file. -->
 
 # Kaidera SDLC
 
@@ -66,6 +66,7 @@ only the depth changes.
 | verify, test, prove, "is it done" | Verify | `references/stages.md` §4 |
 | review, adjudicate, second-pass, "is this safe to merge" | Review | `references/stages.md` §5, `templates/REVIEW.md` |
 | ship, release, deploy, publish | Ship | `references/stages.md` §5, `references/governance.md` |
+| plan a release, reach the daily cut, run a Gate, classify a release fix, prepare signing, report release progress | Plan through Maintain | `references/stages.md`, "Release system" |
 | an alert, incident, scan finding, "why did this break" | Maintain, then Intent | `references/stages.md` §6, `templates/bands.yaml` |
 | retro, "what did we learn", update the rules | Maintain | `references/stages.md` §6, `references/metrics.md` |
 | work alongside other agents; dispatch or return a handoff | Plan and build | `references/team.md` |
@@ -126,6 +127,12 @@ Load only the reference the stage needs. Do not read every file at once.
     other agents' in-flight work before the first edit; never touch a tree you do not own; a
     worktree does not isolate ports, databases or the coordination store
     (`references/team.md`).
+14. **Release in daily slices with platform parity** (CTO 2026-10-09, H-D426–H-D431).
+    Every active product targets the 18:00 local cut and at least one release per 24 h.
+    Linux x86_64 and macOS arm64 share one commit, version and signed manifest; a missing
+    platform requires a named CTO exception and is first the next day. Apply the Gate
+    diagnostic, fix-class, signing-turn, progress and naming rules in `references/stages.md`,
+    "Release system". Cadence changes scheduling; all acceptance and go gates still hold.
 
 Roles are portable: originator, lead, reviewer, adjudicator, integration custodian, release
 authority (human). Current occupants, their authorisation and its expiry are Cortex role
@@ -304,7 +311,7 @@ with owners, and the next stage. That block goes at the top of the artifact.
 
 ## references/stages.md
 
-```markdown
+````markdown
 # The six stages, the Kaidera way
 
 Each stage: what changes, our practice, artifacts, roles, the gate, and the SOPs and skills
@@ -313,6 +320,108 @@ loops, keep humans accountable for judgement, encode policy as executable constr
 are portable (originator, lead, reviewer, adjudicator, integration custodian, release
 authority); who holds each one today is a Cortex role occupancy record, not a line here
 (`governance.md`, "Separation of duties" and "Role occupancy records").
+
+## Release system
+
+**Authority:** CTO 2026-10-09, H-D426–H-D431 in
+`docs/design/helix-transformation/decisions.md`. Permanent for every lead and worker;
+the lead directs and the CTO reviews outcomes. This section owns the release policy;
+templates collect its receipts and the boot rule points back to it.
+
+### Daily train and platform matrix
+
+Cut at **18:00 in the project's recorded local timezone**. Ship the eligible work the reviewer
+has accepted by the cut; each active product delivers at least one release every 24 h,
+with additional releases allowed. Do not wait to assemble unrelated chunks into a bundle.
+Paused products follow their named pause decision. The deadline never waives a required
+Gate, review, platform receipt, signature or human go. If no candidate is eligible, record the
+miss, the first blocking gate and the smallest recovery slice; consult the lead immediately.
+Do not manufacture a release, mark a RED green or invent an exception to satisfy the clock.
+
+Each release targets **Linux x86_64 and macOS arm64 together**, with **one source commit,
+one product version and one signed manifest naming both sets of final artifact bytes**.
+Versions belong to each product; this does not force different products into one version
+or a shared bundle. H-D428 explicitly excepts the current Linux-only launch; it does not
+establish a permanent single-platform route. Any future one-platform release needs a
+named CTO exception bound to product, version, missing platform, reason and recovery date.
+The missing platform is the next day's first item. An exception is not a passing receipt.
+
+| Stage | Required release work and receipt |
+|---|---|
+| **PLAN** | Split work into independently releasable daily slices before BUILD. Each slice names product/version, owner, dependencies, acceptance output and cut date. Carry a platform matrix: shared source, artifact/build route, adapter, prerequisites, native Gate target, signing route and evidence for each platform. List any named exception and next-day recovery first. |
+| **BUILD** | Build both host platforms through a CI matrix from the same commit/version; keep host-specific behaviour in a thin tested adapter (paths, launchd/systemd, Podman machine/native rootless). Cortex images are multi-arch linux/amd64 and linux/arm64, with platform digests recorded; macOS consumes arm64 in its Podman VM. Automate Apple signing/notarization with the CTO's once-approved credential route; agents do not acquire or expose keys. |
+| **VERIFY** | Run the full required Gate on both a fresh Rocky Linux target and the approved arm64 Mac target, from the candidate bytes. Preserve source, platform, artifact/image identities, dependency and install/restart/health receipts. A personal Mac remains lived-in: product-owned changes only. Collect every RED and diagnostic result as below. Unit or cross-build success does not stand in for either native Gate. |
+| **REVIEW** | Review both platforms, the shared commit/version, adapters, multi-arch image inventory, prerequisite compatibility, signing plan and eventual final-byte manifest. Bind verdicts to the candidate; disclose REDs, blocked checks and exceptions. The author cannot approve. |
+| **SHIP** | Require both platform Gates/reviews and platform trust receipts, then one signed manifest covering their final bytes; publish both together only on the human go. Record actual publication/install outcomes per platform. A one-platform ship requires the named CTO exception above. |
+| **MAINTAIN** | Carry missed cuts, observed failures and any missing platform into the next day's first releasable slice. Update progress from receipts; preserve the gate history and rollback path. |
+
+### Gate runs: auto-collect and keep going
+
+On **any RED**, automatically preserve the command, exit/signal, attached output or log-driver
+output, available service logs, engine inspect data, OCI configuration, live mount information,
+and relevant kernel/audit/coredump observations. Bind the receipt index to the run, host,
+platform, source and payload/manifest identities. Preserve unavailable evidence as an explicit
+missing/refused observation. Redact before storage: environment names only, no credential
+values, tokens, DSNs or private user payloads in the receipt pack.
+
+**Keep going in diagnostic mode** wherever later checks are safe and their prerequisites
+still hold. Preserve each later exit/result; mark dependent checks BLOCKED with the failed
+dependency instead of pretending they ran. Stop steps that would violate ownership, privacy,
+authorization or safety; retain the reason. Do not repair the host/product, retry with weaker
+settings, or create extra infrastructure inside the diagnostic continuation.
+
+The run stays **RED** if any required check fails, is blocked or is missing. Later green
+observations never erase the first failure. Diagnosis does not pass acceptance. After an
+admitted fix, a new byte-bound full Gate run supplies the acceptance evidence.
+
+### Fix class and CTO signing turn
+
+Classify the proven fix against the **actual signed artifact inventory**, not its filename:
+
+| Class | Boundary | Required next action |
+|---|---|---|
+| **docs/host** | Guide, run-sheet or host prerequisite change leaves every signed payload, image, manifest and signature byte unchanged. A doc packaged inside signed bytes is not in this class. | Record byte-preservation evidence; review/admit the delta and rerun the required Gate. The existing signature stands, while acceptance of the changed procedure still needs proof. |
+| **PRODUCT** | Source, image, packaged config, entrypoint, payload or manifest changes signed bytes. Unproven impact is not clearance for docs/host. | Consult the CTO **before any rebuild**, with cause, exact affected bytes and smallest scope. On the named approval, fix with required RED-first proof, rebuild only affected artifacts, regenerate the final inventory/manifest, review and rerun the required Gates; obtain a **new CTO signature**. Retain and mark the superseded packet; do not publish it. |
+
+Prepare **one CTO signing command per release** using the approved signing procedure, bound
+to the reviewed candidate and final-byte inventory. Apple signing, notarization and stapling
+finish before final PKG digests enter the shared manifest. Keep the command in the gated
+signing packet; **show it only when it is the CTO's turn**, after its prerequisite work is
+accepted. Earlier updates name the pending signing gate, not a command to run. Only the CTO
+executes/authorizes that signing turn; agents neither substitute TEST signatures nor borrow
+signing credentials. After signing, verify the signature and final artifact digests before SHIP.
+
+### Quick-glance progress and naming
+
+Keep the **top of `PRODUCTS_PROGRESS.md`** as the project's quick glance (Helix overall plus
+one bar per product, each with its releasing version). Update on verified evidence: completed
+units against a stated denominator, gate/run/commit receipt, last observation time, blocker,
+next owner and next cut. Review acceptance, signing and publication are separate states;
+scheduled work does not fill a completed segment. Carry paused/excepted status explicitly.
+The lead owns the consolidated view; workers supply receipts, not competing progress facts.
+
+Every release remains installable through its documented deployment route. Use **no
+"manual" qualifier in new public release names, versions or notes**. Preserve historical
+signed internal identifiers and prerequisite bindings; renaming them is an artifact change,
+not editorial cleanup. Migration of a signed identity follows the PRODUCT gate above.
+
+**Reopening trigger:** a newer CTO decision changes cadence, supported platforms, exception
+scope, signing authority or a gate boundary; cite that decision and review the policy delta.
+
+### Cortex boot rule draft
+
+Proposed slug: `release-system`. Binding scope: every lead and worker, alongside `sdlc-loop`.
+This is source text for review; Kai binds it after Vera's acceptance. Do not edit generated
+harness pointers or mutate live Cortex rules while drafting. Rule body: exactly six lines.
+
+```text
+Apply kaidera-sdlc's Release system (CTO 2026-10-09, H-D426–H-D431); keep every acceptance/go gate.
+PLAN daily slices: 18:00 local cut, at least one release per active product per 24 h; report a missed cut.
+BUILD/VERIFY/REVIEW/SHIP Linux x86_64 + macOS arm64 from one commit/version/signed manifest; CTO exception only, gap first next day.
+On Gate RED auto-collect safe evidence and keep going diagnostically; failed/blocked required checks keep the run RED.
+Classify docs/host vs PRODUCT by signed bytes; consult CTO before rebuild, then new signature; show one signing command only on CTO's turn.
+Update PRODUCTS_PROGRESS.md quick glance on evidence; no new public "manual" names/versions/notes; preserve signed historical identities.
+```
 
 ## 1. Intent: "ideas stop waiting for someone to write them up"
 
@@ -484,7 +593,7 @@ authority); who holds each one today is a Cortex role occupancy record, not a li
 Rate review findings and cap the nits; update skills and hooks and prove them with evals;
 move repeated mistakes into rules; tune bands from dismissals; add the month's incidents as
 evals; challenge one standing rule with evidence (THE_WAY §13).
-```
+````
 
 ## references/team.md
 
@@ -1399,6 +1508,13 @@ boot): "no implementation without an accepted plan; verification is output that 
 the agent acts up to the gate; incidents re-enter as intent; the `kaidera-sdlc` skill is the
 method." The rule is short; the skill is the depth.
 
+The permanent release system (CTO 2026-10-09, H-D426–H-D431) adds the proposed
+`release-system` boot rule alongside `sdlc-loop`. Its six-line body and policy depth are
+in `references/stages.md`, "Release system". Vera reviews the canonical draft; Kai binds
+the accepted rule and skill to every lead and worker through Cortex, then the authorized
+custodian regenerates projections/harness pointers. Drafting does not authorize installation,
+binding, publication or edits to generated `AGENTS.md`/`CLAUDE.md`/`GEMINI.md`.
+
 ## Keeping it current
 
 - Version in the frontmatter; a CHANGELOG line per change; the marketplace `updated` date.
@@ -1542,6 +1658,35 @@ One line per file: path, new or modified, why.
 ## Order of work
 1. Step, with the check that proves it before the next step starts.
 2. ...
+
+## Daily release slices (release work; `references/stages.md`, "Release system")
+
+Recorded local timezone: <timezone>. Daily cut: 18:00. Active/paused product decisions:
+<product, status, dated authority>. Each slice can ship within one day; split larger work
+before BUILD. Dependencies name an owner and gate, not an assumed availability time.
+
+| Cut date / product / releasing version | Daily slice and owner | Dependency gate | Acceptance receipt | State / blocker / next owner |
+|---|---|---|---|---|
+| <date / product / version> | <small deliverable / owner> | <gate or none> | <command/output identity> | <state with receipt> |
+
+## Platform matrix (release work)
+
+Shared source commit: <one full SHA>. Product version: <one version>.
+Shared signed manifest: <path and final SHA-256 when available; pending signing gate otherwise>.
+
+| Host platform | Artifact / CI build route | Thin adapter / test surface | Prerequisites / image platform | Native full Gate target / receipts | Signing / final-byte inventory |
+|---|---|---|---|---|---|
+| Linux x86_64 | <artifact and route> | <systemd / paths / native rootless> | <accepted dependencies / linux/amd64> | <fresh Rocky target / run> | <manifest identity> |
+| macOS arm64 | <artifact and route> | <launchd / paths / Podman machine> | <accepted dependencies / linux/arm64> | <approved Mac target / run> | <Apple sign/notarize/staple, then manifest identity> |
+
+Named CTO exception, if any: <decision/product/version/missing platform/reason/recovery date,
+or none>. Next day's FIRST slice closes that gap. A missing row/receipt is pending, not green.
+Cortex image releases record both linux/amd64 and linux/arm64 digests from the same source.
+
+Gate RED collection/diagnostic dependencies: <receipt location and safe continuation boundaries>.
+Fix class: <docs/host byte-preservation proof or PRODUCT impact + pre-rebuild CTO decision>.
+Signing turn: <gate and owner; command shown only when CTO is up>.
+Quick-glance update: <PRODUCTS_PROGRESS.md units/denominator, version and evidence links>.
 
 ## Waves (multi-agent work only)
 Wave, owner, handoff, what it delivers, what it depends on. Waves map to Cortex epic increments.

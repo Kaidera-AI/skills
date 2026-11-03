@@ -3,7 +3,7 @@
   "description": "Locally validated, provenance-aware skills for Kaidera agents",
   "version": "1.0.0",
   "source": "https://github.com/Kaidera-AI/skills",
-  "generated_at": "2026-10-26T00:00:00.000Z",
+  "generated_at": "2026-11-03T00:00:00.000Z",
   "generation_basis": "maximum skill updated date",
   "skills": [
     {
@@ -724,7 +724,7 @@
     },
     {
       "name": "kaidera-sdlc",
-      "version": "1.3.0",
+      "version": "1.4.0",
       "description": "The Kaidera AI-native SDLC: the operating loop every lead runs for an epic, feature, fix,\nincident, review or plan. Capture intent, grill it one question at a time, spec with\npolicy applied, plan before any code, build inside a feedback loop, verify with output\nthat can fail, review adversarially, ship through deterministic gates, close the loop from\nproduction. Use when starting or scoping any work, when a handoff or incident arrives,\nwhen asked to plan, spec, grill, interview, stress-test, review, retro or ship, and when\ndeciding what done means.\n",
       "category": "development",
       "trust_tier": "unvetted",
@@ -745,7 +745,7 @@
       "parameters": {},
       "author": "Kaidera-AI",
       "license": "Apache-2.0",
-      "updated": "2026-09-18",
+      "updated": "2026-11-03",
       "tags": [
         "sdlc",
         "planning",
@@ -759,7 +759,7 @@
         "governance",
         "lead"
       ],
-      "content_hash": "233fec6394215b99ddfc4cab126160e8c7d3da78f5f1d716e0dc40c3a5cb475e",
+      "content_hash": "571ad91f4fbbe6a3418f495e2099a1c3b0981a51963679b2d2085c4348d75299",
       "signed_by": "",
       "last_reviewed": "",
       "reviewer": "",
