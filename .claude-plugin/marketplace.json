@@ -3,9 +3,47 @@
   "description": "Locally validated, provenance-aware skills for Kaidera agents",
   "version": "1.0.0",
   "source": "https://github.com/Kaidera-AI/skills",
-  "generated_at": "2026-10-26T00:00:00.000Z",
+  "generated_at": "2026-11-03T00:00:00.000Z",
   "generation_basis": "maximum skill updated date",
   "skills": [
+    {
+      "name": "code-review-routing",
+      "version": "1.0.0",
+      "description": "Portable ways of working for routing code review in a multi-worker project: one\naccountable review lead, detailed specialist procedures only to a registered reviewer\non a verified eligible runtime, short status for leads, curators and builders, and\nauthor/reviewer separation. Use when adopting or applying a project's review-routing rule.\n",
+      "category": "context",
+      "trust_tier": "unvetted",
+      "risk_level": "low",
+      "capabilities_required": [
+        "tool:file_read"
+      ],
+      "allowed_domains": [],
+      "safety_constraints": [
+        "Coordination guidance only. It grants no authority, binding, access or runtime; each project's review lead, registry and release gates decide.",
+        "Best-effort steering, not a confidentiality boundary. Do not claim enforced isolation unless real access controls are implemented and proved.",
+        "Never use it to disguise a task, rewrite historical evidence, or retry a policy refusal on another model."
+      ],
+      "parameters": {},
+      "author": "Kaidera-AI",
+      "license": "CC-BY-4.0",
+      "updated": "2026-11-03",
+      "tags": [
+        "code-review",
+        "routing",
+        "review-lead",
+        "reviewer",
+        "separation-of-duties",
+        "governance",
+        "multi-agent"
+      ],
+      "content_hash": "4e9ffc9610520ac8d187bb2ad97b15d3d21b7f7e77f437bd7dce30b8b7a168b4",
+      "signed_by": "",
+      "last_reviewed": "",
+      "reviewer": "",
+      "file": "skills/context/code-review-routing.SKILL.md",
+      "attribution_author": "",
+      "attribution_url": "",
+      "attribution_notes": "Portable standard written by Kaidera's review lead at the user's direction, 2026-11-03. Packaged verbatim except one sentence in item 2, changed by CTO decision for harness neutrality."
+    },
     {
       "name": "route-handoff-gate",
       "version": "1.0.0",

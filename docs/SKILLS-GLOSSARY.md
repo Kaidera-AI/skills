@@ -2,7 +2,7 @@
 
 Status: **human-facing index; the manifests and the catalogue remain authoritative**
 
-Published skills covered: **59**
+Published skills covered: **60**
 
 Rendered by `scripts/render-glossary.js` from the built marketplace, the catalogue
 markers and the authored prose in `scripts/glossary-prose.json`. Skill names, categories
@@ -26,7 +26,7 @@ the manifest wins and this file is stale — fix it in the same commit.
 
 | Category | Published |
 |---|---:|
-| `context/` | 2 |
+| `context/` | 3 |
 | `development/` | 25 |
 | `devops/` | 3 |
 | `documentation/` | 1 |
@@ -34,16 +34,16 @@ the manifest wins and this file is stale — fix it in the same commit.
 | `research/` | 2 |
 | `security/` | 1 |
 | `sales-and-marketing/` | 4 |
-| **Total** | **59** |
+| **Total** | **60** |
 
 | Posture | Published |
 |---|---:|
 | Bounded candidate | 18 |
 | Reference-only | 16 |
-| Manual-only | 15 |
+| Manual-only | 16 |
 | Rework before use | 10 |
 
-Legacy entries: **21** of 59 are filed under `legacy/`. 19 of them still name the retired product or its domains outright; the other 2 (`code-review` and `deploy-to-dev`) do not, and are legacy for stale escalation, kill-switch, organisation-scope and sprint-log controls, or because redaction removed their only product reference.
+Legacy entries: **21** of 60 are filed under `legacy/`. 19 of them still name the retired product or its domains outright; the other 2 (`code-review` and `deploy-to-dev`) do not, and are legacy for stale escalation, kill-switch, organisation-scope and sprint-log controls, or because redaction removed their only product reference.
 
 None of the 21 declares any capability, yet several bodies describe installs,
 live production diagnostics, database and cluster access, Git mutation or deployment.
@@ -146,6 +146,7 @@ portfolio judgements, separate from the manifest's `trust_tier`, and every skill
 | [`backend-context`](../skills/legacy/backend-context.SKILL.md) | `legacy` | Legacy FastAPI service-layer, async DB access, authentication, middleware and security conventions. | Orientation inside old backend code; resolve every fact against the owning repository. | Reference-only, legacy |
 | [`cloud-agnostic-policy`](../skills/devops/cloud-agnostic-policy.SKILL.md) | `devops` | Reviews infrastructure choices for portability and blocks undeclared provider-specific managed primitives. | Apply before architecture locks in; enforces portable, upstream-OSS-only infrastructure. | Manual-only |
 | [`code-review`](../skills/legacy/code-review.SKILL.md) | `legacy` | Legacy two-stage checklist: specification compliance, then code quality, ending in a verdict. | Historical reference only; its merge and log postconditions exceed its no-tool contract. | Rework before use, legacy |
+| [`code-review-routing`](../skills/context/code-review-routing.SKILL.md) | `context` | Routes code review: one review lead, detailed procedures only to verified reviewers, short status for everyone else. | Keeps review methods with reviewers and authors separate from approvers across a multi-worker team. | Manual-only |
 | [`container-build`](../skills/legacy/container-build.SKILL.md) | `legacy` | Legacy multi-stage image builds, non-root UID, hardening, CI build pipeline and registry push. | Hardening ideas; note it disagrees with `k8s-deploy` on region and service names. | Reference-only, legacy |
 | [`database-migration`](../skills/legacy/database-migration.SKILL.md) | `legacy` | Legacy Alembic and PostgreSQL migration naming, safe practice, rollback, data migration and RLS patterns. | Pattern reference; its migration head disagrees with `backend-context`. | Rework before use, legacy |
 | [`dependency-audit`](../skills/legacy/dependency-audit.SKILL.md) | `legacy` | Legacy CVE scanning, supply-chain verification, dependency pinning and remediation workflow. | Installs and runs scanners while declaring no tools; split into separate workflows before reuse. | Rework before use, legacy |

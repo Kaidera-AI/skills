@@ -4,7 +4,7 @@ Status: **canonical human-facing catalogue; source candidate; runtime and trust 
 
 Catalogue date: **2026-10-14**
 
-Total skills: **59**
+Total skills: **60**
 
 Source binding: consume this guide only from the same Git commit as its skill
 manifests, marketplace, and catalogue test. The enclosing commit/tree is the
@@ -31,7 +31,7 @@ a release blocker; do not silently choose one side.
 
 ## Current release boundary
 
-- All 59 skills are `unvetted`.
+- All 60 skills are `unvetted`.
 - Catalogue presence, a body hash, static validation, or a local commit is not
   approval to inject a skill into an agent.
 - Gate 1 strict manifest checks and a bounded Gate 2 pattern scan exist.
@@ -43,14 +43,14 @@ a release blocker; do not silently choose one side.
 - Kaidera and Alibaba both use the name `open-code-review`. A host must select a
   source-qualified identity and inject only one; prompt text cannot resolve a
   loader collision after both skills are present.
-- 21 of the 59 skills are filed under `legacy/`. They are kept as research context,
+- 21 of the 60 skills are filed under `legacy/`. They are kept as research context,
   they are not current Kaidera truth, and none of them may be bound to an agent.
 
 ## Portfolio summary
 
 | Category | Skills |
 |---|---:|
-| Context | 2 |
+| Context | 3 |
 | Development | 25 |
 | DevOps | 3 |
 | Documentation | 1 |
@@ -61,18 +61,18 @@ a release blocker; do not silently choose one side.
 
 | Declared trust tier | Skills |
 |---|---:|
-| `unvetted` | 59 |
+| `unvetted` | 60 |
 
 | Operating posture | Skills |
 |---|---:|
 | Bounded candidate | 18 |
 | Reference-only | 16 |
-| Manual-only | 15 |
+| Manual-only | 16 |
 | Rework before use | 10 |
 
 Legacy entries: **21**
 
-Current-source entries: **38**
+Current-source entries: **39**
 
 `Legacy` is a documentation classification and, since the `legacy/` category was
 introduced, a filing location as well. Neither is a trust or compatibility
@@ -186,6 +186,7 @@ Use `design-selection` for the initial static/deck/3D/UI/native/video route, `ui
 
 | Category | Skill | Version | Function | Posture | Risk / declared capabilities |
 |---|---|---:|---|---|---|
+| Context | `code-review-routing` | `1.0.0` | Portable code-review routing: one review lead, reviewer-only detailed procedures, | Manual-only | low / file read |
 | Context | `route-handoff-gate` | `1.0.0` | Verifies project, lane, layer, role, and dependency boundaries before creating | Manual-only | low / file read |
 | Context | `scope-work-gate` | `1.0.0` | Confirms that proposed work belongs to the current project, role, lane, and | Manual-only | low / file read |
 | Development | `assert-fact-gate` | `1.0.0` | Requires a fresh source check before reporting repository, build, test, | Manual-only | low / file read |
@@ -287,6 +288,7 @@ precedence issue remains a release hold.
 | `incident-response` | `kaidera` | `Apache-2.0` | `legacy-api.invalid` | — |
 | `prompt-injection-test-design` | `kaidera` | `Apache-2.0` | None | — |
 | `security-context` | `kaidera` | `Apache-2.0` | None | — |
+| `code-review-routing` | `Kaidera-AI` | `CC-BY-4.0` | None | — |
 | `route-handoff-gate` | `Kaidera` | `Apache-2.0` | None | — |
 | `scope-work-gate` | `Kaidera` | `Apache-2.0` | None | — |
 | `assert-fact-gate` | `Kaidera` | `Apache-2.0` | None | — |
@@ -317,10 +319,22 @@ precedence issue remains a release hold.
 
 ## Context skills
 
-Both context skills are ownership gates rather than environment descriptions: they
-check that work belongs where it is about to go before it goes there. Both are
-manual-only, low risk, and declare read-only access. The EnGenAI-era environment
+The three context skills are routing and ownership gates rather than environment
+descriptions: they check that work belongs where it is about to go before it goes
+there. All three are manual-only, low risk, and declare read-only access. The EnGenAI-era environment
 references that used to sit in this category are filed under `legacy/`.
+
+### `code-review-routing`
+
+<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read"],"category":"context","legacy":false,"name":"code-review-routing","path":"skills/context/code-review-routing.SKILL.md","posture":"manual-only","review_fingerprint":"5565f56a4ab11143dbc3f8e6e21e8fb4235adb602f763da67f14a20ec889c8d7","risk_level":"low","trust_tier":"unvetted","version":"1.0.0"} -->
+
+- **Manifest:** [code-review-routing.SKILL.md](../skills/context/code-review-routing.SKILL.md)
+- **Function:** Portable ways of working for routing code review: one accountable review lead per project, detailed specialist procedures only to a registered reviewer on a verified eligible runtime, short status for leads, curators and builders, author/reviewer separation, and an adoption checklist.
+- **Use when:** A project adopts or applies its code-review routing rule, or decides who may receive detailed review methods.
+- **Do not use when:** Reviewing code. Use `open-code-review` for a change review and the `kaidera-sdlc` review stage for gate records. This skill routes reviews and never issues a verdict.
+- **Inputs and output:** No parameters or tools; coordination text and an adoption checklist.
+- **Authority and effects:** Manual-only: each project maps its own lead, roster and runtime and installs the rule through its canonical rule mechanism. The skill grants no authority, binding or access and is best-effort steering, not a confidentiality boundary.
+- **Kaidera action:** Manual-only, current source. Packaged verbatim from the review lead's 2026-11-03 standard except one sentence in item 2, changed by CTO decision so the published text names no vendor runtime. Gate 3/4 and root/per-skill licence holds remain.
 
 ### `route-handoff-gate`
 
@@ -1372,6 +1386,7 @@ capability gates.
 | “Deploy this to dev now.” | No automatic skill route; separately authorised deployment workflow required |
 | “Shut down the compromised worker fleet.” | No automatic skill route; current incident commander and controlled runbook required |
 | “Design a test for whether this loader rejects injected policy text.” | `prompt-injection-test-design` for non-executing design; separate controlled harness for execution |
+| “Who should receive the detailed review procedure for this change?” | `code-review-routing`, then the project's review lead assigns a verified reviewer |
 
 ## Portfolio overlaps and collision rules
 
@@ -1381,7 +1396,7 @@ Install either Gavel or the Jev lead wrappers `jev-return-triage`, `jev-handoff-
 
 ### Context versus execution
 
-The two current context skills are ownership gates and grant nothing. The six
+The three current context skills are routing and ownership gates and grant nothing. The six
 historical environment references are filed under `legacy/`. A development, DevOps,
 or security skill may consult legacy context as evidence, but context never grants
 execution authority and never outranks current source or runtime facts.

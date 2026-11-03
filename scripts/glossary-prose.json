@@ -153,6 +153,10 @@
       "what": "Turns an ambiguous research request into a self-contained, decision-led brief with a source plan.",
       "why": "Drafts the mission. It performs no research, invokes no vendor, spends nothing, contacts nobody."
     },
+    "code-review-routing": {
+      "what": "Routes code review: one review lead, detailed procedures only to verified reviewers, short status for everyone else.",
+      "why": "Keeps review methods with reviewers and authors separate from approvers across a multi-worker team."
+    },
     "route-handoff-gate": {
       "what": "Verifies project, lane, layer, role and dependency boundaries before work is created or rerouted.",
       "why": "Prevents cross-lane and wrong-project dispatch, the most common multi-agent failure."

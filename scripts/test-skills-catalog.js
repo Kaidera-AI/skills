@@ -86,6 +86,7 @@ const posturePolicy = new Map([
     'infra-naming-gate',
     'route-handoff-gate',
     'scope-work-gate',
+    'code-review-routing',
 ])],
   ['rework-before-use', new Set([
     'code-review',
@@ -124,6 +125,7 @@ const legacySkills = new Set([
   'workspace-context',
 ])
 const currentSourceSkills = new Set([
+  'code-review-routing',
   'visual-design-production',
   'motion-3d-production',
   'presentation-design',
