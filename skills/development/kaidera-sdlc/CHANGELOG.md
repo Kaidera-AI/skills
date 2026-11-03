@@ -1,5 +1,10 @@
 # Changelog
 
+- 1.4.0 (2026-10-09, draft; H-D426–H-D431) - permanent daily release system: daily slices,
+  two-platform commit/version/manifest parity, diagnostic Gate collection/continuation,
+  signed-byte fix classes and CTO signing turn, evidence-based quick glance and public
+  naming; PLAN matrices and matching six-line Cortex boot-rule draft. Review/binding pending.
+
 - 1.3.0 (2026-09-18) - `references/code-review.md` (two reviewers, one report, merge stage, readiness signal, rounds and record), `references/human-gates.md` (what a human decides, the gate packet, how to answer), `references/human-guide.md` (why the skill exists, the process, expectations, the desk, project setup, working together); non-negotiable 7 names the gate packet; route rows; governance and stages pointers; practices from the Software Factory talk credited in `attribution.md`.
 - 1.2.0 (2026-09-18) - new references `team.md`, `code-quality.md`, `evidence.md`,
   `writing.md`, `attribution.md` (projected, so the public copy carries its credits); route rows for them; non-negotiable 4 names before/after

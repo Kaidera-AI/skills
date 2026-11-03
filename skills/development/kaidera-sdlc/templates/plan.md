@@ -39,6 +39,35 @@ One line per file: path, new or modified, why.
 1. Step, with the check that proves it before the next step starts.
 2. ...
 
+## Daily release slices (release work; `references/stages.md`, "Release system")
+
+Recorded local timezone: <timezone>. Daily cut: 18:00. Active/paused product decisions:
+<product, status, dated authority>. Each slice can ship within one day; split larger work
+before BUILD. Dependencies name an owner and gate, not an assumed availability time.
+
+| Cut date / product / releasing version | Daily slice and owner | Dependency gate | Acceptance receipt | State / blocker / next owner |
+|---|---|---|---|---|
+| <date / product / version> | <small deliverable / owner> | <gate or none> | <command/output identity> | <state with receipt> |
+
+## Platform matrix (release work)
+
+Shared source commit: <one full SHA>. Product version: <one version>.
+Shared signed manifest: <path and final SHA-256 when available; pending signing gate otherwise>.
+
+| Host platform | Artifact / CI build route | Thin adapter / test surface | Prerequisites / image platform | Native full Gate target / receipts | Signing / final-byte inventory |
+|---|---|---|---|---|---|
+| Linux x86_64 | <artifact and route> | <systemd / paths / native rootless> | <accepted dependencies / linux/amd64> | <fresh Rocky target / run> | <manifest identity> |
+| macOS arm64 | <artifact and route> | <launchd / paths / Podman machine> | <accepted dependencies / linux/arm64> | <approved Mac target / run> | <Apple sign/notarize/staple, then manifest identity> |
+
+Named CTO exception, if any: <decision/product/version/missing platform/reason/recovery date,
+or none>. Next day's FIRST slice closes that gap. A missing row/receipt is pending, not green.
+Cortex image releases record both linux/amd64 and linux/arm64 digests from the same source.
+
+Gate RED collection/diagnostic dependencies: <receipt location and safe continuation boundaries>.
+Fix class: <docs/host byte-preservation proof or PRODUCT impact + pre-rebuild CTO decision>.
+Signing turn: <gate and owner; command shown only when CTO is up>.
+Quick-glance update: <PRODUCTS_PROGRESS.md units/denominator, version and evidence links>.
+
 ## Waves (multi-agent work only)
 Wave, owner, handoff, what it delivers, what it depends on. Waves map to Cortex epic increments.
 

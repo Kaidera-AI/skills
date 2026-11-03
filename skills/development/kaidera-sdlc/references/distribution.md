@@ -31,6 +31,13 @@ boot): "no implementation without an accepted plan; verification is output that 
 the agent acts up to the gate; incidents re-enter as intent; the `kaidera-sdlc` skill is the
 method." The rule is short; the skill is the depth.
 
+The permanent release system (CTO 2026-10-09, H-D426–H-D431) adds the proposed
+`release-system` boot rule alongside `sdlc-loop`. Its six-line body and policy depth are
+in `references/stages.md`, "Release system". Vera reviews the canonical draft; Kai binds
+the accepted rule and skill to every lead and worker through Cortex, then the authorized
+custodian regenerates projections/harness pointers. Drafting does not authorize installation,
+binding, publication or edits to generated `AGENTS.md`/`CLAUDE.md`/`GEMINI.md`.
+
 ## Keeping it current
 
 - Version in the frontmatter; a CHANGELOG line per change; the marketplace `updated` date.
