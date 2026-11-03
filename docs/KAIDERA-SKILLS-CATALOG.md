@@ -334,7 +334,7 @@ references that used to sit in this category are filed under `legacy/`.
 - **Do not use when:** Reviewing code. Use `open-code-review` for a change review and the `kaidera-sdlc` review stage for gate records. This skill routes reviews and never issues a verdict.
 - **Inputs and output:** No parameters or tools; coordination text and an adoption checklist.
 - **Authority and effects:** Manual-only: each project maps its own lead, roster and runtime and installs the rule through its canonical rule mechanism. The skill grants no authority, binding or access and is best-effort steering, not a confidentiality boundary.
-- **Kaidera action:** Manual-only, current source. Packaged verbatim from the review lead's 2026-11-03 standard except one sentence in item 2, changed by CTO decision so the published text names no vendor runtime. Gate 3/4 and root/per-skill licence holds remain.
+- **Kaidera action:** Manual-only, current source. Packaged verbatim from the review lead's 2026-11-03 standard except one sentence in item 2, changed by CTO decision so the published text names no vendor runtime. Not installable via the skills CLI until directory form: it ships as a single-file manifest, like `route-handoff-gate` and `scope-work-gate`, and the CLI discovers only directory-form skills. Converting it to directory form is a follow-up once the category-aware renderer is on `main`. Gate 3/4 and root/per-skill licence holds remain.
 
 ### `route-handoff-gate`
 
