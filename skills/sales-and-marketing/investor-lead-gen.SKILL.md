@@ -1,6 +1,6 @@
 ---
 name: investor-lead-gen
-version: 1.3.0
+version: 1.4.0
 description: Find investors for an early-stage round, write to each person one to one, follow up
   once, hand replies to the people who take the meetings, and keep a reusable investor database and
   learning log. Use for investor lead generation and cold investor outreach by any company or brand;
@@ -15,17 +15,17 @@ kaidera:
     - tool:web_search
     - tool:mcp_external
   allowed_domains: []
-  content_hash: d381134a6f748d5753306d0344d725221a17881455cd109fdf413383e3337f1b
+  content_hash: 49083f4809cfc073a25c7b3c3f6de4417c597500b68bf426850d17c607d1a2af
   signed_by: ""
   last_reviewed: ""
   reviewer: ""
   source:
     repo: Kaidera-AI/skills
     path: skills/sales-and-marketing/investor-lead-gen
-    content_sha256: 6804c690fff907f7eae19e5c14d2239ff96f8d408e90746b0134ceeb8a628d94
+    content_sha256: ec20645c97326d7666833f46a5c16d8fa40052fb91dd06eacf64e993cf31d32f
 author: Kaidera-AI
 license: Apache-2.0
-updated: 2026-10-26
+updated: 2026-11-03
 tags:
   - sales
   - marketing
@@ -504,6 +504,11 @@ Anonymised lessons from running this skill on a real pre-seed raise. Each one na
 - **Rule:** Write an owner stop between scheduled runs, with none in progress, after taking a backup. Read the stop back after the next run. Before a pause is lifted, check that every person at each fund the founder now handles shows as stopped.
 - **Check:** After the next scheduled run, the sequence record still shows each owner stop. The follow-up dry run lists none of those people.
 
+### L42 · 2026-10-29 · A human investor touch during a paused lane is history, not a sequence
+- **Observed:** While the automated lane was paused, a member of the team sent two investors the deck by hand from their own mailbox. Neither investor had a record in the CRM, so a later cold run could have written to them again as strangers.
+- **Rule:** Record each human touch as a contacted investor with one activity naming the exact sent message. Keep it on a human-touch list that blocks the fund from any cold run and sends a later reply to the people who handle that fund. Do not record a release, enrol a sequence, schedule a follow-up or lift the pause because of it.
+- **Check:** A send dry run skips both investors as human-touched, and the sequence record holds no entry for them.
+
 <a id="file-references-outreach-strategy-md"></a>
 
 ## Bundled file: references/outreach-strategy.md
@@ -598,7 +603,7 @@ The owners usually want one short daily figure: people and funds written to, fun
 
 ## 11. Pausing the lane
 
-A pause reaches every path that touches the lane: the senders, the follow-up and research steps, any task dispatcher or scheduled carrier that files lane work, and the daily status. Dry-run each one with the kill switch set and record what it printed. Unless the owner asks to keep the status going, it pauses with the lane. Before the pause is lifted, check that every fund an owner took over is stopped, and re-run by hand any research turn that was skipped.
+A pause reaches every path that touches the lane: the senders, the follow-up and research steps, any task dispatcher or scheduled carrier that files lane work, and the daily status. Dry-run each one with the kill switch set and record what it printed. Unless the owner asks to keep the status going, it pauses with the lane. Before the pause is lifted, check that every fund an owner took over is stopped, and re-run by hand any research turn that was skipped. A touch someone on the team sends by hand during the pause is recorded as history on a human-touch list that blocks cold runs for that fund; it never starts a sequence or a follow-up.
 
 <a id="file-references-research-md"></a>
 

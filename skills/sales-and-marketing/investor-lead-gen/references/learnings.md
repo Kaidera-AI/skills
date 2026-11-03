@@ -212,3 +212,8 @@ Anonymised lessons from running this skill on a real pre-seed raise. Each one na
 - **Observed:** Sequences were reported stopped when the founder took over a fund, but three days later the stops were missing from the sequence file. Their follow-ups were due the next day, and only the lane's kill switch held them. A scheduled job reads and rewrites that file every few minutes, so a hand edit made during a run can be lost.
 - **Rule:** Write an owner stop between scheduled runs, with none in progress, after taking a backup. Read the stop back after the next run. Before a pause is lifted, check that every person at each fund the founder now handles shows as stopped.
 - **Check:** After the next scheduled run, the sequence record still shows each owner stop. The follow-up dry run lists none of those people.
+
+### L42 · 2026-10-29 · A human investor touch during a paused lane is history, not a sequence
+- **Observed:** While the automated lane was paused, a member of the team sent two investors the deck by hand from their own mailbox. Neither investor had a record in the CRM, so a later cold run could have written to them again as strangers.
+- **Rule:** Record each human touch as a contacted investor with one activity naming the exact sent message. Keep it on a human-touch list that blocks the fund from any cold run and sends a later reply to the people who handle that fund. Do not record a release, enrol a sequence, schedule a follow-up or lift the pause because of it.
+- **Check:** A send dry run skips both investors as human-touched, and the sequence record holds no entry for them.
