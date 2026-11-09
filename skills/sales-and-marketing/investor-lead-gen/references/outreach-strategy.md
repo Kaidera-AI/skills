@@ -17,6 +17,8 @@ Nothing reaches an investor until every gate holds for that lead:
 
 A gate that fails skips the lead and leaves it for the next run. It never stops the sequence for good.
 
+The instance's current approver lists are lane-specific overrides. A general company rule such as "either principal may approve" does not widen investor authority when the instance names one owner. When authority changes, update the instance, enforcement code and operating documents together, and test that a former delegate's mark is rejected without changing state.
+
 ## 2. Email 1
 
 Plain words, at most about 90 to 95 words:

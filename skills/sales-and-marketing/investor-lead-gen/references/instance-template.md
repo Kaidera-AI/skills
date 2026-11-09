@@ -19,6 +19,7 @@ deck:
   teaser: ""                  # path to the pinned short deck and its hash
   full: ""                    # path to the fuller deck for forms and first calls
 owners:
+  lane_owner: ""              # explicit override when one person alone owns investor outreach
   release: []                 # who releases names (by address)
   copy: []                    # who approves copy versions
   meetings: []                # who takes calls; copied on every email

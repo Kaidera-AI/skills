@@ -1,6 +1,6 @@
 ---
 name: investor-lead-gen
-version: 1.4.0
+version: 1.5.0
 description: Find investors for an early-stage round, write to each person one to one, follow up
   once, hand replies to the people who take the meetings, and keep a reusable investor database and
   learning log. Use for investor lead generation and cold investor outreach by any company or brand;
@@ -15,17 +15,17 @@ kaidera:
     - tool:web_search
     - tool:mcp_external
   allowed_domains: []
-  content_hash: 49083f4809cfc073a25c7b3c3f6de4417c597500b68bf426850d17c607d1a2af
+  content_hash: eace44f5e44ed4b1111941a44a2f47fafd8db8ba2e8effde537a6dd85a5a8504
   signed_by: ""
   last_reviewed: ""
   reviewer: ""
   source:
     repo: Kaidera-AI/skills
     path: skills/sales-and-marketing/investor-lead-gen
-    content_sha256: ec20645c97326d7666833f46a5c16d8fa40052fb91dd06eacf64e993cf31d32f
+    content_sha256: 6883b0e9344def48d2021db350b8d7f1ae7f1aa779bcb8887fc0fbae306d1923
 author: Kaidera-AI
 license: Apache-2.0
-updated: 2026-11-03
+updated: 2026-11-09
 tags:
   - sales
   - marketing
@@ -251,6 +251,7 @@ deck:
   teaser: ""                  # path to the pinned short deck and its hash
   full: ""                    # path to the fuller deck for forms and first calls
 owners:
+  lane_owner: ""              # explicit override when one person alone owns investor outreach
   release: []                 # who releases names (by address)
   copy: []                    # who approves copy versions
   meetings: []                # who takes calls; copied on every email
@@ -386,7 +387,7 @@ Anonymised lessons from running this skill on a real pre-seed raise. Each one na
 
 ### L18 · 2026-10-07 · One release list per turn, every name listed
 - **Observed:** The owners wanted one or two approval emails a day, each naming every person to be contacted.
-- **Rule:** One release list per research turn to one named release owner, with each person's role, fund, figure, send day and opening line.
+- **Rule:** One release list per research turn to the instance's current release owner, with each person's role, fund, figure, send day and opening line. A later owner change updates the route without changing the list format.
 - **Check:** Every sent lead maps to a release with the owner's message reference.
 
 ### L19 · 2026-10-08 · A small round can look below a fund's usual cheque
@@ -471,7 +472,7 @@ Anonymised lessons from running this skill on a real pre-seed raise. Each one na
 
 ### L35 · 2026-10-17 · The copy list is not the approver list
 - **Observed:** An outside adviser who leads the lane asked to be kept off outgoing investor emails, and a day later the founder took him off all lane mail until a meeting needs him. His approval rights and the signature stayed as they were, and carriers filed earlier still named him as a recipient.
-- **Rule:** Keep who is copied, who approves and who is named in the signature as separate settings, and read the recipient setting at send time, not when the carrier was filed.
+- **Rule:** Keep who is copied, who approves and who is named in the signature as separate settings, and read the recipient and approver settings at action time, not when the carrier was filed.
 - **Check:** A test that changes the copy list leaves the approver list and signature untouched and changes the next send's recipients.
 
 ### L36 · 2026-10-18 · A decline that names other funds is a later-stage watchlist
@@ -509,6 +510,11 @@ Anonymised lessons from running this skill on a real pre-seed raise. Each one na
 - **Rule:** Record each human touch as a contacted investor with one activity naming the exact sent message. Keep it on a human-touch list that blocks the fund from any cold run and sends a later reply to the people who handle that fund. Do not record a release, enrol a sequence, schedule a follow-up or lift the pause because of it.
 - **Check:** A send dry run skips both investors as human-touched, and the sequence record holds no entry for them.
 
+### L43 · 2026-11-06 · A lane-specific owner overrides the general approval rule
+- **Observed:** A company made one approval from either principal sufficient for most marketing, but explicitly kept investor outreach under one named owner. The send configuration changed while an operating document still named a former delegate.
+- **Rule:** Keep the current release and copy approvers in the instance as an explicit lane override. When authority changes, update code, configuration and operating documents together; a mark from a former delegate does not release an investor item.
+- **Check:** Tests accept the named lane owner's mark and reject every other principal without changing the release or copy state.
+
 <a id="file-references-outreach-strategy-md"></a>
 
 ## Bundled file: references/outreach-strategy.md
@@ -531,6 +537,8 @@ Nothing reaches an investor until every gate holds for that lead:
 | Send switches | The instance's live-send flags are on |
 
 A gate that fails skips the lead and leaves it for the next run. It never stops the sequence for good.
+
+The instance's current approver lists are lane-specific overrides. A general company rule such as "either principal may approve" does not widen investor authority when the instance names one owner. When authority changes, update the instance, enforcement code and operating documents together, and test that a former delegate's mark is rejected without changing state.
 
 ## 2. Email 1
 
