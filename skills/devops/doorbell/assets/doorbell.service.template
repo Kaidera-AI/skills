@@ -1,0 +1,18 @@
+[Unit]
+Description=Doorbell: wake idle AI Worker terminals when a Cortex handoff is waiting (@LEAD@@@PROJECT@)
+After=network-online.target
+
+[Service]
+Type=simple
+# DRY RUN until the project owner says go: to go live, add an override that clears ExecStart and starts it without --dry-run
+# (see references/setup-new-project.md, step 5). Always pass --config.
+ExecStart=@DIR@/target/release/doorbell --dry-run --config @DIR@/doorbell.toml
+# The Orca command line must be on the service's PATH.
+Environment=PATH=%h/.orca/cli/bin:/usr/local/bin:/usr/bin
+Restart=on-failure
+RestartSec=15
+NoNewPrivileges=yes
+PrivateTmp=yes
+
+[Install]
+WantedBy=default.target

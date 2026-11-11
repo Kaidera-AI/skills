@@ -1,0 +1,15 @@
+doorbell source, copied byte for byte from helix ops/doorbell
+git commit: bba1cc257ba91c9799ac5837765f8166598321dd
+copied (UTC): 2026-11-09T10:46:37Z
+license: MIT (Cargo.toml)
+sha256:
+b09c9e9630ed506d7da201ad7e338fb030f8fc7bf2af7d53b327cddc36b7e077  Cargo.toml
+71a7789d0828c90a230b14ae6def6c51232fad1146ae3025f9a47a00632621f8  Cargo.lock
+657aba407ca5548df569fbe94ee1e8d47fe7ed383f445f4448ee556b88669300  deny.toml
+4d8a9d9dd4baf17ab635ca45082d9f51a0e2abd4a3daa5f0a296cfff177718ca  .gitignore
+ede47ed102604b3c420537ea02714d9273fc21979c731e88e32ce35cacfd171d  src/main.rs
+KIT PATCH 1 (9 Nov 2026, kai): src/main.rs only: a `null` field in a Cortex row (for example to_agent on a role-addressed row) no longer fails the whole queue ('row shape: invalid type: null, expected a string'); a null reads as an empty string, so such a row is not addressed to the worker and is not eligible, as before. Found when the doorbell was dry-run for the tam project (its worker sophia had three role-addressed rows). One new unit test. The helix master (ops/doorbell at bba1cc2) does NOT have this patch yet.
+sha256 of src/main.rs AFTER kit patch 1: 08978057c66a32d417de1b1c3e463174c1c817c20e9758dc8861d55ce9adda2a
+(the sha256 list above is of the files as copied from helix, BEFORE the patch; only src/main.rs differs)
+
+NOT copied: target/ (build output), state/ (logs, kill switch), doorbell.toml (helix's live config), any token file.

@@ -1,0 +1,36 @@
+# doorbell config template (Kaidera doorbell skill). Copy, fill in every <...>, then dry-run it:
+#   doorbell --dry-run --once --config <this file with its own state_dir>
+# Every setting is explained in references/config-reference.md.
+
+# The Cortex API the doorbell asks (401 without a token means it is up).
+api_url = "http://localhost:8501"
+# The Cortex project key and the lead. The lead's own terminal is never rung: do not list the lead in workers.
+project = "<project>"
+lead = "<lead>"
+# The lead's token FILE (mode 0600). The doorbell reads every queue with it and never reads a worker's token.
+lead_token_file = "/home/azureuser/.kaidera-os/cortex-auth/KOS-Cortex/<project>/<lead>.token"
+# Only terminals of this Orca workspace, titled with the worker's name, are rung.
+workspace_path = "/home/azureuser/DevVault/<project>"
+# Rows created before this UTC time are history and never ring. Set it to the day you install.
+since_utc = "<YYYY-MM-DD> 00:00:00"
+poll_secs = 30
+rering_secs = 1800
+# A dry run MUST use its own state_dir (it holds the log, the attention log and the kill switch doorbell.off).
+state_dir = "/home/azureuser/DevVault/<project>/ops/doorbell/state"
+workers = ["<worker1>", "<worker2>"]
+
+# A busy pane whose title contains one of these is reported (state/attention.log), never typed into.
+# Codex retitles a pane "[ ! ] Action Required | ..." while it waits at an approval prompt.
+attention_titles = ["Action Required"]
+# A busy pane silent this long (seconds) with open rows is reported too.
+stuck_secs = 1200
+
+# Human-typing guard: never type where a human may be typing (the input box must be empty, Orca's composer
+# must hold no draft, and the pane must have been quiet this long).
+# quiet_secs = 20
+# Workers whose harness the input-box reader does not know are NEVER rung unless listed here. Empty by default.
+# ring_unverified = []
+
+# Pane titles that contain no worker name: map the exact title to the worker, or rename the pane.
+# [aliases]
+# "π - <project>" = "<worker>"

@@ -1,0 +1,18 @@
+# A WORKED EXAMPLE: the doorbell for the tam project on am-dev-02 (lead keith). Values read from the host on 9 Nov 2026:
+#   Cortex API answers on localhost:8501; token files under ~/.kaidera-os/cortex-auth/KOS-Cortex/tam/ ;
+#   the Orca runtime lists two terminals in /home/azureuser/DevVault/tam (keith, "quill | tam").
+# Dry run it first with its own state_dir (see references/setup-new-project.md). Check the worker list against the
+# project's AGENTS.md before you go live. The tam team named there: keith (lead), phoenix, marvin, quill, sophia.
+api_url = "http://localhost:8501"
+project = "tam"
+lead = "keith"
+lead_token_file = "/home/azureuser/.kaidera-os/cortex-auth/KOS-Cortex/tam/keith.token"
+workspace_path = "/home/azureuser/DevVault/tam"
+# tam's history was imported on 7 Nov 2026: set this to the day you install so imported open rows never ring.
+since_utc = "2026-11-09 00:00:00"
+poll_secs = 30
+rering_secs = 1800
+state_dir = "/home/azureuser/DevVault/tam/ops/doorbell/state"
+workers = ["phoenix", "marvin", "quill", "sophia"]
+attention_titles = ["Action Required"]
+stuck_secs = 1200

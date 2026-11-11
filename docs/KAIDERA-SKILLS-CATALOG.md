@@ -205,6 +205,7 @@ Use `design-selection` for the initial static/deck/3D/UI/native/video route, `ui
 | DevOps | `cloud-agnostic-policy` | `1.0.0` | Reviews infrastructure choices for portability and prevents an architecture | Manual-only | low / file read |
 | DevOps | `deploy-gate` | `1.0.0` | Gates pushes, pull requests, merges, releases, and deployments on exact target, | Manual-only | medium / file read |
 | DevOps | `infra-naming-gate` | `1.0.0` | Validates proposed infrastructure names against a portable organization, | Manual-only | low / file read |
+| DevOps | `doorbell` | `1.0.0` | Wakes an idle AI Worker's Orca pane when a Cortex handoff row is waiting for it, with one fixed line and never the row's text | Manual-only | medium / file read, file write, interpreter |
 | Documentation | `human-voice` | `1.0.0` | Rewrite, audit, or draft public-facing prose so it uses checkable specifics | Reference-only | low / none |
 | Legacy | `agent-platform-context` | `1.0.1` | Legacy agent executor, team, mailbox, Redis memory, and lifecycle reference | Reference-only, legacy | low / none |
 | Legacy | `api-design` | `1.0.1` | Legacy FastAPI URL, schema, auth, error, pagination, and OpenAPI patterns | Reference-only, legacy | low / none |
@@ -741,6 +742,19 @@ first. The EnGenAI-era deployment runbooks and platform patterns are filed under
 - **Inputs and output:** No parameters or tools; gate text only.
 - **Authority and effects:** Manual-only: the named human authorises; the agent prepares and stops.
 - **Kaidera action:** Manual-only: the Kaidera production gate is the CTO's go; the agent acts up to it and cannot pass it.
+
+### `doorbell`
+
+<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:file_write","tool:code_interpreter"],"category":"devops","legacy":false,"name":"doorbell","path":"skills/devops/doorbell.SKILL.md","posture":"manual-only","risk_level":"medium","trust_tier":"unvetted","version":"1.0.0"} -->
+
+- **Manifest:** [doorbell.SKILL.md](../skills/devops/doorbell.SKILL.md), projected from the canonical directory [skills/devops/doorbell/](../skills/devops/doorbell/).
+- **Function:** A background service that asks Cortex which workers of a project have open handoff rows, and types **one fixed line** into each such worker's Orca pane when the pane is idle - the line carries a count and a first id, never the row's text.
+- **Use when:** A lead wants a row to wake its worker without a human clicking into each tab; a worker answers a doorbell; an operator installs or debugs one.
+- **Do not use when:** Anything other than a Cortex handoff queue is the signal; any pane may have a human at its keyboard; or the operator cannot yet run it in dry run.
+- **Inputs and output:** One TOML config (project, lead, token file, Orca socket, worker list, state directory) and a Cortex queue; output is one typed line per wake, plus a log and an attention log. **It starts no model and reads no row body.**
+- **Authority and effects:** Manual-only. It types into other agents' terminals, so the owner authorises go-live; the program's own first line of defence is dry run by default in the shipped unit, and a kill switch read before every keystroke.
+- **Kaidera action:** The lead or project owner gives the word to go live; installing it on a shared host, and deciding whether the Rust source ships inside the skill or points at its own repository, are the CTO's calls.
+- **Licence and source:** MIT (the program's own `Cargo.toml`); the source in `assets/doorbell-src/` is a byte copy of `helix ops/doorbell` at a recorded commit plus one patch, with provenance and hashes in `assets/SOURCE.txt`.
 
 ### `infra-naming-gate`
 
