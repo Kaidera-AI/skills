@@ -2,7 +2,7 @@
 
 Status: **human-facing index; the manifests and the catalogue remain authoritative**
 
-Published skills covered: **59**
+Published skills covered: **60**
 
 Rendered by `scripts/render-glossary.js` from the built marketplace, the catalogue
 markers and the authored prose in `scripts/glossary-prose.json`. Skill names, categories
@@ -27,23 +27,23 @@ the manifest wins and this file is stale — fix it in the same commit.
 | Category | Published |
 |---|---:|
 | `context/` | 2 |
-| `development/` | 25 |
+| `development/` | 26 |
 | `devops/` | 3 |
 | `documentation/` | 1 |
 | `legacy/` | 21 |
 | `research/` | 2 |
 | `security/` | 1 |
 | `sales-and-marketing/` | 4 |
-| **Total** | **59** |
+| **Total** | **60** |
 
 | Posture | Published |
 |---|---:|
 | Bounded candidate | 18 |
-| Reference-only | 16 |
+| Reference-only | 17 |
 | Manual-only | 15 |
 | Rework before use | 10 |
 
-Legacy entries: **21** of 59 are filed under `legacy/`. 19 of them still name the retired product or its domains outright; the other 2 (`code-review` and `deploy-to-dev`) do not, and are legacy for stale escalation, kill-switch, organisation-scope and sprint-log controls, or because redaction removed their only product reference.
+Legacy entries: **21** of 60 are filed under `legacy/`. 19 of them still name the retired product or its domains outright; the other 2 (`code-review` and `deploy-to-dev`) do not, and are legacy for stale escalation, kill-switch, organisation-scope and sprint-log controls, or because redaction removed their only product reference.
 
 None of the 21 declares any capability, yet several bodies describe installs,
 live production diagnostics, database and cluster access, Git mutation or deployment.
@@ -153,6 +153,7 @@ portfolio judgements, separate from the manifest's `trust_tier`, and every skill
 | [`deploy-to-dev`](../skills/legacy/deploy-to-dev.SKILL.md) | `legacy` | Legacy GitOps runbook: sprint-branch push triggers CI, image build, gitops update and ArgoCD sync. | Names one retired product's environment; its hostnames and project identifiers are now placeholders. Do not generalise it. | Manual-only, legacy |
 | [`design-selection`](../skills/development/design-selection.SKILL.md) | `development` | Select the owning design workflow for UI, motion, native interaction or exported video. | Choosing design capabilities or resolving UI versus video workflow ownership. | Reference-only |
 | [`development-workflow`](../skills/development/development-workflow.SKILL.md) | `development` | Portable AI-plus-human lifecycle: bounded tasks, independent review, risk-based QA, recorded decisions. | The generic SDLC profile for development projects; select exactly one lifecycle owner per project. | Bounded candidate |
+| [`excalidraw`](../skills/development/excalidraw.SKILL.md) | `development` | Draw, store and render hand-drawn Excalidraw diagrams from the terminal with the official CLI: a local scene to PNG with no account, or Excalidraw+ scenes with a key. | Sketch-level diagrams and wireframes that are easier to edit as a scene file than as text; the text-first path is pretty-mermaid. | Reference-only |
 | [`folder-organisation`](../skills/development/folder-organisation.SKILL.md) | `development` | Place project files and record content custody before an authorised consolidation or sync. | Keep foreign edits, distinguish planned actions from writes, and use the canonical approved writer. | Manual-only |
 | [`frontend-context`](../skills/legacy/frontend-context.SKILL.md) | `legacy` | Legacy Next.js 14 App Router, React Flow, Tailwind, Zustand and strict-TypeScript conventions. | Orientation inside old frontend code only. | Reference-only, legacy |
 | [`gavel`](../skills/development/gavel.SKILL.md) | `development` | Typed, probabilistic judgments on a lead’s three decision moments: a return, a handoff, a backlog order. | A calibrated second opinion before you rule. Mutually exclusive with the Jev lead wrappers. | Bounded candidate |

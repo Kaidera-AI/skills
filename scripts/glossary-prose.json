@@ -244,6 +244,10 @@
     "agent-skill-onboarding": {
       "what": "Boot-to-qualification procedure: role, task, SOP authority, pinned skill selection and evidence.",
       "why": "Prevents copied skill files or a successful boot from being mistaken for runtime readiness."
+    },
+    "excalidraw": {
+      "what": "Draw, store and render hand-drawn Excalidraw diagrams from the terminal with the official CLI: a local scene to PNG with no account, or Excalidraw+ scenes with a key.",
+      "why": "Sketch-level diagrams and wireframes that are easier to edit as a scene file than as text; the text-first path is pretty-mermaid."
     }
   },
   "rename_pairs": [

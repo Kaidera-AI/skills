@@ -4,7 +4,7 @@ Status: **canonical human-facing catalogue; source candidate; runtime and trust 
 
 Catalogue date: **2026-10-14**
 
-Total skills: **59**
+Total skills: **60**
 
 Source binding: consume this guide only from the same Git commit as its skill
 manifests, marketplace, and catalogue test. The enclosing commit/tree is the
@@ -31,7 +31,7 @@ a release blocker; do not silently choose one side.
 
 ## Current release boundary
 
-- All 59 skills are `unvetted`.
+- All 60 skills are `unvetted`.
 - Catalogue presence, a body hash, static validation, or a local commit is not
   approval to inject a skill into an agent.
 - Gate 1 strict manifest checks and a bounded Gate 2 pattern scan exist.
@@ -43,7 +43,7 @@ a release blocker; do not silently choose one side.
 - Kaidera and Alibaba both use the name `open-code-review`. A host must select a
   source-qualified identity and inject only one; prompt text cannot resolve a
   loader collision after both skills are present.
-- 21 of the 59 skills are filed under `legacy/`. They are kept as research context,
+- 21 of the 60 skills are filed under `legacy/`. They are kept as research context,
   they are not current Kaidera truth, and none of them may be bound to an agent.
 
 ## Portfolio summary
@@ -51,7 +51,7 @@ a release blocker; do not silently choose one side.
 | Category | Skills |
 |---|---:|
 | Context | 2 |
-| Development | 25 |
+| Development | 26 |
 | DevOps | 3 |
 | Documentation | 1 |
 | Legacy | 21 |
@@ -61,18 +61,18 @@ a release blocker; do not silently choose one side.
 
 | Declared trust tier | Skills |
 |---|---:|
-| `unvetted` | 59 |
+| `unvetted` | 60 |
 
 | Operating posture | Skills |
 |---|---:|
 | Bounded candidate | 18 |
-| Reference-only | 16 |
+| Reference-only | 17 |
 | Manual-only | 15 |
 | Rework before use | 10 |
 
 Legacy entries: **21**
 
-Current-source entries: **38**
+Current-source entries: **39**
 
 `Legacy` is a documentation classification and, since the `legacy/` category was
 introduced, a filing location as well. Neither is a trust or compatibility
@@ -235,6 +235,7 @@ Use `design-selection` for the initial static/deck/3D/UI/native/video route, `ui
 | Sales and marketing | `social-media-ops` | `1.0.1` | Official-API posting with read-back, weekly AI answer visibility and hiring signals, and third-party tool vetting, with bundled stdlib tools | Manual-only | high / file read, file write, web search, external connector, interpreter |
 | Security | `prompt-injection-test-design` | `2.0.1` | Read-only design for controlled prompt-injection boundary testing | Reference-only | low / none |
 | Development | `design-selection` | `1.1.0` | Select the owning design workflow for UI, motion, native interaction or exported video. | Reference-only | medium / file read, web search |
+| Development | `excalidraw` | `1.0.0` | Draw, store and render hand-drawn Excalidraw diagrams from the terminal: local scenes to PNG with no account, Excalidraw+ workspace scenes with a key | Reference-only | low / none |
 | Development | `ui-ux-review` | `1.0.0` | Critique, audit and harden a scoped interface. | Bounded candidate | medium / file read, file write, interpreter |
 | Development | `web-interface-guidelines` | `1.0.0` | Review web UI against the pinned local Vercel snapshot. | Reference-only | medium / file read |
 | Development | `ui-design-engineering` | `1.0.0` | Improve UI craft, input feedback, purposeful motion, gesture continuity and mobile details. | Bounded candidate | medium / file read, file write, interpreter, web search |
@@ -299,6 +300,7 @@ precedence issue remains a release hold.
 | `jev` | `Kaidera-AI` | `Apache-2.0` | `api.typesafe.ai`, `docs.typesafe.ai`, `github.com` | [TypeSafe AI and Joey Kudish](https://github.com/jkudish/jev-mcp) |
 | `unlazy` | `kaidera-ai` | `MIT` | `github.com` | [Leonxlnx](https://github.com/Leonxlnx/unlazy) |
 | `prompt-master` | `nidhinjs` | `MIT` | `github.com` | [nidhinjs](https://github.com/nidhinjs/prompt-master) |
+| `excalidraw` | `excalidraw` | `MIT` | `github.com`, `excalidraw.com` | [excalidraw](https://github.com/excalidraw/excalidraw) |
 | `cloud-agnostic-policy` | `Kaidera` | `Apache-2.0` | None | — |
 | `deploy-gate` | `Kaidera` | `Apache-2.0` | None | — |
 | `infra-naming-gate` | `Kaidera` | `Apache-2.0` | None | — |
@@ -429,6 +431,18 @@ entry is current-source; the EnGenAI-era development material is filed under
 - **Inputs and output:** Resolved project type/capabilities, accepted scope/policy and task; produces bounded task/evidence/decision records using the bundled templates. Tool setup persists incomplete and declined choices to avoid repeated boot prompts.
 - **Authority and effects:** File read/write, local computation and current public-source research inside existing authorization. Application connections, source-data transfer, reserved actions and human verdicts require their separate scoped authority. No runtime binding or trusted-tier promotion.
 - **Kaidera action:** Bounded candidate, unvetted. Canonical source is the directory in this repository; scripts/render-development-workflow.js generates the flat manifest and checks its source digest. Dev-OS carries identical pinned bytes and named role adapters. Legacy behavioural skills and their unresolved donor material are excluded from this public skill. Root/per-skill licensing precedence and Gate 3/4 holds remain.
+
+### `excalidraw`
+
+<!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"development","legacy":false,"name":"excalidraw","path":"skills/development/excalidraw.SKILL.md","posture":"reference-only","review_fingerprint":"61e72f843c84f66bcce04d112dba906914b947f83d6d02f9992f8048b71d05a1","risk_level":"low","trust_tier":"unvetted","version":"1.0.0"} -->
+
+- **Manifest:** [excalidraw.SKILL.md](../skills/development/excalidraw.SKILL.md)
+- **Function:** Draw, store and render hand-drawn Excalidraw diagrams from the terminal with the official CLI: a local scene to PNG with no account or key, or Excalidraw+ workspace scenes and collections when a key is present.
+- **Use when:** A hand-drawn sketch, whiteboard-style flow, wireframe or editable scene file is wanted; use `pretty-mermaid` for text-first, diff-friendly diagrams.
+- **Do not use when:** The deliverable needs to be diff-friendly text, or the reader wants a diagram they cannot render.
+- **Inputs and output:** A requested scene or an existing `.excalidraw` file; an editable scene and, on request, a rendered PNG.
+- **Authority and effects:** Reference-only, vendored verbatim. It drives the official CLI the reader installs in their own harness; nothing is bundled and no credential is held.
+- **Kaidera action:** Reference-only, unvetted. The instructional body is byte-identical to the stored source; only the manifest block and the safety constraints were added. Vendored under MIT with attribution in the manifest.
 
 ### `folder-organisation`
 

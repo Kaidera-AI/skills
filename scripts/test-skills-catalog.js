@@ -53,6 +53,7 @@ const posturePolicy = new Map([
     'jev-return-triage',
 ])],
   ['reference-only', new Set([
+    'excalidraw',
     'web-interface-guidelines',
     'design-selection',
     'jev',
@@ -124,6 +125,7 @@ const legacySkills = new Set([
   'workspace-context',
 ])
 const currentSourceSkills = new Set([
+  'excalidraw',
   'visual-design-production',
   'motion-3d-production',
   'presentation-design',
