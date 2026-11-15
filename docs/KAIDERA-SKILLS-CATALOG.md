@@ -205,7 +205,7 @@ Use `design-selection` for the initial static/deck/3D/UI/native/video route, `ui
 | DevOps | `cloud-agnostic-policy` | `1.0.0` | Reviews infrastructure choices for portability and prevents an architecture | Manual-only | low / file read |
 | DevOps | `deploy-gate` | `1.0.0` | Gates pushes, pull requests, merges, releases, and deployments on exact target, | Manual-only | medium / file read |
 | DevOps | `infra-naming-gate` | `1.0.0` | Validates proposed infrastructure names against a portable organization, | Manual-only | low / file read |
-| Documentation | `cairn` | `1.0.0` | Keep a project on Cairn, the Kaidera project map: contract files, one writer (the documentarian), enrolment, update loop, checks | Bounded candidate | medium / file read, file write, interpreter |
+| Documentation | `cairn` | `1.0.1` | Keep a project on Cairn, the Kaidera project map: contract files, one writer (the documentarian), enrolment, update loop, checks | Bounded candidate | medium / file read, file write, interpreter |
 | Documentation | `human-voice` | `1.0.0` | Rewrite, audit, or draft public-facing prose so it uses checkable specifics | Reference-only | low / none |
 | Legacy | `agent-platform-context` | `1.0.1` | Legacy agent executor, team, mailbox, Redis memory, and lifecycle reference | Reference-only, legacy | low / none |
 | Legacy | `api-design` | `1.0.1` | Legacy FastAPI URL, schema, auth, error, pagination, and OpenAPI patterns | Reference-only, legacy | low / none |
@@ -761,14 +761,14 @@ first. The EnGenAI-era deployment runbooks and platform patterns are filed under
 Writing and documentation guidance. Reference-only unless a manifest says otherwise.
 ### `cairn`
 
-<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:file_write","tool:code_interpreter"],"category":"documentation","legacy":false,"name":"cairn","path":"skills/documentation/cairn.SKILL.md","posture":"bounded-candidate","review_fingerprint":"1b51db5d45e79d78a6acef30073c59559dd4f013a609e2344b91f64cdc378e61","risk_level":"medium","trust_tier":"unvetted","version":"1.0.0"} -->
+<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:file_write","tool:code_interpreter"],"category":"documentation","legacy":false,"name":"cairn","path":"skills/documentation/cairn.SKILL.md","posture":"bounded-candidate","review_fingerprint":"470c73c95bb905266a095515d57420141dbb2bc4aee72dfef1f9d4525a5fbd27","risk_level":"medium","trust_tier":"unvetted","version":"1.0.1"} -->
 
 - **Manifest:** [cairn.SKILL.md](../skills/documentation/cairn.SKILL.md)
 - **Function:** How a project shows up on Cairn (the Kaidera project map) and stays current: the contract files a project keeps (`.kaidera/board.yaml`, `progress/progress.yaml`, `modules.yaml`, front matter, the `docs/` layout), the single writer of those files (the documentarian), enrolment, the update loop, the lint and page checks, and what must never be in a synced folder.
 - **Use when:** A project enrols on Cairn; its progress, modules, decisions or documents change; or Cairn shows a project wrongly.
 - **Do not use when:** Changing Cairn's own pages, registry, sign-in, people or access (Cairn maintainer and owner only), or writing code.
 - **Inputs and output:** A handoff naming what changed and its evidence; output is the changed contract or document files plus the check results.
-- **Authority and effects:** Writes only inside the project's documents root, and only when the agent is the workspace's documentarian; runs `cairn lint`. No network write; reading the Cairn page is a check, not an action.
+- **Authority and effects:** Writes only inside the project's documents root, and only when the agent is the workspace's documentarian; runs `cairn lint`. No network write. AI Workers cannot sign in to Cairn; they confirm a change through a read-back from the Cairn maintainer.
 - **Kaidera action:** Bounded candidate: bind only to the documentarian role; other workers read it to know whom to hand changes to.
 
 ### `human-voice`
