@@ -4,7 +4,7 @@ Status: **canonical human-facing catalogue; source candidate; runtime and trust 
 
 Catalogue date: **2026-10-14**
 
-Total skills: **59**
+Total skills: **60**
 
 Source binding: consume this guide only from the same Git commit as its skill
 manifests, marketplace, and catalogue test. The enclosing commit/tree is the
@@ -31,7 +31,7 @@ a release blocker; do not silently choose one side.
 
 ## Current release boundary
 
-- All 59 skills are `unvetted`.
+- All 60 skills are `unvetted`.
 - Catalogue presence, a body hash, static validation, or a local commit is not
   approval to inject a skill into an agent.
 - Gate 1 strict manifest checks and a bounded Gate 2 pattern scan exist.
@@ -43,7 +43,7 @@ a release blocker; do not silently choose one side.
 - Kaidera and Alibaba both use the name `open-code-review`. A host must select a
   source-qualified identity and inject only one; prompt text cannot resolve a
   loader collision after both skills are present.
-- 21 of the 59 skills are filed under `legacy/`. They are kept as research context,
+- 21 of the 60 skills are filed under `legacy/`. They are kept as research context,
   they are not current Kaidera truth, and none of them may be bound to an agent.
 
 ## Portfolio summary
@@ -51,7 +51,7 @@ a release blocker; do not silently choose one side.
 | Category | Skills |
 |---|---:|
 | Context | 2 |
-| Development | 25 |
+| Development | 26 |
 | DevOps | 3 |
 | Documentation | 1 |
 | Legacy | 21 |
@@ -61,18 +61,18 @@ a release blocker; do not silently choose one side.
 
 | Declared trust tier | Skills |
 |---|---:|
-| `unvetted` | 59 |
+| `unvetted` | 60 |
 
 | Operating posture | Skills |
 |---|---:|
 | Bounded candidate | 18 |
 | Reference-only | 16 |
-| Manual-only | 15 |
+| Manual-only | 16 |
 | Rework before use | 10 |
 
 Legacy entries: **21**
 
-Current-source entries: **38**
+Current-source entries: **39**
 
 `Legacy` is a documentation classification and, since the `legacy/` category was
 introduced, a filing location as well. Neither is a trust or compatibility
@@ -246,6 +246,8 @@ Use `design-selection` for the initial static/deck/3D/UI/native/video route, `ui
 | Development | `presentation-design` | `1.0.0` | Design, build or restyle presentation decks using the configured brand and approved copy; preserve hand edits, produce editable sources and inspect PPTX/PDF exports | Bounded candidate | medium / file read, file write, interpreter |
 | Development | `agent-skill-onboarding` | `1.0.0` | Onboard an agent to a project: verify boot identity, profile/persona, responsibilities, assigned task and SOP authority; discover task-relevant shared skills, pin source and record approval/qualification gaps | Manual-only | medium / file read, file write, interpreter, web search |
 
+| Development | `home-repo-workflow` | `1.0.0` | Map and coordinate work across repositories from a shared home workspace | Manual-only | medium / file read, file write, interpreter |
+
 ## Ownership, licensing, attribution, and domain metadata
 
 These are manifest declarations, not independently ratified ownership, licence,
@@ -314,6 +316,7 @@ precedence issue remains a release hold.
 | `motion-3d-production` | `Kaidera-AI` | `CC-BY-4.0` | `github.com` | [Kaidera-AI](https://github.com/Kaidera-AI/skills) |
 | `presentation-design` | `Kaidera-AI` | `CC-BY-4.0` | `github.com` | [Kaidera-AI](https://github.com/Kaidera-AI/skills) |
 | `agent-skill-onboarding` | `Kaidera-AI` | `CC-BY-4.0` | `github.com` | [Kaidera-AI](https://github.com/Kaidera-AI/skills) |
+| `home-repo-workflow` | `Kaidera-AI` | `CC-BY-4.0` | `www.aihero.dev` | [Matt Pocock](https://www.aihero.dev/the-home-repo-pattern) |
 
 ## Context skills
 
@@ -465,6 +468,18 @@ entry is current-source; the EnGenAI-era development material is filed under
 - **Inputs and output:** Existing planning artifacts and accepted scope; phase plans, evidenced summaries and resume checkpoints.
 - **Authority and effects:** Reads/writes scoped artifacts and implementation; a native runtime migration is separately planned.
 - **Kaidera action:** Bounded candidate, unvetted. Canonical portable source is the directory beside the manifest; regenerate with `scripts/render-upstream-adapters.js`. This original CC-BY-4.0 adapter matches the root licence and cites pinned upstream sources without bundling their code. Source publication carries no runtime trust or binding; Gate 3/4 holds remain.
+
+### `home-repo-workflow`
+
+<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:file_write","tool:code_interpreter"],"category":"development","legacy":false,"name":"home-repo-workflow","path":"skills/development/home-repo-workflow.SKILL.md","posture":"manual-only","review_fingerprint":"1e75f978a2c731e059519872bbdd7bf95fbc7d776cf4c81f2272811d389435df","risk_level":"medium","trust_tier":"unvetted","version":"1.0.0"} -->
+
+- **Manifest:** [home-repo-workflow.SKILL.md](../skills/development/home-repo-workflow.SKILL.md)
+- **Function:** Plan and coordinate multi-repository work from a shared home workspace.
+- **Use when:** Mapping repositories and shared instructions or executing an authorized cross-repository change.
+- **Do not use when:** Treating navigation as authority to edit another project or publish its content.
+- **Inputs and output:** Authorized scope and repository instructions; inventory, change plan and per-repository receipts.
+- **Authority and effects:** Manual-only; the workflow does not grant access, publication or merge authority.
+- **Kaidera action:** Portable candidate adapted from Matt Pocock's home repo pattern. Retain independent review, licence and runtime trust holds.
 
 ### `hyperframes`
 

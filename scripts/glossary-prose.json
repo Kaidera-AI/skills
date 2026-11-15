@@ -244,6 +244,10 @@
     "agent-skill-onboarding": {
       "what": "Boot-to-qualification procedure: role, task, SOP authority, pinned skill selection and evidence.",
       "why": "Prevents copied skill files or a successful boot from being mistaken for runtime readiness."
+    },
+    "home-repo-workflow": {
+      "what": "Maps shared instructions and coordinates bounded work across repositories from a home workspace.",
+      "why": "Preserves repository ownership and action-specific authorization during multi-repository work."
     }
   },
   "rename_pairs": [

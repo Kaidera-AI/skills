@@ -3,7 +3,7 @@
   "description": "Locally validated, provenance-aware skills for Kaidera agents",
   "version": "1.0.0",
   "source": "https://github.com/Kaidera-AI/skills",
-  "generated_at": "2026-11-09T00:00:00.000Z",
+  "generated_at": "2026-11-15T00:00:00.000Z",
   "generation_basis": "maximum skill updated date",
   "skills": [
     {
@@ -448,6 +448,44 @@
       "attribution_author": "OpenGSD",
       "attribution_url": "https://github.com/open-gsd/gsd-core/tree/87e87d34b2d8519e30d1af7d910fc98f2af4bc8d",
       "attribution_notes": "Original Kaidera adaptation and routing text informed by inspected pinned upstream sources. No upstream executable, installer, plugin or skill body is bundled."
+    },
+    {
+      "name": "home-repo-workflow",
+      "version": "1.0.0",
+      "description": "Plan or carry out coordinated work across multiple repositories from a shared home workspace. Use when setting up a home repository, mapping repositories and shared instructions, or executing a cross-repository change; do not treat a navigation pointer as permission to change another project.",
+      "category": "development",
+      "trust_tier": "unvetted",
+      "risk_level": "medium",
+      "capabilities_required": [
+        "tool:file_read",
+        "tool:file_write",
+        "tool:code_interpreter"
+      ],
+      "allowed_domains": [
+        "www.aihero.dev"
+      ],
+      "safety_constraints": [
+        "Keep credentials and private information out of shared or public material.",
+        "Respect each repository's ownership and action-specific authorization.",
+        "Preserve in-flight work and repository-specific instructions."
+      ],
+      "parameters": {},
+      "author": "Kaidera-AI",
+      "license": "CC-BY-4.0",
+      "updated": "2026-11-15",
+      "tags": [
+        "repositories",
+        "worktrees",
+        "coordination"
+      ],
+      "content_hash": "7963fa1b7dd7fd6bee854ce45a7c06e62d35c83c00ad461d04e761b15a42c882",
+      "signed_by": "",
+      "last_reviewed": "",
+      "reviewer": "",
+      "file": "skills/development/home-repo-workflow.SKILL.md",
+      "attribution_author": "Matt Pocock",
+      "attribution_url": "https://www.aihero.dev/the-home-repo-pattern",
+      "attribution_notes": "Original workflow informed by the home repo pattern; no transcript is included."
     },
     {
       "name": "hyperframes",

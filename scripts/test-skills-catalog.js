@@ -71,6 +71,7 @@ const posturePolicy = new Map([
       'prompt-master',
 ])],
   ['manual-only', new Set([
+    'home-repo-workflow',
     'agent-skill-onboarding',
     'folder-organisation',
     'marketing-web-research',
@@ -124,6 +125,7 @@ const legacySkills = new Set([
   'workspace-context',
 ])
 const currentSourceSkills = new Set([
+  'home-repo-workflow',
   'visual-design-production',
   'motion-3d-production',
   'presentation-design',
