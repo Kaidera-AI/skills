@@ -244,6 +244,10 @@
     "agent-skill-onboarding": {
       "what": "Boot-to-qualification procedure: role, task, SOP authority, pinned skill selection and evidence.",
       "why": "Prevents copied skill files or a successful boot from being mistaken for runtime readiness."
+    },
+    "cairn": {
+      "what": "Keeps a project current on Cairn, the project map: its contract files, the documentarian as the one writer, enrolment, the update loop and the checks.",
+      "why": "Every team updates Cairn the same way, from files on the machine, so the dashboards never drift or get typed by hand."
     }
   },
   "rename_pairs": [

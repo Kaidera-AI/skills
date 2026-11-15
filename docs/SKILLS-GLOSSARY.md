@@ -2,7 +2,7 @@
 
 Status: **human-facing index; the manifests and the catalogue remain authoritative**
 
-Published skills covered: **59**
+Published skills covered: **60**
 
 Rendered by `scripts/render-glossary.js` from the built marketplace, the catalogue
 markers and the authored prose in `scripts/glossary-prose.json`. Skill names, categories
@@ -29,21 +29,21 @@ the manifest wins and this file is stale — fix it in the same commit.
 | `context/` | 2 |
 | `development/` | 25 |
 | `devops/` | 3 |
-| `documentation/` | 1 |
+| `documentation/` | 2 |
 | `legacy/` | 21 |
 | `research/` | 2 |
 | `security/` | 1 |
 | `sales-and-marketing/` | 4 |
-| **Total** | **59** |
+| **Total** | **60** |
 
 | Posture | Published |
 |---|---:|
-| Bounded candidate | 18 |
+| Bounded candidate | 19 |
 | Reference-only | 16 |
 | Manual-only | 15 |
 | Rework before use | 10 |
 
-Legacy entries: **21** of 59 are filed under `legacy/`. 19 of them still name the retired product or its domains outright; the other 2 (`code-review` and `deploy-to-dev`) do not, and are legacy for stale escalation, kill-switch, organisation-scope and sprint-log controls, or because redaction removed their only product reference.
+Legacy entries: **21** of 60 are filed under `legacy/`. 19 of them still name the retired product or its domains outright; the other 2 (`code-review` and `deploy-to-dev`) do not, and are legacy for stale escalation, kill-switch, organisation-scope and sprint-log controls, or because redaction removed their only product reference.
 
 None of the 21 declares any capability, yet several bodies describe installs,
 live production diagnostics, database and cluster access, Git mutation or deployment.
@@ -144,6 +144,7 @@ portfolio judgements, separate from the manifest's `trust_tier`, and every skill
 | [`assert-fact-gate`](../skills/development/assert-fact-gate.SKILL.md) | `development` | Blocks any factual claim until a fresh source check in this turn backs it. | Cheapest honesty control in the portfolio: kills recalled SHAs, “tests pass” and “it’s deployed”. | Manual-only |
 | [`assumption-validation`](../skills/development/assumption-validation.SKILL.md) | `development` | Separates “the code is correct” from “this costly, customer-visible assumption is supported”. | Run before ranking, pricing, quota, default or migration changes that tests cannot judge. | Bounded candidate |
 | [`backend-context`](../skills/legacy/backend-context.SKILL.md) | `legacy` | Legacy FastAPI service-layer, async DB access, authentication, middleware and security conventions. | Orientation inside old backend code; resolve every fact against the owning repository. | Reference-only, legacy |
+| [`cairn`](../skills/documentation/cairn.SKILL.md) | `documentation` | Keeps a project current on Cairn, the project map: its contract files, the documentarian as the one writer, enrolment, the update loop and the checks. | Every team updates Cairn the same way, from files on the machine, so the dashboards never drift or get typed by hand. | Bounded candidate |
 | [`cloud-agnostic-policy`](../skills/devops/cloud-agnostic-policy.SKILL.md) | `devops` | Reviews infrastructure choices for portability and blocks undeclared provider-specific managed primitives. | Apply before architecture locks in; enforces portable, upstream-OSS-only infrastructure. | Manual-only |
 | [`code-review`](../skills/legacy/code-review.SKILL.md) | `legacy` | Legacy two-stage checklist: specification compliance, then code quality, ending in a verdict. | Historical reference only; its merge and log postconditions exceed its no-tool contract. | Rework before use, legacy |
 | [`container-build`](../skills/legacy/container-build.SKILL.md) | `legacy` | Legacy multi-stage image builds, non-root UID, hardening, CI build pipeline and registry push. | Hardening ideas; note it disagrees with `k8s-deploy` on region and service names. | Reference-only, legacy |
