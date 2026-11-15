@@ -3,7 +3,7 @@
   "description": "Locally validated, provenance-aware skills for Kaidera agents",
   "version": "1.0.0",
   "source": "https://github.com/Kaidera-AI/skills",
-  "generated_at": "2026-11-09T00:00:00.000Z",
+  "generated_at": "2026-11-14T00:00:00.000Z",
   "generation_basis": "maximum skill updated date",
   "skills": [
     {
@@ -1358,6 +1358,45 @@
       "last_reviewed": "",
       "reviewer": "",
       "file": "skills/devops/infra-naming-gate.SKILL.md"
+    },
+    {
+      "name": "cairn",
+      "version": "1.0.0",
+      "description": "How a project shows up on Cairn, the Kaidera project map, and stays current. Covers the files\nthe project keeps, the one worker who updates them (the documentarian), enrolment, the update\nloop, the checks to run, and what must never go into a synced folder. Use it when a project\nenrols on Cairn, when its progress, modules, decisions or documents change, or when Cairn shows\nsomething wrong. Do not use it to change Cairn's own pages, sign-in or people; those belong to\nthe Cairn maintainer and the owner.\n",
+      "category": "documentation",
+      "trust_tier": "unvetted",
+      "risk_level": "medium",
+      "capabilities_required": [
+        "tool:file_read",
+        "tool:file_write",
+        "tool:code_interpreter"
+      ],
+      "allowed_domains": [
+        "cairn.kaidera.ai"
+      ],
+      "safety_constraints": [
+        "Only the project's documentarian writes Cairn-facing files; every other worker hands material to the documentarian and never edits those files.",
+        "Never type a percentage, a count or a date into Cairn; Cairn computes them from the files and from the code.",
+        "Never put source code, credentials, keys, environment files or personal data in a Cairn-synced folder.",
+        "Never edit Cairn's generated pages, layout or menus; change their input files instead.",
+        "Enrolment, people and access are changed only by the Cairn maintainer and the owner."
+      ],
+      "parameters": {},
+      "author": "Kaidera",
+      "license": "Apache-2.0",
+      "updated": "2026-11-14",
+      "tags": [
+        "cairn",
+        "documentation",
+        "progress",
+        "modules",
+        "project-map"
+      ],
+      "content_hash": "84f4523819b1329537cecf3b931d3bf3ad648b426af4c20ac74b0c6f2c7aab1e",
+      "signed_by": "",
+      "last_reviewed": "",
+      "reviewer": "",
+      "file": "skills/documentation/cairn.SKILL.md"
     },
     {
       "name": "human-voice",

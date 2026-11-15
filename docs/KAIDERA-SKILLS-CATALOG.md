@@ -4,7 +4,7 @@ Status: **canonical human-facing catalogue; source candidate; runtime and trust 
 
 Catalogue date: **2026-10-14**
 
-Total skills: **59**
+Total skills: **60**
 
 Source binding: consume this guide only from the same Git commit as its skill
 manifests, marketplace, and catalogue test. The enclosing commit/tree is the
@@ -31,7 +31,7 @@ a release blocker; do not silently choose one side.
 
 ## Current release boundary
 
-- All 59 skills are `unvetted`.
+- All 60 skills are `unvetted`.
 - Catalogue presence, a body hash, static validation, or a local commit is not
   approval to inject a skill into an agent.
 - Gate 1 strict manifest checks and a bounded Gate 2 pattern scan exist.
@@ -43,7 +43,7 @@ a release blocker; do not silently choose one side.
 - Kaidera and Alibaba both use the name `open-code-review`. A host must select a
   source-qualified identity and inject only one; prompt text cannot resolve a
   loader collision after both skills are present.
-- 21 of the 59 skills are filed under `legacy/`. They are kept as research context,
+- 21 of the 60 skills are filed under `legacy/`. They are kept as research context,
   they are not current Kaidera truth, and none of them may be bound to an agent.
 
 ## Portfolio summary
@@ -53,7 +53,7 @@ a release blocker; do not silently choose one side.
 | Context | 2 |
 | Development | 25 |
 | DevOps | 3 |
-| Documentation | 1 |
+| Documentation | 2 |
 | Legacy | 21 |
 | Research | 2 |
 | Sales and marketing | 4 |
@@ -61,18 +61,18 @@ a release blocker; do not silently choose one side.
 
 | Declared trust tier | Skills |
 |---|---:|
-| `unvetted` | 59 |
+| `unvetted` | 60 |
 
 | Operating posture | Skills |
 |---|---:|
-| Bounded candidate | 18 |
+| Bounded candidate | 19 |
 | Reference-only | 16 |
 | Manual-only | 15 |
 | Rework before use | 10 |
 
 Legacy entries: **21**
 
-Current-source entries: **38**
+Current-source entries: **39**
 
 `Legacy` is a documentation classification and, since the `legacy/` category was
 introduced, a filing location as well. Neither is a trust or compatibility
@@ -130,7 +130,7 @@ Kaidera truth until reconciled against the owning repository and Cortex.
 | Capability | Meaning |
 |---|---|
 | `tool:file_read` | Read authorised local workspace files. |
-| `tool:file_write` | Modify authorised local files. Fourteen published skills declare it: seven bounded candidates (`development-workflow`, `ui-design-engineering`, `gsd-core`, `hyperframes`, `kaidera-sdlc`, `unlazy`, `ui-ux-review`), one reference-only (`jev`) and six manual-only (`folder-organisation`, `marketing-web-research`, `investor-lead-gen`, `marketing-lead-generation`, `marketing-one-to-one-outreach`, `social-media-ops`). |
+| `tool:file_write` | Modify authorised local files. Fifteen published skills declare it: eight bounded candidates (`development-workflow`, `ui-design-engineering`, `gsd-core`, `hyperframes`, `kaidera-sdlc`, `unlazy`, `ui-ux-review`, `cairn`), one reference-only (`jev`) and six manual-only (`folder-organisation`, `marketing-web-research`, `investor-lead-gen`, `marketing-lead-generation`, `marketing-one-to-one-outreach`, `social-media-ops`). |
 | `tool:code_interpreter` | Run bounded local computation or already-approved diagnostics. It does not imply arbitrary repository code is trusted. |
 | `tool:web_search` | Search public web sources under the runtime's network policy. |
 | `tool:mcp_external` | Call an approved external connector or service. |
@@ -205,6 +205,7 @@ Use `design-selection` for the initial static/deck/3D/UI/native/video route, `ui
 | DevOps | `cloud-agnostic-policy` | `1.0.0` | Reviews infrastructure choices for portability and prevents an architecture | Manual-only | low / file read |
 | DevOps | `deploy-gate` | `1.0.0` | Gates pushes, pull requests, merges, releases, and deployments on exact target, | Manual-only | medium / file read |
 | DevOps | `infra-naming-gate` | `1.0.0` | Validates proposed infrastructure names against a portable organization, | Manual-only | low / file read |
+| Documentation | `cairn` | `1.0.0` | Keep a project on Cairn, the Kaidera project map: contract files, one writer (the documentarian), enrolment, update loop, checks | Bounded candidate | medium / file read, file write, interpreter |
 | Documentation | `human-voice` | `1.0.0` | Rewrite, audit, or draft public-facing prose so it uses checkable specifics | Reference-only | low / none |
 | Legacy | `agent-platform-context` | `1.0.1` | Legacy agent executor, team, mailbox, Redis memory, and lifecycle reference | Reference-only, legacy | low / none |
 | Legacy | `api-design` | `1.0.1` | Legacy FastAPI URL, schema, auth, error, pagination, and OpenAPI patterns | Reference-only, legacy | low / none |
@@ -302,6 +303,7 @@ precedence issue remains a release hold.
 | `cloud-agnostic-policy` | `Kaidera` | `Apache-2.0` | None | — |
 | `deploy-gate` | `Kaidera` | `Apache-2.0` | None | — |
 | `infra-naming-gate` | `Kaidera` | `Apache-2.0` | None | — |
+| `cairn` | `Kaidera` | `Apache-2.0` | `cairn.kaidera.ai` | — |
 | `human-voice` | `Kaidera` | `Apache-2.0` | `aclanthology.org`, `arxiv.org`, `en.wikipedia.org`, `www.economist.com`, `www.nytimes.com`, `www.pnas.org`, `www.science.org`, `www.washingtonpost.com` | — |
 | `design-selection` | `Kaidera-AI` | `CC-BY-4.0` | `github.com`, `registry.npmjs.org` | [Emil Kowalski and HeyGen](https://github.com/emilkowalski/skills/tree/e8a175de22ae1e49370fc144c1f3bb9aeedf988d) |
 | `ui-ux-review` | `Kaidera-AI` | `Apache-2.0` | `github.com`, `apache.org` | [Paul Bakaus](https://github.com/pbakaus/impeccable/tree/d631a8827f99414d2b6daba4ef08b7f8701751d7) |
@@ -757,6 +759,18 @@ first. The EnGenAI-era deployment runbooks and platform patterns are filed under
 ## Documentation skills
 
 Writing and documentation guidance. Reference-only unless a manifest says otherwise.
+### `cairn`
+
+<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:file_write","tool:code_interpreter"],"category":"documentation","legacy":false,"name":"cairn","path":"skills/documentation/cairn.SKILL.md","posture":"bounded-candidate","review_fingerprint":"1b51db5d45e79d78a6acef30073c59559dd4f013a609e2344b91f64cdc378e61","risk_level":"medium","trust_tier":"unvetted","version":"1.0.0"} -->
+
+- **Manifest:** [cairn.SKILL.md](../skills/documentation/cairn.SKILL.md)
+- **Function:** How a project shows up on Cairn (the Kaidera project map) and stays current: the contract files a project keeps (`.kaidera/board.yaml`, `progress/progress.yaml`, `modules.yaml`, front matter, the `docs/` layout), the single writer of those files (the documentarian), enrolment, the update loop, the lint and page checks, and what must never be in a synced folder.
+- **Use when:** A project enrols on Cairn; its progress, modules, decisions or documents change; or Cairn shows a project wrongly.
+- **Do not use when:** Changing Cairn's own pages, registry, sign-in, people or access (Cairn maintainer and owner only), or writing code.
+- **Inputs and output:** A handoff naming what changed and its evidence; output is the changed contract or document files plus the check results.
+- **Authority and effects:** Writes only inside the project's documents root, and only when the agent is the workspace's documentarian; runs `cairn lint`. No network write; reading the Cairn page is a check, not an action.
+- **Kaidera action:** Bounded candidate: bind only to the documentarian role; other workers read it to know whom to hand changes to.
+
 ### `human-voice`
 
 <!-- kaidera-skill-catalog-entry {"capabilities_required":[],"category":"documentation","legacy":false,"name":"human-voice","path":"skills/documentation/human-voice.SKILL.md","posture":"reference-only","review_fingerprint":"085a5703a7da2c2e83f768f25cee68f9c956b574ebe0ef872f30a31b7abd13fb","risk_level":"low","trust_tier":"unvetted","version":"1.0.0"} -->

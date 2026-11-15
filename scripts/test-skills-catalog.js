@@ -51,6 +51,7 @@ const posturePolicy = new Map([
     'jev-handoff-check',
     'jev-option-decision',
     'jev-return-triage',
+    'cairn',
 ])],
   ['reference-only', new Set([
     'web-interface-guidelines',
@@ -152,6 +153,7 @@ const currentSourceSkills = new Set([
     'cloud-agnostic-policy',
     'deploy-gate',
     'human-voice',
+    'cairn',
     'infra-naming-gate',
     'gavel',
     'kaidera-sdlc',
