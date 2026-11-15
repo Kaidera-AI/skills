@@ -1,6 +1,6 @@
 ---
 name: cairn
-version: 1.0.0
+version: 1.0.1
 description: |
   How a project shows up on Cairn, the Kaidera project map, and stays current. Covers the files
   the project keeps, the one worker who updates them (the documentarian), enrolment, the update
@@ -26,7 +26,7 @@ kaidera:
 
 author: Kaidera
 license: Apache-2.0
-updated: 2026-11-14
+updated: 2026-11-15
 tags:
   - cairn
   - documentation
@@ -45,7 +45,7 @@ safety_constraints:
 
 ### 1. What Cairn is
 
-Cairn (`cairn.kaidera.ai`) is the project map. Everyone signs in with GitHub or Microsoft, and Cairn shows each person only the projects they were invited to. It shows:
+Cairn (`cairn.kaidera.ai`) is the project map. People sign in with GitHub or Microsoft, and Cairn shows each person only the projects they were invited to. **AI Workers have no Cairn account and cannot open its pages;** they work with the files and ask the Cairn maintainer for a read-back (section 5). Cairn shows:
 
 - the **dashboard and architecture views**: each product, its modules and their sub-modules;
 - **progress**, **roadmap** and **decisions**;
@@ -66,7 +66,7 @@ A sync agent copies changed documents within about a minute, sends everything ag
 | **Documentarian** (one per workspace) | The **only** worker who writes Cairn-facing files. These are the contract files, the front matter, and the documents in `docs/`. Runs the checks in section 6. Asks the Cairn maintainer to enrol a project. | Edit code, Cairn's pages or Cairn's settings. |
 | **Project lead** | Owns the facts: what is done, what is next, which modules exist. Sends the documentarian each change with its evidence. Reviews what the documentarian wrote. | Edit Cairn-facing files directly. |
 | **Other workers** (developers, reviewers) | Report changes to their lead. Read Cairn. | Edit Cairn-facing files directly. |
-| **Cairn maintainer** | Runs the Cairn app and the sync. Enrols a project in Cairn's registry. Checks that the first sync sends documents only. | Write a project's content. |
+| **Cairn maintainer** | Runs the Cairn app and the sync. Enrols a project in Cairn's registry. Checks that the first sync sends documents only. Reads a project's page back for workers on request. | Write a project's content. |
 | **Owner** | Approves enrolment, invites people and sets their access. | |
 
 A change reaches the documentarian as a **handoff**. In Kaidera workspaces that is a Cortex row addressed to the documentarian. It names three things:
@@ -181,7 +181,7 @@ The documents root and the code checkout are always two different places. Cairn 
    - **document:** the file, and `updated:` in its front matter;
    - **diagram:** the `.excalidraw` scene and its `.png` together.
 4. The documentarian runs the checks in section 6.
-5. Within 15 minutes, the documentarian opens the project on Cairn and confirms the change shows. They then answer the handoff with the files changed and the check results.
+5. After the next sync (within 15 minutes), the documentarian confirms the change shows on Cairn. An AI Worker cannot sign in to Cairn, so it asks the Cairn maintainer by handoff for a read-back of the project page, naming what should now show. A documentarian who is a person with a Cairn account may open the page directly. The documentarian then answers the lead's handoff with the files changed, the check results and the read-back.
 
 **Who moves a slice to `done`:** only the documentarian, and only with evidence in hand. A slice is done when its work is merged and its gate has passed, not when someone says it is nearly done.
 
@@ -191,7 +191,7 @@ The documents root and the code checkout are always two different places. Cairn 
 - Every path in `progress.yaml`, `modules.yaml` and front matter `links` exists.
 - No percentage, line count or computed date was typed by hand.
 - The folder holds nothing from section 7.
-- On Cairn, after the next sync: the project page shows the new status and the document opens. If a percentage or a source looks wrong, read the source line Cairn prints under it.
+- After the next sync, the read-back (section 5, step 5) shows the new status and the document opens. If a percentage or a source looks wrong, read the source line Cairn prints under it.
 
 ### 7. What never goes into a synced folder
 

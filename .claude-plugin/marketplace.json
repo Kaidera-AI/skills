@@ -3,7 +3,7 @@
   "description": "Locally validated, provenance-aware skills for Kaidera agents",
   "version": "1.0.0",
   "source": "https://github.com/Kaidera-AI/skills",
-  "generated_at": "2026-11-14T00:00:00.000Z",
+  "generated_at": "2026-11-15T00:00:00.000Z",
   "generation_basis": "maximum skill updated date",
   "skills": [
     {
@@ -1361,7 +1361,7 @@
     },
     {
       "name": "cairn",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "description": "How a project shows up on Cairn, the Kaidera project map, and stays current. Covers the files\nthe project keeps, the one worker who updates them (the documentarian), enrolment, the update\nloop, the checks to run, and what must never go into a synced folder. Use it when a project\nenrols on Cairn, when its progress, modules, decisions or documents change, or when Cairn shows\nsomething wrong. Do not use it to change Cairn's own pages, sign-in or people; those belong to\nthe Cairn maintainer and the owner.\n",
       "category": "documentation",
       "trust_tier": "unvetted",
@@ -1384,7 +1384,7 @@
       "parameters": {},
       "author": "Kaidera",
       "license": "Apache-2.0",
-      "updated": "2026-11-14",
+      "updated": "2026-11-15",
       "tags": [
         "cairn",
         "documentation",
@@ -1392,7 +1392,7 @@
         "modules",
         "project-map"
       ],
-      "content_hash": "84f4523819b1329537cecf3b931d3bf3ad648b426af4c20ac74b0c6f2c7aab1e",
+      "content_hash": "5308fa8fab8a4889e66002e0895764d577d4d3b5fd41531587ecfb61b7166bb4",
       "signed_by": "",
       "last_reviewed": "",
       "reviewer": "",
