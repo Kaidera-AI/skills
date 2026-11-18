@@ -30,6 +30,7 @@ project_shape:
     multi_product: "Compare the product-directory names in both vaults with product_id in each DocsVault product.yaml and the registered catalogue."
     single_product: "Map the project root in both vaults to the one registered product; compare its identity with product_id in DocsVault/<project>/product.yaml."
     rule: "The product identities must match exactly across the catalogue and both vault layouts. Missing, extra, duplicate, or differently named products fail the check. In single_product mode the project README is also the product README; do not create a duplicate."
+    during_adoption: "Do not require the legacy tree to pass parity before inventory. Record missing, extra, or differently named product paths in the read-only inventory and approved disposition table; require exact parity only in the final check after approved moves and removals, before enabling the product gate."
 
 runtime_boundaries:
   documents_mounts:

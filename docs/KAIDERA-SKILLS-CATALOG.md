@@ -434,7 +434,7 @@ entry is current-source; the EnGenAI-era development material is filed under
 
 ### `folder-structure`
 
-<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:file_write","tool:code_interpreter"],"category":"development","legacy":false,"name":"folder-structure","path":"skills/development/folder-structure.SKILL.md","posture":"manual-only","review_fingerprint":"717a9b0369fe7c6624a7ab0c51a06e2d51fe78490a1e970541b8bac2366a3a94","risk_level":"medium","trust_tier":"unvetted","version":"0.9.0"} -->
+<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:file_write","tool:code_interpreter"],"category":"development","legacy":false,"name":"folder-structure","path":"skills/development/folder-structure.SKILL.md","posture":"manual-only","review_fingerprint":"a6dccf7f3622f928f8309a49c7db787c6f419006dd07db385b5b8c4aa74869b9","risk_level":"medium","trust_tier":"unvetted","version":"0.9.0"} -->
 
 - **Manifest:** [folder-structure.SKILL.md](../skills/development/folder-structure.SKILL.md)
 - **Function:** Route files from one project-owned structure definition and describe an owner-approved, hash-verified migration.

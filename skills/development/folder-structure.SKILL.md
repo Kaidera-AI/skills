@@ -12,14 +12,14 @@ kaidera:
     - tool:file_write
     - tool:code_interpreter
   allowed_domains: []
-  content_hash: d8f18487b9f6d5bb1fcfa58e7691aa3d654d77581e923af4e126ea92a8d5732c
+  content_hash: 8209807769b24f5fd9ffc888aa1e4eaa082ac3028d61fea4d4b7c805604d8bdf
   signed_by: ""
   last_reviewed: ""
   reviewer: ""
   source:
     repo: Kaidera-AI/skills
     path: skills/development/folder-structure
-    content_sha256: 224d1ce900db2d14dcc608fdb257b24a4ccebdc73e1a146b0e24b4bffe40ca9c
+    content_sha256: f8719c56081c41a49ef4fd52015f879d1482b1d289a7f8304367027b1c296eb1
 author: Kaidera-AI
 license: CC-BY-4.0
 updated: 2026-11-18
@@ -49,9 +49,9 @@ This skill gives a project a single, readable definition of where its work belon
 
 ## Start with the project's authority
 
-Before creating or moving a project file, read the project's current `structure.yaml`, the accepted plan for the change, the project root and product catalogue registered by its owner, and the selected project shape. The bundled `references/structure.yaml` is a starter definition, not proof that a project adopted it. A project may use it only after its owner approves the layout and records the effective definition in the project's normal source of truth. Select `single_product` only when exactly one product is registered; otherwise use `multi_product`. Check that product identities match across the registered catalogue and both vaults. In single-product mode, the product layout sits directly at the project root in both vaults, and the one README serves as both project and product entry point.
+Before creating or moving a project file, read the project's current `structure.yaml`, the accepted plan for the change, the project root and product catalogue registered by its owner, and the selected project shape. The bundled `references/structure.yaml` is a starter definition, not proof that a project adopted it. A project may use it only after its owner approves the layout and records the effective definition in the project's normal source of truth. Select `single_product` only when exactly one product is registered; otherwise use `multi_product`. For ordinary placement in an adopted layout, check that product identities match across the registered catalogue and both vaults. During migration, record missing or mismatched legacy product paths as inventory findings; do not require the old tree to match the target before inventory. Require exact identity parity in the final check before enabling the product gate. In single-product mode, the product layout sits directly at the project root in both vaults, and the one README serves as both project and product entry point.
 
-If the project has no accepted definition, a path is missing, or two sources disagree, stop and ask the project lead. Do not choose the most convenient path. Keep product, repository, account, storage, and audience names in the project's definition and settings; never copy machine-specific values from this candidate.
+If the project has no accepted target definition, a target path cannot be resolved, or two sources of authority disagree, stop and ask the project lead. A missing or differently named legacy path during migration is an inventory finding to classify under the approved table; it does not block the read-only inventory itself. Do not choose the most convenient target path. Keep product, repository, account, storage, and audience names in the project's definition and settings; never copy machine-specific values from this candidate.
 
 ## The placement rules
 
@@ -125,7 +125,7 @@ This procedure describes a project migration. It does not authorize one. The pro
 - The product is not in a release run.
 - The product owner has selected the versioned `structure.yaml` that will govern the work.
 - A read-only inventory can identify every in-scope path, its size, file count, newest write, owner, repository state, and known references.
-- The selected project shape and product identities are registered and match across both vaults; select the direct project-root product layout only for exactly one registered product.
+- The owner-registered product catalogue and intended target shape are known; select the direct project-root product layout only for exactly one registered product. The current legacy tree does not need to match the target before inventory: missing, extra, or differently named product paths are findings to classify.
 - Inventory, check, move, and housekeeping walks are constrained to one authorized filesystem, stop at mount boundaries, and never follow symbolic links outside the approved root. Inventory each per-project documents mount separately; do not treat its plain parent folder as a content device.
 - The team has a destination for verified copies and a way to preserve the source if verification fails.
 - Secrets are excluded from ordinary inventory output or redacted by an approved tool. The project-code account cannot read the project secrets tree, and each credential is readable only by its using identity.
@@ -133,7 +133,7 @@ This procedure describes a project migration. It does not authorize one. The pro
 ## Sequence
 
 1. **Stop structural growth.** With the project lead's approval, create an empty target skeleton beside the current layout. From the agreed start point, route new files to their approved destination.
-2. **Inventory read-only.** List each in-scope top-level folder and its contents without changing permissions, timestamps, or data. If documents use per-project mounts, inventory each project mount separately and check each mount's device; do not check the plain documents parent as a content device. Keep each walk on its authorized filesystem, stop at mount boundaries, and do not follow symbolic links outside the root. Record unknown owners as `ask`.
+2. **Inventory read-only.** List each in-scope top-level folder and its contents without changing permissions, timestamps, or data. Compare the registered product catalogue with the existing product roots in both vaults; record missing, extra, or differently named paths as findings for the disposition table, without requiring parity before this inventory. If documents use per-project mounts, inventory each project mount separately and check each mount's device; do not check the plain documents parent as a content device. Keep each walk on its authorized filesystem, stop at mount boundaries, and do not follow symbolic links outside the root. Record unknown owners as `ask`.
 3. **Classify every exact path.** The product lead proposes one fate for each row: `keep`, `move` with a destination, `cold-store`, `remove` as regenerable or finished temporary material, or `ask`. Group identical files and likely revisions for human selection; similarity is not permission to discard either copy.
 4. **Approve the table.** The authorized decision-maker approves the exact source and destination paths. Any changed row requires a new review. Do not infer approval from an inventory, check result, or a prior product's table.
 5. **Preserve before moving.** Bundle repositories, preserve dirty work, hash and copy evidence according to the evidence policy, and archive logs with a manifest. Keep the source intact until all copy checks pass.
@@ -223,6 +223,7 @@ project_shape:
     multi_product: "Compare the product-directory names in both vaults with product_id in each DocsVault product.yaml and the registered catalogue."
     single_product: "Map the project root in both vaults to the one registered product; compare its identity with product_id in DocsVault/<project>/product.yaml."
     rule: "The product identities must match exactly across the catalogue and both vault layouts. Missing, extra, duplicate, or differently named products fail the check. In single_product mode the project README is also the product README; do not create a duplicate."
+    during_adoption: "Do not require the legacy tree to pass parity before inventory. Record missing, extra, or differently named product paths in the read-only inventory and approved disposition table; require exact parity only in the final check after approved moves and removals, before enabling the product gate."
 
 runtime_boundaries:
   documents_mounts:
