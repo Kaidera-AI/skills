@@ -1,58 +1,32 @@
 # Rust library starter list
 
-**Status:** project-level candidates for evaluation. This is not an approved, pinned, or mandatory dependency set.  
-**Reviewed:** 2026-11-18
+**Status:** project-level candidates for evaluation; not an approved or mandatory dependency set.
 
-This note starts from two catalogues supplied for this curation: [best-of-ml-rust](https://github.com/e-tornike/best-of-ml-rust) and [Rust-awesome-frameworks](https://github.com/venuswhispers/Rust-awesome-frameworks). The first is useful for ML discovery and publishes a combined quality score based on GitHub and package-manager metrics; its repository was last pushed on 2026-11-01, although some visible package-update dates are from 2024. The second is a broad topic map across areas such as CLI, web, databases, and testing; its repository was last pushed on 2024-02-19. Treat both as discovery indexes, not as adoption, maintenance, security, or licence evidence.
+**Reviewed:** 2026-11-18 UTC
 
-## Cross-project candidates
+**Ordering:** alphabetical by crate name; not a ranking.
 
-| Need | Candidate | Why it is on the list | Check before adopting |
+This curation began with the two discovery pointers supplied for the task: [the ML catalogue](https://github.com/e-tornike/best-of-ml-rust) and [the framework catalogue](https://github.com/venuswhispers/Rust-awesome-frameworks). The entries below were then checked against each project's upstream repository and its crates.io package record. No source-catalogue ranking, grouping, or descriptive text is reproduced. Selection reasons are Quill's own.
+
+The release shown is the newest non-yanked registry version observed on the review date. Preview versions are marked; where one exists, its latest stable version is also shown. The licence is the package licence declared in the registry. Check the linked source again before adoption.
+
+| Crate | Why a project might evaluate it | Upstream repository | Registry record: version, published date, package licence |
 |---|---|---|---|
-| Data types and serialization | [Serde](https://github.com/serde-rs/serde) | A widely used serialization framework; useful at JSON, configuration, and API boundaries. | Choose the format crate and wire-compatibility policy explicitly. |
-| Command-line tools | [clap](https://github.com/clap-rs/clap) | Argument parsing, subcommands, and derived CLI definitions. | Check feature selection and generated help/completions against the target CLI. |
-| Async applications | [Tokio](https://github.com/tokio-rs/tokio) | Runtime, I/O, scheduling, and timers for asynchronous apps. | Add only when async work is needed; avoid introducing a second runtime into a process. |
-| Outbound HTTP | [reqwest](https://github.com/seanmonstar/reqwest) | Ergonomic async or blocking HTTP client with JSON, proxy, redirect, and TLS options. | Set timeouts, redirect behavior, proxy policy, and the TLS backend deliberately; review enabled features. |
-| Structured diagnostics | [tracing](https://github.com/tokio-rs/tracing) | Application-level spans and events for contextual logs and instrumentation. | Select the subscriber/exporter and redact secrets before recording fields. |
-| Typed library errors | [thiserror](https://github.com/dtolnay/thiserror) | Derives standard error implementations for public error enums and structs. | Keep stable error types intentional; expose source errors and context appropriately. |
-| Application error context | [anyhow](https://github.com/dtolnay/anyhow) | Convenient error propagation and context in binaries and application boundaries. | Prefer typed errors in reusable public libraries; keep application context at the edge. |
-| Property-based tests | [proptest](https://github.com/proptest-rs/proptest) | Generates varied inputs to check invariants in parsers, transforms, and state logic. | Use alongside example tests; keep cases reproducible and runtime bounded. |
-| HTTP services | [axum](https://github.com/tokio-rs/axum) | Modular routing and request handling that fits the Tokio/Tower ecosystem. | Use when a Rust HTTP service is needed; verify compatibility with the project's middleware and runtime. |
-| Relational databases | [SQLx](https://github.com/transact-rs/sqlx) | Async SQL access with compile-time checked queries; upstream lists PostgreSQL, MySQL, and SQLite. | Decide migration ownership, query-check/offline metadata, TLS, and database feature set. |
+| `anyhow` | Keeps contextual error propagation concise at an application boundary. | [dtolnay/anyhow](https://github.com/dtolnay/anyhow) | [1.0.104](https://crates.io/crates/anyhow/1.0.104) — 2026-07-18 — MIT OR Apache-2.0 |
+| `axum` | Gives a service a composable HTTP routing layer when the project uses Rust and Tower. | [tokio-rs/axum](https://github.com/tokio-rs/axum) | [0.8.9](https://crates.io/crates/axum/0.8.9) — 2026-04-14 — MIT |
+| `burn` | A candidate for tensor or training work where backend choice matters. | [tracel-ai/burn](https://github.com/tracel-ai/burn) | [0.23.0-pre.2](https://crates.io/crates/burn/0.23.0-pre.2) — 2026-11-09 — MIT OR Apache-2.0; latest stable [0.22.1](https://crates.io/crates/burn/0.22.1) — 2026-10-20 |
+| `candle-core` | A Rust-native tensor foundation to evaluate for inference workloads. | [huggingface/candle](https://github.com/huggingface/candle) | [0.11.1](https://crates.io/crates/candle-core/0.11.1) — 2026-10-31 — MIT OR Apache-2.0 |
+| `clap` | Helps a CLI expose typed flags, subcommands, and consistent help output. | [clap-rs/clap](https://github.com/clap-rs/clap) | [4.6.8](https://crates.io/crates/clap/4.6.8) — 2026-11-16 — MIT OR Apache-2.0 |
+| `ort` | A candidate for running an existing ONNX model through ONNX Runtime. | [pykeio/ort](https://github.com/pykeio/ort) | [2.0.0-rc.15](https://crates.io/crates/ort/2.0.0-rc.15) — 2026-10-19 — MIT OR Apache-2.0; no stable release listed |
+| `proptest` | Generates varied inputs to probe invariants beyond a hand-picked example set. | [proptest-rs/proptest](https://github.com/proptest-rs/proptest) | [1.12.0](https://crates.io/crates/proptest/1.12.0) — 2026-10-10 — MIT OR Apache-2.0 |
+| `reqwest` | Covers outbound HTTP calls when a project needs a Rust client. | [seanmonstar/reqwest](https://github.com/seanmonstar/reqwest) | [0.13.5](https://crates.io/crates/reqwest/0.13.5) — 2026-09-08 — MIT OR Apache-2.0 |
+| `serde` | Lets shared Rust types cross JSON, configuration, and other serialization boundaries. | [serde-rs/serde](https://github.com/serde-rs/serde) | [1.0.229](https://crates.io/crates/serde/1.0.229) — 2026-07-18 — MIT OR Apache-2.0 |
+| `sqlx` | Provides typed asynchronous SQL access when a project can own its query and migration setup. | [transact-rs/sqlx](https://github.com/transact-rs/sqlx) | [0.9.1](https://crates.io/crates/sqlx/0.9.1) — 2026-11-18 — MIT OR Apache-2.0 |
+| `thiserror` | Reduces boilerplate for explicit error types in reusable libraries. | [dtolnay/thiserror](https://github.com/dtolnay/thiserror) | [2.0.21](https://crates.io/crates/thiserror/2.0.21) — 2026-09-23 — MIT OR Apache-2.0 |
+| `tokenizers` | A candidate for model-compatible text tokenization in NLP workflows. | [huggingface/tokenizers](https://github.com/huggingface/tokenizers) | [1.0.0-rc.4](https://crates.io/crates/tokenizers/1.0.0-rc.4) — 2026-11-09 — Apache-2.0; latest stable [0.23.2](https://crates.io/crates/tokenizers/0.23.2) — 2026-09-03 |
+| `tokio` | Supplies an async runtime for services and tools that perform concurrent I/O. | [tokio-rs/tokio](https://github.com/tokio-rs/tokio) | [1.54.1](https://crates.io/crates/tokio/1.54.1) — 2026-10-21 — MIT |
+| `tracing` | Adds structured spans and events to help follow work across service boundaries. | [tokio-rs/tracing](https://github.com/tokio-rs/tracing) | [0.1.44](https://crates.io/crates/tracing/0.1.44) — 2025-12-18 — MIT |
 
-## ML and data candidates
+## Applying the list
 
-These are workload-specific options, not baseline dependencies.
-
-| Need | Candidate | Best fit to evaluate | Main compatibility question |
-|---|---|---|---|
-| Rust-native tensor and ML work | [Candle](https://github.com/huggingface/candle) | Model inference and tensor operations when its supported operators and backends fit the model. | Confirm model/operator coverage, target hardware, and CPU/CUDA/Metal build needs. |
-| Training and portable tensor backends | [Burn](https://github.com/tracel-ai/burn) | A broader tensor and deep-learning framework when training, autodiff, or backend portability matters. | Select and test the backend against the exact target; measure compile and runtime costs. |
-| NLP tokenization | [Hugging Face Tokenizers](https://github.com/huggingface/tokenizers) | Fast tokenization for text and transformer workflows. | Check vocabulary/model compatibility and language/runtime integration needs. |
-| ONNX model execution | [ort](https://github.com/pykeio/ort) | Rust access to ONNX Runtime when serving an exported ONNX model is a fit. | Verify native runtime distribution, execution-provider availability, target architecture, and model operators. |
-
-## A practical starting profile
-
-For a small Rust CLI or service, evaluate Serde, clap (for a CLI), thiserror for library boundaries, anyhow for application-level context, tracing, and proptest. Add Tokio and reqwest when asynchronous networking is required; add axum for an HTTP server and SQLx for a supported relational database. For ML, choose one inference or training path only after validating the actual model and hardware requirements.
-
-Do not add every item to a shared template. A project should select dependencies based on its runtime, supported targets, interface stability, and operational needs.
-
-## Source catalogue licence and reuse
-
-GitHub identifies [best-of-ml-rust as CC-BY-SA-4.0](https://github.com/e-tornike/best-of-ml-rust/blob/main/LICENSE). GitHub repository metadata reports no declared licence for [Rust-awesome-frameworks](https://github.com/venuswhispers/Rust-awesome-frameworks). This shortlist links to both discovery indexes and candidate upstreams; it does not reproduce their ranking metrics or descriptive text. The selected set and its arrangement may still carry source terms, so keep this contribution in draft until the skills-repository maintainer rules on attribution and licence compatibility. A missing licence is not permission to reuse. Review each candidate crate's own licence separately before adoption.
-
-## Checks before a project adopts a candidate
-
-For the exact crate and feature set being proposed:
-
-1. Check the current crate release, MSRV, target support, maintenance activity, security advisories, and upstream support policy.
-2. Review the crate licence and the licences of enabled and transitive dependencies against that project's distribution model.
-3. Inspect default and optional features, native libraries, TLS behavior, GPU/runtime downloads, build time, and binary size.
-4. Confirm that the library's data, error, async, and compatibility behavior fits the owning project's API and migration plan.
-5. Pin the chosen version in that project's manifest or workspace only after those checks; do not infer a shared version from this note.
-
-## Discovery sources
-
-- [best-of-ml-rust](https://github.com/e-tornike/best-of-ml-rust) — ranked ML discovery catalogue.
-- [Rust-awesome-frameworks](https://github.com/venuswhispers/Rust-awesome-frameworks) — broad Rust framework and library topic map.
-- Each candidate above links to its upstream project repository for current documentation, manifest, releases, and support evidence.
+Treat each row as a starting point for a project-level decision. Before adoption, check the exact crate version and feature set against the project's MSRV, supported targets, security advisories, distribution model, native dependencies, runtime needs, and operational footprint. Review transitive licences for the selected features. No dependency or shared version is adopted by this note.
