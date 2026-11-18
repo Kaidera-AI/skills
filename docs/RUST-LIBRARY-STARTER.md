@@ -3,7 +3,7 @@
 **Status:** project-level candidates for evaluation. This is not an approved, pinned, or mandatory dependency set.  
 **Reviewed:** 2026-11-18
 
-This note starts from two catalogues supplied for this curation: [best-of-ml-rust](https://github.com/e-tornike/best-of-ml-rust) and [Rust-awesome-frameworks](https://github.com/venuswhispers/Rust-awesome-frameworks). The first is useful for ML discovery and publishes a combined quality score based on GitHub and package-manager metrics; some visible package-update dates are from 2024. The second is useful as a broad topic map across areas such as CLI, web, databases, and testing. Treat both as indexes, not as adoption or maintenance evidence.
+This note starts from two catalogues supplied for this curation: [best-of-ml-rust](https://github.com/e-tornike/best-of-ml-rust) and [Rust-awesome-frameworks](https://github.com/venuswhispers/Rust-awesome-frameworks). The first is useful for ML discovery and publishes a combined quality score based on GitHub and package-manager metrics; its repository was last pushed on 2026-11-01, although some visible package-update dates are from 2024. The second is a broad topic map across areas such as CLI, web, databases, and testing; its repository was last pushed on 2024-02-19. Treat both as discovery indexes, not as adoption, maintenance, security, or licence evidence.
 
 ## Cross-project candidates
 
