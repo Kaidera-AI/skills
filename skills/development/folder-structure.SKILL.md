@@ -12,14 +12,14 @@ kaidera:
     - tool:file_write
     - tool:code_interpreter
   allowed_domains: []
-  content_hash: b8de5b7ae5dc39cbc2c36902cfff91ed32a98a012344e7cc7d24952d34575122
+  content_hash: ffd663f8091f4d84648e3ff03f6adb304efaaf5cca539da0f91501fcdbc74db1
   signed_by: ""
   last_reviewed: ""
   reviewer: ""
   source:
     repo: Kaidera-AI/skills
     path: skills/development/folder-structure
-    content_sha256: 3e9f6af324e231acad8171e64db2e1d9562d5f328b8aadfbdb5572b447c9bb77
+    content_sha256: f829deda6ed58b843b42402633d0ebbab1e6f17add270f6566202b2fa2e6a86c
 author: Kaidera-AI
 license: CC-BY-4.0
 updated: 2026-11-18
@@ -82,10 +82,11 @@ Update the authoritative home once. Other human-authored pages link to it; named
 | Fact | Canonical home | Other pages |
 |---|---|---|
 | Project file and folder destinations | Owner-accepted `structure.yaml` | Link to the definition or use its generated views; do not restate its path rules by hand. |
-| Current work and release progress | The registered progress data | Generated progress and roadmap views may display it; other pages link to the data. |
-| A release's content, state, and date | That release plan's front matter | Link to the plan or use a generated release view. |
+| Current work and release progress | The progress source named by the owner-approved `structure.yaml` | Generated progress and roadmap views may display it; other pages link to the source data. |
+| A release's content, state, and date | That release's `plan.md` front matter as defined by the owner-approved `structure.yaml` | Link to the plan or use a generated release view. |
 | A decision and its rationale | The decision ledger | Link to the ledger entry. |
-| Team membership and roles | The product's `product.yaml` | Link or use an approved generated team view. |
+| Product identity, name, stage, team, and visibility | The product's `product.yaml` | Link or use an approved generated team view. |
+| Audience for each documents area | That area's `audience` in the owner-approved `structure.yaml` | Generated views inherit the area's declared value. |
 | A module's purpose and ownership | Its module page | Link or use the generated module catalogue. |
 
 - **One fact, one file.** A page that manually restates a fact with a canonical home is a review finding. Point to the authoritative file; do not create a second copy.
@@ -119,7 +120,7 @@ No automatic age-based deletion is active in this candidate. A project must revi
 
 The bundled templates are starting shapes, not mandatory project facts. Their destination is selected by `structure.yaml`. Named generated reader views stay in DocsVault at their declared locations; other program output stays in DevVault. Keep progress, roadmap, index, and area pages under their named generators. Keep diagrams beside the page they explain, with the source and rendered image together. Use the module and product names from the same module catalogue everywhere.
 
-Audience and visibility for any generated project view must come from the project's approved metadata. Do not publish or synchronise a folder until the project owner confirms its audience contract and the receiving system's exact read-back behavior.
+The standard structure names each documents area's audience as `customer-eligible` or `internal`; generated views inherit that value. A release's `released` date is measured from its observed version tag or public release, never typed into the plan. Do not publish or synchronise a folder until the project owner confirms its audience contract and the receiving system's exact read-back behavior.
 
 ## Candidate status
 
@@ -301,29 +302,37 @@ layout:
       goes_in: a one-screen entry point for the product
       stays_out: copied project-wide facts and generated progress data
     "<product_root>/product.yaml":
-      goes_in: reviewed product_id, lead, team, and default visibility
+      goes_in: reviewed product_id, name, stage, lead, team, and default visibility; the one home for these current product facts
       stays_out: credentials, mutable progress, and copies of decisions
+      audience: internal
     "<product_root>/program/management/":
       goes_in: backlog, team, risks, decisions, epics, incidents, and generated roadmap
       stays_out: release-specific plans, evidence payloads, logs, and user guides
+      audience: internal
     "<product_root>/program/releases/<version>/":
       goes_in: plan, progress, release notes, checklist, reviews, and evidence index
       stays_out: sealed evidence payloads, logs, and unrelated release material
+      audience: internal
     "<product_root>/program/":
-      goes_in: generated product progress page
+      goes_in: progress.yaml source data and the generated product progress page
       stays_out: hand-authored program-management records and evidence payloads
+      audience: internal
     "<product_root>/docs/developer/":
       goes_in: product big-picture diagram and high-level design
       stays_out: release status, schedules, logs, and program output
+      audience: internal
     "<product_root>/docs/user/":
       goes_in: getting-started guides, how-to pages, and product references for users
       stays_out: installation and operations instructions, internal plans, and build details
+      audience: customer-eligible
     "<product_root>/docs/admin/":
       goes_in: install, upgrade, backup, restore, removal, troubleshooting, and settings guides
       stays_out: internal build plans, source code, and user-only how-to material
+      audience: customer-eligible
     "<product_root>/docs/developer/<topic>/":
       goes_in: intent, specification, design, decisions, research, and diagrams for one development topic
       stays_out: release schedules, status, logs, and program output
+      audience: internal
   cold_store:
     "<project>/<product>/audit/":
       goes_in: sealed evidence with a manifest and the project's approved retention policy
@@ -353,6 +362,7 @@ fixed_files:
     - risks.md
     - decisions.md
   program:
+    - progress.yaml
     - progress.md
   release:
     - plan.md
@@ -378,6 +388,26 @@ fixed_files:
   wireframes:
     - "wireframe-<area>.excalidraw"
     - "wireframes.md"
+
+progress_data:
+  path: "<product_root>/program/progress.yaml"
+  schema: kaidera.progress/v1
+  rule: "Store slice status and evidence here. The named generator computes percentages and counts; do not type them into the source or generated page."
+
+release_plan_front_matter:
+  path: "<product_root>/program/releases/<version>/plan.md"
+  keys:
+    version: "The version directory name."
+    status: "One of planned, in build, in test, or released."
+    delivered_or_planned: "What this release delivered or is planned to deliver."
+    modules: "The modules changed or planned for this release."
+    upgrade_from_previous: "The upgrade path from the preceding release."
+    target_date: "The planned release date."
+    released: "Measured from the observed version tag or public release; never entered in plan.md by hand."
+
+audience_contract:
+  allowed_values: [customer-eligible, internal]
+  rule: "Declare an audience for each product document area in the owner-approved structure. Generated reader views inherit that area's value."
 
 naming:
   case: lower
@@ -425,8 +455,10 @@ generated_pages:
     - name: area README pages
       destination: README.md in the corresponding DocsVault area
     - name: product progress page
+      source: progress_data
       destination: "<product_root>/program/progress.md"
     - name: roadmap
+      source: release_plan_front_matter
       destination: "<product_root>/program/management/roadmap.md"
     - name: module catalogue and high-level module table
       destination: their existing owner-approved DocsVault locations; this rule creates no new folder
@@ -624,7 +656,7 @@ modules:
     owner: "<project account or role reference>"
     state: planned
     release: "<release-id>"
-    progress_source: "<recorded gate or progress data>"
+    progress_source: "<product_root>/program/progress.yaml"
 
 <a id="file-templates-product-readme-md"></a>
 
@@ -653,10 +685,11 @@ Generated fields are written by the project's named generator. Keep this page to
 ## Bundled file: templates/product.yaml
 
 product_id: "<stable-product-id>"
-display_name: "<reader-facing name>"
+name: "<reader-facing product name>"
+stage: "<current product stage>"
 lead: "<project account or role reference>"
 team: []
-default_visibility: internal
+visibility: internal
 visibility_policy_reference: "<approved policy path>"
 source_repository: "<repository reference>"
 status_source: "<canonical progress data reference>"
@@ -684,21 +717,39 @@ status_source: "<canonical progress data reference>"
 
 {{module_details_by_id}}
 
+<a id="file-templates-progress-yaml"></a>
+
+## Bundled file: templates/progress.yaml
+
+schema: kaidera.progress/v1
+release: "<current-release>"
+slices:
+  - id: "<slice-id>"
+    title: "<short work item>"
+    status: planned # planned | in_progress | in_review | done | blocked
+    owner: "<worker-id>"
+    plan: "<relative/path/to/plan.md>"
+    modules: []
+    started: null
+    done: null
+    evidence: []
+
 <a id="file-templates-release-plan-md"></a>
 
 ## Bundled file: templates/release-plan.md
 
 ---
-release_id: "<version-or-release-id>"
-status: planned
-target_date: "<yyyy-mm-dd>"
-released_date: null
+version: "<version-directory-name>"
+status: planned # planned | in build | in test | released
+delivered_or_planned: "<what this release delivered or is planned to deliver>"
 modules: []
-summary: "<one sentence>"
 upgrade_from_previous: "<upgrade or migration note>"
+target_date: "<yyyy-mm-dd>"
 ---
 
-# Release {{release_id}}
+<!-- The roadmap's released value is measured from the observed version tag or public release; do not enter it by hand. -->
+
+# Release {{version}}
 
 ## Goal
 

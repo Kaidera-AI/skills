@@ -62,10 +62,11 @@ Update the authoritative home once. Other human-authored pages link to it; named
 | Fact | Canonical home | Other pages |
 |---|---|---|
 | Project file and folder destinations | Owner-accepted `structure.yaml` | Link to the definition or use its generated views; do not restate its path rules by hand. |
-| Current work and release progress | The registered progress data | Generated progress and roadmap views may display it; other pages link to the data. |
-| A release's content, state, and date | That release plan's front matter | Link to the plan or use a generated release view. |
+| Current work and release progress | The progress source named by the owner-approved `structure.yaml` | Generated progress and roadmap views may display it; other pages link to the source data. |
+| A release's content, state, and date | That release's `plan.md` front matter as defined by the owner-approved `structure.yaml` | Link to the plan or use a generated release view. |
 | A decision and its rationale | The decision ledger | Link to the ledger entry. |
-| Team membership and roles | The product's `product.yaml` | Link or use an approved generated team view. |
+| Product identity, name, stage, team, and visibility | The product's `product.yaml` | Link or use an approved generated team view. |
+| Audience for each documents area | That area's `audience` in the owner-approved `structure.yaml` | Generated views inherit the area's declared value. |
 | A module's purpose and ownership | Its module page | Link or use the generated module catalogue. |
 
 - **One fact, one file.** A page that manually restates a fact with a canonical home is a review finding. Point to the authoritative file; do not create a second copy.
@@ -99,7 +100,7 @@ No automatic age-based deletion is active in this candidate. A project must revi
 
 The bundled templates are starting shapes, not mandatory project facts. Their destination is selected by `structure.yaml`. Named generated reader views stay in DocsVault at their declared locations; other program output stays in DevVault. Keep progress, roadmap, index, and area pages under their named generators. Keep diagrams beside the page they explain, with the source and rendered image together. Use the module and product names from the same module catalogue everywhere.
 
-Audience and visibility for any generated project view must come from the project's approved metadata. Do not publish or synchronise a folder until the project owner confirms its audience contract and the receiving system's exact read-back behavior.
+The standard structure names each documents area's audience as `customer-eligible` or `internal`; generated views inherit that value. A release's `released` date is measured from its observed version tag or public release, never typed into the plan. Do not publish or synchronise a folder until the project owner confirms its audience contract and the receiving system's exact read-back behavior.
 
 ## Candidate status
 

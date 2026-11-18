@@ -1,14 +1,15 @@
 ---
-release_id: "<version-or-release-id>"
-status: planned
-target_date: "<yyyy-mm-dd>"
-released_date: null
+version: "<version-directory-name>"
+status: planned # planned | in build | in test | released
+delivered_or_planned: "<what this release delivered or is planned to deliver>"
 modules: []
-summary: "<one sentence>"
 upgrade_from_previous: "<upgrade or migration note>"
+target_date: "<yyyy-mm-dd>"
 ---
 
-# Release {{release_id}}
+<!-- The roadmap's released value is measured from the observed version tag or public release; do not enter it by hand. -->
+
+# Release {{version}}
 
 ## Goal
 

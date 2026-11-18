@@ -89,29 +89,37 @@ layout:
       goes_in: a one-screen entry point for the product
       stays_out: copied project-wide facts and generated progress data
     "<product_root>/product.yaml":
-      goes_in: reviewed product_id, lead, team, and default visibility
+      goes_in: reviewed product_id, name, stage, lead, team, and default visibility; the one home for these current product facts
       stays_out: credentials, mutable progress, and copies of decisions
+      audience: internal
     "<product_root>/program/management/":
       goes_in: backlog, team, risks, decisions, epics, incidents, and generated roadmap
       stays_out: release-specific plans, evidence payloads, logs, and user guides
+      audience: internal
     "<product_root>/program/releases/<version>/":
       goes_in: plan, progress, release notes, checklist, reviews, and evidence index
       stays_out: sealed evidence payloads, logs, and unrelated release material
+      audience: internal
     "<product_root>/program/":
-      goes_in: generated product progress page
+      goes_in: progress.yaml source data and the generated product progress page
       stays_out: hand-authored program-management records and evidence payloads
+      audience: internal
     "<product_root>/docs/developer/":
       goes_in: product big-picture diagram and high-level design
       stays_out: release status, schedules, logs, and program output
+      audience: internal
     "<product_root>/docs/user/":
       goes_in: getting-started guides, how-to pages, and product references for users
       stays_out: installation and operations instructions, internal plans, and build details
+      audience: customer-eligible
     "<product_root>/docs/admin/":
       goes_in: install, upgrade, backup, restore, removal, troubleshooting, and settings guides
       stays_out: internal build plans, source code, and user-only how-to material
+      audience: customer-eligible
     "<product_root>/docs/developer/<topic>/":
       goes_in: intent, specification, design, decisions, research, and diagrams for one development topic
       stays_out: release schedules, status, logs, and program output
+      audience: internal
   cold_store:
     "<project>/<product>/audit/":
       goes_in: sealed evidence with a manifest and the project's approved retention policy
@@ -141,6 +149,7 @@ fixed_files:
     - risks.md
     - decisions.md
   program:
+    - progress.yaml
     - progress.md
   release:
     - plan.md
@@ -166,6 +175,26 @@ fixed_files:
   wireframes:
     - "wireframe-<area>.excalidraw"
     - "wireframes.md"
+
+progress_data:
+  path: "<product_root>/program/progress.yaml"
+  schema: kaidera.progress/v1
+  rule: "Store slice status and evidence here. The named generator computes percentages and counts; do not type them into the source or generated page."
+
+release_plan_front_matter:
+  path: "<product_root>/program/releases/<version>/plan.md"
+  keys:
+    version: "The version directory name."
+    status: "One of planned, in build, in test, or released."
+    delivered_or_planned: "What this release delivered or is planned to deliver."
+    modules: "The modules changed or planned for this release."
+    upgrade_from_previous: "The upgrade path from the preceding release."
+    target_date: "The planned release date."
+    released: "Measured from the observed version tag or public release; never entered in plan.md by hand."
+
+audience_contract:
+  allowed_values: [customer-eligible, internal]
+  rule: "Declare an audience for each product document area in the owner-approved structure. Generated reader views inherit that area's value."
 
 naming:
   case: lower
@@ -213,8 +242,10 @@ generated_pages:
     - name: area README pages
       destination: README.md in the corresponding DocsVault area
     - name: product progress page
+      source: progress_data
       destination: "<product_root>/program/progress.md"
     - name: roadmap
+      source: release_plan_front_matter
       destination: "<product_root>/program/management/roadmap.md"
     - name: module catalogue and high-level module table
       destination: their existing owner-approved DocsVault locations; this rule creates no new folder
