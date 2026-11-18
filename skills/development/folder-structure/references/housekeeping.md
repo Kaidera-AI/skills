@@ -1,10 +1,10 @@
 # Report-only housekeeping routine
 
-This routine keeps the adopted structure visible. It lists and routes work; it does not remove files. Run it only against roots and products authorized by the project owner.
+This routine keeps the adopted structure visible. It lists and routes work; it does not remove files. Run it only against roots and products authorized by the project owner. Constrain each inventory or housekeeping walk to one authorized filesystem, stop at mount boundaries, and never follow symbolic links outside the approved root. Where documents are mounted per project, run the check for each project mount; the plain documents parent is not a content device.
 
 ## Daily or event-driven report
 
-For each product, collect:
+For each product, collect from its registered roots only:
 
 1. Free space in configured development and documents stores, with the source of each measurement.
 2. Every temporary work entry with owner, age, branch or run state, and whether its work is merged or closed.

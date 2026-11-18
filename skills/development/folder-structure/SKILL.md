@@ -29,22 +29,31 @@ This skill gives a project a single, readable definition of where its work belon
 
 ## Start with the project's authority
 
-Before creating or moving a project file, read the project's current `structure.yaml`, the accepted plan for the change, and the project root registered by its owner. The bundled `references/structure.yaml` is a starter definition, not proof that a project adopted it. A project may use it only after its owner approves the layout and records the effective definition in the project's normal source of truth.
+Before creating or moving a project file, read the project's current `structure.yaml`, the accepted plan for the change, the project root and product catalogue registered by its owner, and the selected project shape. The bundled `references/structure.yaml` is a starter definition, not proof that a project adopted it. A project may use it only after its owner approves the layout and records the effective definition in the project's normal source of truth. Select `single_product` only when exactly one product is registered; otherwise use `multi_product`. Check that product identities match across the registered catalogue and both vaults. In single-product mode, the product layout sits directly at the project root in both vaults, and the one README serves as both project and product entry point.
 
 If the project has no accepted definition, a path is missing, or two sources disagree, stop and ask the project lead. Do not choose the most convenient path. Keep product, repository, account, storage, and audience names in the project's definition and settings; never copy machine-specific values from this candidate.
 
 ## The placement rules
 
-1. **Secrets and credentials** belong in the project's approved secret store. Never put them in source, documents, examples, generated pages, or a migration table.
-2. **Code and program data** belong in the configured development store. Tracked source belongs in its repository; temporary work and program output belong in their named temporary or output locations.
-3. **Human-authored material for readers** belongs in the configured documents store. Select its product and reader using the project's structure definition.
-4. **Cross-product material** belongs in the project-level area named by the definition. A fact has one authoritative home; other pages link to it or are generated from it.
-5. **Logs, receipts, and evidence** follow the project's retention and evidence policy. They are not documentation merely because a person may read them.
-6. When a kind of file has no destination in the accepted definition, stop and ask the owner. Do not create a new top-level folder to make the problem disappear.
+1. **Secrets and credentials** belong in the project's approved secret store. The account that runs project code cannot read the project secrets tree, and each credential is readable only by the identity that uses it. Never put secrets in source, documents, examples, generated pages, or a migration table.
+2. **Named generated reader views** stay in their declared DocsVault locations even though a program writes them. Examples include the product progress page, roadmap, area README pages, module catalogue or high-level module table, and release evidence index. Only each named generator writes its view.
+3. **Code and other program data** belong in the configured development store. Tracked source belongs in its repository; temporary work, logs, evidence, caches, and other program output belong in their named temporary or output locations.
+4. **Human-authored material for readers** belongs in the configured documents store. Select its product and reader using the project's structure definition.
+5. **Cross-product material** belongs in the project-level area named by the definition. A fact has one authoritative home; other pages link to it or are generated from it.
+6. **Logs, receipts, and evidence** follow the project's retention and evidence policy. They are not documentation merely because a person may read them.
+7. When a kind of file has no destination in the accepted definition, stop and ask the owner. Do not create a new top-level folder to make the problem disappear.
 
-The starter routes in `references/structure.yaml` distinguish management, release records, user guidance, administration guidance, and developer material. The path table there is the only source for folder names and each location's “goes in” and “stays out” rules. Change that definition through an accepted plan before changing consumers or creating a new structural name.
+The starter routes in `references/structure.yaml` distinguish management, release records, user guidance, administration guidance, and developer material. Its project-shape rule selects either `<project>/<product>` roots or the project root itself for a single product. The path table there is the only source for folder names and each location's “goes in” and “stays out” rules. Change that definition through an accepted plan before changing consumers or creating a new structural name.
 
 This candidate does not bundle an inventory tool, structure validator, mount doctor, generator, housekeeping service, or copy/delete command. The YAML describes the intended contract; it is not executable enforcement. Git branch, review, and push rules remain in the project's accepted Git policy. This skill only locates clean repository checkouts and temporary work inside the configured development store.
+
+## Keep storage, access, and walks bounded
+
+- **Documents mounts:** when the documents store is one share, check its configured root as a mount separate from the development store and OS root. When each project has its own mount, the documents-store root is a plain parent folder; check each registered project mount separately. Never treat the plain parent as the content device. Run the configured checks at install and service start.
+- **Single-disk test hosts:** a root-owned marker created only by test provisioning identifies a test host. The installer never creates it and has no install-time switch to mark a production host as a test host. On a marked test host, the device doctor puts a `WARNING` in its first output line; otherwise the development store sharing the OS device is a failure.
+- **Project secrets:** the project-code account cannot read the secrets tree. Grant each credential only to the identity that uses it; a compromised project process must not gain access to every worker's token.
+- **Service state:** keep each service's state in its configured service-state location with a service-specific owner and owner-only access. Treat it as secret-bearing data. Never include it in a support bundle or copy it to the cold store except through that service's own approved backup design.
+- **Filesystem walks:** inventory, check, move, and housekeeping walks stay within one authorized filesystem, stop at mount boundaries, and never follow symbolic links outside the approved root. A copy between stores names its source and destination explicitly.
 
 ## Keep one fact in one place
 
@@ -59,7 +68,7 @@ The check described by the definition may report identical files, revision-like 
 
 ## Adopt the layout safely
 
-Use `references/adoption.md` for the full sequence. In brief: do not migrate during a release; inventory read-only; make one disposition row per exact existing path; have the product owner propose and the authorized decision-maker approve the table; preserve repositories, logs, and evidence; move one product at a time; compare counts and hashes; then enable a gate for that product. If a copy cannot be verified, stop before removing the source.
+Use `references/adoption.md` for the full sequence. In brief: do not migrate during a release; inventory read-only; make one disposition row per exact existing path; have the product owner propose and the authorized decision-maker approve the table; preserve repositories, logs, and evidence; move one product at a time; compare counts and hashes; review the move evidence; remove only approved exact paths; then enable a gate for that product after the removals and final check are clean. If a copy cannot be verified, stop before removing the source.
 
 The skill does not run the inventory, write to a storage service, change permissions, update a project map, or remove a path. Those actions need their own approved plan, owner, tools, and checks.
 
@@ -73,7 +82,7 @@ Use `references/housekeeping.md` for a report-only routine. List stale temporary
 
 ## Templates and generated views
 
-The bundled templates are starting shapes, not mandatory project facts. Their destination is selected by `structure.yaml`. Keep generated progress, roadmap, index, and area pages under their named generators. Keep diagrams beside the page they explain, with the source and rendered image together. Use the module and product names from the same module catalogue everywhere.
+The bundled templates are starting shapes, not mandatory project facts. Their destination is selected by `structure.yaml`. Named generated reader views stay in DocsVault at their declared locations; other program output stays in DevVault. Keep progress, roadmap, index, and area pages under their named generators. Keep diagrams beside the page they explain, with the source and rendered image together. Use the module and product names from the same module catalogue everywhere.
 
 Audience and visibility for any generated project view must come from the project's approved metadata. Do not publish or synchronise a folder until the project owner confirms its audience contract and the receiving system's exact read-back behavior.
 
