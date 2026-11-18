@@ -20,6 +20,10 @@ Use the template in `../templates/housekeeping.md`. Keep generated measurements 
 
 For anything a project has approved to keep: list it, copy it with a manifest, verify the copy by hash, record its destination, and only then consider removing the exact source path under the approved table.
 
-No automatic age-based deletion is active in this candidate. The design examples of 14 days, 30 days, or 400 days are not defaults. Before enabling any lifecycle rule, the project owner must approve its exact classes and retention, the operator must review the storage implementation, and a restore or preservation check must pass. Evidence accepted by a reviewer or shipped in a release follows the project's approved evidence policy and must never be swept into a working-version expiry rule.
+When a new working-document version is made, the superseded version must leave the active vault for the project's approved cold-store location. The target retention is 14 days; 30 days is the maximum, after which the version is deleted. Each product must approve a table naming exact classes, destination, verification, and expiry before anyone acts on this rule. This report-only routine does not authorize deletion, and nothing is deleted on the strength of this candidate alone.
+
+A proposed 400-day exception for reviewer-accepted or release-shipped evidence remains unconfirmed and is not an active retention rule. Until confirmed, accepted or shipped evidence follows the project's existing approved evidence policy and is never swept into a working-version expiry rule.
+
+No automatic age-based deletion is active in this candidate. Before enabling automation, the project owner must approve exact classes and retention, the operator must review the storage implementation, and a restore or preservation check must pass. Every removal follows the approved per-product table, exact-path recheck, and a recorded receipt.
 
 Temporary files, caches, build output, branches, and worktrees are not automatically safe to remove. A project may automate a narrowly named class only after an approved plan, tested predicate, exact-path recheck, and removal receipt exist. A worker does not remove another worker's active folder.
