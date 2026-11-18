@@ -57,9 +57,20 @@ This candidate does not bundle an inventory tool, structure validator, mount doc
 
 ## Keep one fact in one place
 
-- **One fact, one file.** Point to the authoritative file by path; do not copy its content into another document.
+Update the authoritative home once. Other human-authored pages link to it; named generated views may project it without becoming a second source. Use the exact locations in the project's accepted `structure.yaml` when they differ from these common homes:
+
+| Fact | Canonical home | Other pages |
+|---|---|---|
+| Project file and folder destinations | Owner-accepted `structure.yaml` | Link to the definition or use its generated views; do not restate its path rules by hand. |
+| Current work and release progress | The registered progress data | Generated progress and roadmap views may display it; other pages link to the data. |
+| A release's content, state, and date | That release plan's front matter | Link to the plan or use a generated release view. |
+| A decision and its rationale | The decision ledger | Link to the ledger entry. |
+| Team membership and roles | The product's `product.yaml` | Link or use an approved generated team view. |
+| A module's purpose and ownership | Its module page | Link or use the generated module catalogue. |
+
+- **One fact, one file.** A page that manually restates a fact with a canonical home is a review finding. Point to the authoritative file; do not create a second copy.
 - **Add to the file that exists.** Add a dated heading for a new decision, finding, or day. Create a new file only for a new item named by the structure definition.
-- **One current version.** Replace the current file. Keep no side-by-side `-r2`, `.prev`, `-copy`, or `-final` file. Preserve a prior version only through the project's approved archive process.
+- **One current version.** Replace the current file. Keep no side-by-side `-r2`, `.prev`, `-copy`, or `-final` file. Preserve a prior version only through the approved archive process below.
 - **A message is not a document.** Use the project's coordination system for handoffs, status notes, and replies.
 - **Output is not a document.** Keep generated output, logs, receipts, and evidence in their approved data or evidence locations; keep an index where readers need one.
 - **A generated page is written by its generator only.** Do not hand-edit a generated page or maintain a second copy.
@@ -78,7 +89,11 @@ For a network-attached storage (NAS) documents store, confirm its snapshot cover
 
 Use `references/housekeeping.md` for a report-only routine. List stale temporary work, unfinished archive obligations, holds, and new structure breaches with an owner. Keep the report separate from operational state and hand each item to its owner.
 
-**Age limits and age-based deletion are not active defaults in this candidate.** A project must obtain explicit approval for its retention policy, configure it as a separate reviewed change, and prove that it preserves accepted evidence before any automatic expiry is enabled. The sample durations in design material are proposals, not operating instructions. Until that gate closes, do not delete an old version or log by age.
+**Superseded working-document versions:** when a new version is made, the prior version must leave the active vault for the project's approved cold-store location. Retain it for 14 days (the target); 30 days is the maximum, after which it is deleted. Each product must record the exact class, destination, verification, and expiry in its approved lifecycle table before anyone acts on that rule. This skill does not authorize a deletion, and no file is deleted on the strength of this candidate alone.
+
+**Accepted or shipped evidence:** a proposed 400-day exception for reviewer-accepted or release-shipped evidence remains unconfirmed and is not an active retention rule. Until that decision is confirmed, follow the project's existing approved evidence policy and never sweep evidence into a working-version expiry rule.
+
+No automatic age-based deletion is active in this candidate. A project must review its storage implementation and prove preservation or restore behavior before enabling automation. Any removal must follow the approved per-product table, exact-path recheck, and a recorded receipt.
 
 ## Templates and generated views
 
