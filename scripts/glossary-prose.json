@@ -225,9 +225,9 @@
       "what": "Review named web UI files against the pinned local Vercel guideline snapshot.",
       "why": "Apply repeatable web implementation guidance with stack and product context, without a live fetch."
     },
-    "folder-organisation": {
-      "what": "Place project files and record content custody before an authorised consolidation or sync.",
-      "why": "Keep foreign edits, distinguish planned actions from writes, and use the canonical approved writer."
+    "folder-structure": {
+      "what": "Route project files from one approved structure definition and plan verified migrations.",
+      "why": "Keep one home per fact, expose uncertain custody, and require an approved table before moves or removals."
     },
     "visual-design-production": {
       "what": "Static visual craft: hierarchy, grid, exact text/marks, brand composition and inspected export.",
@@ -360,14 +360,6 @@
       "risk": "medium",
       "what": "Governing UI/UX and design-system rulebook for the ASW Connect / AdapTech dark-aviation products.",
       "why": "Enforces one house style, computed WCAG 2.2 AA contrast and an elevation ladder for that product only."
-    },
-    {
-      "pr": "#9",
-      "name": "folder-organisation",
-      "category": "development",
-      "risk": "medium",
-      "what": "One root, one home per kind of thing, one owner per fact — plus the loop that consolidates a scattered estate.",
-      "why": "Placement gate before creating any document, diagram, plan, proof, pack or worktree, and before deleting a folder."
     },
     {
       "pr": "#15",

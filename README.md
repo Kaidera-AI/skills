@@ -179,4 +179,4 @@ Under the following terms:
 
 [kaidera.ai](https://kaidera.ai) | [Platform Repo](https://github.com/Kaidera-AI/platform)
 
-The existing [folder-organisation](skills/development/folder-organisation/SKILL.md) policy is mirrored at1.0.1 with original ownership-aware sync instructions and pinned MIT method attribution. It remains a manual-only, unvetted source candidate; source publication does not activate it.
+The [folder-structure](skills/development/folder-structure/SKILL.md) candidate defines a project-owned structure file, placement rules, and an approved migration path. It is manual-only, unvetted, and does not activate a project layout by publication alone.

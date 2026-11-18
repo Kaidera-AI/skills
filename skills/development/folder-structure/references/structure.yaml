@@ -1,0 +1,183 @@
+schema_version: 1
+status: starter-candidate
+description: >-
+  Portable starter for a project-owned file structure. Replace setting tokens only
+  in the owning project's configuration; do not hard-code host paths here.
+
+roots:
+  project: "${PROJECT_ROOT}"
+  development: "${DEVELOPMENT_ROOT}"
+  documents: "${DOCUMENTS_ROOT}"
+  cold_store: "${COLD_STORE_ROOT}"
+
+principles:
+  - One project root is registered by the project owner.
+  - Development, documents, and cold-store locations are settings, not host constants.
+  - If separate stores are mounted, they remain sibling mounts; services fail closed when a required store is absent.
+  - Where supported, an unmounted mount point is made unwritable and device boundaries are checked at install and service start.
+  - Platform-specific mount, permission-label, and executable-file behavior must be tested on each supported host.
+  - Product folders are the unit of ownership and access; project-wide material has one project-level home.
+  - If separate stores are mounted, the documents-store root holds only registered project folders or their approved mount points.
+
+layout:
+  development:
+    "<project>/<product>/<repository>/":
+      goes_in: tracked source and project configuration
+      stays_out: human-authored plans, guides, logs, and generated build output
+    "<project>/<product>/_work/":
+      goes_in: temporary worktrees, release run places, and regenerable output
+      stays_out: the clean reference repository and current human-authored documents
+    "<project>/_project/secrets/":
+      goes_in: secrets only, with access controlled by the project's secret system
+      stays_out: documentation, logs, handoffs, and ordinary configuration
+    "<project>/_project/workers/<worker>/":
+      goes_in: that worker's session files, notes, and state when the project uses worker folders
+      stays_out: credentials, other workers' private state, and product source
+    "_system/services/<service>/":
+      goes_in: machine-local service state that the project has explicitly assigned here
+      stays_out: installed code, root configuration, sockets, and human-authored documentation
+  documents:
+    "<project>/README.md":
+      goes_in: a short entry point and links to the project's product areas
+      stays_out: duplicated product plans, status, and generated content
+    "<project>/_project/":
+      goes_in: current documents and program records shared across products, using the same program and docs areas as a product
+      stays_out: product-specific source, secrets, logs, and evidence payloads
+    "<project>/<product>/README.md":
+      goes_in: a one-screen entry point for the product
+      stays_out: copied project-wide facts and generated progress data
+    "<project>/<product>/product.yaml":
+      goes_in: reviewed product identity, lead, team, and default visibility
+      stays_out: credentials, mutable progress, and copies of decisions
+    "<project>/<product>/program/management/":
+      goes_in: backlog, team, risks, decisions, epics, incidents, and generated roadmap
+      stays_out: release-specific plans, evidence payloads, logs, and user guides
+    "<project>/<product>/program/releases/<version>/":
+      goes_in: plan, progress, release notes, checklist, reviews, and evidence index
+      stays_out: sealed evidence payloads, logs, and unrelated release material
+    "<project>/<product>/program/":
+      goes_in: generated product progress page
+      stays_out: hand-authored program-management records and evidence payloads
+    "<project>/<product>/docs/developer/":
+      goes_in: product big-picture diagram and high-level design
+      stays_out: release status, schedules, logs, and program output
+    "<project>/<product>/docs/user/":
+      goes_in: getting-started guides, how-to pages, and product references for users
+      stays_out: installation and operations instructions, internal plans, and build details
+    "<project>/<product>/docs/admin/":
+      goes_in: install, upgrade, backup, restore, removal, troubleshooting, and settings guides
+      stays_out: internal build plans, source code, and user-only how-to material
+    "<project>/<product>/docs/developer/<topic>/":
+      goes_in: intent, specification, design, decisions, research, and diagrams for one development topic
+      stays_out: release schedules, status, logs, and program output
+  cold_store:
+    "<project>/<product>/audit/":
+      goes_in: sealed evidence with a manifest and the project's approved retention policy
+      stays_out: replaceable logs, working revisions, and backups
+    "<project>/<product>/logs/":
+      goes_in: logs with manifests and an explicitly approved retention policy
+      stays_out: sealed evidence and unapproved document versions
+    "<project>/<product>/versions/":
+      goes_in: superseded documents only if the project owner approves this destination and lifecycle
+      stays_out: accepted or shipped evidence, which follows the audit policy
+    "<project>/backup/":
+      goes_in: backups governed by the product's tested restore and replacement procedure
+      stays_out: audit evidence with a locked retention policy
+
+fixed_files:
+  project:
+    - README.md
+  product:
+    - README.md
+    - product.yaml
+    - modules.yaml
+    - glossary.md
+  program_management:
+    - roadmap.md
+    - backlog.md
+    - team.md
+    - risks.md
+    - decisions.md
+  program:
+    - progress.md
+  release:
+    - plan.md
+    - progress.md
+    - notes.md
+    - checklist.md
+    - reviews.md
+    - evidence.md
+  developer_topic:
+    - intent.md
+    - spec.md
+    - design.md
+    - decisions.md
+  developer_root:
+    - high-level-design.md
+    - big-picture.excalidraw
+    - big-picture.png
+  module:
+    - module.md
+    - design.md
+    - spec.md
+    - intent.md
+  wireframes:
+    - "wireframe-<area>.excalidraw"
+    - "wireframes.md"
+
+naming:
+  case: lower
+  separator: hyphen
+  spaces_allowed: false
+  dates: yyyy-mm-dd
+  version_numbers_allowed_under: releases
+  rule: names describe purpose in words a new team member can guess
+  rules:
+    - folders are nouns
+    - user and administrator how-to pages start with a verb
+    - reference pages are nouns
+    - design topics use the product capability, not a team, stage, or release name
+    - status, owner, revision, and change date belong in file metadata, not the filename
+    - a filename does not repeat a parent folder's name
+    - each concept has one name across code and documents
+    - structural names change only through a reviewed migration
+
+sort_questions:
+  - question: Is it a secret or credential?
+    route: the project's approved secret store
+  - question: Does a program read or produce it?
+    route: development store; repository for tracked source, named temporary area for other output
+  - question: Is it human-authored material for a reader?
+    route: product documents, or the project-level documents area if shared
+  - question: Which reader needs it?
+    route: use the management, release, user, administrator, or developer area above
+  - question: Does no approved route fit?
+    route: stop and ask the project owner; do not invent a folder
+
+duplication_checks:
+  first_handwritten_folder_limit: 30
+  threshold_status: provisional-report-only
+  report:
+    - identical file contents
+    - revision or copy markers in filenames
+    - overfull hand-written folders and their owners
+  mode: report-only until an owner approves a per-product gate
+
+generated_pages:
+  rule: only the named generator writes a generated page
+  candidates:
+    - area README pages
+    - product progress page
+    - roadmap
+    - module catalogue and high-level module table
+    - evidence index
+
+lifecycle:
+  status: inactive-until-explicit-project-approval
+  age_based_deletion: false
+  retention_values: unset
+  require_before_activation:
+    - explicit owner decision
+    - reviewed implementation plan
+    - restore or preservation test appropriate to the data
+    - exact destinations and deletion receipts

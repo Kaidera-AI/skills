@@ -1,0 +1,9 @@
+schema_version: 1
+modules:
+  - id: "<stable-module-id>"
+    purpose: "<one sentence>"
+    source_paths: []
+    owner: "<project account or role reference>"
+    state: planned
+    release: "<release-id>"
+    progress_source: "<recorded gate or progress data>"

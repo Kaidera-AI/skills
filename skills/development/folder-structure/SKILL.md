@@ -1,0 +1,84 @@
+---
+name: folder-structure
+description: "Define one project file layout, route new work to its home, and migrate existing files through an approved, verified table."
+license: CC-BY-4.0
+metadata:
+  version: "0.9.0"
+  authority: "A project's accepted structure definition and explicit migration approvals; this candidate grants no authority by itself."
+  sources: "Project structure, custody, migration, and housekeeping practices authored for this candidate."
+  risk_level: "medium"
+  capabilities_required: ["tool:file_read", "tool:file_write", "tool:code_interpreter"]
+  allowed_domains: []
+  updated: "2026-11-18"
+  tags: ["files", "structure", "custody", "migration"]
+  safety_constraints:
+    - "A layout or dry-run classification does not authorise file creation, movement, publication, or deletion."
+    - "Use the project's accepted definition and exact approved path table; do not infer paths or approvals."
+    - "Never delete by pattern or age without a separately approved and tested lifecycle policy."
+    - "Preserve foreign edits and ask the owning person when custody is uncertain."
+    - "Generated files are written only by their named generator."
+    - "Source publication does not authorize installation, binding, trust promotion, or destructive work."
+  applies_to: ["lead", "project-manager", "developer", "documentarian", "reviewer"]
+  bias: "One definition owns locations; one file owns each fact; uncertain custody stops the move."
+  conflicts_with: ["folder-organisation"]
+---
+
+# Folder structure
+
+This skill gives a project a single, readable definition of where its work belongs. It helps a worker classify a new file and gives a project lead a safe process for adopting the layout. It is a portable candidate: it does not replace the project's own approved rules, grant file access, or perform a migration.
+
+## Start with the project's authority
+
+Before creating or moving a project file, read the project's current `structure.yaml`, the accepted plan for the change, and the project root registered by its owner. The bundled `references/structure.yaml` is a starter definition, not proof that a project adopted it. A project may use it only after its owner approves the layout and records the effective definition in the project's normal source of truth.
+
+If the project has no accepted definition, a path is missing, or two sources disagree, stop and ask the project lead. Do not choose the most convenient path. Keep product, repository, account, storage, and audience names in the project's definition and settings; never copy machine-specific values from this candidate.
+
+## The placement rules
+
+1. **Secrets and credentials** belong in the project's approved secret store. Never put them in source, documents, examples, generated pages, or a migration table.
+2. **Code and program data** belong in the configured development store. Tracked source belongs in its repository; temporary work and program output belong in their named temporary or output locations.
+3. **Human-authored material for readers** belongs in the configured documents store. Select its product and reader using the project's structure definition.
+4. **Cross-product material** belongs in the project-level area named by the definition. A fact has one authoritative home; other pages link to it or are generated from it.
+5. **Logs, receipts, and evidence** follow the project's retention and evidence policy. They are not documentation merely because a person may read them.
+6. When a kind of file has no destination in the accepted definition, stop and ask the owner. Do not create a new top-level folder to make the problem disappear.
+
+The starter routes in `references/structure.yaml` distinguish management, release records, user guidance, administration guidance, and developer material. The path table there is the only source for folder names and each location's “goes in” and “stays out” rules. Change that definition through an accepted plan before changing consumers or creating a new structural name.
+
+This candidate does not bundle an inventory tool, structure validator, mount doctor, generator, housekeeping service, or copy/delete command. The YAML describes the intended contract; it is not executable enforcement. Git branch, review, and push rules remain in the project's accepted Git policy. This skill only locates clean repository checkouts and temporary work inside the configured development store.
+
+## Keep one fact in one place
+
+- **One fact, one file.** Point to the authoritative file by path; do not copy its content into another document.
+- **Add to the file that exists.** Add a dated heading for a new decision, finding, or day. Create a new file only for a new item named by the structure definition.
+- **One current version.** Replace the current file. Keep no side-by-side `-r2`, `.prev`, `-copy`, or `-final` file. Preserve a prior version only through the project's approved archive process.
+- **A message is not a document.** Use the project's coordination system for handoffs, status notes, and replies.
+- **Output is not a document.** Keep generated output, logs, receipts, and evidence in their approved data or evidence locations; keep an index where readers need one.
+- **A generated page is written by its generator only.** Do not hand-edit a generated page or maintain a second copy.
+
+The check described by the definition may report identical files, revision-like names, and overfull hand-written folders. A report is evidence for a human decision; it never chooses which file to keep or authorizes deletion.
+
+## Adopt the layout safely
+
+Use `references/adoption.md` for the full sequence. In brief: do not migrate during a release; inventory read-only; make one disposition row per exact existing path; have the product owner propose and the authorized decision-maker approve the table; preserve repositories, logs, and evidence; move one product at a time; compare counts and hashes; then enable a gate for that product. If a copy cannot be verified, stop before removing the source.
+
+The skill does not run the inventory, write to a storage service, change permissions, update a project map, or remove a path. Those actions need their own approved plan, owner, tools, and checks.
+
+For a network-attached storage (NAS) documents store, confirm its snapshot coverage explicitly. If the product backup does not cover it, the operator guide must require the NAS's own snapshots until a tested backup design closes the gap. Do not infer that a NAS is covered by a cloud provider's snapshots.
+
+## Keep the tree healthy
+
+Use `references/housekeeping.md` for a report-only routine. List stale temporary work, unfinished archive obligations, holds, and new structure breaches with an owner. Keep the report separate from operational state and hand each item to its owner.
+
+**Age limits and age-based deletion are not active defaults in this candidate.** A project must obtain explicit approval for its retention policy, configure it as a separate reviewed change, and prove that it preserves accepted evidence before any automatic expiry is enabled. The sample durations in design material are proposals, not operating instructions. Until that gate closes, do not delete an old version or log by age.
+
+## Templates and generated views
+
+The bundled templates are starting shapes, not mandatory project facts. Their destination is selected by `structure.yaml`. Keep generated progress, roadmap, index, and area pages under their named generators. Keep diagrams beside the page they explain, with the source and rendered image together. Use the module and product names from the same module catalogue everywhere.
+
+Audience and visibility for any generated project view must come from the project's approved metadata. Do not publish or synchronise a folder until the project owner confirms its audience contract and the receiving system's exact read-back behavior.
+
+## Candidate status
+
+Version `0.9.0` is awaiting a real-project test. The starter layout, names, storage assumptions, and templates have not been proven on a customer's machine or on every supported operating system. The macOS path is untested. In particular, mount behavior, filesystem labels, backup coverage, and automatic retention are platform- and project-specific. Keep such items marked **not tested** until the named project test produces evidence and its owner accepts the result. Version `1.0.0` requires the approved test to pass and the project's readers to accept the exact content hash.
+
+Publishing this source does not install or bind it, grant access to any repository or storage, approve a move, activate a lifecycle rule, or promote its trust tier.

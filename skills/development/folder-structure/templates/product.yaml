@@ -1,0 +1,8 @@
+product_id: "<stable-product-id>"
+display_name: "<reader-facing name>"
+lead: "<project account or role reference>"
+team: []
+default_visibility: internal
+visibility_policy_reference: "<approved policy path>"
+source_repository: "<repository reference>"
+status_source: "<canonical progress data reference>"
