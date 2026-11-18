@@ -10,6 +10,8 @@ Kaidera Skills Marketplace is a repository of reusable skills for agents on the 
 
 **Quick index:** [Kaidera Skills Glossary](docs/SKILLS-GLOSSARY.md) — one line per skill: what it does and why you reach for it
 
+**Rust ecosystem:** [Rust library starter shortlist](docs/RUST-LIBRARY-STARTER.md) — cross-project candidates, project-fit notes, and upstream links.
+
 ## What Is a Skill?
 
 A **skill** is one Markdown file, `{skill-name}.SKILL.md`, with a YAML frontmatter manifest followed by the instructions an agent reads:
