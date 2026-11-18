@@ -56,7 +56,7 @@ in the path, so a loader can filter or down-rank on it; whether any current rout
 is unevaluated, which is the same Gate 3 hold the catalogue states. Filing them
 separately also keeps the good names free for the Kaidera-native skills that replace them.
 
-In flight: **7 pull requests** carrying **8** candidate skills.
+In flight: **6 pull requests** carrying **7** candidate skills.
 
 Consumed third-party, published by their owners elsewhere: **8**.
 
@@ -154,7 +154,7 @@ portfolio judgements, separate from the manifest's `trust_tier`, and every skill
 | [`deploy-to-dev`](../skills/legacy/deploy-to-dev.SKILL.md) | `legacy` | Legacy GitOps runbook: sprint-branch push triggers CI, image build, gitops update and ArgoCD sync. | Names one retired product's environment; its hostnames and project identifiers are now placeholders. Do not generalise it. | Manual-only, legacy |
 | [`design-selection`](../skills/development/design-selection.SKILL.md) | `development` | Select the owning design workflow for UI, motion, native interaction or exported video. | Choosing design capabilities or resolving UI versus video workflow ownership. | Reference-only |
 | [`development-workflow`](../skills/development/development-workflow.SKILL.md) | `development` | Portable AI-plus-human lifecycle: bounded tasks, independent review, risk-based QA, recorded decisions. | The generic SDLC profile for development projects; select exactly one lifecycle owner per project. | Bounded candidate |
-| [`folder-organisation`](../skills/development/folder-organisation.SKILL.md) | `development` | Place project files and record content custody before an authorised consolidation or sync. | Keep foreign edits, distinguish planned actions from writes, and use the canonical approved writer. | Manual-only |
+| [`folder-structure`](../skills/development/folder-structure.SKILL.md) | `development` | Route project files from one approved structure definition and plan verified migrations. | Keep one home per fact, expose uncertain custody, and require an approved table before moves or removals. | Manual-only |
 | [`frontend-context`](../skills/legacy/frontend-context.SKILL.md) | `legacy` | Legacy Next.js 14 App Router, React Flow, Tailwind, Zustand and strict-TypeScript conventions. | Orientation inside old frontend code only. | Reference-only, legacy |
 | [`gavel`](../skills/development/gavel.SKILL.md) | `development` | Typed, probabilistic judgments on a lead’s three decision moments: a return, a handoff, a backlog order. | A calibrated second opinion before you rule. Mutually exclusive with the Jev lead wrappers. | Bounded candidate |
 | [`git-workflow`](../skills/legacy/git-workflow.SKILL.md) | `legacy` | Legacy conventional commits, branch strategy, sprint branching, pull-request process and merge rules. | Describes Git mutation under a no-tool manifest; rework before use. | Rework before use, legacy |
@@ -209,7 +209,6 @@ a candidate's name is not reserved until its pull request merges.
 | Skill | PR | Category | What it does | Why you reach for it | Risk |
 |---|---|---|---|---|---|
 | `adaptech-uiux-design` | #8 | `development` | Governing UI/UX and design-system rulebook for the ASW Connect / AdapTech dark-aviation products. | Enforces one house style, computed WCAG 2.2 AA contrast and an elevation ladder for that product only. | medium |
-| `folder-organisation` | #9 | `development` | One root, one home per kind of thing, one owner per fact — plus the loop that consolidates a scattered estate. | Placement gate before creating any document, diagram, plan, proof, pack or worktree, and before deleting a folder. | medium |
 | `gated-deck-web-page` | #20 | `design` | Turns an approved deck into an unlisted static page that emails the PDF after a name, title and address. | Lead capture on a deck. It does not deploy the page, build the endpoint or send the email. | medium |
 | `kaidera-deck-design` | #20 | `design` | Designs, builds and checks house-style investor and partner decks as a scripted PPTX with PDF export. | Repeatable deck quality with a recorded QA pass. Writes local files only; never sends or publishes. | medium |
 | `lead-generation-outreach` | #22 | `research` | Finds, qualifies and verifies prospective customers, then contacts each one personally by email. | Drafts from cited evidence, queues each batch for owner approval, records every send, stops on any reply. | high |
@@ -229,7 +228,7 @@ category labels in `scripts/test-skills-catalog.js`; that pull request adds both
 `kaidera.source` or a generation marker, and are re-rendered from a canonical source
 instead of being edited in place.
 
-14 of them keep their canonical directory inside this repository (`agent-skill-onboarding`, `design-selection`, `development-workflow`, `folder-organisation`, `gsd-core`, `hyperframes`, `investor-lead-gen`, `motion-3d-production`, `presentation-design`, `social-media-ops`, `ui-design-engineering`, `ui-ux-review`, `visual-design-production`, `web-interface-guidelines`): the flat manifest is generated from
+14 of them keep their canonical directory inside this repository (`agent-skill-onboarding`, `design-selection`, `development-workflow`, `folder-structure`, `gsd-core`, `hyperframes`, `investor-lead-gen`, `motion-3d-production`, `presentation-design`, `social-media-ops`, `ui-design-engineering`, `ui-ux-review`, `visual-design-production`, `web-interface-guidelines`): the flat manifest is generated from
 the directory of the same name, and `npm test` fails if the two drift.
 
 The other 8 are projected from a canonical directory in `Kaidera-AI/kaideraos`: `gavel`, `jev`, `jev-backlog-rank`, `jev-handoff-check`, `jev-option-decision`, `jev-return-triage`, `kaidera-sdlc`, `marketing-web-research`.

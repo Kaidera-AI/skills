@@ -8,7 +8,7 @@ const crypto = require('node:crypto')
 const YAML = require('yaml')
 const root = path.resolve(__dirname, '..')
 const sha = value => crypto.createHash('sha256').update(value).digest('hex')
-const names = ['design-selection', 'ui-design-engineering', 'gsd-core', 'hyperframes', 'ui-ux-review', 'web-interface-guidelines', 'folder-organisation', 'visual-design-production', 'motion-3d-production', 'presentation-design', 'agent-skill-onboarding']
+const names = ['design-selection', 'ui-design-engineering', 'gsd-core', 'hyperframes', 'ui-ux-review', 'web-interface-guidelines', 'folder-structure', 'visual-design-production', 'motion-3d-production', 'presentation-design', 'agent-skill-onboarding']
 const anchor = name => 'file-' + name.toLowerCase().replace(/[^a-z0-9]+/g, '-')
 
 for (const name of names) {
@@ -21,7 +21,7 @@ for (const name of names) {
       const stat = fs.lstatSync(full)
       if (stat.isSymbolicLink()) throw new Error('Source symlink: ' + file)
       if (stat.isDirectory()) walk(file + '/')
-      else if (stat.isFile() && entry.endsWith('.md')) files.push([file, fs.readFileSync(full, 'utf8')])
+      else if (stat.isFile() && /\.(md|ya?ml)$/.test(entry)) files.push([file, fs.readFileSync(full, 'utf8')])
       else throw new Error('Unexpected source file: ' + file)
     }
   }

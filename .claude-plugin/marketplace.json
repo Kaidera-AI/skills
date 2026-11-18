@@ -3,7 +3,7 @@
   "description": "Locally validated, provenance-aware skills for Kaidera agents",
   "version": "1.0.0",
   "source": "https://github.com/Kaidera-AI/skills",
-  "generated_at": "2026-11-15T00:00:00.000Z",
+  "generated_at": "2026-11-18T00:00:00.000Z",
   "generation_basis": "maximum skill updated date",
   "skills": [
     {
@@ -312,9 +312,9 @@
       "attribution_notes": "Original generic process text from the Kaidera-AI operating model and the kaidera-sdlc lifecycle. External standards are cited as references, not reproduced."
     },
     {
-      "name": "folder-organisation",
-      "version": "1.0.1",
-      "description": "One root, one home per kind of thing, one owner per fact. Where every file of a KOS project goes, how temporary work is kept temporary, and the loop that consolidates an estate that has already scattered. Loads at every worker boot.",
+      "name": "folder-structure",
+      "version": "0.9.0",
+      "description": "Define one project file layout, route new work to its home, and migrate existing files through an approved, verified table.",
       "category": "development",
       "trust_tier": "unvetted",
       "risk_level": "medium",
@@ -323,32 +323,30 @@
         "tool:file_write",
         "tool:code_interpreter"
       ],
-      "allowed_domains": [
-        "github.com"
-      ],
+      "allowed_domains": [],
       "safety_constraints": [
-        "Dry-run classification grants no write authority.",
-        "Preserve foreign edits and resolve conflicts with the owner.",
-        "Cortex owns generated files; use its approved writer.",
-        "Source publication does not grant binding, trusted tier or destructive operations."
+        "A layout or dry-run classification does not authorise file creation, movement, publication, or deletion.",
+        "Use the project's accepted definition and exact approved path table; do not infer paths or approvals.",
+        "Never delete by pattern or age without a separately approved and tested lifecycle policy.",
+        "Preserve foreign edits and ask the owning person when custody is uncertain.",
+        "Generated files are written only by their named generator.",
+        "Source publication does not authorize installation, binding, trust promotion, or destructive work."
       ],
       "parameters": {},
       "author": "Kaidera-AI",
-      "license": "Apache-2.0",
-      "updated": "2026-10-10",
+      "license": "CC-BY-4.0",
+      "updated": "2026-11-18",
       "tags": [
-        "organisation",
+        "files",
+        "structure",
         "custody",
-        "files"
+        "migration"
       ],
-      "content_hash": "72d419a69c49d7d5d642f270af05c7e70756c79bb07a286115453cde1169e0d4",
+      "content_hash": "ffd663f8091f4d84648e3ff03f6adb304efaaf5cca539da0f91501fcdbc74db1",
       "signed_by": "",
       "last_reviewed": "",
       "reviewer": "",
-      "file": "skills/development/folder-organisation.SKILL.md",
-      "attribution_author": "Caliber AI",
-      "attribution_url": "https://github.com/caliber-ai-org/ai-setup/blob/f5dbc002022a8a10acad25c1cce23ddefdc19d0d/src/sync/reconcile.ts",
-      "attribution_notes": "Original Kaidera wording informed by the pinned MIT donor's classification method; no donor code, CLI or writer is copied."
+      "file": "skills/development/folder-structure.SKILL.md"
     },
     {
       "name": "gavel",

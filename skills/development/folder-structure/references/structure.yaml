@@ -1,0 +1,263 @@
+schema_version: 1
+status: starter-candidate
+description: >-
+  Portable starter for a project-owned file structure. Replace setting tokens only
+  in the owning project's configuration; do not hard-code host paths here.
+
+roots:
+  project: "${PROJECT_ROOT}"
+  development: "${DEVELOPMENT_ROOT}"
+  documents: "${DOCUMENTS_ROOT}"
+  cold_store: "${COLD_STORE_ROOT}"
+
+principles:
+  - One project root is registered by the project owner.
+  - Development, documents, and cold-store locations are settings, not host constants.
+  - If separate stores are mounted, they remain sibling mounts; services fail closed when a required store is absent.
+  - Where supported, an unmounted mount point is made unwritable and device boundaries are checked at install and service start.
+  - Platform-specific mount, permission-label, and executable-file behavior must be tested on each supported host.
+  - Product folders are the unit of ownership and access; project-wide material has one project-level home.
+  - If separate stores are mounted, the documents-store root holds only registered project folders or their approved mount points.
+  - A project with one registered product uses the product layout directly at the project root in both vaults.
+
+project_shape:
+  select: "Use single_product only when the owner-registered product catalogue has exactly one product; otherwise use multi_product."
+  product_root:
+    multi_product: "<project>/<product>"
+    single_product: "<project>"
+  identity_parity:
+    expected_products: "The owner-registered product catalogue."
+    multi_product: "Compare the product-directory names in both vaults with product_id in each DocsVault product.yaml and the registered catalogue."
+    single_product: "Map the project root in both vaults to the one registered product; compare its identity with product_id in DocsVault/<project>/product.yaml."
+    rule: "The product identities must match exactly across the catalogue and both vault layouts. Missing, extra, duplicate, or differently named products fail the check. In single_product mode the project README is also the product README; do not create a duplicate."
+    during_adoption: "Do not require the legacy tree to pass parity before inventory. Record missing, extra, or differently named product paths in the read-only inventory and approved disposition table; require exact parity only in the final check after approved moves and removals, before enabling the product gate."
+
+runtime_boundaries:
+  documents_mounts:
+    shared_store: "When the documents store is one share, its configured root is a mount on a device separate from the development store and the OS root."
+    per_project_store: "When each project has its own documents mount, the documents-store root is a plain folder holding only registered project mount points. Check each project mount separately: it is a mount on a device separate from the development store and the OS root. Do not treat the plain parent folder as the content device."
+    check_when: [install, service_start]
+  test_host:
+    marker: "${TEST_HOST_MARKER}"
+    owner: root
+    created_by: test_provisioning_only
+    installer_creates_marker: false
+    install_time_test_host_switch: false
+    behavior: "On a marked single-disk test host, the device doctor prints a WARNING in its first output line instead of failing. On an unmarked host, a development store on the OS device fails."
+  secret_access:
+    project_code_account_can_read_project_secrets: false
+    credential_readable_by: "Only the identity that uses that credential."
+  service_state:
+    custody: "Each service state directory has its own service owner and owner-only access; state may contain secrets."
+    support_bundle: "Never include service state."
+    cold_store: "Never copy service state to the cold store except through that service's own approved backup design."
+  traversal:
+    applies_to: [inventory, check, move, housekeeping]
+    rule: "Constrain each walk to one authorized filesystem, stop at mount boundaries, and never follow symbolic links outside the approved root. Cross-store copies name their source and destination explicitly."
+
+layout:
+  development:
+    "<product_root>/<repository>/":
+      goes_in: tracked source and project configuration
+      stays_out: human-authored plans, guides, logs, and generated build output
+    "<product_root>/_work/":
+      goes_in: temporary worktrees, release run places, and regenerable output
+      stays_out: the clean reference repository and current human-authored documents
+    "<project>/_project/tools/":
+      goes_in: scripts and tools used across the project's products
+      stays_out: tools for one product, which belong in that product's repository
+    "<project>/_project/secrets/":
+      goes_in: project credentials, each readable only by its using identity
+      stays_out: documentation, logs, handoffs, and ordinary configuration
+    "<project>/_project/home/":
+      goes_in: the home directory for an operating-system account created for this project
+      stays_out: project homes under the operating-system /home directory
+    "<project>/_project/workers/<worker>/":
+      goes_in: that worker's session files, notes, and state when the project uses worker folders
+      stays_out: credentials, other workers' private state, and product source
+    "_system/services/<service>/":
+      goes_in: machine-local service state, with a service-specific owner and owner-only access
+      stays_out: installed code, root configuration, sockets, human-authored documentation, and support bundles; state reaches cold storage only through that service's own approved backup design
+  documents:
+    "<project>/README.md":
+      goes_in: a short entry point and links to the project's product areas; in single_product mode it also serves as the product README
+      stays_out: duplicated product plans, status, and generated content
+    "<project>/_project/":
+      goes_in: current documents and program records shared across products, using the same program and docs areas as a product
+      stays_out: product-specific source, secrets, logs, and evidence payloads
+    "<product_root>/README.md":
+      goes_in: a one-screen entry point for the product
+      stays_out: copied project-wide facts and generated progress data
+    "<product_root>/product.yaml":
+      goes_in: reviewed product_id, name, stage, lead, team, and default visibility; the one home for these current product facts
+      stays_out: credentials, mutable progress, and copies of decisions
+      audience: internal
+    "<product_root>/program/management/":
+      goes_in: backlog, team, risks, decisions, epics, incidents, and generated roadmap
+      stays_out: release-specific plans, evidence payloads, logs, and user guides
+      audience: internal
+    "<product_root>/program/releases/<version>/":
+      goes_in: plan, progress, release notes, checklist, reviews, and evidence index
+      stays_out: sealed evidence payloads, logs, and unrelated release material
+      audience: internal
+    "<product_root>/program/":
+      goes_in: progress.yaml source data and the generated product progress page
+      stays_out: hand-authored program-management records and evidence payloads
+      audience: internal
+    "<product_root>/docs/developer/":
+      goes_in: product big-picture diagram and high-level design
+      stays_out: release status, schedules, logs, and program output
+      audience: internal
+    "<product_root>/docs/user/":
+      goes_in: getting-started guides, how-to pages, and product references for users
+      stays_out: installation and operations instructions, internal plans, and build details
+      audience: customer-eligible
+    "<product_root>/docs/admin/":
+      goes_in: install, upgrade, backup, restore, removal, troubleshooting, and settings guides
+      stays_out: internal build plans, source code, and user-only how-to material
+      audience: customer-eligible
+    "<product_root>/docs/developer/<topic>/":
+      goes_in: intent, specification, design, decisions, research, and diagrams for one development topic
+      stays_out: release schedules, status, logs, and program output
+      audience: internal
+  cold_store:
+    "<project>/<product>/audit/":
+      goes_in: sealed evidence with a manifest and the project's approved retention policy
+      stays_out: replaceable logs, working revisions, and backups
+    "<project>/<product>/logs/":
+      goes_in: logs with manifests and an explicitly approved retention policy
+      stays_out: sealed evidence and unapproved document versions
+    "<project>/<product>/versions/":
+      goes_in: superseded documents only if the project owner approves this destination and lifecycle
+      stays_out: accepted or shipped evidence, which follows the audit policy
+    "<project>/backup/":
+      goes_in: backups governed by the product's tested restore and replacement procedure
+      stays_out: audit evidence with a locked retention policy
+
+fixed_files:
+  project:
+    - README.md
+  product:
+    - README.md
+    - product.yaml
+    - modules.yaml
+    - glossary.md
+  program_management:
+    - roadmap.md
+    - backlog.md
+    - team.md
+    - risks.md
+    - decisions.md
+  program:
+    - progress.yaml
+    - progress.md
+  release:
+    - plan.md
+    - progress.md
+    - notes.md
+    - checklist.md
+    - reviews.md
+    - evidence.md
+  developer_topic:
+    - intent.md
+    - spec.md
+    - design.md
+    - decisions.md
+  developer_root:
+    - high-level-design.md
+    - big-picture.excalidraw
+    - big-picture.png
+  module:
+    - module.md
+    - design.md
+    - spec.md
+    - intent.md
+  wireframes:
+    - "wireframe-<area>.excalidraw"
+    - "wireframes.md"
+
+progress_data:
+  path: "<product_root>/program/progress.yaml"
+  schema: kaidera.progress/v1
+  rule: "Store slice status and evidence here. The named generator computes percentages and counts; do not type them into the source or generated page."
+
+release_plan_front_matter:
+  path: "<product_root>/program/releases/<version>/plan.md"
+  keys:
+    version: "The version directory name."
+    status: "One of planned, in build, in test, or released."
+    delivered_or_planned: "What this release delivered or is planned to deliver."
+    modules: "The modules changed or planned for this release."
+    upgrade_from_previous: "The upgrade path from the preceding release."
+    target_date: "The planned release date."
+    released: "Measured from the observed version tag or public release; never entered in plan.md by hand."
+
+audience_contract:
+  allowed_values: [customer-eligible, internal]
+  rule: "Declare an audience for each product document area in the owner-approved structure. Generated reader views inherit that area's value."
+
+naming:
+  case: lower
+  separator: hyphen
+  spaces_allowed: false
+  dates: yyyy-mm-dd
+  version_numbers_allowed_under: releases
+  rule: names describe purpose in words a new team member can guess
+  rules:
+    - folders are nouns
+    - user and administrator how-to pages start with a verb
+    - reference pages are nouns
+    - design topics use the product capability, not a team, stage, or release name
+    - status, owner, revision, and change date belong in file metadata, not the filename
+    - a filename does not repeat a parent folder's name
+    - each concept has one name across code and documents
+    - structural names change only through a reviewed migration
+
+sort_questions:
+  - question: Is it a secret or credential?
+    route: the project's approved secret store
+  - question: Is it an explicitly named generated reader view in generated_pages?
+    route: its declared DocsVault destination; the named generator writes it, even though a program produces it
+  - question: Does a program read or produce it?
+    route: development store; repository for tracked source, named temporary area for other program data and output
+  - question: Is it human-authored material for a reader?
+    route: product documents, or the project-level documents area if shared
+  - question: Which reader needs it?
+    route: use the management, release, user, administrator, or developer area above
+  - question: Does no approved route fit?
+    route: stop and ask the project owner; do not invent a folder
+
+duplication_checks:
+  first_handwritten_folder_limit: 30
+  threshold_status: provisional-report-only
+  report:
+    - identical file contents
+    - revision or copy markers in filenames
+    - overfull hand-written folders and their owners
+  mode: report-only until an owner approves a per-product gate
+
+generated_pages:
+  rule: only the named generator writes a generated page; these human-reader views stay in DocsVault even though a program produces them
+  candidates:
+    - name: area README pages
+      destination: README.md in the corresponding DocsVault area
+    - name: product progress page
+      source: progress_data
+      destination: "<product_root>/program/progress.md"
+    - name: roadmap
+      source: release_plan_front_matter
+      destination: "<product_root>/program/management/roadmap.md"
+    - name: module catalogue and high-level module table
+      destination: their existing owner-approved DocsVault locations; this rule creates no new folder
+    - name: release evidence index
+      destination: "<product_root>/program/releases/<version>/evidence.md"
+
+lifecycle:
+  status: inactive-until-explicit-project-approval
+  age_based_deletion: false
+  retention_values: unset
+  require_before_activation:
+    - explicit owner decision
+    - reviewed implementation plan
+    - restore or preservation test appropriate to the data
+    - exact destinations and deletion receipts
