@@ -1,0 +1,12 @@
+schema: kaidera.progress/v1
+release: "<current-release>"
+slices:
+  - id: "<slice-id>"
+    title: "<short work item>"
+    status: planned # planned | in_progress | in_review | done | blocked
+    owner: "<worker-id>"
+    plan: "<relative/path/to/plan.md>"
+    modules: []
+    started: null
+    done: null
+    evidence: []

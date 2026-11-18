@@ -6,4 +6,4 @@ modules:
     owner: "<project account or role reference>"
     state: planned
     release: "<release-id>"
-    progress_source: "<recorded gate or progress data>"
+    progress_source: "<product_root>/program/progress.yaml"
