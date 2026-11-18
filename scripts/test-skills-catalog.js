@@ -73,7 +73,7 @@ const posturePolicy = new Map([
 ])],
   ['manual-only', new Set([
     'agent-skill-onboarding',
-    'folder-organisation',
+    'folder-structure',
     'flow-of-work',
     'marketing-web-research',
     'investor-lead-gen',
@@ -131,7 +131,7 @@ const currentSourceSkills = new Set([
   'presentation-design',
   'agent-skill-onboarding',
 
-  'folder-organisation',
+  'folder-structure',
   'flow-of-work',
   'ui-ux-review',
   'web-interface-guidelines',
