@@ -37,6 +37,10 @@ For a small Rust CLI or service, evaluate Serde, clap (for a CLI), thiserror for
 
 Do not add every item to a shared template. A project should select dependencies based on its runtime, supported targets, interface stability, and operational needs.
 
+## Source catalogue licence and reuse
+
+GitHub identifies [best-of-ml-rust as CC-BY-SA-4.0](https://github.com/e-tornike/best-of-ml-rust/blob/main/LICENSE). GitHub repository metadata reports no declared licence for [Rust-awesome-frameworks](https://github.com/venuswhispers/Rust-awesome-frameworks). This shortlist links to both discovery indexes and candidate upstreams; it does not reproduce their ranking metrics or descriptive text. The selected set and its arrangement may still carry source terms, so keep this contribution in draft until the skills-repository maintainer rules on attribution and licence compatibility. A missing licence is not permission to reuse. Review each candidate crate's own licence separately before adoption.
+
 ## Checks before a project adopts a candidate
 
 For the exact crate and feature set being proposed:
