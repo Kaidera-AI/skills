@@ -1,6 +1,6 @@
 ---
 name: gavel
-version: 1.0.1
+version: 1.0.2
 description: |
   Gavel - typed judgments for a project lead's decisions. Before you rule on a worker's
   return, send a handoff, or order a backlog, ask a fixed set of narrow questions and get
@@ -29,13 +29,13 @@ kaidera:
   source:
     repo: Kaidera-AI/kaideraos
     path: .agents/skills/gavel
-    content_sha256: f9d1387afceae9b8093985248bbd848c50857f17fdc42fa07da17824d7e0424c
+    content_sha256: 15fa5f98c60380abb370d8eb95432343690a3c32f7aa9d4672d1c414232e5548
 
 author: Kaidera-AI
 license: Apache-2.0
-updated: 2026-09-18
+updated: 2026-11-20
 tags: [gavel, lead, decision-making, adjudication, handoff, triage, prioritisation, typesafe, system-one]
-attribution_notes: "Builds on the TypeSafe skill (typesafe-ai/skills, MIT) and docs.typesafe.ai (System One primitives Choice, Noul, Score). Requires a TypeSafe API key supplied by the user as JEV_API_KEY."
+attribution_notes: "Builds on the TypeSafe skill (typesafe-ai/skills, MIT) and docs.typesafe.ai (System One primitives Choice, Noul, Score). Requires a TypeSafe API key supplied by the user as TYPESAFE_API_KEY."
 
 parameters:
   mode:
@@ -49,7 +49,7 @@ parameters:
 
 safety_constraints:
   - Judgments are inputs to a human or lead decision, never the decision; the skill authorises no merge, deploy, publish, deletion or spend.
-  - Sends the text you pass (returns, handoffs, backlog items) to api.typesafe.ai. Never pass secrets, credentials, customer data or private keys; the built-in redactor is a backstop, not a permission.
+  - Sends the text you pass (returns, handoffs, backlog items) to api.typesafe.ai only after explicit user permission, an agreed experiment budget, and disclosure of the data being sent; never pass secrets, credentials, customer data or private keys. The built-in redactor is a backstop, not permission.
   - The API key is read by name from the environment or a local .env and is never printed, logged or committed.
   - Harness-agnostic by construction - plain files and a stdlib Python helper; no vendor plugin or harness-only feature is required.
 ---
@@ -64,9 +64,11 @@ It is project-agnostic: nothing in it names a project, a worker or a repository.
 
 ## Setup (once per machine or project)
 
-1. Get a TypeSafe API key and put it where the helper can read it **by name**: `export JEV_API_KEY=...` or a line `JEV_API_KEY=...` in a `.env` at or above your working directory. Never paste it into chat, handoffs, logs or git.
+1. Get a TypeSafe API key and put it where the helper can read it **by name**: `export TYPESAFE_API_KEY=...` or a line `TYPESAFE_API_KEY=...` in a `.env` at or above your working directory. Never paste it into chat, handoffs, logs or git.
 2. Check the install without spending tokens: `python3 tools/gavel.py selftest`.
-3. One live check: `echo "Done. All tests pass." | python3 tools/gavel.py triage -` - expect `evidence_quality` near 0 and `disposition` away from `accept`.
+3. After explicit user approval, one live check: `echo "Done. All tests pass." | python3 tools/gavel.py triage -` - expect `evidence_quality` near 0 and `disposition` away from `accept`.
+
+Every live triage, dispatch or rank call sends its input to TypeSafe. Before a live call, get the user's explicit permission, agree an experiment budget, and disclose the data that will be sent, including any personal or private data, and use of `TYPESAFE_API_KEY`. If permission is absent, stop at the offline selftest.
 
 ## The three commands
 
@@ -203,7 +205,7 @@ Usage:
   gavel.py dispatch <handoff.txt|-> [--json]   # a draft handoff before sending
   gavel.py rank     <items.json>  [--json]
   gavel.py selftest                        # offline: question maps + redactor, no tokens spent     # candidate work items -> ordered list
-Key: JEV_API_KEY from the environment, else read by name from the nearest .env above the CWD (never printed).
+Key: TYPESAFE_API_KEY from the environment, else read by name from the nearest .env above the CWD (never printed).
 The judgments are inputs to the lead's decision, never the decision.
 """
 import json, os, re, ssl, sys, urllib.request, pathlib
@@ -212,16 +214,16 @@ API = "https://api.typesafe.ai/v1/systemone"; MODEL = os.environ.get("JEV_MODEL"
 REDACT = re.compile(r"(apikey_[A-Za-z0-9_]+|ghp_[A-Za-z0-9]+|AKIA[0-9A-Z]{16}|Bearer\s+\S+|-----BEGIN[^-]+-----)")
 
 def key():
-    k = os.environ.get("JEV_API_KEY")
+    k = os.environ.get("TYPESAFE_API_KEY")
     if not k:
         roots = [pathlib.Path.cwd(), *pathlib.Path.cwd().parents, *pathlib.Path(__file__).resolve().parents]
         for p in (r / ".env" for r in roots):
             if p.is_file():
                 for line in p.read_text().splitlines():
-                    if line.startswith("JEV_API_KEY="):
+                    if line.startswith("TYPESAFE_API_KEY="):
                         k = line.split("=", 1)[1].strip().strip('"').strip("'"); break
             if k: break
-    if not k: sys.exit("JEV_API_KEY not set and not found in .env")
+    if not k: sys.exit("TYPESAFE_API_KEY not set and not found in .env")
     return k
 
 def ask(state, questions):

@@ -3,8 +3,8 @@ name: jev-return-triage
 description: "Use when a worker return, handback or consult arrives and its accountable lead must adjudicate the work against the dispatched receipts."
 license: Apache-2.0
 metadata:
-  version: 0.1.0
-  requires: "jev core at .agents/skills/jev version >=0.1.0; python3"
+  version: 0.1.1
+  requires: "jev core at .agents/skills/jev version >=0.1.1; python3"
   applies_to: [lead, cpo, pm, orchestrator]
   authority: "Project-approved installation and role grants; return rulings remain with the accountable human"
 ---
@@ -15,7 +15,9 @@ Use for an arrived return, handback or worker consult, after reading its dispatc
 
 ## Check the one core first
 
-From the project root, **before** opening return text, run `python3 .agents/skills/jev/tools/jev.py --version`. If missing, failing or below `jev 0.1.0`, STOP and report that the jev core is missing or incompatible; never install, copy or fetch it during a task. Installation at project scope is an operator action through the project's approved skill-install process; a global core cannot find the project policy and abstains. Do not invent a second client, sanitizer, credential lookup or transfer policy. The wrapper's `requires` metadata does not install it.
+Model selection belongs to the shared core configuration; this wrapper does not hard-code a model. Use the model id returned by each call.
+
+From the project root, **before** opening return text, run `python3 .agents/skills/jev/tools/jev.py --version`. If missing, failing or below `jev 0.1.1`, STOP and report that the jev core is missing or incompatible; never install, copy or fetch it during a task. Installation at project scope is an operator action through the project's approved skill-install process; a global core cannot find the project policy and abstains. Do not invent a second client, sanitizer, credential lookup or transfer policy. The wrapper's `requires` metadata does not install it.
 
 Supply a sanitized return as plain text, or JSON `{"dispatch":"Dispatched receipt contract","return_text":"Synthetic worker receipt summary"}`. Use a file or `-` for stdin. From the project root, pass the SDLC role you are acting in:
 

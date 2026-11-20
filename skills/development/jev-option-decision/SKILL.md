@@ -3,8 +3,8 @@ name: jev-option-decision
 description: "Use for a bounded, named implementation or architecture choice whose explicit evidence, priorities and requirements could change an accountable person's ruling."
 license: Apache-2.0
 metadata:
-  version: 0.1.0
-  requires: "jev core at .agents/skills/jev version >=0.1.0; python3"
+  version: 0.1.1
+  requires: "jev core at .agents/skills/jev version >=0.1.1; python3"
   applies_to: [lead, cpo, pm, orchestrator, developer]
   authority: "Project-approved installation and role grants; decisions remain with the accountable human"
 ---
@@ -15,13 +15,15 @@ Use for one unresolved, bounded choice with 2–6 named alternatives and facts t
 
 ## Core presence, then one packet
 
+Model selection belongs to the shared core configuration; this wrapper does not hard-code a model. Use the model id returned by each call.
+
 From the project root, **before loading the packet**, run:
 
 ```sh
 python3 .agents/skills/jev/tools/jev.py --version
 ```
 
-If this fails or reports below `jev 0.1.0`, STOP and report that the jev core is missing or incompatible; never install, copy or fetch it during a task. Installation at project scope is an operator action through the project's approved skill-install process; a global core cannot find the project policy and abstains. Do not improvise another client, key lookup or policy. A `requires` declaration does not transitively install the core.
+If this fails or reports below `jev 0.1.1`, STOP and report that the jev core is missing or incompatible; never install, copy or fetch it during a task. Installation at project scope is an operator action through the project's approved skill-install process; a global core cannot find the project policy and abstains. Do not improvise another client, key lookup or policy. A `requires` declaration does not transitively install the core.
 
 Use a sanitized JSON file (or `-` for stdin):
 

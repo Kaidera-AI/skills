@@ -1,6 +1,6 @@
 ---
 name: jev-option-decision
-version: 0.1.0
+version: 0.1.1
 description: "Examine one bounded implementation or architecture choice with named candidates, evidence and requirements; the human decides."
 kaidera:
   category: development
@@ -19,10 +19,10 @@ kaidera:
   source:
     repo: Kaidera-AI/kaideraos
     path: .agents/skills/jev-option-decision
-    content_sha256: 0f5a163c9d43f46bc3fa1c341bb5219737901ffdc1be63be4e8287936ce59b6e
+    content_sha256: 165bf2f189e3182adef17e7b6cb2cbfc5a41937b536a9ec208e2b8aa140f2adb
 author: Kaidera-AI
 license: Apache-2.0
-updated: 2026-09-28
+updated: 2026-11-20
 tags: ["jev", "options", "architecture", "decision-support"]
 attribution_author: TypeSafe AI and Joey Kudish
 attribution_url: https://github.com/jkudish/jev-mcp
@@ -44,13 +44,15 @@ Use for one unresolved, bounded choice with 2–6 named alternatives and facts t
 
 ## Core presence, then one packet
 
+Model selection belongs to the shared core configuration; this wrapper does not hard-code a model. Use the model id returned by each call.
+
 From the project root, **before loading the packet**, run:
 
 ```sh
 python3 .agents/skills/jev/tools/jev.py --version
 ```
 
-If this fails or reports below `jev 0.1.0`, STOP and report that the jev core is missing or incompatible; never install, copy or fetch it during a task. Installation at project scope is an operator action through the project's approved skill-install process; a global core cannot find the project policy and abstains. Do not improvise another client, key lookup or policy. A `requires` declaration does not transitively install the core.
+If this fails or reports below `jev 0.1.1`, STOP and report that the jev core is missing or incompatible; never install, copy or fetch it during a task. Installation at project scope is an operator action through the project's approved skill-install process; a global core cannot find the project policy and abstains. Do not improvise another client, key lookup or policy. A `requires` declaration does not transitively install the core.
 
 Use a sanitized JSON file (or `-` for stdin):
 
@@ -88,6 +90,7 @@ The installable directory form contains these exact files (SHA-256 of raw file b
 
 | Relative file | SHA-256 |
 |---|---|
+| `CHANGELOG.md` | `1581e5c4954bfb169185c881f8c8f02106690b377327cefbfc0f3416cb22f61a` |
 | `LICENSE` | `50e6751797c50dedd75ef1b8a0d9e42f5f8472e9fbce91f34718e9f97b0c780a` |
 | `NOTICE` | `d6b54287e0480f1fb9bf2709515b971b5f353d7f34c11fa38cea03a3d0bd54f8` |
-| `SKILL.md` | `71e53ee2ae8e903eaca9035fd8f1464184fe42fb617bce38da3921a62bc181cc` |
+| `SKILL.md` | `6ee90876800355603b1207fd53d0762ce8d1ae7da56034f0e999f2212795816d` |

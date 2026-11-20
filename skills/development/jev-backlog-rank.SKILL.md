@@ -1,6 +1,6 @@
 ---
 name: jev-backlog-rank
-version: 0.1.0
+version: 0.1.1
 description: "Check an accountable lead's backlog ordering against explicit dependencies and delay risk; the human retains priority authority."
 kaidera:
   category: development
@@ -19,10 +19,10 @@ kaidera:
   source:
     repo: Kaidera-AI/kaideraos
     path: .agents/skills/jev-backlog-rank
-    content_sha256: 0ceed9a8dfdf885baf0cb14c6876677180afa022408545becfc32448a61ea2a4
+    content_sha256: 082a8df2766cfaa11cb6adef3a4b5994d141f3b9c852059fb3bff032df35ce09
 author: Kaidera-AI
 license: Apache-2.0
-updated: 2026-09-28
+updated: 2026-11-20
 tags: ["jev", "gavel", "backlog", "prioritisation"]
 attribution_author: TypeSafe AI and Joey Kudish
 attribution_url: https://github.com/jkudish/jev-mcp
@@ -44,7 +44,9 @@ Use when a lead, CPO, PM or orchestrator is ordering a backlog or checklist and 
 
 ## Core presence before input
 
-From the project root run `python3 .agents/skills/jev/tools/jev.py --version` **before** loading items. If it fails or reports below `jev 0.1.0`, STOP and report that the jev core is missing or incompatible; never install, copy or fetch it during a task. Installation at project scope is an operator action through the project's approved skill-install process; a global core cannot find the project policy and abstains. No second client, key reader or local policy may be invented; `requires` metadata does not install the core.
+Model selection belongs to the shared core configuration; this wrapper does not hard-code a model. Use the model id returned by each call.
+
+From the project root run `python3 .agents/skills/jev/tools/jev.py --version` **before** loading items. If it fails or reports below `jev 0.1.1`, STOP and report that the jev core is missing or incompatible; never install, copy or fetch it during a task. Installation at project scope is an operator action through the project's approved skill-install process; a global core cannot find the project policy and abstains. No second client, key reader or local policy may be invented; `requires` metadata does not install the core.
 
 Put only sanitized summaries in a JSON file (or pass `-` for stdin). Name dependencies explicitly in `context`, preferably as facts, not an implied prose graph:
 
@@ -78,6 +80,7 @@ The installable directory form contains these exact files (SHA-256 of raw file b
 
 | Relative file | SHA-256 |
 |---|---|
+| `CHANGELOG.md` | `1581e5c4954bfb169185c881f8c8f02106690b377327cefbfc0f3416cb22f61a` |
 | `LICENSE` | `50e6751797c50dedd75ef1b8a0d9e42f5f8472e9fbce91f34718e9f97b0c780a` |
 | `NOTICE` | `d6b54287e0480f1fb9bf2709515b971b5f353d7f34c11fa38cea03a3d0bd54f8` |
-| `SKILL.md` | `278be41bae98b134fafd99ee083c7a35886c22512ab1129270760521211e8374` |
+| `SKILL.md` | `1ba3f063d6fcfa610efe674dd647cce7c0ca272b96605b171efad9442dcdf105` |

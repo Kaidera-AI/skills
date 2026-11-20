@@ -3,8 +3,8 @@ name: jev-backlog-rank
 description: "Use when a lead must inspect the ordering of a nonempty backlog or checklist against stated gate dependencies and delay risk."
 license: Apache-2.0
 metadata:
-  version: 0.1.0
-  requires: "jev core at .agents/skills/jev version >=0.1.0; python3"
+  version: 0.1.1
+  requires: "jev core at .agents/skills/jev version >=0.1.1; python3"
   applies_to: [lead, cpo, pm, orchestrator]
   authority: "Project-approved installation and role grants; rankings remain advisory to the accountable human"
 ---
@@ -15,7 +15,9 @@ Use when a lead, CPO, PM or orchestrator is ordering a backlog or checklist and 
 
 ## Core presence before input
 
-From the project root run `python3 .agents/skills/jev/tools/jev.py --version` **before** loading items. If it fails or reports below `jev 0.1.0`, STOP and report that the jev core is missing or incompatible; never install, copy or fetch it during a task. Installation at project scope is an operator action through the project's approved skill-install process; a global core cannot find the project policy and abstains. No second client, key reader or local policy may be invented; `requires` metadata does not install the core.
+Model selection belongs to the shared core configuration; this wrapper does not hard-code a model. Use the model id returned by each call.
+
+From the project root run `python3 .agents/skills/jev/tools/jev.py --version` **before** loading items. If it fails or reports below `jev 0.1.1`, STOP and report that the jev core is missing or incompatible; never install, copy or fetch it during a task. Installation at project scope is an operator action through the project's approved skill-install process; a global core cannot find the project policy and abstains. No second client, key reader or local policy may be invented; `requires` metadata does not install the core.
 
 Put only sanitized summaries in a JSON file (or pass `-` for stdin). Name dependencies explicitly in `context`, preferably as facts, not an implied prose graph:
 

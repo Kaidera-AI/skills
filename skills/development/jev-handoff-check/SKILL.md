@@ -3,8 +3,8 @@ name: jev-handoff-check
 description: "Use immediately before an accountable lead sends a drafted worker handoff, to inspect its receipt contract, gate, exclusions and blocked protocol."
 license: Apache-2.0
 metadata:
-  version: 0.1.0
-  requires: "jev core at .agents/skills/jev version >=0.1.0; python3"
+  version: 0.1.1
+  requires: "jev core at .agents/skills/jev version >=0.1.1; python3"
   applies_to: [lead, cpo, pm, orchestrator]
   authority: "Project-approved installation and role grants; dispatch remains with the accountable human"
 ---
@@ -15,7 +15,9 @@ Use on a **draft** handoff immediately before its accountable lead sends it. Do 
 
 ## Core presence before handoff text
 
-From the project root run `python3 .agents/skills/jev/tools/jev.py --version` **before** loading the draft. If it fails or reports below `jev 0.1.0`, STOP and report that the jev core is missing or incompatible; never install, copy or fetch it during a task. Installation at project scope is an operator action through the project's approved skill-install process; a global core cannot find the project policy and abstains. Do not invent a second client, credential lookup, sanitizer or policy. `requires` metadata is not a transitive install.
+Model selection belongs to the shared core configuration; this wrapper does not hard-code a model. Use the model id returned by each call.
+
+From the project root run `python3 .agents/skills/jev/tools/jev.py --version` **before** loading the draft. If it fails or reports below `jev 0.1.1`, STOP and report that the jev core is missing or incompatible; never install, copy or fetch it during a task. Installation at project scope is an operator action through the project's approved skill-install process; a global core cannot find the project policy and abstains. Do not invent a second client, credential lookup, sanitizer or policy. `requires` metadata is not a transitive install.
 
 Put only a classified, minimum sanitized handoff summary in a UTF-8 text file (or `-` for stdin). It should name one owner, each step's verifiable receipt, the gate/checklist row, exclusions and what to do if blocked (consult with options). For example:
 

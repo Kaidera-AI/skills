@@ -1,6 +1,6 @@
 ---
 name: jev-return-triage
-version: 0.1.0
+version: 0.1.1
 description: "Advisory receipt-based triage of an arrived worker return, handback or consult by its accountable lead."
 kaidera:
   category: development
@@ -19,10 +19,10 @@ kaidera:
   source:
     repo: Kaidera-AI/kaideraos
     path: .agents/skills/jev-return-triage
-    content_sha256: af6743415be02b0f1fa7020b5e5dcfce65bc9eb1b7039bd388fcae715cb504d5
+    content_sha256: 6759fdd37f1b06bc59933a98ae4733451b01bcceb0893428444aa50768ac4329
 author: Kaidera-AI
 license: Apache-2.0
-updated: 2026-09-28
+updated: 2026-11-20
 tags: ["jev", "gavel", "return", "triage"]
 attribution_author: TypeSafe AI and Joey Kudish
 attribution_url: https://github.com/jkudish/jev-mcp
@@ -44,7 +44,9 @@ Use for an arrived return, handback or worker consult, after reading its dispatc
 
 ## Check the one core first
 
-From the project root, **before** opening return text, run `python3 .agents/skills/jev/tools/jev.py --version`. If missing, failing or below `jev 0.1.0`, STOP and report that the jev core is missing or incompatible; never install, copy or fetch it during a task. Installation at project scope is an operator action through the project's approved skill-install process; a global core cannot find the project policy and abstains. Do not invent a second client, sanitizer, credential lookup or transfer policy. The wrapper's `requires` metadata does not install it.
+Model selection belongs to the shared core configuration; this wrapper does not hard-code a model. Use the model id returned by each call.
+
+From the project root, **before** opening return text, run `python3 .agents/skills/jev/tools/jev.py --version`. If missing, failing or below `jev 0.1.1`, STOP and report that the jev core is missing or incompatible; never install, copy or fetch it during a task. Installation at project scope is an operator action through the project's approved skill-install process; a global core cannot find the project policy and abstains. Do not invent a second client, sanitizer, credential lookup or transfer policy. The wrapper's `requires` metadata does not install it.
 
 Supply a sanitized return as plain text, or JSON `{"dispatch":"Dispatched receipt contract","return_text":"Synthetic worker receipt summary"}`. Use a file or `-` for stdin. From the project root, pass the SDLC role you are acting in:
 
@@ -86,6 +88,7 @@ The installable directory form contains these exact files (SHA-256 of raw file b
 
 | Relative file | SHA-256 |
 |---|---|
+| `CHANGELOG.md` | `1581e5c4954bfb169185c881f8c8f02106690b377327cefbfc0f3416cb22f61a` |
 | `LICENSE` | `50e6751797c50dedd75ef1b8a0d9e42f5f8472e9fbce91f34718e9f97b0c780a` |
 | `NOTICE` | `d6b54287e0480f1fb9bf2709515b971b5f353d7f34c11fa38cea03a3d0bd54f8` |
-| `SKILL.md` | `424cb21d789c2f54febbfa9532133c03eb0b39da829cf5d1d9ddb7f50acb43f8` |
+| `SKILL.md` | `e8cf8563b11c143116d387316291796741bb494229b13b4f19c6cade69897044` |

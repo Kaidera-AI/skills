@@ -1,6 +1,6 @@
 ---
 name: jev
-version: 0.1.0
+version: 0.1.1
 description: "Reference for the shared Jev core, project-owned transfer policy, CLI, result statuses and four separate decision-moment wrappers; not an automatic moment router."
 kaidera:
   category: development
@@ -21,10 +21,10 @@ kaidera:
   source:
     repo: Kaidera-AI/kaideraos
     path: .agents/skills/jev
-    content_sha256: 980e7b73bf6b48728a646fe41b40c430729e223c6a058d50ff56297379ec4335
+    content_sha256: f25cbf6ae7497a9348f5c930e169b195621000a763476abf7c6392ff4fa6f5a1
 author: Kaidera-AI
 license: Apache-2.0
-updated: 2026-09-28
+updated: 2026-11-20
 tags: ["jev", "typesafe", "system-one", "decision-support"]
 attribution_author: TypeSafe AI and Joey Kudish
 attribution_url: https://github.com/jkudish/jev-mcp
@@ -67,7 +67,7 @@ Known recognition residual (P4-B2): unfenced multi-line source, including Python
 
 ## CLI, input and output
 
-All commands run from the project root with `PYTHONDONTWRITEBYTECODE=1` if a clean skill tree matters. `-` reads stdin; a path reads a UTF-8 file. Structured JSON is always printed, and `--json` remains accepted. For allowed calls, interactive model selection is `jev-latest`; the pinned `jev-1.13.0` is reserved for separately authorised evaluation/calibration. Every actual reply records its returned `model` id. Thresholds in `config/thresholds.json` are **uncalibrated advisory annotation points** and never gates.
+All commands run from the project root with `PYTHONDONTWRITEBYTECODE=1` if a clean skill tree matters. `-` reads stdin; a path reads a UTF-8 file. Structured JSON is always printed, and `--json` remains accepted. For allowed calls, interactive model selection is `jev-latest`; the official TypeSafe models page currently lists `jev-1.14.0` as the latest stable model, and this core sets it as `model_pin`. Recheck that page before changing the pin. Every actual reply records its returned `model` id; wrappers defer model selection to this shared core. Thresholds in `config/thresholds.json` are **uncalibrated advisory annotation points** and never gates.
 
 | Command | Sanitized input | Caller |
 |---|---|---|
@@ -114,13 +114,13 @@ The installable directory form contains these exact files (SHA-256 of raw file b
 |---|---|
 | `.gitignore` | `247681cefffa8448d973f21147c92b38b63f492a98a50aca3b3c490bc97499e1` |
 | `ATTRIBUTION.md` | `6225b66d0e26b3b5aa4c820b7b68b09db382a1068071c85f970c83e5d02c4020` |
-| `CHANGELOG.md` | `66c0b04208b765373188151289966156492590c0598bbf4a2f79bf512c958f2b` |
-| `JEV_SOURCE.json` | `0d144f420ddfa9968cb8e65a9ebd2c2d1464c8ef1312276f7d6b4463d6a5fe69` |
+| `CHANGELOG.md` | `8cfc6fd9cf37ca423cc5272deb84c059c9460ba53e8f5f5cb79eb867afd0cc0e` |
+| `JEV_SOURCE.json` | `5936c7b2102db5dcd6bdd244cfe1013c68d5130a4257222fe637aba8459ee198` |
 | `LICENSE` | `50e6751797c50dedd75ef1b8a0d9e42f5f8472e9fbce91f34718e9f97b0c780a` |
-| `SKILL.md` | `2482c6624e9fd1ce4536aca07101e8e3c967dcd2a2855a862405d680d35ed08c` |
+| `SKILL.md` | `210ccbea4572b72991cac1c0a5d6b11c8bdf7fdc4a19deff02cd005739677857` |
 | `config/deny_patterns.json` | `6f150c6b303a282cdb0a5a529a6a51f12bc871d3d285322da02241ffdf41a1a0` |
 | `config/limits.json` | `8cbfa82b417a74a23646f26662eab4c420661529a728b5e8f38738073f7bb9dd` |
-| `config/provider.json` | `b80d3e586fa2ba4f9d9ca796bd4b0f4157a7a2642aeb998bcb90c360bbf0cb3c` |
+| `config/provider.json` | `7e1ee0b48d17305f541344efc5242d5a218bf4db3d36c4fbb6cfda316b7b86b9` |
 | `config/questions/lead.json` | `5523f4d23a4f08be85104306cdf7966ded9d54d18ade6b8447eca093a1552a4c` |
 | `config/receipts.json` | `d8a1b572d18c7c9bcd600a0aca66c1e717d65f867ed2f68d970a42936461bf56` |
 | `config/selftest_fixture_policy.json` | `98b073f2541035faefe70b3da694bcc36eb378ffd67f96ed96e0f62969e55bff` |

@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.1 — align provider pin with latest stable model (2026-11-20)
+
+- Set the exact model pin to the latest stable model listed by TypeSafe; retain `jev-latest` as the service alias and record returned model ids.
+- Keep wrapper model selection in the shared core configuration.
+
 ## Unreleased — portable installation (2026-09-28)
 
 - Made skill guidance project-owned rather than assuming a particular role grant; project-scoped installation is required for policy discovery.

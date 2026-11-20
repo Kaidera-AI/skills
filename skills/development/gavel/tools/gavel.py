@@ -6,7 +6,7 @@ Usage:
   gavel.py dispatch <handoff.txt|-> [--json]   # a draft handoff before sending
   gavel.py rank     <items.json>  [--json]
   gavel.py selftest                        # offline: question maps + redactor, no tokens spent     # candidate work items -> ordered list
-Key: JEV_API_KEY from the environment, else read by name from the nearest .env above the CWD (never printed).
+Key: TYPESAFE_API_KEY from the environment, else read by name from the nearest .env above the CWD (never printed).
 The judgments are inputs to the lead's decision, never the decision.
 """
 import json, os, re, ssl, sys, urllib.request, pathlib
@@ -15,16 +15,16 @@ API = "https://api.typesafe.ai/v1/systemone"; MODEL = os.environ.get("JEV_MODEL"
 REDACT = re.compile(r"(apikey_[A-Za-z0-9_]+|ghp_[A-Za-z0-9]+|AKIA[0-9A-Z]{16}|Bearer\s+\S+|-----BEGIN[^-]+-----)")
 
 def key():
-    k = os.environ.get("JEV_API_KEY")
+    k = os.environ.get("TYPESAFE_API_KEY")
     if not k:
         roots = [pathlib.Path.cwd(), *pathlib.Path.cwd().parents, *pathlib.Path(__file__).resolve().parents]
         for p in (r / ".env" for r in roots):
             if p.is_file():
                 for line in p.read_text().splitlines():
-                    if line.startswith("JEV_API_KEY="):
+                    if line.startswith("TYPESAFE_API_KEY="):
                         k = line.split("=", 1)[1].strip().strip('"').strip("'"); break
             if k: break
-    if not k: sys.exit("JEV_API_KEY not set and not found in .env")
+    if not k: sys.exit("TYPESAFE_API_KEY not set and not found in .env")
     return k
 
 def ask(state, questions):

@@ -3,7 +3,7 @@ name: jev
 description: "Reference for installation and configuration of the shared Jev core, its Python API and CLI, result statuses, project transfer policy, and skill-family index. Open for setup and troubleshooting, not as an automatic decision-moment trigger."
 license: Apache-2.0
 metadata:
-  version: 0.1.0
+  version: 0.1.1
   authority: "Project-approved installation and role grants; typed judgments are advisory and never replace human gates"
   sources: "Gavel blob 40a69aabeb61cac84203539706f3ba62d86c306f; JEV_SOURCE.json"
   requires: "python3 (stdlib core; optional certifi CA bundle), TYPESAFE_API_KEY from the process environment for provider calls"
@@ -39,7 +39,7 @@ Known recognition residual (P4-B2): unfenced multi-line source, including Python
 
 ## CLI, input and output
 
-All commands run from the project root with `PYTHONDONTWRITEBYTECODE=1` if a clean skill tree matters. `-` reads stdin; a path reads a UTF-8 file. Structured JSON is always printed, and `--json` remains accepted. For allowed calls, interactive model selection is `jev-latest`; the pinned `jev-1.13.0` is reserved for separately authorised evaluation/calibration. Every actual reply records its returned `model` id. Thresholds in `config/thresholds.json` are **uncalibrated advisory annotation points** and never gates.
+All commands run from the project root with `PYTHONDONTWRITEBYTECODE=1` if a clean skill tree matters. `-` reads stdin; a path reads a UTF-8 file. Structured JSON is always printed, and `--json` remains accepted. For allowed calls, interactive model selection is `jev-latest`; the official TypeSafe models page currently lists `jev-1.14.0` as the latest stable model, and this core sets it as `model_pin`. Recheck that page before changing the pin. Every actual reply records its returned `model` id; wrappers defer model selection to this shared core. Thresholds in `config/thresholds.json` are **uncalibrated advisory annotation points** and never gates.
 
 | Command | Sanitized input | Caller |
 |---|---|---|

@@ -1,5 +1,6 @@
 # Changelog
 
+- 1.0.2 (2026-11-20) - read `TYPESAFE_API_KEY` by name, remove the legacy key alias, and require permission, budget and data disclosure before any live request.
 - 1.0.1 (2026-09-18) - calibration entry: rulings mixed with work score low on the receipt contract (eleven drafts); no change to questions or helper. The marketplace projection is re-rendered after the merge.
 - 1.0.0 (2026-09-17) - renamed from kaidera-lead-judgment to gavel; option names made project-agnostic (`consult_owner`, `lead`, `accountable_human`); project-agnostic wording; setup, reading-the-answers, worked example and availability sections; helper renamed `tools/gavel.py` with an offline `selftest`; marketplace renderer emits the flat manifest and an agnostic-CLI directory form.
 - 0.1.0 (2026-09-17) - first version: triage / dispatch / rank question sets, calibration on four real returns.

@@ -1,6 +1,6 @@
 ---
 name: jev-handoff-check
-version: 0.1.0
+version: 0.1.1
 description: "Check a drafted worker handoff's receipt contract and blocked protocol before the accountable lead sends it."
 kaidera:
   category: development
@@ -19,10 +19,10 @@ kaidera:
   source:
     repo: Kaidera-AI/kaideraos
     path: .agents/skills/jev-handoff-check
-    content_sha256: 5046dc320a4fd56520af745bc7cb3d040291a4680ef62690ea84d3cf756aefbe
+    content_sha256: dc6cbcee04abd2fb9704d6f67542e6c2d819abf30cf63ff0a468e4a616755149
 author: Kaidera-AI
 license: Apache-2.0
-updated: 2026-09-28
+updated: 2026-11-20
 tags: ["jev", "gavel", "handoff", "receipts"]
 attribution_author: TypeSafe AI and Joey Kudish
 attribution_url: https://github.com/jkudish/jev-mcp
@@ -44,7 +44,9 @@ Use on a **draft** handoff immediately before its accountable lead sends it. Do 
 
 ## Core presence before handoff text
 
-From the project root run `python3 .agents/skills/jev/tools/jev.py --version` **before** loading the draft. If it fails or reports below `jev 0.1.0`, STOP and report that the jev core is missing or incompatible; never install, copy or fetch it during a task. Installation at project scope is an operator action through the project's approved skill-install process; a global core cannot find the project policy and abstains. Do not invent a second client, credential lookup, sanitizer or policy. `requires` metadata is not a transitive install.
+Model selection belongs to the shared core configuration; this wrapper does not hard-code a model. Use the model id returned by each call.
+
+From the project root run `python3 .agents/skills/jev/tools/jev.py --version` **before** loading the draft. If it fails or reports below `jev 0.1.1`, STOP and report that the jev core is missing or incompatible; never install, copy or fetch it during a task. Installation at project scope is an operator action through the project's approved skill-install process; a global core cannot find the project policy and abstains. Do not invent a second client, credential lookup, sanitizer or policy. `requires` metadata is not a transitive install.
 
 Put only a classified, minimum sanitized handoff summary in a UTF-8 text file (or `-` for stdin). It should name one owner, each step's verifiable receipt, the gate/checklist row, exclusions and what to do if blocked (consult with options). For example:
 
@@ -78,6 +80,7 @@ The installable directory form contains these exact files (SHA-256 of raw file b
 
 | Relative file | SHA-256 |
 |---|---|
+| `CHANGELOG.md` | `1581e5c4954bfb169185c881f8c8f02106690b377327cefbfc0f3416cb22f61a` |
 | `LICENSE` | `50e6751797c50dedd75ef1b8a0d9e42f5f8472e9fbce91f34718e9f97b0c780a` |
 | `NOTICE` | `d6b54287e0480f1fb9bf2709515b971b5f353d7f34c11fa38cea03a3d0bd54f8` |
-| `SKILL.md` | `ab73fc9564e57d97cf650733af7ee17f592651bab801e99bad8b702e491190c9` |
+| `SKILL.md` | `9075da624853522dc3646b36aa12702b6999b850dd9450cfe6cc3b63feaf1100` |

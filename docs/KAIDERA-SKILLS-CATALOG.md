@@ -191,12 +191,12 @@ Use `design-selection` for the initial static/deck/3D/UI/native/video route, `ui
 | Development | `assert-fact-gate` | `1.0.0` | Requires a fresh source check before reporting repository, build, test, | Manual-only | low / file read |
 | Development | `assumption-validation` | `1.0.0` | Evidence-gates costly or customer-visible product assumptions | Bounded candidate | medium / file read, interpreter |
 | Development | `development-workflow` | `1.0.0` | Portable AI+human SDLC, review, risk-based QA and service operations | Bounded candidate | medium / file read, file write, interpreter, web search |
-| Development | `gavel` | `1.0.1` | Typed judgments for a project lead: triage returns, check handoffs, rank work (TypeSafe System One) | Bounded candidate | medium / file read, interpreter |
-| Development | `jev-backlog-rank` | `0.1.0` | Check an accountable lead's backlog ordering against explicit dependencies and delay risk; the human retains priority authority. | Bounded candidate | medium / file read, interpreter |
-| Development | `jev-handoff-check` | `0.1.0` | Check a drafted worker handoff's receipt contract and blocked protocol before the accountable lead sends it. | Bounded candidate | medium / file read, interpreter |
-| Development | `jev-option-decision` | `0.1.0` | Examine one bounded implementation or architecture choice with named candidates, evidence and requirements; the human decides. | Bounded candidate | medium / file read, interpreter |
-| Development | `jev-return-triage` | `0.1.0` | Advisory receipt-based triage of an arrived worker return, handback or consult by its accountable lead. | Bounded candidate | medium / file read, interpreter |
-| Development | `jev` | `0.1.0` | Jev core: common fail-closed policy reader, sanitizer and typed model transport. | Reference-only | medium / file read, interpreter, file write |
+| Development | `gavel` | `1.0.2` | Typed judgments for a project lead: triage returns, check handoffs, rank work (TypeSafe System One) | Bounded candidate | medium / file read, interpreter |
+| Development | `jev-backlog-rank` | `0.1.1` | Check an accountable lead's backlog ordering against explicit dependencies and delay risk; the human retains priority authority. | Bounded candidate | medium / file read, interpreter |
+| Development | `jev-handoff-check` | `0.1.1` | Check a drafted worker handoff's receipt contract and blocked protocol before the accountable lead sends it. | Bounded candidate | medium / file read, interpreter |
+| Development | `jev-option-decision` | `0.1.1` | Examine one bounded implementation or architecture choice with named candidates, evidence and requirements; the human decides. | Bounded candidate | medium / file read, interpreter |
+| Development | `jev-return-triage` | `0.1.1` | Advisory receipt-based triage of an arrived worker return, handback or consult by its accountable lead. | Bounded candidate | medium / file read, interpreter |
+| Development | `jev` | `0.1.1` | Jev core: common fail-closed policy reader, sanitizer and typed model transport. | Reference-only | medium / file read, interpreter, file write |
 | Development | `kaidera-sdlc` | `1.3.0` | The Kaidera AI-native SDLC: the operating loop every lead runs for an epic, feature, fix, | Bounded candidate | medium / file read, file write |
 | Development | `open-code-review` | `4.0.1` | Exact-target, evidence-gated, adversarial bounded-change review | Bounded candidate | medium / file read, interpreter |
 | Development | `prompt-master` | `1.8.0` | Third-party, vendored verbatim: writes one optimized prompt for a named AI tool from a rough request | Reference-only | low / none |
@@ -446,13 +446,13 @@ entry is current-source; the EnGenAI-era development material is filed under
 
 ### `gavel`
 
-<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:code_interpreter"],"category":"development","legacy":false,"name":"gavel","path":"skills/development/gavel.SKILL.md","posture":"bounded-candidate","review_fingerprint":"350cd20d78e6620629211e3c03c22cb40348167d33793eaa83f99afa936a633a","risk_level":"medium","trust_tier":"unvetted","version":"1.0.1"} -->
+<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:code_interpreter"],"category":"development","legacy":false,"name":"gavel","path":"skills/development/gavel.SKILL.md","posture":"bounded-candidate","review_fingerprint":"141d4efc641af68cbbfdcd42f116ddec7265342b9ac6d25b231637952606d306","risk_level":"medium","trust_tier":"unvetted","version":"1.0.2"} -->
 
 - **Manifest:** [gavel.SKILL.md](../skills/development/gavel.SKILL.md)
 - **Function:** Gavel: typed judgments for a project lead who plans, adjudicates and coordinates while workers execute: triage a worker return (disposition, evidence quality, silent gaps, scope creep, irreversibility, next owner, urgency), check a draft handoff for its receipt contract, and score backlog items for gate-blocking and risk, using TypeSafe's System One model through a bundled stdlib helper.
 - **Use when:** A return, handback or consult lands; before sending a handoff; when ordering a checklist or backlog.
-- **Do not use when:** As the decision itself, as a code reviewer, or with secrets, credentials, customer data or private keys in the text; it sends what you pass to `api.typesafe.ai`.
-- **Inputs and output:** A JSON packet or plain text on stdin; typed answers with probabilities and confidence on stdout. Requires a user-supplied `JEV_API_KEY`.
+- **Do not use when:** As the decision itself, as a code reviewer, with secrets, credentials, customer data or private keys in the text, or for a live call without explicit user permission, an agreed budget and disclosure of the data to be sent; it sends what you pass to `api.typesafe.ai`.
+- **Inputs and output:** A JSON packet or plain text on stdin; typed answers with probabilities and confidence on stdout. Requires a user-supplied `TYPESAFE_API_KEY`.
 - **Authority and effects:** Advisory. It authorises no merge, deploy, publish, deletion or spend; thresholds and policy live in the skill text and the caller's code.
 - **Kaidera action:** Bounded candidate: the canonical source is Kaidera OS `.agents/skills/gavel/` (helper, question catalogue, calibration log, evals); this file is its marketplace projection, rendered by the source's `tools/render-public.py`, which also emits the directory form `skills/development/gavel/` for the agnostic skills CLI. Harness-agnostic by construction; project-agnostic wording.
 
@@ -482,7 +482,7 @@ entry is current-source; the EnGenAI-era development material is filed under
 
 ### `jev-backlog-rank`
 
-<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:code_interpreter"],"category":"development","legacy":false,"name":"jev-backlog-rank","path":"skills/development/jev-backlog-rank.SKILL.md","posture":"bounded-candidate","review_fingerprint":"5c8709dc221909fa81b266fb5076fc1ffbfc6031639b1be2c99241d82b3c8e09","risk_level":"medium","trust_tier":"unvetted","version":"0.1.0"} -->
+<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:code_interpreter"],"category":"development","legacy":false,"name":"jev-backlog-rank","path":"skills/development/jev-backlog-rank.SKILL.md","posture":"bounded-candidate","review_fingerprint":"2171b1732b2bf1cfe3526f4c074d815315bd9a8ef0e9b56abeccb276aacdf1e6","risk_level":"medium","trust_tier":"unvetted","version":"0.1.1"} -->
 
 - **Manifest:** [jev-backlog-rank.SKILL.md](../skills/development/jev-backlog-rank.SKILL.md)
 - **Function:** Check an accountable lead's backlog ordering against explicit dependencies and delay risk; the human retains priority authority.
@@ -494,7 +494,7 @@ entry is current-source; the EnGenAI-era development material is filed under
 
 ### `jev-handoff-check`
 
-<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:code_interpreter"],"category":"development","legacy":false,"name":"jev-handoff-check","path":"skills/development/jev-handoff-check.SKILL.md","posture":"bounded-candidate","review_fingerprint":"04d442579100929faa813983325d91b5620df8f911c68166918af29984fcb043","risk_level":"medium","trust_tier":"unvetted","version":"0.1.0"} -->
+<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:code_interpreter"],"category":"development","legacy":false,"name":"jev-handoff-check","path":"skills/development/jev-handoff-check.SKILL.md","posture":"bounded-candidate","review_fingerprint":"b87cfce00396a8918fd0cbf2ba620361ebfa22721cc7dfcdbec1be836a5e3b79","risk_level":"medium","trust_tier":"unvetted","version":"0.1.1"} -->
 
 - **Manifest:** [jev-handoff-check.SKILL.md](../skills/development/jev-handoff-check.SKILL.md)
 - **Function:** Check a drafted worker handoff's receipt contract and blocked protocol before the accountable lead sends it.
@@ -506,7 +506,7 @@ entry is current-source; the EnGenAI-era development material is filed under
 
 ### `jev-option-decision`
 
-<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:code_interpreter"],"category":"development","legacy":false,"name":"jev-option-decision","path":"skills/development/jev-option-decision.SKILL.md","posture":"bounded-candidate","review_fingerprint":"07ad912df5c0f489a09db83067b553b3c4c15df841592fc59b631845ff10809a","risk_level":"medium","trust_tier":"unvetted","version":"0.1.0"} -->
+<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:code_interpreter"],"category":"development","legacy":false,"name":"jev-option-decision","path":"skills/development/jev-option-decision.SKILL.md","posture":"bounded-candidate","review_fingerprint":"75a7070c564e374b2cc46097a6906900bf00f54d334c2e9b773aad2f9ed79a1a","risk_level":"medium","trust_tier":"unvetted","version":"0.1.1"} -->
 
 - **Manifest:** [jev-option-decision.SKILL.md](../skills/development/jev-option-decision.SKILL.md)
 - **Function:** Examine one bounded implementation or architecture choice with named candidates, evidence and requirements; the human decides.
@@ -518,7 +518,7 @@ entry is current-source; the EnGenAI-era development material is filed under
 
 ### `jev-return-triage`
 
-<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:code_interpreter"],"category":"development","legacy":false,"name":"jev-return-triage","path":"skills/development/jev-return-triage.SKILL.md","posture":"bounded-candidate","review_fingerprint":"10cb9eaadc4bd62be42371c96274c140415388364a4dc80b78754bb32f0885c3","risk_level":"medium","trust_tier":"unvetted","version":"0.1.0"} -->
+<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:code_interpreter"],"category":"development","legacy":false,"name":"jev-return-triage","path":"skills/development/jev-return-triage.SKILL.md","posture":"bounded-candidate","review_fingerprint":"52f196f3b1d4f3db606ead2e859c5af66cbfa41f08fe51dc9d33b0e4f3acca98","risk_level":"medium","trust_tier":"unvetted","version":"0.1.1"} -->
 
 - **Manifest:** [jev-return-triage.SKILL.md](../skills/development/jev-return-triage.SKILL.md)
 - **Function:** Advisory receipt-based triage of an arrived worker return, handback or consult by its accountable lead.
@@ -530,7 +530,7 @@ entry is current-source; the EnGenAI-era development material is filed under
 
 ### `jev`
 
-<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:code_interpreter","tool:file_write"],"category":"development","legacy":false,"name":"jev","path":"skills/development/jev.SKILL.md","posture":"reference-only","review_fingerprint":"e79bd1262eb33aa65059f6e05f17e2cdf808e06119b87853b27c4f0054cc3c15","risk_level":"medium","trust_tier":"unvetted","version":"0.1.0"} -->
+<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:code_interpreter","tool:file_write"],"category":"development","legacy":false,"name":"jev","path":"skills/development/jev.SKILL.md","posture":"reference-only","review_fingerprint":"2226d70d6c3abf653c066f5c415f16d1e2418931c82d4df6c9890feb7aa0c7e4","risk_level":"medium","trust_tier":"unvetted","version":"0.1.1"} -->
 
 - **Manifest:** [jev.SKILL.md](../skills/development/jev.SKILL.md)
 - **Function:** Jev core: common fail-closed policy reader, sanitizer and typed model transport.
@@ -1391,7 +1391,7 @@ capability gates.
 
 ### Gavel and Jev lead moments
 
-Install either Gavel or the Jev lead wrappers `jev-return-triage`, `jev-handoff-check` and `jev-backlog-rank` for a project, not both. Jev wrappers require the `jev` core installed into the same project; `npx skills add --skill <wrapper>` does not install it transitively. Gavel uses `JEV_API_KEY` and its own helper; Jev uses only process `TYPESAFE_API_KEY` and its project-owned transfer policy. Merely copying either does not grant runtime binding or resolve the open CC-BY/Apache licence precedence hold.
+Install either Gavel or the Jev lead wrappers `jev-return-triage`, `jev-handoff-check` and `jev-backlog-rank` for a project, not both. The core currently pins TypeSafe’s latest stable Jev model, `jev-1.14.0`; recheck the official models page before changing that pin. Jev wrappers require the `jev` core installed into the same project; `npx skills add --skill <wrapper>` does not install it transitively. Gavel reads `TYPESAFE_API_KEY` from the process or nearest `.env`; Jev reads only the process variable and enforces its project-owned transfer policy. Merely copying either does not grant runtime binding or resolve the open CC-BY/Apache licence precedence hold.
 
 ### Context versus execution
 

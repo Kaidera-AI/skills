@@ -3,11 +3,11 @@ name: gavel
 description: "Gavel - typed judgments for a project lead's decisions. Before you rule on a worker's return, send a handoff, or order a backlog, ask a fixed set of narrow questions and get typed answers with probabilities: disposition (accept / rework / withdraw / consult owner / answer questions), evidence quality, silent gaps, scope creep, irreversibility, next owner, urgency; whether a draft handoff carries a receipt contract; how gate-blocking and risky each backlog item is. Powered by TypeSafe's System One model (Jev) through a bundled stdlib helper. Use when triaging a return, handback or consult; before sending any handoff; when prioritising a checklist; whenever a lead decision should be checked against calibrated common sense. Works in any project, any harness, any model."
 license: Apache-2.0
 metadata:
-  version: 1.0.1
+  version: 1.0.2
   authority: "CTO 2026-09-17: a reusable decision instrument for every project lead in KOS; docs/SOP_PLAN_AND_EXECUTE.md (the lead plans and adjudicates, workers execute); design 41 (harness-agnostic tools only)"
   sources: "typesafe-ai/skills (MIT) and docs.typesafe.ai - System One primitives Choice, Noul, Score; confidence; HTTP API v1"
   applies_to: [lead, cpo, pm, orchestrator]
-  requires: "python3 (stdlib only) and a TypeSafe API key in JEV_API_KEY (environment, or a .env file at or above the working directory; read by name, never printed)"
+  requires: "python3 (stdlib only) and a TypeSafe API key in TYPESAFE_API_KEY (environment, or a .env file at or above the working directory; read by name, never printed)"
   bias: "judgments are inputs, never the decision; one narrow question per dimension; thresholds live in code and in this file, not in prompts; nothing secret leaves the machine"
   conflicts_with: []
 ---
@@ -22,9 +22,11 @@ It is project-agnostic: nothing in it names a project, a worker or a repository.
 
 ## Setup (once per machine or project)
 
-1. Get a TypeSafe API key and put it where the helper can read it **by name**: `export JEV_API_KEY=...` or a line `JEV_API_KEY=...` in a `.env` at or above your working directory. Never paste it into chat, handoffs, logs or git.
+1. Get a TypeSafe API key and put it where the helper can read it **by name**: `export TYPESAFE_API_KEY=...` or a line `TYPESAFE_API_KEY=...` in a `.env` at or above your working directory. Never paste it into chat, handoffs, logs or git.
 2. Check the install without spending tokens: `python3 tools/gavel.py selftest`.
-3. One live check: `echo "Done. All tests pass." | python3 tools/gavel.py triage -` - expect `evidence_quality` near 0 and `disposition` away from `accept`.
+3. After explicit user approval, one live check: `echo "Done. All tests pass." | python3 tools/gavel.py triage -` - expect `evidence_quality` near 0 and `disposition` away from `accept`.
+
+Every live triage, dispatch or rank call sends its input to TypeSafe. Before a live call, get the user's explicit permission, agree an experiment budget, and disclose the data that will be sent, including any personal or private data, and use of `TYPESAFE_API_KEY`. If permission is absent, stop at the offline selftest.
 
 ## The three commands
 
