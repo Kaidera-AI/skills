@@ -1,0 +1,31 @@
+{
+  "version": 2,
+  "skills": {
+    "bama": {
+      "source": "daveebbelaar/bama",
+      "ref": "22dc792ea040a35270c219c669f626594267aa1f",
+      "commit": "22dc792ea040a35270c219c669f626594267aa1f",
+      "sourceType": "github",
+      "skillPath": "skills/start/bama/SKILL.md",
+      "computedHash": "24ea2e5b300775c3b0bba24ed50b1128792ec03e05385a4be8f63aad3d0724e5",
+      "installMode": "copy"
+    },
+    "craft-anything": {
+      "source": "https://raw.githubusercontent.com/storytold/craft-anything/e64d7cb73d7f39323b7040a984e0f9b3f7981146/crates/setup/src/skill.md",
+      "sourceUrl": "https://raw.githubusercontent.com/storytold/craft-anything/e64d7cb73d7f39323b7040a984e0f9b3f7981146/crates/setup/src/skill.md",
+      "sourceType": "download",
+      "skillPath": "SKILL.md",
+      "computedHash": "de768cdb774aaa0d7d7fd9c55b2af1827bf2ec119d2c32b7a4ee3908e63c014b",
+      "installMode": "copy"
+    },
+    "reverse-engineer-anything": {
+      "source": "morluto/rea",
+      "ref": "87b773c3d65ee32189ec843335b598f23f2a7dce",
+      "commit": "87b773c3d65ee32189ec843335b598f23f2a7dce",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/reverse-engineer-anything/SKILL.md",
+      "computedHash": "89f10600daa3ce6087af48a86bf3bce1aba3eddb4f44fca8b7250f204dc9b661",
+      "installMode": "copy"
+    }
+  }
+}
