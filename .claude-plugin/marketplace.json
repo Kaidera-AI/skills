@@ -3,7 +3,7 @@
   "description": "Locally validated, provenance-aware skills for Kaidera agents",
   "version": "1.0.0",
   "source": "https://github.com/Kaidera-AI/skills",
-  "generated_at": "2026-11-15T00:00:00.000Z",
+  "generated_at": "2026-11-20T00:00:00.000Z",
   "generation_basis": "maximum skill updated date",
   "skills": [
     {
@@ -352,7 +352,7 @@
     },
     {
       "name": "gavel",
-      "version": "1.0.1",
+      "version": "1.0.2",
       "description": "Gavel - typed judgments for a project lead's decisions. Before you rule on a worker's\nreturn, send a handoff, or order a backlog, ask a fixed set of narrow questions and get\ntyped answers with probabilities: disposition, evidence quality, silent gaps, scope creep,\nirreversibility, next owner, urgency; whether a draft handoff carries a receipt contract;\nhow gate-blocking and risky each backlog item is. Powered by TypeSafe's System One model\n(Jev) through a bundled stdlib helper. Use when triaging a return, handback or consult;\nbefore sending any handoff; when prioritising a checklist. Works in any project, any\nharness, any model. Judgments are inputs, never the decision.\n",
       "category": "development",
       "trust_tier": "unvetted",
@@ -368,7 +368,7 @@
       ],
       "safety_constraints": [
         "Judgments are inputs to a human or lead decision, never the decision; the skill authorises no merge, deploy, publish, deletion or spend.",
-        "Sends the text you pass (returns, handoffs, backlog items) to api.typesafe.ai. Never pass secrets, credentials, customer data or private keys; the built-in redactor is a backstop, not a permission.",
+        "Sends the text you pass (returns, handoffs, backlog items) to api.typesafe.ai only after explicit user permission, an agreed experiment budget, and disclosure of the data being sent; never pass secrets, credentials, customer data or private keys. The built-in redactor is a backstop, not permission.",
         "The API key is read by name from the environment or a local .env and is never printed, logged or committed.",
         "Harness-agnostic by construction - plain files and a stdlib Python helper; no vendor plugin or harness-only feature is required."
       ],
@@ -386,7 +386,7 @@
       },
       "author": "Kaidera-AI",
       "license": "Apache-2.0",
-      "updated": "2026-09-18",
+      "updated": "2026-11-20",
       "tags": [
         "gavel",
         "lead",
@@ -398,14 +398,14 @@
         "typesafe",
         "system-one"
       ],
-      "content_hash": "bf1220a6528e001dc5471f3001be914426ca933c827798cf78ded2bd11b7e028",
+      "content_hash": "60e6e370ed2a69c518cc072000966c59d6a19c23f36519303b0a62ae78c326a2",
       "signed_by": "",
       "last_reviewed": "",
       "reviewer": "",
       "file": "skills/development/gavel.SKILL.md",
       "attribution_author": "",
       "attribution_url": "",
-      "attribution_notes": "Builds on the TypeSafe skill (typesafe-ai/skills, MIT) and docs.typesafe.ai (System One primitives Choice, Noul, Score). Requires a TypeSafe API key supplied by the user as JEV_API_KEY."
+      "attribution_notes": "Builds on the TypeSafe skill (typesafe-ai/skills, MIT) and docs.typesafe.ai (System One primitives Choice, Noul, Score). Requires a TypeSafe API key supplied by the user as TYPESAFE_API_KEY."
     },
     {
       "name": "gsd-core",
@@ -492,7 +492,7 @@
     },
     {
       "name": "jev-backlog-rank",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "description": "Check an accountable lead's backlog ordering against explicit dependencies and delay risk; the human retains priority authority.",
       "category": "development",
       "trust_tier": "unvetted",
@@ -520,14 +520,14 @@
       },
       "author": "Kaidera-AI",
       "license": "Apache-2.0",
-      "updated": "2026-09-28",
+      "updated": "2026-11-20",
       "tags": [
         "jev",
         "gavel",
         "backlog",
         "prioritisation"
       ],
-      "content_hash": "3a8e6ae8c0875aa635cacc6347a46ac4a312972b0ec470c5d65282da0c1c3f15",
+      "content_hash": "5b3f7c425037c36a25e7a78ba02f20a2226c3f94870e228a7afca3ab6b0224cd",
       "signed_by": "",
       "last_reviewed": "",
       "reviewer": "",
@@ -538,7 +538,7 @@
     },
     {
       "name": "jev-handoff-check",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "description": "Check a drafted worker handoff's receipt contract and blocked protocol before the accountable lead sends it.",
       "category": "development",
       "trust_tier": "unvetted",
@@ -566,14 +566,14 @@
       },
       "author": "Kaidera-AI",
       "license": "Apache-2.0",
-      "updated": "2026-09-28",
+      "updated": "2026-11-20",
       "tags": [
         "jev",
         "gavel",
         "handoff",
         "receipts"
       ],
-      "content_hash": "db3ae39bfc85ecb2fac9ef326074e0f38dfc199deca2243a697ddab8aa22d5e3",
+      "content_hash": "1016a7e610fd2738b56aa1742fcfab3565644f6ab6ecc1c054b9cb6ba148ba02",
       "signed_by": "",
       "last_reviewed": "",
       "reviewer": "",
@@ -584,7 +584,7 @@
     },
     {
       "name": "jev-option-decision",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "description": "Examine one bounded implementation or architecture choice with named candidates, evidence and requirements; the human decides.",
       "category": "development",
       "trust_tier": "unvetted",
@@ -612,14 +612,14 @@
       },
       "author": "Kaidera-AI",
       "license": "Apache-2.0",
-      "updated": "2026-09-28",
+      "updated": "2026-11-20",
       "tags": [
         "jev",
         "options",
         "architecture",
         "decision-support"
       ],
-      "content_hash": "fbaead112c835f8661ca0692c2dc6507d46c1b606305d2862446fde24fa7c8e4",
+      "content_hash": "367e8edce6932001be8d4886120ad687ab6eb6bd0a23064476c33451b2251023",
       "signed_by": "",
       "last_reviewed": "",
       "reviewer": "",
@@ -630,7 +630,7 @@
     },
     {
       "name": "jev-return-triage",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "description": "Advisory receipt-based triage of an arrived worker return, handback or consult by its accountable lead.",
       "category": "development",
       "trust_tier": "unvetted",
@@ -658,14 +658,14 @@
       },
       "author": "Kaidera-AI",
       "license": "Apache-2.0",
-      "updated": "2026-09-28",
+      "updated": "2026-11-20",
       "tags": [
         "jev",
         "gavel",
         "return",
         "triage"
       ],
-      "content_hash": "f3ac14515320a4ab6e5b654975d3b78237aeb3dd7ce7faee31d77ec9d3a2f3be",
+      "content_hash": "b27bc8bf9960336d3add4fddd3075af17ce1fd60f7afbdfade9d9a2bb8303151",
       "signed_by": "",
       "last_reviewed": "",
       "reviewer": "",
@@ -676,7 +676,7 @@
     },
     {
       "name": "jev",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "description": "Reference for the shared Jev core, project-owned transfer policy, CLI, result statuses and four separate decision-moment wrappers; not an automatic moment router.",
       "category": "development",
       "trust_tier": "unvetted",
@@ -706,14 +706,14 @@
       },
       "author": "Kaidera-AI",
       "license": "Apache-2.0",
-      "updated": "2026-09-28",
+      "updated": "2026-11-20",
       "tags": [
         "jev",
         "typesafe",
         "system-one",
         "decision-support"
       ],
-      "content_hash": "4ab5886bb91096c572e317b05471690dbb0be513ec0e5ebe7809745347395000",
+      "content_hash": "19baf210f40596451c8515ae53d33bb938076731f714801fb7e9f875e6535471",
       "signed_by": "",
       "last_reviewed": "",
       "reviewer": "",
