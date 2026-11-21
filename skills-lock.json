@@ -26,6 +26,14 @@
       "skillPath": ".agents/skills/reverse-engineer-anything/SKILL.md",
       "computedHash": "89f10600daa3ce6087af48a86bf3bce1aba3eddb4f44fca8b7250f204dc9b661",
       "installMode": "copy"
+    },
+    "untangle-codebase": {
+      "source": "caldoai/skills",
+      "commit": "d5b68dace378219890d821adb3685538e2c69b04",
+      "sourceType": "github",
+      "skillPath": "skills/untangle-codebase/SKILL.md",
+      "computedHash": "e39bd7794ed0ac44da0e6a676b19fc76934bc788a46ed67b721f9f7520ce36f4",
+      "installMode": "copy"
     }
   }
 }
