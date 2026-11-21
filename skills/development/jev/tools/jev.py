@@ -96,7 +96,7 @@ def _selftest():
     assert 0 <= points["screen"]["review_at"] <= points["screen"]["block_at"] <= 1
     assert 0 <= points["decide"]["contradiction_warn_at"] <= 1
     assert points["verify"]["source"] and points["screen"]["source"] and points["decide"]["source"] and all(re.compile(pattern) for pattern in points["screen"]["local_heuristic_flags"])
-    assert set(patterns) == {"absolute_user_path", "email_address", "credential_shape", "fenced_code_block", "raw_diff_or_patch", "raw_code", "json_patch"}
+    assert set(patterns) == {"absolute_user_path", "email_address", "ipv4_address", "ipv6_address", "uuid", "url_host", "credential_shape", "fenced_code_block", "raw_diff_or_patch", "raw_code", "json_patch"}
     assert all(isinstance(group, list) and group and all(re.compile(pattern) for pattern in group) for group in patterns.values())
     assert receipts["enabled_default"] is False and receipts["path"].startswith("runs/") and type(receipts["retention_days"]) is int and receipts["retention_days"] > 0
     assert all(name in maps for name in ("TRIAGE", "DISPATCH", "RANK", "VERIFY", "SCREEN", "DECIDE"))
