@@ -118,7 +118,7 @@ The installable directory form contains these exact files (SHA-256 of raw file b
 | `JEV_SOURCE.json` | `5936c7b2102db5dcd6bdd244cfe1013c68d5130a4257222fe637aba8459ee198` |
 | `LICENSE` | `50e6751797c50dedd75ef1b8a0d9e42f5f8472e9fbce91f34718e9f97b0c780a` |
 | `SKILL.md` | `210ccbea4572b72991cac1c0a5d6b11c8bdf7fdc4a19deff02cd005739677857` |
-| `config/deny_patterns.json` | `6f150c6b303a282cdb0a5a529a6a51f12bc871d3d285322da02241ffdf41a1a0` |
+| `config/deny_patterns.json` | `052734603e6976006f9c8189d015c7b764c19c76f5ffc480c3b6b953a105e44d` |
 | `config/limits.json` | `8cbfa82b417a74a23646f26662eab4c420661529a728b5e8f38738073f7bb9dd` |
 | `config/provider.json` | `7e1ee0b48d17305f541344efc5242d5a218bf4db3d36c4fbb6cfda316b7b86b9` |
 | `config/questions/lead.json` | `5523f4d23a4f08be85104306cdf7966ded9d54d18ade6b8447eca093a1552a4c` |
@@ -126,7 +126,7 @@ The installable directory form contains these exact files (SHA-256 of raw file b
 | `config/selftest_fixture_policy.json` | `98b073f2541035faefe70b3da694bcc36eb378ffd67f96ed96e0f62969e55bff` |
 | `config/thresholds.json` | `69b11558e3b8c384540c66a2685dfce8233728a57d473a77891b823b200322e4` |
 | `references/questions.md` | `1cb5165871d0b3eb83b261eedd73810591e80e24a96009ca0629662d217f2789` |
-| `tools/jev.py` | `bade68c17e2764f94762042d97edfd768210e09f9a75c6052a1bb79352b00f43` |
+| `tools/jev.py` | `f978ff25a93a613649918af07f388353502635448fb72ea209a40de238f106b0` |
 | `tools/jevkit/__init__.py` | `6e1f4dbaa1c2daff43b7db69104be436dcef876f4ab4cb1f9078c374cedd8aec` |
 | `tools/jevkit/client.py` | `886450f4ce121502d2f4980a9e7a64ce3a456d1229a78f05d977ae60a9f03e8f` |
 | `tools/jevkit/playbooks/lead.py` | `0fc091393dc7069bbf3f7a65290d0591bde77577151289d890c89c1fc36b9aef` |
