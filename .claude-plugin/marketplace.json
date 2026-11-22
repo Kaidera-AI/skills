@@ -3,7 +3,7 @@
   "description": "Locally validated, provenance-aware skills for Kaidera agents",
   "version": "1.0.0",
   "source": "https://github.com/Kaidera-AI/skills",
-  "generated_at": "2026-11-15T00:00:00.000Z",
+  "generated_at": "2026-11-22T00:00:00.000Z",
   "generation_basis": "maximum skill updated date",
   "skills": [
     {
@@ -745,7 +745,7 @@
       "parameters": {},
       "author": "Kaidera-AI",
       "license": "Apache-2.0",
-      "updated": "2026-11-03",
+      "updated": "2026-11-22",
       "tags": [
         "sdlc",
         "planning",
@@ -759,7 +759,7 @@
         "governance",
         "lead"
       ],
-      "content_hash": "571ad91f4fbbe6a3418f495e2099a1c3b0981a51963679b2d2085c4348d75299",
+      "content_hash": "5f109fed4d14f8e543806e910313fc716ddef97b2971e93355bd6f9088b12de4",
       "signed_by": "",
       "last_reviewed": "",
       "reviewer": "",

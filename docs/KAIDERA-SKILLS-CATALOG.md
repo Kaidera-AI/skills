@@ -542,7 +542,7 @@ entry is current-source; the EnGenAI-era development material is filed under
 
 ### `kaidera-sdlc`
 
-<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:file_write"],"category":"development","legacy":false,"name":"kaidera-sdlc","path":"skills/development/kaidera-sdlc.SKILL.md","posture":"bounded-candidate","review_fingerprint":"105f85ea32690d7dbb2fc7fafdcb97f4696d6dcfc6b1ecd79bb052707b38a37e","risk_level":"medium","trust_tier":"unvetted","version":"1.4.0"} -->
+<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:file_write"],"category":"development","legacy":false,"name":"kaidera-sdlc","path":"skills/development/kaidera-sdlc.SKILL.md","posture":"bounded-candidate","review_fingerprint":"fc01d968ac507e380c869614cc4d6d4801470814a4a9b32ed5863188b428ae08","risk_level":"medium","trust_tier":"unvetted","version":"1.4.0"} -->
 
 - **Manifest:** [kaidera-sdlc.SKILL.md](../skills/development/kaidera-sdlc.SKILL.md)
 - **Function:** The AI-native SDLC loop every lead is born with: intent, grill, spec, plan before code, build inside a feedback loop, verify with output that can fail, adversarial review, ship through gates, close the loop.

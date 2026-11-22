@@ -39,34 +39,36 @@ One line per file: path, new or modified, why.
 1. Step, with the check that proves it before the next step starts.
 2. ...
 
-## Daily release slices (release work; `references/stages.md`, "Release system")
+## Release cadence and slices (release work; `references/stages.md`, "Release system")
 
-Recorded local timezone: <timezone>. Daily cut: 18:00. Active/paused product decisions:
-<product, status, dated authority>. Each slice can ship within one day; split larger work
-before BUILD. Dependencies name an owner and gate, not an assumed availability time.
+Approved release policy and owner: <policy reference, revision, owner>.
+Release window or trigger and timezone if applicable: <accepted value or not applicable>.
+Product/service status and version authority: <product, status, dated authority>. Split larger
+work into independently verifiable slices before BUILD. Dependencies name an owner and gate,
+not an assumed availability time.
 
-| Cut date / product / releasing version | Daily slice and owner | Dependency gate | Acceptance receipt | State / blocker / next owner |
+| Window / product or service / version | Slice and owner | Dependency gate | Acceptance receipt | State / blocker / next owner |
 |---|---|---|---|---|
-| <date / product / version> | <small deliverable / owner> | <gate or none> | <command/output identity> | <state with receipt> |
+| <window / product / version> | <small deliverable / owner> | <gate or none> | <command/output identity> | <state with receipt> |
 
-## Platform matrix (release work)
+## Target matrix (release work)
 
-Shared source commit: <one full SHA>. Product version: <one version>.
-Shared signed manifest: <path and final SHA-256 when available; pending signing gate otherwise>.
+Shared source revision, if required: <full SHA>.
+Product/service version: <version or policy reference>.
+Final manifest and signing policy: <path and identity, or pending gate / not applicable>.
 
-| Host platform | Artifact / CI build route | Thin adapter / test surface | Prerequisites / image platform | Native full Gate target / receipts | Signing / final-byte inventory |
+| Required target | Artifact / build route | Adapter / test surface | Prerequisites | Native full gate target / receipts | Trust / final-byte inventory |
 |---|---|---|---|---|---|
-| Linux x86_64 | <artifact and route> | <systemd / paths / native rootless> | <accepted dependencies / linux/amd64> | <fresh Rocky target / run> | <manifest identity> |
-| macOS arm64 | <artifact and route> | <launchd / paths / Podman machine> | <accepted dependencies / linux/arm64> | <approved Mac target / run> | <Apple sign/notarize/staple, then manifest identity> |
+| <platform or environment> | <artifact and approved route> | <target-specific behavior and tests> | <accepted dependencies> | <target and run receipt> | <signing/trust and manifest identity, if required> |
 
-Named CTO exception, if any: <decision/product/version/missing platform/reason/recovery date,
-or none>. Next day's FIRST slice closes that gap. A missing row/receipt is pending, not green.
-Cortex image releases record both linux/amd64 and linux/arm64 digests from the same source.
+Authorized exception, if any: <owner/policy/scope/reason/recovery action, or none>. A missing
+row or receipt is pending, not green. Name each required target and show its source and
+artifact identity.
 
-Gate RED collection/diagnostic dependencies: <receipt location and safe continuation boundaries>.
-Fix class: <docs/host byte-preservation proof or PRODUCT impact + pre-rebuild CTO decision>.
-Signing turn: <gate and owner; command shown only when CTO is up>.
-Quick-glance update: <PRODUCTS_PROGRESS.md units/denominator, version and evidence links>.
+Gate RED collection and safe diagnostic boundaries: <receipt location / conditions>.
+Fix class and approval route: <docs/host byte-preservation proof or payload impact and owner>.
+Signing step and authorized signer: <gate, owner, evidence; show the command only at the approved turn>.
+Progress artifact update: <project artifact/dashboard, units, version and evidence links>.
 
 ## Waves (multi-agent work only)
 Wave, owner, handoff, what it delivers, what it depends on. Waves map to Cortex epic increments.
