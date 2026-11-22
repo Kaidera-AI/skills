@@ -349,7 +349,7 @@
     },
     {
       "name": "folder-structure",
-      "version": "0.9.0",
+      "version": "0.9.1",
       "description": "Define one project file layout, route new work to its home, and migrate existing files through an approved, verified table.",
       "category": "development",
       "trust_tier": "unvetted",
@@ -378,7 +378,7 @@
         "custody",
         "migration"
       ],
-      "content_hash": "2fc07a2ce6da7fbe03c113d198125215f1b59a86f721ad667c9c104d4a4b7598",
+      "content_hash": "2c1082c727cc833a900580864749ed5f4f6a5d9db45e648b3a6ebca2de9a1cf0",
       "signed_by": "",
       "last_reviewed": "",
       "reviewer": "",

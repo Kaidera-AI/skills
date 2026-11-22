@@ -3,7 +3,7 @@ name: folder-structure
 description: "Define one project file layout, route new work to its home, and migrate existing files through an approved, verified table."
 license: CC-BY-4.0
 metadata:
-  version: "0.9.0"
+  version: "0.9.1"
   authority: "A project's accepted structure definition and explicit migration approvals; this candidate grants no authority by itself."
   sources: "Project structure, custody, migration, and housekeeping practices authored for this candidate."
   risk_level: "medium"
@@ -26,6 +26,8 @@ metadata:
 # Folder structure
 
 This skill gives a project a single, readable definition of where its work belongs. It helps a worker classify a new file and gives a project lead a safe process for adopting the layout. It is a portable candidate: it does not replace the project's own approved rules, grant file access, or perform a migration.
+
+For a plain-language explanation for people, read the [human guide](references/human-guide.md); the rules in this skill still govern.
 
 ## Start with the project's authority
 
@@ -104,6 +106,6 @@ The standard structure names each documents area's audience as `customer-eligibl
 
 ## Candidate status
 
-Version `0.9.0` is awaiting a real-project test. The starter layout, names, storage assumptions, and templates have not been proven on a customer's machine or on every supported operating system. The macOS path is untested. In particular, mount behavior, filesystem labels, backup coverage, and automatic retention are platform- and project-specific. Keep such items marked **not tested** until the named project test produces evidence and its owner accepts the result. Version `1.0.0` requires the approved test to pass and the project's readers to accept the exact content hash.
+Version `0.9.1` is awaiting a real-project test. The starter layout, names, storage assumptions, and templates have not been proven on a customer's machine or on every supported operating system. The macOS path is untested. In particular, mount behavior, filesystem labels, backup coverage, and automatic retention are platform- and project-specific. Keep such items marked **not tested** until the named project test produces evidence and its owner accepts the result. Version `1.0.0` requires the approved test to pass and the project's readers to accept the exact content hash.
 
 Publishing this source does not install or bind it, grant access to any repository or storage, approve a move, activate a lifecycle rule, or promote its trust tier.
