@@ -12,17 +12,17 @@ kaidera:
     - tool:file_write
     - tool:code_interpreter
   allowed_domains: []
-  content_hash: ffd663f8091f4d84648e3ff03f6adb304efaaf5cca539da0f91501fcdbc74db1
+  content_hash: 2fc07a2ce6da7fbe03c113d198125215f1b59a86f721ad667c9c104d4a4b7598
   signed_by: ""
   last_reviewed: ""
   reviewer: ""
   source:
     repo: Kaidera-AI/skills
     path: skills/development/folder-structure
-    content_sha256: f829deda6ed58b843b42402633d0ebbab1e6f17add270f6566202b2fa2e6a86c
+    content_sha256: d6311d936c461684294ba683983c005a6ad50f51aeebf648e48d6743ed5be9b0
 author: Kaidera-AI
 license: CC-BY-4.0
-updated: 2026-11-18
+updated: 2026-11-22
 tags:
   - files
   - structure
@@ -100,7 +100,7 @@ The check described by the definition may report identical files, revision-like 
 
 ## Adopt the layout safely
 
-Use `references/adoption.md` for the full sequence. In brief: do not migrate during a release; inventory read-only; make one disposition row per exact existing path; have the product owner propose and the authorized decision-maker approve the table; preserve repositories, logs, and evidence; move one product at a time; compare counts and hashes; review the move evidence; remove only approved exact paths; then enable a gate for that product after the removals and final check are clean. If a copy cannot be verified, stop before removing the source.
+Use `references/adoption.md` for the full adoption sequence and `references/cleanup-method.md` for the four report-and-disposition turns. In brief: do not migrate during a release; inventory read-only; make one disposition row per exact existing path; have the product owner propose and the authorized decision-maker approve the table; preserve repositories, logs, and evidence; move one product at a time; compare counts and hashes; review the move evidence; remove only approved exact paths; then enable a gate for that product after the removals and final check are clean. If a copy cannot be verified, stop before removing the source.
 
 The skill does not run the inventory, write to a storage service, change permissions, update a project map, or remove a path. Those actions need their own approved plan, owner, tools, and checks.
 
@@ -118,7 +118,7 @@ No automatic age-based deletion is active in this candidate. A project must revi
 
 ## Templates and generated views
 
-The bundled templates are starting shapes, not mandatory project facts. Their destination is selected by `structure.yaml`. Named generated reader views stay in DocsVault at their declared locations; other program output stays in DevVault. Keep progress, roadmap, index, and area pages under their named generators. Keep diagrams beside the page they explain, with the source and rendered image together. Use the module and product names from the same module catalogue everywhere.
+The bundled templates are starting shapes, not mandatory project facts. Their destination is selected by `structure.yaml`. Named generated reader views stay in DocsVault at their declared locations; other program output stays in DevVault. Keep progress, roadmap, index, and area pages under their named generators. Keep diagrams beside the page they explain, with the source and rendered image together. The wireframes entry in the starter definition names one editable drawing, its same-basename rendered image, and an `index.md` for each screen area. Use the module and product names from the same module catalogue everywhere.
 
 The standard structure names each documents area's audience as `customer-eligible` or `internal`; generated views inherit that value. A release's `released` date is measured from its observed version tag or public release, never typed into the plan. Do not publish or synchronise a folder until the project owner confirms its audience contract and the receiving system's exact read-back behavior.
 
@@ -127,6 +127,17 @@ The standard structure names each documents area's audience as `customer-eligibl
 Version `0.9.0` is awaiting a real-project test. The starter layout, names, storage assumptions, and templates have not been proven on a customer's machine or on every supported operating system. The macOS path is untested. In particular, mount behavior, filesystem labels, backup coverage, and automatic retention are platform- and project-specific. Keep such items marked **not tested** until the named project test produces evidence and its owner accepts the result. Version `1.0.0` requires the approved test to pass and the project's readers to accept the exact content hash.
 
 Publishing this source does not install or bind it, grant access to any repository or storage, approve a move, activate a lifecycle rule, or promote its trust tier.
+
+<a id="file-changelog-md"></a>
+
+## Bundled file: CHANGELOG.md
+
+# Changelog
+
+## 0.9.0 — 2026-11-22 candidate update
+
+- Added a portable four-turn clean-up method with explicit holding, consumer, manifest, and count checks.
+- Added the product wireframes area and its editable source, rendered image, and index to the starter definition and template.
 
 <a id="file-references-adoption-md"></a>
 
@@ -172,6 +183,46 @@ This procedure describes a project migration. It does not authorize one. The pro
 ## Receipt
 
 The return to the project lead records the approved table reference, exact source and destination roots, inventory and move-evidence hashes, counts, verification output, any paths left as `ask`, and the structure-check state. It does not claim the migration passed if any required row is unverified or awaiting approval.
+
+<a id="file-references-cleanup-method-md"></a>
+
+## Bundled file: references/cleanup-method.md
+
+# Clean-up method
+
+Use this method only after the project owner has accepted the structure definition and the authorized decision-maker has approved an exact disposition table. It guides inventory and review; it does not itself authorize a write, move, archive, or deletion.
+
+## The four turns
+
+Work on one product at a time. Keep the inventory read-only until every proposed row has a class, an owner, a destination or hold, and the required approval.
+
+### Turn A — Rebuildable material
+
+List each build output, cache, and dependency tree by exact path, measured size, age, and the build or run that produced it. A name or age alone does not prove that an item is disposable. The owner checks that no process uses the path and that it contains no evidence or untracked work. A lead approves each exact path before its owner removes it, without a force option. Record the command and result.
+
+### Turn B — Exact duplicates
+
+Compare SHA-256 values and list every exact path for each duplicate set. Identify the copy in the approved home. The product owner approves each disposition. Copy and verify before leaving a pointer at a human-facing old path; do not delete a duplicate under this turn.
+
+### Turn C — Superseded versions
+
+Name the exact successor of every candidate and the approved archive or version destination. Follow the project's retention rule. Do not infer an archive destination or deletion date from a filename, timestamp, or apparent age.
+
+### Turn D — Old, unreferenced documents
+
+For each exact path, check the absolute path, relative path, and filename in the relevant scripts, tools, configuration, recent handoffs, and product references. Open each match to decide whether it reads the path, name its owner, and have that owner accept a ready path correction before the move. The product owner decides whether the document is still needed.
+
+## Holds and manifests
+
+Keep an item at its current path when its owner, class, reader, or destination is unknown. Mark it `HOLD`; do not invent a home, create a holding folder, or archive it. The owner must name an approved holding location in the structure and confirm its audience and readers before a copy is made. If no approved location exists, it stays in place with a pointer or a note that names the unresolved owner and question.
+
+For every approved copy or move, record a manifest row containing the exact source path, destination path, class, SHA-256, inventory date, owner, readers, approval reference, and reason. For a sealed evidence bundle, move the whole folder as one unit with its existing sums file; verify all sums after the copy. Do not split a sealed bundle into individual files.
+
+## Consumers and batches
+
+Before a move, search the bounded scope for the exact old absolute path, relative path, and filename. Include launchers, scripts, integration code, configuration, generated-page inputs, and current project references. A pointer does not keep a tool working. Update every path-reading consumer in the same approved batch, or keep the source held until the consumer change is ready. Move a registered Git worktree with Git's worktree command, by its owner; never use a plain filesystem move for it.
+
+Keep each approved batch small enough to verify as one unit. Its manifest records `from`, `to`, class, owner, consumer changes, and SHA-256. After the batch, compare source and destination counts, verify hashes, check the old-path pointers, and run the named consumer checks. Report counts for judged, copied or moved, archived, removed as approved rebuildable material, and not judged. Do not start the next turn until the current batch has a durable receipt and the authorized reviewer has read it.
 
 <a id="file-references-housekeeping-md"></a>
 
@@ -333,6 +384,10 @@ layout:
       goes_in: intent, specification, design, decisions, research, and diagrams for one development topic
       stays_out: release schedules, status, logs, and program output
       audience: internal
+    "<product_root>/docs/developer/wireframes/":
+      goes_in: editable UI drawings, same-basename rendered images, and an index of screens and review state
+      stays_out: running-application screenshots, study notes, logs, and program output
+      audience: internal
   cold_store:
     "<project>/<product>/audit/":
       goes_in: sealed evidence with a manifest and the project's approved retention policy
@@ -386,8 +441,9 @@ fixed_files:
     - spec.md
     - intent.md
   wireframes:
-    - "wireframe-<area>.excalidraw"
-    - "wireframes.md"
+    - "<area>.excalidraw"
+    - "<area>.png"
+    - "index.md"
 
 progress_data:
   path: "<product_root>/program/progress.yaml"
@@ -783,10 +839,10 @@ target_date: "<yyyy-mm-dd>"
 
 ## Bundled file: templates/wireframes.md
 
-# {{module_id}} wireframes
+# Wireframes index
 
-Each area has one editable drawing file. Each screen is a named frame; render its image beside the source. Keep the drawing source, rendered images, and this index together in the module's approved developer area.
+Keep one editable drawing and its same-basename rendered image for each screen area. List every screen and frame here, with its review state and reviewer note. Keep the source, rendered image, and this index together in the approved product wireframes area.
 
-| Screen | Image | State | Reviewer note |
-|---|---|---|---|
-| <screen-name> | <image path> | <state> | <review note or pending> |
+| Screen area | Screen/frame | Drawing | Rendered image | State | Reviewer note |
+|---|---|---|---|---|---|
+| <area> | <screen or frame name> | <area>.excalidraw | <area>.png | draft / in review / approved | <review note or pending> |

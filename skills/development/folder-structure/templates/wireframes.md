@@ -1,7 +1,7 @@
-# {{module_id}} wireframes
+# Wireframes index
 
-Each area has one editable drawing file. Each screen is a named frame; render its image beside the source. Keep the drawing source, rendered images, and this index together in the module's approved developer area.
+Keep one editable drawing and its same-basename rendered image for each screen area. List every screen and frame here, with its review state and reviewer note. Keep the source, rendered image, and this index together in the approved product wireframes area.
 
-| Screen | Image | State | Reviewer note |
-|---|---|---|---|
-| <screen-name> | <image path> | <state> | <review note or pending> |
+| Screen area | Screen/frame | Drawing | Rendered image | State | Reviewer note |
+|---|---|---|---|---|---|
+| <area> | <screen or frame name> | <area>.excalidraw | <area>.png | draft / in review / approved | <review note or pending> |

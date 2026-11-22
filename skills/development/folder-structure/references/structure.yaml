@@ -120,6 +120,10 @@ layout:
       goes_in: intent, specification, design, decisions, research, and diagrams for one development topic
       stays_out: release schedules, status, logs, and program output
       audience: internal
+    "<product_root>/docs/developer/wireframes/":
+      goes_in: editable UI drawings, same-basename rendered images, and an index of screens and review state
+      stays_out: running-application screenshots, study notes, logs, and program output
+      audience: internal
   cold_store:
     "<project>/<product>/audit/":
       goes_in: sealed evidence with a manifest and the project's approved retention policy
@@ -173,8 +177,9 @@ fixed_files:
     - spec.md
     - intent.md
   wireframes:
-    - "wireframe-<area>.excalidraw"
-    - "wireframes.md"
+    - "<area>.excalidraw"
+    - "<area>.png"
+    - "index.md"
 
 progress_data:
   path: "<product_root>/program/progress.yaml"

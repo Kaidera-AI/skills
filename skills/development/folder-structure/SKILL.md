@@ -9,7 +9,7 @@ metadata:
   risk_level: "medium"
   capabilities_required: ["tool:file_read", "tool:file_write", "tool:code_interpreter"]
   allowed_domains: []
-  updated: "2026-11-18"
+  updated: "2026-11-22"
   tags: ["files", "structure", "custody", "migration"]
   safety_constraints:
     - "A layout or dry-run classification does not authorise file creation, movement, publication, or deletion."
@@ -80,7 +80,7 @@ The check described by the definition may report identical files, revision-like 
 
 ## Adopt the layout safely
 
-Use `references/adoption.md` for the full sequence. In brief: do not migrate during a release; inventory read-only; make one disposition row per exact existing path; have the product owner propose and the authorized decision-maker approve the table; preserve repositories, logs, and evidence; move one product at a time; compare counts and hashes; review the move evidence; remove only approved exact paths; then enable a gate for that product after the removals and final check are clean. If a copy cannot be verified, stop before removing the source.
+Use `references/adoption.md` for the full adoption sequence and `references/cleanup-method.md` for the four report-and-disposition turns. In brief: do not migrate during a release; inventory read-only; make one disposition row per exact existing path; have the product owner propose and the authorized decision-maker approve the table; preserve repositories, logs, and evidence; move one product at a time; compare counts and hashes; review the move evidence; remove only approved exact paths; then enable a gate for that product after the removals and final check are clean. If a copy cannot be verified, stop before removing the source.
 
 The skill does not run the inventory, write to a storage service, change permissions, update a project map, or remove a path. Those actions need their own approved plan, owner, tools, and checks.
 
@@ -98,7 +98,7 @@ No automatic age-based deletion is active in this candidate. A project must revi
 
 ## Templates and generated views
 
-The bundled templates are starting shapes, not mandatory project facts. Their destination is selected by `structure.yaml`. Named generated reader views stay in DocsVault at their declared locations; other program output stays in DevVault. Keep progress, roadmap, index, and area pages under their named generators. Keep diagrams beside the page they explain, with the source and rendered image together. Use the module and product names from the same module catalogue everywhere.
+The bundled templates are starting shapes, not mandatory project facts. Their destination is selected by `structure.yaml`. Named generated reader views stay in DocsVault at their declared locations; other program output stays in DevVault. Keep progress, roadmap, index, and area pages under their named generators. Keep diagrams beside the page they explain, with the source and rendered image together. The wireframes entry in the starter definition names one editable drawing, its same-basename rendered image, and an `index.md` for each screen area. Use the module and product names from the same module catalogue everywhere.
 
 The standard structure names each documents area's audience as `customer-eligible` or `internal`; generated views inherit that value. A release's `released` date is measured from its observed version tag or public release, never typed into the plan. Do not publish or synchronise a folder until the project owner confirms its audience contract and the receiving system's exact read-back behavior.
 
