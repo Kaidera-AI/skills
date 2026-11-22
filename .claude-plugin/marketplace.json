@@ -3,7 +3,7 @@
   "description": "Locally validated, provenance-aware skills for Kaidera agents",
   "version": "1.0.0",
   "source": "https://github.com/Kaidera-AI/skills",
-  "generated_at": "2026-11-15T00:00:00.000Z",
+  "generated_at": "2026-11-22T00:00:00.000Z",
   "generation_basis": "maximum skill updated date",
   "skills": [
     {
@@ -1283,7 +1283,7 @@
     },
     {
       "name": "deploy-gate",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "description": "Gates pushes, pull requests, merges, releases, and deployments on exact target,\ncurrent authorization, quality evidence, and rollback readiness.\n",
       "category": "devops",
       "trust_tier": "unvetted",
@@ -1306,7 +1306,7 @@
       },
       "author": "Kaidera",
       "license": "Apache-2.0",
-      "updated": "2026-07-29",
+      "updated": "2026-11-22",
       "tags": [
         "deployment",
         "release",
@@ -1314,7 +1314,7 @@
         "authorization",
         "rollback"
       ],
-      "content_hash": "f21d1883e38314ce59f63afeaf027dbfebd4fc7c9014befacc837b78e6205712",
+      "content_hash": "eb95d0c2f08e286b52aa680955c9196197f452ba58d26edef2c3399dd6dcfa6b",
       "signed_by": "",
       "last_reviewed": "",
       "reviewer": "",

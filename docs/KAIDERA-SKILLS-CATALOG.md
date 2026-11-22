@@ -203,7 +203,7 @@ Use `design-selection` for the initial static/deck/3D/UI/native/video route, `ui
 | Development | `ultrareview` | `1.1.1` | Whole-codebase, multi-dimension health audit with optional fix mode | Rework before use | low / none declared |
 | Development | `unlazy` | `1.0.1` | Completion discipline for substantial autonomous work. Write acceptance gates | Bounded candidate | medium / file read, file write |
 | DevOps | `cloud-agnostic-policy` | `1.0.0` | Reviews infrastructure choices for portability and prevents an architecture | Manual-only | low / file read |
-| DevOps | `deploy-gate` | `1.0.0` | Gates pushes, pull requests, merges, releases, and deployments on exact target, | Manual-only | medium / file read |
+| DevOps | `deploy-gate` | `1.1.0` | Gates pushes, pull requests, merges, releases, and deployments on exact target, | Manual-only | medium / file read |
 | DevOps | `infra-naming-gate` | `1.0.0` | Validates proposed infrastructure names against a portable organization, | Manual-only | low / file read |
 | Documentation | `cairn` | `1.0.1` | Keep a project on Cairn, the Kaidera project map: contract files, one writer (the documentarian), enrolment, update loop, checks | Bounded candidate | medium / file read, file write, interpreter |
 | Documentation | `human-voice` | `1.0.0` | Rewrite, audit, or draft public-facing prose so it uses checkable specifics | Reference-only | low / none |
@@ -734,10 +734,10 @@ first. The EnGenAI-era deployment runbooks and platform patterns are filed under
 
 ### `deploy-gate`
 
-<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read"],"category":"devops","legacy":false,"name":"deploy-gate","path":"skills/devops/deploy-gate.SKILL.md","posture":"manual-only","review_fingerprint":"9109023eaf0254a2ad1beeff90355a7a63e885766058fcb27e23db833fcaba4e","risk_level":"medium","trust_tier":"unvetted","version":"1.0.0"} -->
+<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read"],"category":"devops","legacy":false,"name":"deploy-gate","path":"skills/devops/deploy-gate.SKILL.md","posture":"manual-only","review_fingerprint":"7e35fca888ef9510e4920ce90b46823ef965d6465bbe26dc2c486da855ccbb78","risk_level":"medium","trust_tier":"unvetted","version":"1.1.0"} -->
 
 - **Manifest:** [deploy-gate.SKILL.md](../skills/devops/deploy-gate.SKILL.md)
-- **Function:** Portable execution gate: no deployment without named authorisation, a rehearsed rollback and pasted pre-flight evidence.
+- **Function:** Portable execution gate: named authorisation, rehearsed rollback, fresh pre-flight evidence, and history-faithful rehearsals when used.
 - **Use when:** Any deploy, release or environment mutation.
 - **Do not use when:** Local development runs that mutate nothing shared.
 - **Inputs and output:** No parameters or tools; gate text only.
