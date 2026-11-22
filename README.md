@@ -27,7 +27,7 @@ Skills are instructions, not programs: the flat `*.SKILL.md` manifest carries no
 | Category | Description | Count |
 |----------|-------------|-------|
 | `context/` | Project and workspace awareness | 2 |
-| `development/` | Code writing, review, testing | 25 |
+| `development/` | Code writing, review, testing | 26 |
 | `devops/` | Deployment, infrastructure, CI/CD | 3 |
 | `documentation/` | Specs, docs, changelogs, writing voice | 2 |
 | `legacy/` | Retired EnGenAI-era material, kept as reference | 21 |
@@ -39,7 +39,7 @@ Skills are instructions, not programs: the flat `*.SKILL.md` manifest carries no
 
 New portable source candidates: [gsd-core](skills/development/gsd-core/SKILL.md), [design-selection](skills/development/design-selection/SKILL.md), [ui-design-engineering](skills/development/ui-design-engineering/SKILL.md) and [hyperframes](skills/development/hyperframes/SKILL.md). They are original adapters with pinned upstream citations; no upstream installer or plugin is bundled. The additional [ui-ux-review](skills/development/ui-ux-review/SKILL.md) and [web-interface-guidelines](skills/development/web-interface-guidelines/SKILL.md) candidates retain Apache-2.0/MIT donor terms and local notices. See [review and selection boundaries](docs/UPSTREAM-SKILLS-REVIEW-2026-10-10.md).
 
-The directory form can be installed through the universal plain-file skills path after project approval, for example: `npx skills add Kaidera-AI/skills --skill design-selection -a universal -y --copy`. Cortex projects register and bind through their existing owner; source publication does not activate these unvetted candidates.
+The directory form can be installed through the universal plain-file skills path after project approval, for example: `npx skills add Kaidera-AI/skills --skill design-selection -a universal -y --copy`. The project owner handles registration and binding; source publication does not activate or bind these unvetted candidates. The new [flow-of-work](skills/development/flow-of-work/SKILL.md) candidate is also available in directory form.
 
 ## Cairn: keeping a project on the project map
 
@@ -73,7 +73,7 @@ Also implemented: deterministic catalogue generation (`npm run generate` writes 
 
 Copy the `.SKILL.md` file into the place your harness reads skills from. The body below the frontmatter is the instruction text; the frontmatter says what the skill needs and what it promises not to do. Read the [catalogue](docs/KAIDERA-SKILLS-CATALOG.md) entry first: it records each skill's operating posture (bounded candidate, reference-only, manual-only, rework before use).
 
-`kaidera-sdlc`, `gavel`, and the five Jev-family skills also ship in directory form for the harness-agnostic skills CLI (replace the skill name as needed): `npx skills add Kaidera-AI/skills --skill gavel -a universal -y --copy` installs `SKILL.md`, the stdlib helper and its references into `.agents/skills/gavel/`.
+`kaidera-sdlc`, `flow-of-work`, `gavel`, and the five Jev-family skills also ship in directory form for the harness-agnostic skills CLI (replace the skill name as needed): `npx skills add Kaidera-AI/skills --skill flow-of-work -a universal -y --copy` installs `SKILL.md` and its references into `.agents/skills/flow-of-work/`.
 
 For Jev, install `jev` and a wrapper into the same project separately: `npx skills add Kaidera-AI/skills --skill jev -a universal -y --copy`, then `npx skills add Kaidera-AI/skills --skill jev-return-triage -a universal -y --copy`. Each wrapper calls `.agents/skills/jev/tools/jev.py`; installing it alone does not install the core or the project's transfer policy. Use either Gavel or the three Jev lead wrappers (triage, handoff, backlog), not both. The Jev core uses `TYPESAFE_API_KEY` from the process environment. All remain unvetted; the CC-BY-4.0 root versus Apache-2.0 per-skill licensing precedence remains an explicit external-redistribution hold.
 
