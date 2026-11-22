@@ -179,4 +179,4 @@ Under the following terms:
 
 [kaidera.ai](https://kaidera.ai) | [Platform Repo](https://github.com/Kaidera-AI/platform)
 
-The [folder-structure](skills/development/folder-structure/SKILL.md) candidate defines a project-owned structure file, placement rules, and an approved migration path. It is manual-only, unvetted, and does not activate a project layout by publication alone.
+The [folder-structure](skills/development/folder-structure/SKILL.md) candidate defines a project-owned structure file, placement rules, and an approved migration path. It is manual-only, unvetted, and does not activate a project layout by publication alone. For a plain-language explanation for people, read the [human guide](skills/development/folder-structure/references/human-guide.md).

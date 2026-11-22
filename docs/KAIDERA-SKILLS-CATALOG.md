@@ -241,7 +241,7 @@ Use `design-selection` for the initial static/deck/3D/UI/native/video route, `ui
 | Development | `web-interface-guidelines` | `1.0.0` | Review web UI against the pinned local Vercel snapshot. | Reference-only | medium / file read |
 | Development | `ui-design-engineering` | `1.0.0` | Improve UI craft, input feedback, purposeful motion, gesture continuity and mobile details. | Bounded candidate | medium / file read, file write, interpreter, web search |
 | Development | `flow-of-work` | `0.5.0` | Keep workers and leads moving through one priority- and dependency-ordered work list, with blockers routed and evidence recorded. | Manual-only | medium / file read, file write |
-| Development | `folder-structure` | `0.9.0` | Route project files from one approved structure definition and guide verified, owner-approved adoption. | Manual-only | medium / file read, file write, interpreter |
+| Development | `folder-structure` | `0.9.1` | Route project files from one approved structure definition and guide verified, owner-approved adoption. | Manual-only | medium / file read, file write, interpreter |
 | Development | `gsd-core` | `1.0.0` | Use persistent phase artifacts and bounded context to plan, execute or resume GSD Core work. | Bounded candidate | medium / file read, file write, interpreter, web search |
 | Development | `hyperframes` | `1.0.0` | Author and locally render deterministic HTML video compositions and motion graphics. | Bounded candidate | medium / file read, file write, interpreter, web search |
 | Development | `visual-design-production` | `1.0.0` | Design and inspect branded or editorial graphics, posters, social assets and campaign compositions | Bounded candidate | medium / file read, file write, interpreter |
@@ -449,7 +449,7 @@ entry is current-source; the EnGenAI-era development material is filed under
 
 ### `folder-structure`
 
-<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:file_write","tool:code_interpreter"],"category":"development","legacy":false,"name":"folder-structure","path":"skills/development/folder-structure.SKILL.md","posture":"manual-only","review_fingerprint":"2b62abb88682aafb09a673ad6a0b34771f2342e8cf22c8879ea983719486b93c","risk_level":"medium","trust_tier":"unvetted","version":"0.9.0"} -->
+<!-- kaidera-skill-catalog-entry {"capabilities_required":["tool:file_read","tool:file_write","tool:code_interpreter"],"category":"development","legacy":false,"name":"folder-structure","path":"skills/development/folder-structure.SKILL.md","posture":"manual-only","review_fingerprint":"f5bb53bff8213e06f1471358759e1f14efc7e7d4115ca1acf216b1a4c19f3243","risk_level":"medium","trust_tier":"unvetted","version":"0.9.1"} -->
 
 - **Manifest:** [folder-structure.SKILL.md](../skills/development/folder-structure.SKILL.md)
 - **Function:** Route files from one project-owned structure definition and describe an owner-approved, hash-verified migration.
