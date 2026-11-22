@@ -312,6 +312,42 @@
       "attribution_notes": "Original generic process text from the Kaidera-AI operating model and the kaidera-sdlc lifecycle. External standards are cited as references, not reproduced."
     },
     {
+      "name": "flow-of-work",
+      "version": "0.5.0",
+      "description": "Use whenever a worker or lead must choose the next task, hand off work, or handle a blocker. Pull from one ordered list by priority and dependency; do not schedule ordinary tasks by time.",
+      "category": "development",
+      "trust_tier": "unvetted",
+      "risk_level": "medium",
+      "capabilities_required": [
+        "tool:file_read",
+        "tool:file_write"
+      ],
+      "allowed_domains": [],
+      "safety_constraints": [
+        "A task claim never grants authority for a public write, security-sensitive read, destructive action, or live-system change.",
+        "Keep secrets and personal network addresses out of task records and memory entries.",
+        "Do not send a message or modify a record outside the project's approved coordination system."
+      ],
+      "parameters": {},
+      "author": "Kaidera-AI",
+      "license": "Apache-2.0",
+      "updated": "2026-11-22",
+      "tags": [
+        "planning",
+        "priority",
+        "operations",
+        "coordination"
+      ],
+      "content_hash": "937a439d6be5ab2923ddd3d24cb841462a06660e8698e8bb60daddfa05292fb8",
+      "signed_by": "",
+      "last_reviewed": "",
+      "reviewer": "",
+      "file": "skills/development/flow-of-work.SKILL.md",
+      "attribution_author": "Kaidera-AI",
+      "attribution_url": "",
+      "attribution_notes": "Adapted from Kaidera's internal Flow of Work operating method; project-specific policy and incident records are excluded."
+    },
+    {
       "name": "folder-organisation",
       "version": "1.0.1",
       "description": "One root, one home per kind of thing, one owner per fact. Where every file of a KOS project goes, how temporary work is kept temporary, and the loop that consolidates an estate that has already scattered. Loads at every worker boot.",

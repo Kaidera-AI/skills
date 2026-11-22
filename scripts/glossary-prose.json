@@ -229,6 +229,10 @@
       "what": "Place project files and record content custody before an authorised consolidation or sync.",
       "why": "Keep foreign edits, distinguish planned actions from writes, and use the canonical approved writer."
     },
+    "flow-of-work": {
+      "what": "Choose the next task from a priority- and dependency-ordered work list, route blockers, and close work with durable evidence.",
+      "why": "Keep workers moving without turning task dates into priority or bypassing approval gates."
+    },
     "visual-design-production": {
       "what": "Static visual craft: hierarchy, grid, exact text/marks, brand composition and inspected export.",
       "why": "Makes Gem’s still-production methods reusable without copying a customer brand."
