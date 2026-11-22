@@ -39,6 +39,37 @@ One line per file: path, new or modified, why.
 1. Step, with the check that proves it before the next step starts.
 2. ...
 
+## Release cadence and slices (release work; `references/stages.md`, "Release system")
+
+Approved release policy and owner: <policy reference, revision, owner>.
+Release window or trigger and timezone if applicable: <accepted value or not applicable>.
+Product/service status and version authority: <product, status, dated authority>. Split larger
+work into independently verifiable slices before BUILD. Dependencies name an owner and gate,
+not an assumed availability time.
+
+| Window / product or service / version | Slice and owner | Dependency gate | Acceptance receipt | State / blocker / next owner |
+|---|---|---|---|---|
+| <window / product / version> | <small deliverable / owner> | <gate or none> | <command/output identity> | <state with receipt> |
+
+## Target matrix (release work)
+
+Shared source revision, if required: <full SHA>.
+Product/service version: <version or policy reference>.
+Final manifest and signing policy: <path and identity, or pending gate / not applicable>.
+
+| Required target | Artifact / build route | Adapter / test surface | Prerequisites | Native full gate target / receipts | Trust / final-byte inventory |
+|---|---|---|---|---|---|
+| <platform or environment> | <artifact and approved route> | <target-specific behavior and tests> | <accepted dependencies> | <target and run receipt> | <signing/trust and manifest identity, if required> |
+
+Authorized exception, if any: <owner/policy/scope/reason/recovery action, or none>. A missing
+row or receipt is pending, not green. Name each required target and show its source and
+artifact identity.
+
+Gate RED collection and safe diagnostic boundaries: <receipt location / conditions>.
+Fix class and approval route: <docs/host byte-preservation proof or payload impact and owner>.
+Signing step and authorized signer: <gate, owner, evidence; show the command only at the approved turn>.
+Progress artifact update: <project artifact/dashboard, units, version and evidence links>.
+
 ## Waves (multi-agent work only)
 Wave, owner, handoff, what it delivers, what it depends on. Waves map to Cortex epic increments.
 

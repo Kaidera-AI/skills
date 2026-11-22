@@ -7,6 +7,93 @@ are portable (originator, lead, reviewer, adjudicator, integration custodian, re
 authority); who holds each one today is a Cortex role occupancy record, not a line here
 (`governance.md`, "Separation of duties" and "Role occupancy records").
 
+## Release system
+
+This section provides a reusable method for planning and proving a release. The project's
+accepted release policy controls cadence, supported targets, versioning, signing, approval
+roles, exceptions and public naming. Cite that policy and its owner in the plan. If policy
+is absent or conflicting, pause at the unresolved decision and ask its owner. This skill
+does not set project release policy.
+
+### Release slices and target matrix
+
+Split work into independently verifiable and releasable slices. Each slice names its
+product or service, version when applicable, owner, dependencies, acceptance output and
+approved release window or trigger. A deadline never waives a required gate, review,
+platform receipt, signature or human go. If no candidate is eligible, record the missed
+window, first blocking gate and smallest recovery slice; consult the accountable lead. Do
+not manufacture a release, mark a RED green or invent an exception to satisfy the clock.
+
+For every supported platform or environment, record the shared source revision when
+required, artifact/build route, target-specific adapter, prerequisites, native gate target,
+trust/signing route and evidence. Record whether targets share a version and final manifest
+according to project policy. An exception must identify its authorized owner, scope, reason
+and recovery action. An exception is not a passing receipt.
+
+| Stage | Required release work and receipt |
+|---|---|
+| **PLAN** | Split work into releasable slices. Name product/version, owner, dependencies, acceptance output and approved release window or trigger. Carry a row for every required target with its build route, adapter, prerequisites, native gate, trust route and evidence. |
+| **BUILD** | Build every required target through its approved route. Record the source revision, toolchain, dependencies and artifact identities. Keep target-specific behavior in a thin tested adapter where practical. |
+| **VERIFY** | Run the full required gate on each approved target and from candidate bytes. Preserve source, target, artifact/image identities, dependencies and install/restart/health receipts. Unit or cross-build success does not replace a required target gate. |
+| **REVIEW** | Review the targets, shared revision and version where applicable, adapters, dependencies, trust plan and final-byte inventory. Bind verdicts to the candidate; disclose REDs, blocked checks and authorized exceptions. The author cannot approve. |
+| **SHIP** | Require every applicable gate, review and trust receipt, then any policy-required signed manifest covering final bytes. Publish only on the human release authority's go. Record actual publication and installation outcomes by target. |
+| **MAINTAIN** | Carry missed windows, observed failures and missing required targets into the next releasable slice. Update progress from receipts; preserve gate history and the rollback path. |
+
+### Gate runs: auto-collect and keep going
+
+On any RED, automatically preserve the command, exit or signal, attached output or log-driver
+output, available service logs, runtime inspect data, relevant configuration and mounts, and
+available kernel, audit or coredump observations. Bind the receipt index to the run, host,
+target, source and payload or manifest identities. Preserve unavailable evidence as an
+explicit missing or refused observation. Redact before storage: environment names only, no
+credential values, tokens, DSNs or private user payloads in the receipt pack.
+
+Keep going in diagnostic mode wherever later checks are safe and their prerequisites still
+hold. Preserve each later exit and result; mark dependent checks BLOCKED with the failed
+dependency instead of pretending they ran. Stop steps that would violate ownership, privacy,
+authorization or safety; retain the reason. Do not repair the host or product, retry with
+weaker settings, or create extra infrastructure inside the diagnostic continuation.
+
+The run stays RED if any required check fails, is blocked or is missing. Later green
+observations never erase the first failure. Diagnosis does not pass acceptance. After an
+admitted fix, a new byte-bound full gate run supplies the acceptance evidence.
+
+### Fix class and signing
+
+Classify a proven fix against the actual signed artifact inventory, not its filename:
+
+| Class | Boundary | Required next action |
+|---|---|---|
+| **Docs/host** | Documentation or a host prerequisite changes while every signed payload, image, manifest and signature byte remains unchanged. A document packaged inside signed bytes is not in this class. | Record byte-preservation evidence; review and admit the delta, then rerun the required procedure and gates. The existing signature does not prove acceptance of the changed procedure. |
+| **Payload** | Source, image, packaged configuration, entrypoint, payload or manifest changes signed bytes. Unproven impact is not clearance for docs/host. | Consult the authorized release owner before rebuilding, with the cause, exact affected bytes and smallest scope. After approval, fix with RED-first proof, rebuild affected artifacts, regenerate the final inventory/manifest, review and rerun required gates. Obtain any required new signature; retain and mark superseded packets and do not publish them. |
+
+Use the approved signing procedure only after its prerequisites are accepted and bind signing to
+the reviewed candidate and final-byte inventory. Only an authorized signer executes that step.
+Do not expose credentials. Verify signatures and final artifact digests before shipping.
+
+### Progress and naming
+
+Update the project's progress artifact or release dashboard from verified evidence: completed
+units against a stated denominator, gate/run and source receipt, last observation time,
+blocker, next owner and next release checkpoint. Review acceptance, signing and publication
+are separate states; scheduled work does not fill a completed segment. The lead owns the
+consolidated view; workers supply receipts, not competing progress facts.
+
+Public release names follow the product's accepted naming policy. Preserve historical signed
+identifiers and prerequisite bindings; renaming them is an artifact change, not editorial
+cleanup. Migrate a signed identity only through the authorized change process.
+
+**Reopening trigger:** an approved project decision changes cadence, supported targets,
+exception scope, signing authority or a gate boundary; cite that decision and review the
+policy delta.
+
+### Policy integration
+
+If a project requires always-on release behavior, express it in the project's canonical rule
+store through its governance process. Keep the rule short and point it to this skill for
+detail. Drafting guidance does not authorize installation, binding, publication or direct
+edits to generated harness pointers.
+
 ## 1. Intent: "ideas stop waiting for someone to write them up"
 
 - **Practice.** The originator (the release authority, a customer, an agent that found

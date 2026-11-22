@@ -31,6 +31,12 @@ boot): "no implementation without an accepted plan; verification is output that 
 the agent acts up to the gate; incidents re-enter as intent; the `kaidera-sdlc` skill is the
 method." The rule is short; the skill is the depth.
 
+Projects can add a short startup rule for release behavior when their governance process
+requires one. The rule points to this skill for detail and reflects the project's accepted
+policy. The policy owner reviews it and the authorized custodian applies it through the
+canonical rule store. Drafting does not authorize installation, binding, publication or
+direct edits to generated harness pointers.
+
 ## Keeping it current
 
 - Version in the frontmatter; a CHANGELOG line per change; the marketplace `updated` date.

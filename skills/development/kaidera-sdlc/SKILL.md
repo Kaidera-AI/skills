@@ -5,8 +5,8 @@ license: Apache-2.0
 # policy skill (K2 R1, 2026-09-04): rides every worker boot regardless of ranking
 always_load: true
 metadata:
-  version: 1.3.0
-  authority: "CTO standing order 2026-09-03; design docs/design/31-ai-native-sdlc-skill.md; THE_WAY sections 9-14; rework after adversarial review 2026-09-04 (gate records, portable roles, risk beats urgency)"
+  version: 1.4.0
+  authority: "Kaidera SDLC design and review history through 2026-09-04; project-governed release planning guidance added in 1.4.0"
   sources: "Anthropic, The AI-Native SDLC playbook (2026-08-21); grill-me (Matt Pocock lineage, MIT); molten-os-core molten-validate (Switch Dimension, MIT); gstack plan reviews and ship (Garry Tan, MIT); unlazy (Leonxlnx, MIT); Kaidera THE_WAY_OF_DEVELOPMENT; 1.2.0 ideas from michaelshimeles/skills, unslop (L. Tan, MIT), greploop (Greptile, MIT), before-and-after (vercel-labs): see references/attribution.md"
   applies_to: [lead, cpo, pm, orchestrator, full-stack-developer, knowledge-keeper]
   bias: "artifacts before action; one question at a time; evidence over reports; humans own judgement; gates are deterministic; every rule is a dated decision; roles are portable, occupants are records"
@@ -36,6 +36,7 @@ only the depth changes.
 | verify, test, prove, "is it done" | Verify | `references/stages.md` §4 |
 | review, adjudicate, second-pass, "is this safe to merge" | Review | `references/stages.md` §5, `templates/REVIEW.md` |
 | ship, release, deploy, publish | Ship | `references/stages.md` §5, `references/governance.md` |
+| plan a release, confirm cadence or targets, run gates, classify a release fix, prepare signing, report progress | Plan through Maintain | `references/stages.md`, "Release system" |
 | an alert, incident, scan finding, "why did this break" | Maintain, then Intent | `references/stages.md` §6, `templates/bands.yaml` |
 | retro, "what did we learn", update the rules | Maintain | `references/stages.md` §6, `references/metrics.md` |
 | work alongside other agents; dispatch or return a handoff | Plan and build | `references/team.md` |
@@ -96,6 +97,11 @@ Load only the reference the stage needs. Do not read every file at once.
     other agents' in-flight work before the first edit; never touch a tree you do not own; a
     worktree does not isolate ports, databases or the coordination store
     (`references/team.md`).
+14. **Release decisions follow project policy.** Record the accepted cadence, supported
+    targets, required gates, signing and approval roles, exceptions and evidence. Run the
+    required checks on the exact candidate; the human release authority retains the go
+    gate. Apply the diagnostic, signed-byte fix-class, signing and progress guidance in
+    `references/stages.md`.
 
 Roles are portable: originator, lead, reviewer, adjudicator, integration custodian, release
 authority (human). Current occupants, their authorisation and its expiry are Cortex role
