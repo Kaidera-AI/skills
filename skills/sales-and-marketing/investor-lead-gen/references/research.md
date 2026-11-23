@@ -39,6 +39,7 @@ Record for each fund:
 3. Record the amount and currency exactly as published, plus a converted value in the instance's base currency at a named reference rate on the research date.
 4. Before a first email the minimum, or the fact that the fund publishes none, must be read on the fund's own site. A press figure may set the deck only with an owner's named exception on the record.
 5. Note the average cheque and whether the fund likes to lead. A fund whose average is many times its minimum may read a small round as below its usual cheque; the owners decide whether to match the average instead.
+6. The minimum cheque is not the minimum round size, and neither is a traction bar. Record a round-size floor or a revenue bar only when the fund states it, on its site or in a decline; a cheque range alone says nothing about round-size fit. A decline that names either bar records it on the fund as a re-entry condition, visible to research on similar funds.
 
 ## 4. Competitor check
 

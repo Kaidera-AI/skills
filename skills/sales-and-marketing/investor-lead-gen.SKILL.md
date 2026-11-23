@@ -1,6 +1,6 @@
 ---
 name: investor-lead-gen
-version: 1.5.0
+version: 1.6.0
 description: Find investors for an early-stage round, write to each person one to one, follow up
   once, hand replies to the people who take the meetings, and keep a reusable investor database and
   learning log. Use for investor lead generation and cold investor outreach by any company or brand;
@@ -15,17 +15,17 @@ kaidera:
     - tool:web_search
     - tool:mcp_external
   allowed_domains: []
-  content_hash: eace44f5e44ed4b1111941a44a2f47fafd8db8ba2e8effde537a6dd85a5a8504
+  content_hash: 7215317f628bee21607cd9a6af081ad46a55c657278d093806e943b2f6c3066a
   signed_by: ""
   last_reviewed: ""
   reviewer: ""
   source:
     repo: Kaidera-AI/skills
     path: skills/sales-and-marketing/investor-lead-gen
-    content_sha256: 6883b0e9344def48d2021db350b8d7f1ae7f1aa779bcb8887fc0fbae306d1923
+    content_sha256: bf802bda249821e635a0628171f5f9ef41f7525eac31785d7d28b1eaa5380e0a
 author: Kaidera-AI
 license: Apache-2.0
-updated: 2026-11-09
+updated: 2026-11-23
 tags:
   - sales
   - marketing
@@ -515,6 +515,31 @@ Anonymised lessons from running this skill on a real pre-seed raise. Each one na
 - **Rule:** Keep the current release and copy approvers in the instance as an explicit lane override. When authority changes, update code, configuration and operating documents together; a mark from a former delegate does not release an investor item.
 - **Check:** Tests accept the named lane owner's mark and reject every other principal without changing the release or copy state.
 
+### L44 · 2026-11-09 · Resume every paired pause path only after a no-send restart audit
+- **Observed:** The owner lifted a pause that had stopped cold sends, follow-ups, meeting chases, research and the daily status for about two weeks. At restart, released people were waiting, a first email and a follow-up were immediately eligible, and several sequences had to stay stopped because the founder now handled those funds.
+- **Rule:** On an explicit restart, first reconcile replies received under the pause. Check approved copy, releases, CRM readiness, bounce and complaint stops, founder-owned stops and meeting chases. Preview the first new email and the first follow-up without writing, then lift the send pause and the status pause together with one dated receipt. A restart removes the pause only; it changes no recipient, release, copy or cadence gate.
+- **Check:** The restart receipt lists each check, the two previews and the time both pauses were lifted. The founder-owned stops still read stopped after the next scheduled run.
+
+### L45 · 2026-11-09 · Keep conflicting own-site investment statements visible
+- **Observed:** A fund's current homepage gave one stage band and an initial-ticket range, while its regulatory disclosure on the same site gave a narrower stage band and a lower "typical" deployment range.
+- **Rule:** When a fund's own pages disagree, keep both statements and show the stricter stage or geography as a stretch. For the minimum-cheque gate, use a figure only when the fund calls it a minimum or gives it as the lower bound of an initial-ticket range; a separate "typical" range does not replace it. Put the conflict in the release note for the owner rather than picking the more favourable page.
+- **Check:** The fund record cites both pages and their read dates, and the release note names the conflict.
+
+### L46 · 2026-11-09 · A tax-relief eligibility question is a company fact only the founder can state
+- **Observed:** A fund answered the first email within hours asking whether the round qualifies for a national tax-relief scheme for early-stage investors. No company or adviser record held a ruling, and the standard reply with a call link would have implied one.
+- **Rule:** Stop the fund's sequences, send no generic introduction and state nothing about eligibility. Ask the founder once for the exact wording, record the open gate on the round register, and hold any fund whose mandate requires the scheme until a sourced ruling exists. The first request is the solicitation; do not ask again.
+- **Check:** The round register row names the open gate and the date it was asked. No outbound copy or release note mentions scheme eligibility.
+
+### L47 · 2026-11-10 · A pause that waits on the inbox run lets the sender keep going
+- **Observed:** The founder replied on an investor thread asking to pause outreach. The inbox reader picked it up 25 minutes later, the run that should have placed the hold failed to sign in, and the hold went on about two hours after the message. Three follow-ups left in between.
+- **Rule:** Time a pause from the owner's message, not from when it is acted on. Place the send hold first, before reading the rest of the thread or replying, and list every send between the message and the hold in the acknowledgement. An owner pause should not depend on one reasoning run succeeding: the inbox path that sees it should place the hold itself or page for it.
+- **Check:** The acknowledgement gives the message time, the hold time and every send between them. A rehearsed pause message on a test thread places the hold with the reasoning run disabled.
+
+### L48 · 2026-11-12 · A cheque range on the site does not show the fund's minimum round size or traction bar
+- **Observed:** A fund's site gave a typical initial-ticket range, and the teaser figure was set to fit it. The fund passed, naming a minimum round size above the company's round and a recurring-revenue bar, and invited reconnection once there were paying customers. Neither bar was on the site.
+- **Rule:** Treat the minimum cheque and the minimum round size as separate fit fields. When a decline names a round-size floor or a traction bar, record both on the fund as re-entry conditions with the decline, keep them visible to research on similar funds, and leave any re-approach to the founder. A cheque range alone says nothing about round-size fit.
+- **Check:** The declined fund's record carries the named bars as re-entry conditions, and its CRM rows read closed with the decline reason.
+
 <a id="file-references-outreach-strategy-md"></a>
 
 ## Bundled file: references/outreach-strategy.md
@@ -590,6 +615,7 @@ After any copy-version or gate change, dry-run the follow-up step and count the 
 - Stop every sequence at that fund. Colleagues not yet written to are held.
 - Within the hour, send the standard answer the owners approved: introduce the people who take meetings, propose a call and give the booking link. Once per thread, never to an opt-out, a decline or an automatic reply, and not after an owner has answered.
 - Follow the thread until a call is on the calendar: one reminder seven business days after the standard answer, never before the investor's own stated timeline.
+- A question about whether the company or round qualifies for a tax-relief scheme is a company fact only the founder can state. Stop the fund's sequences, send no standard answer and say nothing about eligibility; ask the founder once and record the open gate on the round register.
 - A decline can arrive outside your thread, from a form system to a founder's own address. Close it by hand when it is forwarded; automation will not see it.
 - Count replies from the sequence record, not from mailbox search: a reply moved to trash disappears from search.
 - A fund that names a condition (a first paid pilot, live deployments) gets that condition recorded as a re-entry trigger, not a follow-up date. Customer news that meets it goes to the founder the same day.
@@ -611,7 +637,7 @@ The owners usually want one short daily figure: people and funds written to, fun
 
 ## 11. Pausing the lane
 
-A pause reaches every path that touches the lane: the senders, the follow-up and research steps, any task dispatcher or scheduled carrier that files lane work, and the daily status. Dry-run each one with the kill switch set and record what it printed. Unless the owner asks to keep the status going, it pauses with the lane. Before the pause is lifted, check that every fund an owner took over is stopped, and re-run by hand any research turn that was skipped. A touch someone on the team sends by hand during the pause is recorded as history on a human-touch list that blocks cold runs for that fund; it never starts a sequence or a follow-up.
+Time a pause from the owner's message, not from when someone acts on it. Place the send hold before anything else, and list every send between the message and the hold in the acknowledgement. The path that reads the owner's mail should be able to place the hold without a full reasoning run. A pause reaches every path that touches the lane: the senders, the follow-up and research steps, any task dispatcher or scheduled carrier that files lane work, and the daily status. Dry-run each one with the kill switch set and record what it printed. Unless the owner asks to keep the status going, it pauses with the lane. Before the pause is lifted, check that every fund an owner took over is stopped, and re-run by hand any research turn that was skipped. A touch someone on the team sends by hand during the pause is recorded as history on a human-touch list that blocks cold runs for that fund; it never starts a sequence or a follow-up.
 
 <a id="file-references-research-md"></a>
 
@@ -658,6 +684,7 @@ Record for each fund:
 3. Record the amount and currency exactly as published, plus a converted value in the instance's base currency at a named reference rate on the research date.
 4. Before a first email the minimum, or the fact that the fund publishes none, must be read on the fund's own site. A press figure may set the deck only with an owner's named exception on the record.
 5. Note the average cheque and whether the fund likes to lead. A fund whose average is many times its minimum may read a small round as below its usual cheque; the owners decide whether to match the average instead.
+6. The minimum cheque is not the minimum round size, and neither is a traction bar. Record a round-size floor or a revenue bar only when the fund states it, on its site or in a decline; a cheque range alone says nothing about round-size fit. A decline that names either bar records it on the fund as a re-entry condition, visible to research on similar funds.
 
 ## 4. Competitor check
 
