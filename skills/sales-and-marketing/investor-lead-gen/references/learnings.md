@@ -222,3 +222,28 @@ Anonymised lessons from running this skill on a real pre-seed raise. Each one na
 - **Observed:** A company made one approval from either principal sufficient for most marketing, but explicitly kept investor outreach under one named owner. The send configuration changed while an operating document still named a former delegate.
 - **Rule:** Keep the current release and copy approvers in the instance as an explicit lane override. When authority changes, update code, configuration and operating documents together; a mark from a former delegate does not release an investor item.
 - **Check:** Tests accept the named lane owner's mark and reject every other principal without changing the release or copy state.
+
+### L44 · 2026-11-09 · Resume every paired pause path only after a no-send restart audit
+- **Observed:** The owner lifted a pause that had stopped cold sends, follow-ups, meeting chases, research and the daily status for about two weeks. At restart, released people were waiting, a first email and a follow-up were immediately eligible, and several sequences had to stay stopped because the founder now handled those funds.
+- **Rule:** On an explicit restart, first reconcile replies received under the pause. Check approved copy, releases, CRM readiness, bounce and complaint stops, founder-owned stops and meeting chases. Preview the first new email and the first follow-up without writing, then lift the send pause and the status pause together with one dated receipt. A restart removes the pause only; it changes no recipient, release, copy or cadence gate.
+- **Check:** The restart receipt lists each check, the two previews and the time both pauses were lifted. The founder-owned stops still read stopped after the next scheduled run.
+
+### L45 · 2026-11-09 · Keep conflicting own-site investment statements visible
+- **Observed:** A fund's current homepage gave one stage band and an initial-ticket range, while its regulatory disclosure on the same site gave a narrower stage band and a lower "typical" deployment range.
+- **Rule:** When a fund's own pages disagree, keep both statements and show the stricter stage or geography as a stretch. For the minimum-cheque gate, use a figure only when the fund calls it a minimum or gives it as the lower bound of an initial-ticket range; a separate "typical" range does not replace it. Put the conflict in the release note for the owner rather than picking the more favourable page.
+- **Check:** The fund record cites both pages and their read dates, and the release note names the conflict.
+
+### L46 · 2026-11-09 · A tax-relief eligibility question is a company fact only the founder can state
+- **Observed:** A fund answered the first email within hours asking whether the round qualifies for a national tax-relief scheme for early-stage investors. No company or adviser record held a ruling, and the standard reply with a call link would have implied one.
+- **Rule:** Stop the fund's sequences, send no generic introduction and state nothing about eligibility. Ask the founder once for the exact wording, record the open gate on the round register, and hold any fund whose mandate requires the scheme until a sourced ruling exists. The first request is the solicitation; do not ask again.
+- **Check:** The round register row names the open gate and the date it was asked. No outbound copy or release note mentions scheme eligibility.
+
+### L47 · 2026-11-10 · A pause that waits on the inbox run lets the sender keep going
+- **Observed:** The founder replied on an investor thread asking to pause outreach. The inbox reader picked it up 25 minutes later, the run that should have placed the hold failed to sign in, and the hold went on about two hours after the message. Three follow-ups left in between.
+- **Rule:** Time a pause from the owner's message, not from when it is acted on. Place the send hold first, before reading the rest of the thread or replying, and list every send between the message and the hold in the acknowledgement. An owner pause should not depend on one reasoning run succeeding: the inbox path that sees it should place the hold itself or page for it.
+- **Check:** The acknowledgement gives the message time, the hold time and every send between them. A rehearsed pause message on a test thread places the hold with the reasoning run disabled.
+
+### L48 · 2026-11-12 · A cheque range on the site does not show the fund's minimum round size or traction bar
+- **Observed:** A fund's site gave a typical initial-ticket range, and the teaser figure was set to fit it. The fund passed, naming a minimum round size above the company's round and a recurring-revenue bar, and invited reconnection once there were paying customers. Neither bar was on the site.
+- **Rule:** Treat the minimum cheque and the minimum round size as separate fit fields. When a decline names a round-size floor or a traction bar, record both on the fund as re-entry conditions with the decline, keep them visible to research on similar funds, and leave any re-approach to the founder. A cheque range alone says nothing about round-size fit.
+- **Check:** The declined fund's record carries the named bars as re-entry conditions, and its CRM rows read closed with the decline reason.
