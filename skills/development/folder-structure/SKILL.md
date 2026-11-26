@@ -3,13 +3,13 @@ name: folder-structure
 description: "Define one project file layout, route new work to its home, and migrate existing files through an approved, verified table."
 license: CC-BY-4.0
 metadata:
-  version: "0.9.1"
+  version: "0.11.0"
   authority: "A project's accepted structure definition and explicit migration approvals; this candidate grants no authority by itself."
   sources: "Project structure, custody, migration, and housekeeping practices authored for this candidate."
   risk_level: "medium"
   capabilities_required: ["tool:file_read", "tool:file_write", "tool:code_interpreter"]
   allowed_domains: []
-  updated: "2026-11-22"
+  updated: "2026-11-26"
   tags: ["files", "structure", "custody", "migration"]
   safety_constraints:
     - "A layout or dry-run classification does not authorise file creation, movement, publication, or deletion."
@@ -45,7 +45,7 @@ If the project has no accepted target definition, a target path cannot be resolv
 6. **Logs, receipts, and evidence** follow the project's retention and evidence policy. They are not documentation merely because a person may read them.
 7. When a kind of file has no destination in the accepted definition, stop and ask the owner. Do not create a new top-level folder to make the problem disappear.
 
-The starter routes in `references/structure.yaml` distinguish management, release records, user guidance, administration guidance, and developer material. Its project-shape rule selects either `<project>/<product>` roots or the project root itself for a single product. The path table there is the only source for folder names and each location's “goes in” and “stays out” rules. Change that definition through an accepted plan before changing consumers or creating a new structural name.
+The starter routes in `references/structure.yaml` distinguish management, release records, user guidance, administration guidance, and developer material. Its project-shape rule selects either `<project>/<product>` roots or the project root itself for a single product. The path table there is the only source for folder names and each location's "goes in" and "stays out" rules. Change that definition through an accepted plan before changing consumers or creating a new structural name.
 
 This candidate does not bundle an inventory tool, structure validator, mount doctor, generator, housekeeping service, or copy/delete command. The YAML describes the intended contract; it is not executable enforcement. Git branch, review, and push rules remain in the project's accepted Git policy. This skill only locates clean repository checkouts and temporary work inside the configured development store.
 
@@ -56,6 +56,7 @@ This candidate does not bundle an inventory tool, structure validator, mount doc
 - **Project secrets:** the project-code account cannot read the secrets tree. Grant each credential only to the identity that uses it; a compromised project process must not gain access to every worker's token.
 - **Service state:** keep each service's state in its configured service-state location with a service-specific owner and owner-only access. Treat it as secret-bearing data. Never include it in a support bundle or copy it to the cold store except through that service's own approved backup design.
 - **Filesystem walks:** inventory, check, move, and housekeeping walks stay within one authorized filesystem, stop at mount boundaries, and never follow symbolic links outside the approved root. A copy between stores names its source and destination explicitly.
+- **Three stores, and what each must give:** code on fast local disk, documents on a shared store mounted at the same path on every machine, archive on a second store at its own mount. `references/storage.md` carries the requirement provider-neutrally, the mount rules (same path everywhere; a credentials file root reads and never in the tree; a required store that is not mounted stops what depends on it), the archive naming rule for a superseded document, and the one correction that is easy to get wrong: **share-level soft delete protects the share, not the files in it** - recovering an individually deleted file needs a retained snapshot or another backup.
 
 ## Keep one fact in one place
 
