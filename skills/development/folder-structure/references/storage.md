@@ -38,7 +38,13 @@ When a document is revised, the older version goes to the archive in this shape:
 - **Copied with timestamps preserved**, never moved out of the live tree by the writer.
 - **One `MANIFEST.sha256` in that day's folder**, one line per file: the hash of the **old** bytes and the path.
 - **Permissions as the share gives them** - the archive is one account's mount, and changing owners is not the writer's job.
-- **Nothing is deleted from the archive by the writer.** The retention window is counted by the owner later, and deleting a snapshot is never a cleanup step.
+- **Nothing is deleted from the archive by the writer.** The retention window is counted by the owner later, and
+  deleting a snapshot is never a cleanup step.
+- **A second revision to the same path on the same day collides, on purpose.** Both revisions resolve to the
+  same archive path and the same manifest key. If that path is already occupied with **different bytes**, the
+  copy is **refused**: the writer does not overwrite it, does not merge the manifest, and leaves the previous
+  file and its manifest untouched until the owner approves how the collision is handled. Two different old
+  versions under one name is exactly the state a later reader cannot untangle.
 
 ## The mount rules
 
@@ -50,9 +56,11 @@ When a document is revised, the older version goes to the archive in this shape:
 
 Record in the project's own definition: which three stores exist, the mount or access path each one is reached by, who owns it, the restore test and its date, and the archive's cold-store root.
 
-Record in the project's **storage deployment record** (beside the definition, not in it): the service and account in use, the per-host mount path and credentials custody, the mount and cross-host proofs with their dates, and the retention settings including any snapshot schedule. The definition says what must be true; the deployment record says what is.
+Record in the project's **storage deployment record** (beside the definition, not in it): the service and account in use, the per-host mount path, the mount and cross-host proofs with their dates, and the retention settings including any snapshot schedule. The definition says what must be true; the deployment record says what is.
 
-Never record in a project definition: a provider name, an account name, a bucket name, a key, a token or a person's machine. Those belong to the deployment, not to the definition, and they change without the structure changing.
+**Custody references, never credentials.** The deployment record names *where* a credential lives and *who* reads it - "this host's root-only credentials file", that file's path, its mode and owner - and it holds nothing more. **Key and token values live outside both records, in approved secret custody**, and are read by name at the moment of use. A deployment record carrying a value is not a record of custody; it is a copy of the secret.
+
+Never record in a project definition: a provider name, an account name, a bucket name, a key, a token or a person's machine. Those belong to the deployment, not to the definition, and they change without the structure changing. **Never record a key or token value in the deployment record either** - that record carries the custody reference, and the value stays in approved secret custody.
 
 ## What the operator must prove
 
